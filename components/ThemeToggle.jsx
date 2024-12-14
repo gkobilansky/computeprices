@@ -3,16 +3,16 @@
 import { useState, useEffect } from 'react';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('emerald');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'emerald';
     document.documentElement.setAttribute('data-theme', savedTheme);
     setTheme(savedTheme);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === 'emerald' ? 'dim' : 'emerald';
     setTheme(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
@@ -24,7 +24,7 @@ export default function ThemeToggle() {
       className="btn btn-ghost btn-circle"
       aria-label="Toggle theme"
     >
-      {theme === 'light' ? (
+      {theme === 'emerald' ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

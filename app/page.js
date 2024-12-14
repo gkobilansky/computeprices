@@ -1,17 +1,28 @@
+'use client';
+
+import { useState } from 'react';
 import GPUComparisonTable from '@/components/GPUComparisonTable';
 import ProviderFilters from '@/components/ProviderFilters';
+import GPUInfoCard from '@/components/GPUInfoCard';
 
 export default function Home() {
+  const [selectedGPU, setSelectedGPU] = useState(null);
+
   return (
     <div>
       <main className="min-h-screen p-4 md:p-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold">Cloud GPU Price Comparison</h1>
-          <p className="text-gray-600 mt-2">Find the most cost-effective GPU for your ML workload</p>
-        </header>
+        <div className="flex flex-col md:flex-row md:justify-between mb-8">
+          <header className="mb-4 md:mb-0 md:w-2/3">
+            <h1 className="text-3xl font-bold">Cloud GPU Price Comparison</h1>
+            <p className="text-gray-600 mt-2">Find the most cost-effective GPU for your ML workload</p>
+          </header>
+          <div className="md:w-1/3 md:flex md:items-start">
+            <GPUInfoCard selectedGPU={selectedGPU} />
+          </div>
+        </div>
 
         <ProviderFilters />
-        <GPUComparisonTable />
+        <GPUComparisonTable setSelectedGPU={setSelectedGPU} />
       </main>
 
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
@@ -19,6 +30,5 @@ export default function Home() {
         <p>Data updated every 24 hours</p>
       </footer>
     </div>
-
   );
 }

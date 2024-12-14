@@ -10,7 +10,9 @@
     "lint": "next lint",
     "seed": "node -r dotenv/config scripts/seed-data.js dotenv_config_path=.env.local",
     "scrape:lambda": "node -r dotenv/config scripts/scrape-lambda.js dotenv_config_path=.env.local",
-    "scrape:lambda:dry": "node -r dotenv/config scripts/scrape-lambda.js --dry-run dotenv_config_path=.env.local"
+    "scrape:lambda:dry": "node -r dotenv/config scripts/scrape-lambda.js --dry-run dotenv_config_path=.env.local",
+    "scrape:vast": "node -r dotenv/config scripts/scrape-vast.js dotenv_config_path=.env.local",
+    "scrape:vast:dry": "node -r dotenv/config scripts/scrape-vast.js --dry-run dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.6",

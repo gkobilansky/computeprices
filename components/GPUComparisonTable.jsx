@@ -1,25 +1,29 @@
 'use client';
 
-import { 
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableHead 
-} from '@/components/ui/table';
 import { useTableSort } from '@/lib/hooks/useTableSort';
 import { useGPUData } from '@/lib/hooks/useGPUData';
 import { useMemo } from 'react';
+import GPUGuide from './GPUGuide';
 
-export default function GPUComparisonTable() {
+export default function GPUComparisonTable({ setSelectedGPU }) {
   const { gpuData, loading, error } = useGPUData();
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
+
+  const handleRowClick = (gpu) => {
+    setSelectedGPU({
+      name: gpu.gpu_models.name,
+      description: "Description for " + gpu.gpu_models.name, // Add actual descriptions here
+      vram: `${gpu.gpu_models.vram}GB VRAM`,
+      cudaCores: `${gpu.gpu_models.cuda_cores?.toLocaleString()} CUDA cores`,
+      usage: "Usage info", // Add actual usage info here
+      cost: `$${gpu.price_per_hour.toFixed(2)}/hour`,
+    });
+  };
 
   const SortIcon = ({ column }) => {
     const isActive = sortConfig.key === column;
     return (
-      <span className={`ml-1 ${isActive ? 'text-blue-600' : 'text-gray-600'}`}>
+      <span className={`ml-1 ${isActive ? 'text-primary' : 'text-base-content/60'}`}>
         {isActive ? (sortConfig.direction === 'asc' ? '↑' : '↓') : '↕'}
       </span>
     );
@@ -31,65 +35,55 @@ export default function GPUComparisonTable() {
 
   if (error) {
     return (
-      <div className="text-center text-red-600">
+      <div className="text-center text-error">
         Error loading GPU data. Please try again later.
       </div>
     );
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead 
-              onClick={() => handleSort(gpuData, 'provider')}
-              className="cursor-pointer hover:bg-gray-100"
-            >
-              Provider <SortIcon column="provider" />
-            </TableHead>
-            <TableHead 
-              onClick={() => handleSort(gpuData, 'gpu_model')}
-              className="cursor-pointer hover:bg-gray-100"
-            >
-              GPU Model <SortIcon column="gpu_model" />
-            </TableHead>
-            <TableHead 
-              onClick={() => handleSort(gpuData, 'price_per_hour')}
-              className="cursor-pointer hover:bg-gray-100"
-            >
-              Price/Hour <SortIcon column="price_per_hour" />
-            </TableHead>
-            <TableHead 
-              onClick={() => handleSort(gpuData, 'vram')}
-              className="cursor-pointer hover:bg-gray-100"
-            >
-              VRAM (GB) <SortIcon column="vram" />
-            </TableHead>
-            <TableHead 
-              onClick={() => handleSort(gpuData, 'regions')}
-              className="cursor-pointer hover:bg-gray-100"
-            >
-              Regions <SortIcon column="regions" />
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {loading ? (
-            <TableRow>
-              <TableCell colSpan={5} className="text-center">Loading...</TableCell>
-            </TableRow>
-          ) : sortedData.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.providers.name}</TableCell>
-              <TableCell>{item.gpu_models.name}</TableCell>
-              <TableCell>${item.price_per_hour.toFixed(2)}</TableCell>
-              <TableCell>{item.gpu_models.vram}</TableCell>
-              <TableCell>{item.regions.join(', ')}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="space-y-8">
+      <div className="overflow-x-auto rounded-lg border">
+        <table className="table">
+          <thead>
+            <tr>
+              <th onClick={() => handleSort(gpuData, 'provider')} className="cursor-pointer hover:bg-base-200">
+                Provider <SortIcon column="provider" />
+              </th>
+              <th onClick={() => handleSort(gpuData, 'gpu_model')} className="cursor-pointer hover:bg-base-200">
+                GPU Model <SortIcon column="gpu_model" />
+              </th>
+              <th onClick={() => handleSort(gpuData, 'price_per_hour')} className="cursor-pointer hover:bg-base-200">
+                Price/Hour <SortIcon column="price_per_hour" />
+              </th>
+              <th onClick={() => handleSort(gpuData, 'vram')} className="cursor-pointer hover:bg-base-200">
+                VRAM (GB) <SortIcon column="vram" />
+              </th>
+              <th onClick={() => handleSort(gpuData, 'regions')} className="cursor-pointer hover:bg-base-200">
+                Regions <SortIcon column="regions" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="text-center">Loading...</td>
+              </tr>
+            ) : sortedData.map((item) => (
+              <tr key={item.id} className="group relative cursor-pointer" onClick={() => handleRowClick(item)}>
+                <td>{item.providers.name}</td>
+                <td className="relative">
+                  {item.gpu_models.name}
+                </td>
+                <td>${item.price_per_hour?.toFixed(2)}</td>
+                <td>{item.gpu_models?.vram}</td>
+                <td>{item.regions?.join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <GPUGuide />
     </div>
   );
 }
