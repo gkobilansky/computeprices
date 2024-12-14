@@ -4,8 +4,9 @@ import { useTableSort } from '@/lib/hooks/useTableSort';
 import { useGPUData } from '@/lib/hooks/useGPUData';
 import { useMemo } from 'react';
 import GPUGuide from './GPUGuide';
+import providers from '@/data/providers.json';
 
-export default function GPUComparisonTable({ setSelectedGPU }) {
+export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider }) {
   const { gpuData, loading, error } = useGPUData();
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
@@ -18,6 +19,9 @@ export default function GPUComparisonTable({ setSelectedGPU }) {
       usage: "Usage info", // Add actual usage info here
       cost: `$${gpu.price_per_hour.toFixed(2)}/hour`,
     });
+
+    const provider = providers.find(p => p.name === gpu.providers.name);
+    setSelectedProvider(provider);
   };
 
   const SortIcon = ({ column }) => {

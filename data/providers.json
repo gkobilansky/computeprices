@@ -1,0 +1,167 @@
+[
+    {
+      "name": "Amazon Web Services (AWS)",
+      "description": "AWS offers a wide range of GPU instances for various workloads, including machine learning and high-performance computing.",
+      "pros": [
+        "Wide range of GPU options",
+        "Global availability",
+        "Strong ecosystem and integration with other AWS services"
+      ],
+      "cons": [
+        "Complex pricing structure",
+        "Can be expensive for long-term use",
+        "Steep learning curve for beginners"
+      ],
+      "link": "https://aws.amazon.com/ec2/instance-types/p3/"
+    },
+    {
+      "name": "Google Cloud Platform (GCP)",
+      "description": "GCP provides powerful GPU instances with flexible pricing and integration with Google's AI and machine learning tools.",
+      "pros": [
+        "Flexible pricing options",
+        "Strong AI and machine learning tools",
+        "Good integration with other Google services"
+      ],
+      "cons": [
+        "Limited availability in some regions",
+        "Complexity in managing resources",
+        "Support can be costly"
+      ],
+      "link": "https://cloud.google.com/gpu"
+    },
+    {
+      "name": "Microsoft Azure",
+      "description": "Azure offers a variety of GPU instances suitable for AI, machine learning, and visualization workloads.",
+      "pros": [
+        "Strong enterprise support",
+        "Integration with Microsoft services",
+        "Wide range of GPU options"
+      ],
+      "cons": [
+        "Complex pricing and billing",
+        "Can be expensive for certain workloads",
+        "Learning curve for new users"
+      ],
+      "link": "https://azure.microsoft.com/en-us/pricing/details/virtual-machines/linux/"
+    },
+    {
+      "name": "IBM Cloud",
+      "description": "IBM Cloud provides GPU instances optimized for AI and data-intensive workloads, with a focus on enterprise solutions.",
+      "pros": [
+        "Strong focus on AI and data workloads",
+        "Enterprise-grade support",
+        "Integration with IBM's AI tools"
+      ],
+      "cons": [
+        "Limited global presence compared to competitors",
+        "Higher cost for some services",
+        "Less community support"
+      ],
+      "link": "https://www.ibm.com/cloud/gpu"
+    },
+    {
+      "name": "Oracle Cloud",
+      "description": "Oracle Cloud offers GPU instances with a focus on high-performance computing and enterprise applications.",
+      "pros": [
+        "Competitive pricing",
+        "Strong performance for enterprise applications",
+        "Good integration with Oracle products"
+      ],
+      "cons": [
+        "Smaller ecosystem compared to AWS and GCP",
+        "Limited documentation and community support",
+        "Complexity in setup and management"
+      ],
+      "link": "https://www.oracle.com/cloud/compute/gpu.html"
+    },
+    {
+      "name": "CoreWeave",
+      "description": "CoreWeave provides cloud GPU solutions optimized for rendering, machine learning, and VFX workloads.",
+      "pros": [
+        "Specialized in GPU workloads",
+        "Flexible pricing",
+        "Strong performance for rendering tasks"
+      ],
+      "cons": [
+        "Limited global presence",
+        "Niche market focus",
+        "Less known compared to major providers"
+      ],
+      "link": "https://www.coreweave.com/"
+    },
+    {
+      "name": "RunPod",
+      "description": "RunPod offers affordable and scalable GPU cloud solutions for AI and machine learning applications.",
+      "pros": [
+        "Cost-effective",
+        "Easy to use",
+        "Scalable solutions"
+      ],
+      "cons": [
+        "Limited features compared to larger providers",
+        "Smaller community",
+        "Limited global reach"
+      ],
+      "link": "https://www.runpod.io/"
+    },
+    {
+      "name": "Vast.ai",
+      "description": "Vast.ai provides a marketplace for renting GPU compute power, offering competitive pricing and flexibility.",
+      "pros": [
+        "Competitive pricing",
+        "Flexible rental options",
+        "Large variety of GPU types"
+      ],
+      "cons": [
+        "Variable performance",
+        "Limited support",
+        "Complexity in choosing the right setup"
+      ],
+      "link": "https://vast.ai/"
+    },
+    {
+      "name": "Lambda Labs",
+      "description": "Lambda Labs offers GPU cloud services tailored for deep learning and AI research.",
+      "pros": [
+        "Tailored for deep learning",
+        "High-performance hardware",
+        "Good support for AI frameworks"
+      ],
+      "cons": [
+        "Higher cost for premium hardware",
+        "Limited to AI and ML workloads",
+        "Smaller provider"
+      ],
+      "link": "https://lambdalabs.com/service/gpu-cloud"
+    },
+    {
+      "name": "Fluidstack",
+      "description": "Fluidstack provides affordable GPU cloud services with a focus on AI and rendering workloads.",
+      "pros": [
+        "Affordable pricing",
+        "Good for AI and rendering",
+        "Easy to use"
+      ],
+      "cons": [
+        "Limited features",
+        "Smaller provider",
+        "Limited global reach"
+      ],
+      "link": "https://www.fluidstack.io/"
+    },
+    {
+      "name": "Genesis Cloud",
+      "description": "Genesis Cloud offers sustainable and cost-effective GPU cloud solutions for AI and rendering.",
+      "pros": [
+        "Sustainable energy sources",
+        "Cost-effective",
+        "Good for AI and rendering"
+      ],
+      "cons": [
+        "Limited global presence",
+        "Niche market focus",
+        "Less known compared to major providers"
+      ],
+      "link": "https://www.genesiscloud.com/"
+    }
+  ]
