@@ -116,7 +116,6 @@ async function scrapeVastGPUs(dryRun = false) {
             provider_id: providerId[provider],
             gpu_model_id: matchingModel.id,
             price_per_hour: price,
-            timestamp: timestamp
           })
           .select()
           .single();

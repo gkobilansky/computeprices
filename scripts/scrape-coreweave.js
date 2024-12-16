@@ -113,7 +113,6 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: gpu.price,
-          timestamp: timestamp
         })
         .select()
         .single();

@@ -3,10 +3,9 @@
 import { useTableSort } from '@/lib/hooks/useTableSort';
 import { useGPUData } from '@/lib/hooks/useGPUData';
 import { useMemo } from 'react';
-import GPUGuide from './GPUGuide';
 import providers from '@/data/providers.json';
 
-export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider }) {
+export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider, selectedGPU, selectedProvider }) {
   const { gpuData, loading, error } = useGPUData();
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
@@ -37,6 +36,20 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
     return getSortedData(gpuData);
   }, [gpuData, getSortedData]);
 
+  const filteredData = useMemo(() => {
+    console.log(sortedData, selectedGPU, selectedProvider);
+    return sortedData.filter(item => {
+      if (selectedGPU) {
+        return item.gpu_models.id === selectedGPU;
+      }
+      if (selectedProvider) {
+        return item.providers.name === selectedProvider.name;
+      }
+
+      return true;
+    });
+  }, [sortedData, selectedGPU, selectedProvider]);
+
   if (error) {
     return (
       <div className="text-center text-error">
@@ -60,12 +73,6 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
               <th onClick={() => handleSort(gpuData, 'price_per_hour')} className="cursor-pointer hover:bg-base-200">
                 Price/Hour <SortIcon column="price_per_hour" />
               </th>
-              <th onClick={() => handleSort(gpuData, 'vram')} className="cursor-pointer hover:bg-base-200">
-                VRAM (GB) <SortIcon column="vram" />
-              </th>
-              <th onClick={() => handleSort(gpuData, 'regions')} className="cursor-pointer hover:bg-base-200">
-                Regions <SortIcon column="regions" />
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -73,21 +80,18 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
               <tr>
                 <td colSpan={5} className="text-center">Loading...</td>
               </tr>
-            ) : sortedData.map((item) => (
-              <tr key={item.id} className="group relative cursor-pointer" onClick={() => handleRowClick(item)}>
+            ) : filteredData.map((item) => (
+                <tr key={item.id} className="group relative cursor-pointer" onClick={() => handleRowClick(item)}>
                 <td>{item.providers.name}</td>
                 <td className="relative">
                   {item.gpu_models.name}
                 </td>
                 <td>${item.price_per_hour?.toFixed(2)}</td>
-                <td>{item.gpu_models?.vram}</td>
-                <td>{item.regions?.join(', ')}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <GPUGuide />
     </div>
   );
 }

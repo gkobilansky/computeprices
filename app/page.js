@@ -5,6 +5,7 @@ import GPUComparisonTable from '@/components/GPUComparisonTable';
 import ProviderFilters from '@/components/ProviderFilters';
 import GPUInfoCard from '@/components/GPUInfoCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
+import GPUGuide from '@/components/GPUGuide';
 
 export default function Home() {
   const [selectedGPU, setSelectedGPU] = useState(null);
@@ -19,8 +20,22 @@ export default function Home() {
             <p className="text-gray-600 mt-2">Find the most cost-effective GPU for your ML workload</p>
           </header>
         </div>
-        <ProviderFilters setSelectedProvider={setSelectedProvider} />
-        <GPUComparisonTable setSelectedGPU={setSelectedGPU} setSelectedProvider={setSelectedProvider} />
+        <ProviderFilters setSelectedProvider={setSelectedProvider} selectedProvider={selectedProvider} setSelectedGPU={setSelectedGPU} selectedGPU={selectedGPU} />
+        <div className="flex flex-col md:flex-row">
+          <div className="flex-1">
+            <GPUComparisonTable 
+              setSelectedGPU={setSelectedGPU} 
+              setSelectedProvider={setSelectedProvider} 
+              selectedProvider={selectedProvider}
+              selectedGPU={selectedGPU} 
+            />
+          </div>
+          <div className="flex flex-col space-y-4 md:w-1/3">
+            <GPUInfoCard selectedGPU={selectedGPU} />
+            <ProviderInfoCard selectedProvider={selectedProvider} />
+          </div>
+        </div>
+        <GPUGuide />
       </main>
 
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
