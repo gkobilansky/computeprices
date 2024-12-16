@@ -6,18 +6,20 @@ function ProviderInfoCard({ selectedProvider }) {
     return <div className="card bg-base-200 shadow-md"><div className="card-body">Select a provider to see details</div></div>;
   }
 
-  if (!selectedProvider.name) {
+  const providerDetails = providers.find(p => p.name === selectedProvider.name);
+
+  if (!providerDetails) {
     return <div className="card bg-base-200 shadow-md"><div className="card-body">We don't have enough info about this provider yet</div></div>;
   }
 
-  const providerDetails = providers.find(p => p.name === selectedProvider.name);
-  const { name, description, pros, cons } = providerDetails;
+  const { name, description, pros, cons, link } = providerDetails;
 
   return (
     <div className="card bg-base-200 shadow-md">
       <div className="card-body">
         <h2 className="card-title text-xl font-bold">{name}</h2>
         <p className="mt-2">{description}</p>
+        <a href={link} className="btn btn-primary">Visit Pricing Page</a>
         <div className="mt-4">
           <h3 className="font-semibold">Pros:</h3>
           <ul className="list-disc list-inside">

@@ -1,6 +1,6 @@
 [
     {
-      "name": "Amazon Web Services (AWS)",
+      "name": "Amazon AWS",
       "description": "AWS offers a wide range of GPU instances for various workloads, including machine learning and high-performance computing.",
       "pros": [
         "Wide range of GPU options",
