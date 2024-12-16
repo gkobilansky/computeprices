@@ -27,6 +27,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
   try {
     console.log('🔍 Starting CoreWeave GPU scraper...');
     await page.goto('https://www.coreweave.com/gpu-cloud-pricing');
+    await page.waitForSelector('.table');
     
     const providerId = '1d434a66-bf40-40a8-8e80-d5ab48b6d27f';
 
@@ -42,14 +43,15 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
     // Scrape the GPU pricing table
     const gpuData = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll('tr')).filter(row => {
+      const rows = Array.from(document.querySelectorAll('.table-body-row')).filter(row => {
         // Filter rows that have GPU model and price information
-        const cells = row.querySelectorAll('td');
+        const cells = row.querySelectorAll('div');
         return cells.length >= 4 && cells[0].textContent.includes('GB');
       });
 
+
       return rows.map(row => {
-        const cells = row.querySelectorAll('td');
+        const cells = row.querySelectorAll('div');
         const nameCell = cells[0].textContent.trim();
         
         // Clean up the GPU name
@@ -83,7 +85,6 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
     console.log('\n💾 Starting database updates...');
     const unmatchedGPUs = [];
-    const timestamp = new Date().toISOString();
     
     for (const gpu of gpuData) {
       console.log(`\nProcessing ${gpu.name}:`);
@@ -94,11 +95,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
       if (!matchingModel) {
         unmatchedGPUs.push({
           name: gpu.name,
-          vram: gpu.vram,
-          specs: {
-            maxVcpus: gpu.maxVcpus,
-            maxRam: gpu.maxRam
-          }
+          vram: gpu.vram
         });
         console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
         continue;
@@ -113,7 +110,6 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: gpu.price,
-          timestamp: timestamp
         })
         .select()
         .single();
@@ -136,7 +132,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
             maxVcpus: gpu.maxVcpus,
             maxRam: gpu.maxRam
           },
-          created_at: timestamp
+          created_at: new Date().toISOString()
         }, {
           onConflict: 'provider_id,gpu_model_id',
           returning: true

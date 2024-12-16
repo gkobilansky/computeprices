@@ -89,7 +89,6 @@ async function scrapeVastGPUs(dryRun = false) {
 
     console.log('\n💾 Starting database updates...');
     const unmatchedGPUs = [];
-    const timestamp = new Date().toISOString();
 
     for (const gpu of gpuData) {
       console.log(`\nProcessing ${gpu.name}:`);
@@ -116,7 +115,6 @@ async function scrapeVastGPUs(dryRun = false) {
             provider_id: providerId[provider],
             gpu_model_id: matchingModel.id,
             price_per_hour: price,
-            timestamp: timestamp
           })
           .select()
           .single();
@@ -134,7 +132,7 @@ async function scrapeVastGPUs(dryRun = false) {
             gpu_model_id: matchingModel.id,
             latest_price_id: priceRecord.id,
             available: true,
-            created_at: timestamp
+            created_at: new Date().toISOString()
           }, {
             onConflict: 'provider_id,gpu_model_id',
             returning: true

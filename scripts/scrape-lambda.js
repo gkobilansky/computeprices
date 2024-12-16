@@ -77,7 +77,6 @@ async function scrapeLambdaGPUs(dryRun = false) {
 
     console.log('\n💾 Starting database updates...');
     const unmatchedGPUs = [];
-    const timestamp = new Date().toISOString();
     
     for (const gpu of gpuData) {
       console.log(`\nProcessing ${gpu.name}:`);
@@ -104,7 +103,6 @@ async function scrapeLambdaGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: gpu.price,
-          timestamp: timestamp
         })
         .select()
         .single();
@@ -124,7 +122,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
           available: true,
           regions: ['us-east-1'],
           min_hours: 1,
-          created_at: timestamp
+          created_at: new Date().toISOString()
         }, {
           onConflict: 'provider_id,gpu_model_id',
           returning: true

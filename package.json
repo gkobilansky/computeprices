@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.6",
+    "@vercel/edge": "^1.1.4",
     "daisyui": "^4.12.22",
+    "jsdom": "^25.0.1",
     "next": "15.1.0",
     "puppeteer": "^23.10.4",
     "react": "^19.0.0",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/jsdom": "^21.1.7",
     "@types/react": "19.0.1",
     "dotenv": "^16.4.7",
     "eslint": "^9",
