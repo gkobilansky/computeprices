@@ -12,16 +12,28 @@ export default function Home() {
   const [selectedProvider, setSelectedProvider] = useState(null);
 
   return (
-    <div>
-      <main className="min-h-screen p-4 md:p-8">
-        <div className="flex flex-col md:flex-row md:justify-between mb-8">
-          <header className="mb-4 md:mb-0 md:w-full">
-            <h1 className="text-3xl font-bold">Cloud GPU Price Comparison</h1>
-            <p className="text-gray-600 mt-2">Find the most cost-effective GPU for your ML workload</p>
-          </header>
-        </div>
-        <ProviderFilters setSelectedProvider={setSelectedProvider} selectedProvider={selectedProvider} setSelectedGPU={setSelectedGPU} selectedGPU={selectedGPU} />
-        <div className="flex flex-col md:flex-row">
+    <div className="space-y-12">
+      {/* Hero Section - Now more compact and left-aligned */}
+      <section className="max-w-2xl">
+        <h1 className="text-3xl font-bold mb-3">
+          Cloud GPU
+          <span className="gradient-text-1"> Price Comparison</span>
+        </h1>
+        <p className="text-gray-600 text-lg">
+          Find and compare the most cost-effective GPUs for your machine learning workloads.
+        </p>
+      </section>
+
+      {/* Main Content */}
+      <section className="space-y-6">
+        <ProviderFilters 
+          setSelectedProvider={setSelectedProvider} 
+          selectedProvider={selectedProvider} 
+          setSelectedGPU={setSelectedGPU} 
+          selectedGPU={selectedGPU} 
+        />
+        
+        <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1">
             <GPUComparisonTable 
               setSelectedGPU={setSelectedGPU} 
@@ -30,17 +42,24 @@ export default function Home() {
               selectedGPU={selectedGPU} 
             />
           </div>
-          <div className="flex flex-col space-y-4 md:w-1/3">
+          <div className="lg:w-80 space-y-6">
             <GPUInfoCard selectedGPU={selectedGPU} />
             <ProviderInfoCard selectedProvider={selectedProvider} />
           </div>
         </div>
-        <GPUGuide />
-      </main>
+      </section>
 
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <p>Built with 🦾 by <a href="https://lansky.tech" target="_blank" rel="noopener noreferrer">Lansky Tech</a></p>
-        <p>Data updated every 24 hours</p>
+      {/* Guide Section */}
+      <section id="guide" className="py-8">
+        <GPUGuide />
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t py-8 text-center text-sm text-gray-600">
+        <div className="space-y-3">
+          <p>Built with 🦾 by <a href="https://lansky.tech" className="text-primary hover:underline">Lansky Tech</a></p>
+          <p>Data updated every 24 hours</p>
+        </div>
       </footer>
     </div>
   );

@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import providers from '@/data/providers.json';
 
 export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider, selectedGPU, selectedProvider }) {
-  const { gpuData, loading, error } = useGPUData();
+  const { gpuData, loading, error } = useGPUData({ selectedProvider });
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
   const handleRowClick = (gpu) => {
@@ -37,7 +37,6 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
   }, [gpuData, getSortedData]);
 
   const filteredData = useMemo(() => {
-    console.log(sortedData, selectedGPU, selectedProvider);
     return sortedData.filter(item => {
       if (selectedGPU) {
         return item.gpu_models.id === selectedGPU;
@@ -60,17 +59,20 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
 
   return (
     <div className="space-y-8">
-      <div className="overflow-x-auto rounded-lg border">
-        <table className="table">
+      <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+        <table className="table comparison-table w-full">
           <thead>
-            <tr>
-              <th onClick={() => handleSort(gpuData, 'provider')} className="cursor-pointer hover:bg-base-200">
+            <tr className="bg-gray-50/50">
+              <th onClick={() => handleSort(gpuData, 'provider')} 
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                 Provider <SortIcon column="provider" />
               </th>
-              <th onClick={() => handleSort(gpuData, 'gpu_model')} className="cursor-pointer hover:bg-base-200">
+              <th onClick={() => handleSort(gpuData, 'gpu_model')} 
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                 GPU Model <SortIcon column="gpu_model" />
               </th>
-              <th onClick={() => handleSort(gpuData, 'price_per_hour')} className="cursor-pointer hover:bg-base-200">
+              <th onClick={() => handleSort(gpuData, 'price_per_hour')} 
+                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                 Price/Hour <SortIcon column="price_per_hour" />
               </th>
             </tr>
@@ -78,15 +80,27 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={5} className="text-center">Loading...</td>
+                <td colSpan={5} className="px-6 py-8 text-center">
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                    <span>Loading...</span>
+                  </div>
+                </td>
               </tr>
             ) : filteredData.map((item) => (
-                <tr key={item.id} className="group relative cursor-pointer" onClick={() => handleRowClick(item)}>
-                <td>{item.providers.name}</td>
-                <td className="relative">
-                  {item.gpu_models.name}
+              <tr key={item.id} 
+                  onClick={() => handleRowClick(item)}
+                  className="hover-card-shadow cursor-pointer border-t">
+                <td className="px-6 py-4">{item.providers?.name}</td>
+                <td className="px-6 py-4">{item.gpu_models?.name}</td>
+                <td className="px-6 py-4">
+                  <div className="tooltip" data-tip={`Last updated: ${new Date(item.price_created_at).toLocaleDateString()}`}>
+                    <span className="font-medium">
+                      ${item.price_per_hour?.toFixed(2)}
+                    </span>
+                    <span className="text-gray-500 text-sm">/hour</span>
+                  </div>
                 </td>
-                <td>${item.price_per_hour?.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
