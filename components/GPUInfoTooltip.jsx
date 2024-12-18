@@ -7,10 +7,6 @@ export default function GPUInfoTooltip({ gpu, className }) {
           <dt>VRAM:</dt>
           <dd>{gpu.vram}GB</dd>
         </div>
-        <div className="flex justify-between">
-          <dt>CUDA Cores:</dt>
-          <dd>{gpu.cuda_cores.toLocaleString()}</dd>
-        </div>
       </dl>
     </div>
   );

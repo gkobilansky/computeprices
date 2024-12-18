@@ -21,6 +21,9 @@ export default function Home() {
         </h1>
         <p className="text-gray-600 text-lg">
           Find and compare the most cost-effective GPUs for your machine learning workloads.
+          <a href="#guide" className="text-primary hover:underline ml-1">
+            Need help choosing?
+          </a>
         </p>
       </section>
 
@@ -34,7 +37,7 @@ export default function Home() {
         />
         
         <div className="flex flex-col lg:flex-row gap-8">
-          <div className="flex-1">
+          <div className="flex-1 order-2 lg:order-1">
             <GPUComparisonTable 
               setSelectedGPU={setSelectedGPU} 
               setSelectedProvider={setSelectedProvider} 
@@ -42,9 +45,9 @@ export default function Home() {
               selectedGPU={selectedGPU} 
             />
           </div>
-          <div className="lg:w-80 space-y-6">
+          <div className="lg:w-80 space-y-6 order-1 lg:order-2">
+           <ProviderInfoCard selectedProvider={selectedProvider} />
             <GPUInfoCard selectedGPU={selectedGPU} />
-            <ProviderInfoCard selectedProvider={selectedProvider} />
           </div>
         </div>
       </section>
@@ -54,13 +57,6 @@ export default function Home() {
         <GPUGuide />
       </section>
 
-      {/* Footer */}
-      <footer className="border-t py-8 text-center text-sm text-gray-600">
-        <div className="space-y-3">
-          <p>Built with 🦾 by <a href="https://lansky.tech" className="text-primary hover:underline">Lansky Tech</a></p>
-          <p>Data updated every 24 hours</p>
-        </div>
-      </footer>
     </div>
   );
 }

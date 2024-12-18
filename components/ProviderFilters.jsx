@@ -6,20 +6,61 @@ import { supabase } from '@/lib/supabase';
 export default function ProviderFilters({setSelectedProvider, selectedProvider, setSelectedGPU, selectedGPU}) {
   const [gpuModels, setGPUModels] = useState([]);
   const [providers, setProviders] = useState([]);
+  const [availableGPUs, setAvailableGPUs] = useState([]);
 
   useEffect(() => {
     fetchGPUModels();
     fetchProviders();
   }, []);
 
+  useEffect(() => {
+    if (selectedProvider) {
+      fetchAvailableGPUs(selectedProvider.id);
+    } else {
+      setAvailableGPUs(gpuModels);
+    }
+  }, [selectedProvider, gpuModels]);
+
+  async function fetchAvailableGPUs(providerId) {
+    const { data, error } = await supabase
+      .from('prices')
+      .select(`
+        gpu_model_id,
+        gpu_models:gpu_model_id (
+          id,
+          name,
+          description,
+          vram,
+          link
+        )
+      `)
+      .eq('provider_id', providerId);
+    
+    if (!error && data) {
+      const uniqueGPUs = [...new Map(
+        data
+          .filter(item => item.gpu_models)
+          .map(item => [item.gpu_models.id, item.gpu_models])
+      ).values()];
+      setAvailableGPUs(uniqueGPUs);
+      
+      if (selectedGPU && !uniqueGPUs.find(gpu => gpu.id === selectedGPU.id)) {
+        setSelectedGPU(null);
+      }
+    } else {
+      console.error('Error fetching available GPUs:', error);
+    }
+  }
+
   async function fetchGPUModels() {
     const { data, error } = await supabase
       .from('gpu_models')
-      .select('id, name')
+      .select('id, name, vram')
       .order('name');
     
     if (!error) {
       setGPUModels(data);
+      setAvailableGPUs(data);
     }
   }
 
@@ -35,14 +76,24 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
   }
 
   function handleProviderChange(e) {
-    console.log(e.target.value);
-    const selectedProvider = providers.find(p => p.name === e.target.value);
-    setSelectedProvider(selectedProvider);
+    const providerName = e.target.value;
+    if (providerName === '') {
+      setSelectedProvider(null);
+    } else {
+      const provider = providers.find(p => p.name === providerName);
+      setSelectedProvider(provider);
+    }
+    setSelectedGPU(null);
   }
 
   function handleGPUChange(e) {
-    const selectedGPU = gpuModels.find(g => g.name === e.target.value);
-    setSelectedGPU(selectedGPU);
+    const gpuName = e.target.value;
+    if (gpuName === '') {
+      setSelectedGPU(null);
+    } else {
+      const selectedGPU = availableGPUs.find(g => g.name === gpuName);
+      setSelectedGPU(selectedGPU);
+    }
   }
 
   return (
@@ -66,9 +117,9 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
           onChange={handleGPUChange}
         >
           <option value="">All GPU Types</option>
-          {gpuModels.map((gpu) => (
-            <option key={gpu.id} value={gpu.name}>
-              {gpu.name}
+          {availableGPUs.map((gpu) => (
+            <option key={gpu.id} value={`${gpu.name} - ${gpu.vram}`}>
+              {gpu.name} - {gpu.vram}
             </option>
           ))}
         </select> 

@@ -10,7 +10,11 @@
 
 body {
   font-family: Inter, system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;  
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Gradient text utility */

@@ -5,7 +5,7 @@ export default function GPUInfoCard({ selectedGPU }) {
     );
   }
 
-  const { name, description, vram, cudaCores, usage, cost } = selectedGPU;
+  const { name, description, vram, cudaCores, link } = selectedGPU;
 
   return (
     <div className="card bg-base-200 shadow-md">
@@ -15,9 +15,10 @@ export default function GPUInfoCard({ selectedGPU }) {
         <ul className="list-disc pl-5 mt-2 space-y-1">
           <li>{vram}</li>
           <li>{cudaCores}</li>
-          <li>{usage}</li>
-          <li>{cost}</li>
         </ul>
+        <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-4">
+          Manufacturer Website
+        </a>
       </div>
     </div>
   );

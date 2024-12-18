@@ -18,12 +18,11 @@ export default function RootLayout({ children }) {
             <nav className="py-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <a className="text-2xl font-bold gradient-text-1">GPU Compare</a>
+                  <a href="/" className="text-2xl font-bold gradient-text-1">GPU Compare</a>
                   <div className="hidden md:flex space-x-8 ml-12">
-                    <a href="#pricing" className="text-sm hover:text-primary transition-colors">Pricing</a>
-                    <a href="#guide" className="text-sm hover:text-primary transition-colors">Guide</a>
-                    <a href="#about" className="text-sm hover:text-primary transition-colors">About</a>
-                  </div>
+                    <a href="/why-gpus" className="text-sm hover:text-primary transition-colors">Why Cloud Compute?</a>
+                    <a href="/learn-ml" className="text-sm hover:text-primary transition-colors">Learn ML/AI</a>
+                  </div>  
                 </div>
                 <div className="flex items-center space-x-4">
                   <ThemeToggle />
@@ -33,6 +32,13 @@ export default function RootLayout({ children }) {
             <main className="py-8">
               {children}
             </main>
+            {/* Footer */}
+            <footer className="border-t py-8 text-center text-sm text-gray-600">
+              <div className="space-y-3">
+                <p>Built with 🦾 by <a href="https://lansky.tech" className="text-primary hover:underline">Lansky Tech</a></p>
+                <p>Data updated every 24 hours</p>
+              </div>
+            </footer>
           </div>
         </div>
       </body>
