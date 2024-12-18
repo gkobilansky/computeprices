@@ -11,13 +11,11 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
 
   const handleRowClick = (gpu) => {
     setSelectedGPU({
-      name: gpu.gpu_models.name,
-      description: gpu.gpu_models.description,
-      vram: `${gpu.gpu_models.vram}GB VRAM`,
-      link: gpu.gpu_models.link,
+      name: gpu.gpu_model_name,
+      id: gpu.gpu_model_id
     });
 
-    const provider = providers.find(p => p.name === gpu.providers.name);
+    const provider = providers.find(p => p.id === gpu.provider_id);
     setSelectedProvider(provider);
   };
 
@@ -37,14 +35,14 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
   const filteredData = useMemo(() => {
     return sortedData.filter(item => {
       if (selectedGPU && selectedProvider) {
-        return item.gpu_models.id === selectedGPU.id && 
-               item.providers.name === selectedProvider.name;
+        return item.gpu_model_id === selectedGPU.id && 
+               item.provider_name === selectedProvider.name;
       }
       if (selectedGPU) {
-        return item.gpu_models.id === selectedGPU.id;
+        return item.gpu_model_id === selectedGPU.id;
       }
       if (selectedProvider) {
-        return item.providers.name === selectedProvider.name;
+        return item.provider_name === selectedProvider.name;
       }
       return true;
     });
@@ -64,20 +62,20 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
         <table className="table comparison-table w-full md:table hidden">
           <thead>
             <tr className="bg-gray-50/50">
-              <th key="provider-" onClick={() => handleSort(gpuData, 'provider')} 
+              <th key="provider-name" onClick={() => handleSort(gpuData, 'provider_name')} 
                   className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
-                Provider <SortIcon column="provider" />
+                Provider <SortIcon column="provider_name" />
               </th>
-              <th key="gpu-model" onClick={() => handleSort(gpuData, 'gpu_model')} 
+              <th key="gpu-model" onClick={() => handleSort(gpuData, 'gpu_model_name')} 
                   className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
-                GPU Model <SortIcon column="gpu_model" />
+                GPU Model <SortIcon column="gpu_model_name" />
               </th>
               <th key="vram" className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                 VRAM
               </th>
               <th key="price-per-hour" onClick={() => handleSort(gpuData, 'price_per_hour')} 
                   className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
-                Price/Hour
+                Price/Hour <SortIcon column="price_per_hour" />
               </th>
             </tr>
           </thead>
@@ -95,11 +93,11 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
               <tr key={item.id} 
                   onClick={() => handleRowClick(item)}
                   className="hover-card-shadow cursor-pointer border-t">
-                <td className="px-6 py-4">{item.providers?.name}</td>
-                <td className="px-6 py-4">{item.gpu_models?.name}</td>
-                <td className="px-6 py-4">{item.gpu_models?.vram}</td>
+                <td className="px-6 py-4">{item.provider_name}</td>
+                <td className="px-6 py-4">{item.gpu_model_name}</td>
+                <td className="px-6 py-4">{item.gpu_model_vram ? `${item.gpu_model_vram}GB` : ''}</td>
                 <td className="px-6 py-4">
-                  <div className="tooltip" data-tip={`Last updated: ${new Date(item.price_created_at).toLocaleDateString()}`}>
+                  <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
                     <span className="font-medium">
                       ${item.price_per_hour?.toFixed(2)}
                     </span>
@@ -123,17 +121,17 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
                  onClick={() => handleRowClick(item)}
                  className="hover-card-shadow cursor-pointer border-t p-4 mb-4 rounded-lg shadow-md">
               <div className="mb-2">
-                <strong>Provider:</strong> {item.providers?.name}
+                <strong>Provider:</strong> {item.provider_name}
               </div>
               <div className="mb-2">
-                <strong>GPU Model:</strong> {item.gpu_models?.name}
+                <strong>GPU Model:</strong> {item.gpu_model_name}
               </div>
               <div className="mb-2">
-                <strong>VRAM:</strong> {item.gpu_models?.vram}
+                <strong>VRAM:</strong> {item.gpu_model_vram}GB
               </div>
               <div>
                 <strong>Price/Hour:</strong> 
-                <div className="tooltip" data-tip={`Last updated: ${new Date(item.price_created_at).toLocaleDateString()}`}>
+                <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
                   <span className="font-medium">
                     ${item.price_per_hour?.toFixed(2)}
                   </span>

@@ -87,11 +87,14 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
   }
 
   function handleGPUChange(e) {
-    const gpuName = e.target.value;
-    if (gpuName === '') {
+    const gpuId = e.target.value;
+    if (gpuId === '') {
       setSelectedGPU(null);
     } else {
-      const selectedGPU = availableGPUs.find(g => g.name === gpuName);
+      console.log(gpuId)
+      console.log(availableGPUs)
+      const selectedGPU = availableGPUs.find(g => g.id === gpuId);
+      console.log(selectedGPU)
       setSelectedGPU(selectedGPU);
     }
   }
@@ -113,13 +116,13 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
         </select>
         <select 
           className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          value={selectedGPU ? selectedGPU.name : ''}
+          value={selectedGPU ? selectedGPU.id : ''}
           onChange={handleGPUChange}
         >
           <option value="">All GPU Types</option>
           {availableGPUs.map((gpu) => (
-            <option key={gpu.id} value={`${gpu.name} - ${gpu.vram}`}>
-              {gpu.name} - {gpu.vram}
+            <option key={gpu.id} value={gpu.id}>
+              {gpu.name}
             </option>
           ))}
         </select> 
