@@ -33,9 +33,6 @@ async function scrapeVastGPUs(dryRun = false) {
 
     const providerId = {
       vast: '4a4fdeae-7d4f-4d75-9967-54bbd498e4bf',
-      lambda: '825cef3b-54f5-426e-aa29-c05fe3070833',
-      fluidstack: 'a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182',
-      coreweave: '1d434a66-bf40-40a8-8e80-d5ab48b6d27f'
     };
 
     // Get existing GPU models first
@@ -111,7 +108,7 @@ async function scrapeVastGPUs(dryRun = false) {
 
         // First, insert the new price record
         const { data: priceRecord, error: priceError } = await supabase
-          .from('gpu_prices')
+          .from('prices')
           .insert({
             provider_id: providerId[provider],
             gpu_model_id: matchingModel.id,
@@ -123,26 +120,6 @@ async function scrapeVastGPUs(dryRun = false) {
         if (priceError) {
           console.error(`❌ Error inserting price record for ${gpu.name} (${provider}):`, priceError);
           continue;
-        }
-
-        // Then update the provider_gpu record with a reference to the latest price
-        const { error: providerGpuError } = await supabase
-          .from('provider_gpus')
-          .upsert({
-            provider_id: providerId[provider],
-            gpu_model_id: matchingModel.id,
-            latest_price_id: priceRecord.id,
-            available: true,
-            created_at: timestamp
-          }, {
-            onConflict: 'provider_id,gpu_model_id',
-            returning: true
-          });
-
-        if (providerGpuError) {
-          console.error(`❌ Error upserting provider GPU for ${gpu.name} (${provider}):`, providerGpuError);
-        } else {
-          console.log(`✅ Provider GPU pricing updated for ${gpu.name} (${provider})`);
         }
       }
     }

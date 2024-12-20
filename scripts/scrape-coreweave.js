@@ -27,6 +27,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
   try {
     console.log('🔍 Starting CoreWeave GPU scraper...');
     await page.goto('https://www.coreweave.com/gpu-cloud-pricing');
+    await page.waitForSelector('.table');
     
     const providerId = '1d434a66-bf40-40a8-8e80-d5ab48b6d27f';
 
@@ -42,35 +43,29 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
     // Scrape the GPU pricing table
     const gpuData = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll('tr')).filter(row => {
-        // Filter rows that have GPU model and price information
-        const cells = row.querySelectorAll('td');
-        return cells.length >= 4 && cells[0].textContent.includes('GB');
+      const rows = Array.from(document.querySelectorAll('.table-body-row')).filter(row => {
+        // All rows in this structure contain GPU data, so we don't need additional filtering
+        return true;
       });
 
       return rows.map(row => {
-        const cells = row.querySelectorAll('td');
-        const nameCell = cells[0].textContent.trim();
+        const nameElement = row.querySelector('.table-body-left a');
+        const priceElement = row.querySelector('.w-col:last-child strong');
         
+        if (!nameElement || !priceElement) return null;
+
         // Clean up the GPU name
-        const name = nameCell.split('\n')[0].trim().toUpperCase();
+        const name = nameElement.textContent.trim().toUpperCase();
         
-        // Extract VRAM
-        const vramMatch = nameCell.match(/(\d+)\s*GB/);
-        const vram = vramMatch ? parseInt(vramMatch[1]) : null;
-        
-        // Extract price, removing the "$" and converting to float
-        const priceText = cells[3].textContent.trim();
+        // Extract price, removing the "$" and "Reserve Now" text if present
+        const priceText = priceElement.textContent.trim().split('\n')[0];
         const price = parseFloat(priceText.replace('$', ''));
         
         return {
           name,
-          vram,
           price,
-          maxVcpus: parseInt(cells[1].textContent.trim()),
-          maxRam: parseInt(cells[2].textContent.trim())
         };
-      }).filter(gpu => gpu.name && !isNaN(gpu.price));
+      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
     });
 
     console.log('\n📊 Scraped GPU Data:');
@@ -94,11 +89,6 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
       if (!matchingModel) {
         unmatchedGPUs.push({
           name: gpu.name,
-          vram: gpu.vram,
-          specs: {
-            maxVcpus: gpu.maxVcpus,
-            maxRam: gpu.maxRam
-          }
         });
         console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
         continue;
@@ -108,7 +98,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
       // First, insert the new price record
       const { data: priceRecord, error: priceError } = await supabase
-        .from('gpu_prices')
+        .from('prices')
         .insert({
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
@@ -120,31 +110,6 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
       if (priceError) {
         console.error(`❌ Error inserting price record for ${gpu.name}:`, priceError);
         continue;
-      }
-
-      // Then update the provider_gpu record with a reference to the latest price
-      const { error: providerGpuError } = await supabase
-        .from('provider_gpus')
-        .upsert({
-          provider_id: providerId,
-          gpu_model_id: matchingModel.id,
-          latest_price_id: priceRecord.id,
-          available: true,
-          regions: ['us-east'], // CoreWeave's primary region
-          specs: {
-            maxVcpus: gpu.maxVcpus,
-            maxRam: gpu.maxRam
-          },
-          created_at: timestamp
-        }, {
-          onConflict: 'provider_id,gpu_model_id',
-          returning: true
-        });
-
-      if (providerGpuError) {
-        console.error(`❌ Error upserting provider GPU for ${gpu.name}:`, providerGpuError);
-      } else {
-        console.log(`✅ Provider GPU pricing updated for ${gpu.name}`);
       }
     }
 

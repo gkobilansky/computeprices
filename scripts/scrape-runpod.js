@@ -20,16 +20,16 @@ async function findMatchingGPUModel(gpuName, existingModels) {
   });
 }
 
-async function scrapeLambdaGPUs(dryRun = false) {
+async function scrapeRunPodGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   
   try {
-    console.log('🔍 Starting Lambda Labs GPU scraper...');
-    await page.goto('https://lambdalabs.com/service/gpu-cloud#pricing');
-    await page.waitForSelector('table');
+    console.log('🔍 Starting RunPod GPU scraper...');
+    await page.goto('https://www.runpod.io/pricing');
+    await page.waitForSelector('.MuiGrid-container');
     
-    const providerId = '825cef3b-54f5-426e-aa29-c05fe3070833';
+    const providerId = '30a69dae-5939-499a-a4f5-5114797dcdb3';
 
     // Get existing GPU models first
     const { data: existingModels, error: modelsError } = await supabase
@@ -41,30 +41,36 @@ async function scrapeLambdaGPUs(dryRun = false) {
       return;
     }
 
+    // Scrape the GPU cards
     const gpuData = await page.evaluate(() => {
-      const rows = document.querySelectorAll('table tr');
-      return Array.from(rows).slice(1).map(row => {
-        const cells = row.querySelectorAll('td');
-        if (cells.length < 6) return null;
+      const cards = document.querySelectorAll('.MuiGrid-container .MuiGrid-item');
+      
+      return Array.from(cards).map(card => {
+        // Get GPU name
+        const nameElement = card.querySelector('.css-6ukrhs');
+        if (!nameElement) return null;
+        const name = nameElement.textContent.trim().toUpperCase();
         
-        const fullName = cells[0].textContent.trim();
-        const name = fullName
-          .replace(/^(On-demand|Reserved)\s+\d+x\s+/, '')
-          .trim()
-          .toUpperCase();
+        // Get VRAM
+        const vramElement = card.querySelector('.css-1xqiyyp');
+        const vramMatch = vramElement?.textContent.match(/(\d+)GB VRAM/);
+        const vram = vramMatch ? parseInt(vramMatch[1]) : null;
         
-        const gpuCountMatch = fullName.match(/(\d+)x/);
-        const gpuCount = gpuCountMatch ? parseInt(gpuCountMatch[1]) : 1;
+        // Get prices for both Secure and Community Cloud
+        const priceElements = card.querySelectorAll('.css-c16693');
+        const prices = Array.from(priceElements).map(el => {
+          return parseFloat(el.textContent.replace('$', ''));
+        });
         
-        const vramText = cells[1].textContent.trim();
-        const vram = parseInt(vramText.replace('GB', ''));
+        // Get the lowest price
+        const price = Math.min(...prices);
         
-        const priceText = cells[5].textContent.trim();
-        const price = parseFloat(priceText.replace('$', '').split('/')[0]);
-        
-        return { name, gpuCount, vram, price };
-      })
-      .filter(row => row && !isNaN(row.price) && row.price !== null);
+        return {
+          name,
+          vram,
+          price
+        };
+      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
     });
 
     console.log('\n📊 Scraped GPU Data:');
@@ -88,8 +94,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
       if (!matchingModel) {
         unmatchedGPUs.push({
           name: gpu.name,
-          vram: gpu.vram,
-          gpuCount: gpu.gpuCount
+          vram: gpu.vram
         });
         console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
         continue;
@@ -97,7 +102,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
 
       console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
 
-      // First, insert the new price record
+      // Insert the new price record
       const { data: priceRecord, error: priceError } = await supabase
         .from('prices')
         .insert({
@@ -119,7 +124,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
       console.table(unmatchedGPUs);
     }
 
-    console.log('\n✨ Successfully completed Lambda Labs GPU data processing');
+    console.log('\n✨ Successfully completed RunPod GPU data processing');
 
   } catch (error) {
     console.error('❌ Scraping error:', error);
@@ -130,4 +135,4 @@ async function scrapeLambdaGPUs(dryRun = false) {
 
 // Check for --dry-run flag
 const dryRun = process.argv.includes('--dry-run');
-scrapeLambdaGPUs(dryRun); 
+scrapeRunPodGPUs(dryRun);

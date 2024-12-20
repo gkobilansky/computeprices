@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import GPUGuide from '@/components/GPUGuide';
 import { TrainIcon, ArtIcon, AnalyticsIcon, ResearchIcon } from '@/components/GPUUsageIcons';
 
 export default function WhyGPUs() {
@@ -87,12 +89,14 @@ export default function WhyGPUs() {
             Ready to start your GPU-powered project? Whether you're a hobbyist fine-tuning models, 
             a startup building an MVP, or a researcher running experiments, we can help you find the 
             right GPU. Compare prices and specifications in our
-            <a href="/" className="text-primary hover:underline mx-1">
+            <Link href="/" className="text-primary hover:underline mx-1">
               GPU comparison tool
-            </a>
+            </Link>
             to find the perfect balance of performance and cost for your needs.
           </p>
         </div>
+        <GPUGuide />
+
       </section>
     </div>
   );

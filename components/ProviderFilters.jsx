@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
-export default function ProviderFilters({setSelectedProvider, selectedProvider, setSelectedGPU, selectedGPU}) {
+export default function ProviderFilters({ setSelectedProvider, selectedProvider, setSelectedGPU, selectedGPU }) {
   const [gpuModels, setGPUModels] = useState([]);
   const [providers, setProviders] = useState([]);
   const [availableGPUs, setAvailableGPUs] = useState([]);
@@ -29,13 +29,15 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
         gpu_models:gpu_model_id (
           id,
           name,
-          description,
           vram,
-          link
+          architecture,
+          link,
+          manufacturer,
+          use_cases
         )
       `)
       .eq('provider_id', providerId);
-    
+
     if (!error && data) {
       const uniqueGPUs = [...new Map(
         data
@@ -43,7 +45,7 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
           .map(item => [item.gpu_models.id, item.gpu_models])
       ).values()];
       setAvailableGPUs(uniqueGPUs);
-      
+
       if (selectedGPU && !uniqueGPUs.find(gpu => gpu.id === selectedGPU.id)) {
         setSelectedGPU(null);
       }
@@ -57,7 +59,7 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
       .from('gpu_models')
       .select('id, name, vram')
       .order('name');
-    
+
     if (!error) {
       setGPUModels(data);
       setAvailableGPUs(data);
@@ -69,7 +71,7 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
       .from('providers')
       .select('id, name')
       .order('name');
-    
+
     if (!error) {
       setProviders(data);
     }
@@ -83,7 +85,6 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
       const provider = providers.find(p => p.name === providerName);
       setSelectedProvider(provider);
     }
-    setSelectedGPU(null);
   }
 
   function handleGPUChange(e) {
@@ -91,19 +92,21 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
     if (gpuId === '') {
       setSelectedGPU(null);
     } else {
-      console.log(gpuId)
-      console.log(availableGPUs)
       const selectedGPU = availableGPUs.find(g => g.id === gpuId);
-      console.log(selectedGPU)
       setSelectedGPU(selectedGPU);
     }
   }
 
+  function clearFilters() {
+    setSelectedProvider(null);
+    setSelectedGPU(null);
+  }
+
   return (
     <div className="mb-6 space-y-4">
-      <div className="flex flex-wrap gap-4">        
-        <select 
-          className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      <div className="flex flex-wrap gap-4">
+        <select
+          className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[200px]"
           value={selectedProvider ? selectedProvider.name : ''}
           onChange={handleProviderChange}
         >
@@ -114,8 +117,8 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
             </option>
           ))}
         </select>
-        <select 
-          className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        <select
+          className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[200px]"
           value={selectedGPU ? selectedGPU.id : ''}
           onChange={handleGPUChange}
         >
@@ -125,7 +128,10 @@ export default function ProviderFilters({setSelectedProvider, selectedProvider, 
               {gpu.name}
             </option>
           ))}
-        </select> 
+        </select>
+        <button className="btn bg-amber-100 focus:ring-2 focus:ring-amber-200 hover:bg-amber-400" onClick={clearFilters}>
+        🧼 Scrub Filters
+        </button>
       </div>
     </div>
   );

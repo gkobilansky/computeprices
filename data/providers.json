@@ -15,7 +15,7 @@
       "link": "https://aws.amazon.com/ec2/instance-types/p3/"
     },
     {
-      "name": "Google Cloud Platform (GCP)",
+      "name": "Google Cloud",
       "description": "GCP provides powerful GPU instances with flexible pricing and integration with Google's AI and machine learning tools.",
       "pros": [
         "Flexible pricing options",

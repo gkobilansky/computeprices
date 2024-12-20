@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import GPUComparisonTable from '@/components/GPUComparisonTable';
 import ProviderFilters from '@/components/ProviderFilters';
 import GPUInfoCard from '@/components/GPUInfoCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
-import GPUGuide from '@/components/GPUGuide';
 
 export default function Home() {
   const [selectedGPU, setSelectedGPU] = useState(null);
@@ -21,9 +21,9 @@ export default function Home() {
         </h1>
         <p className="text-gray-600 text-lg">
           Find and compare the most cost-effective GPUs for your machine learning workloads.
-          <a href="#guide" className="text-primary hover:underline ml-1">
+          <Link href="/gpus" className="text-primary gradient-text-1 hover:underline ml-1">
             Need help choosing?
-          </a>
+          </Link>
         </p>
       </section>
 
@@ -51,12 +51,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Guide Section */}
-      <section id="guide" className="py-8">
-        <GPUGuide />
-      </section>
-
     </div>
   );
 }

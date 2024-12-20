@@ -20,16 +20,16 @@ async function findMatchingGPUModel(gpuName, existingModels) {
   });
 }
 
-async function scrapeLambdaGPUs(dryRun = false) {
+async function scrapeFluidstackGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   
   try {
-    console.log('🔍 Starting Lambda Labs GPU scraper...');
-    await page.goto('https://lambdalabs.com/service/gpu-cloud#pricing');
-    await page.waitForSelector('table');
+    console.log('🔍 Starting FluidStack GPU scraper...');
+    await page.goto('https://www.fluidstack.io/pricing');
+    await page.waitForSelector('.pricing_table');
     
-    const providerId = '825cef3b-54f5-426e-aa29-c05fe3070833';
+    const providerId = 'a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182';
 
     // Get existing GPU models first
     const { data: existingModels, error: modelsError } = await supabase
@@ -41,30 +41,28 @@ async function scrapeLambdaGPUs(dryRun = false) {
       return;
     }
 
+    // Scrape the GPU pricing table
     const gpuData = await page.evaluate(() => {
-      const rows = document.querySelectorAll('table tr');
-      return Array.from(rows).slice(1).map(row => {
-        const cells = row.querySelectorAll('td');
-        if (cells.length < 6) return null;
+      const rows = Array.from(document.querySelectorAll('.pricing_body tr'));
+      
+      return rows.map(row => {
+        const nameElement = row.querySelector('.table-header-mobile');
+        const onDemandElement = row.querySelector('td:nth-child(5) p');
         
-        const fullName = cells[0].textContent.trim();
-        const name = fullName
-          .replace(/^(On-demand|Reserved)\s+\d+x\s+/, '')
-          .trim()
-          .toUpperCase();
+        if (!nameElement || !onDemandElement) return null;
+
+        const name = nameElement.textContent.trim().toUpperCase();
+        const priceText = onDemandElement?.textContent.trim();
+        // Only include GPUs with valid on-demand pricing (skip "n/a")
+        if (priceText === 'n/a') return null;
         
-        const gpuCountMatch = fullName.match(/(\d+)x/);
-        const gpuCount = gpuCountMatch ? parseInt(gpuCountMatch[1]) : 1;
+        const price = parseFloat(priceText?.replace('$', ''));
         
-        const vramText = cells[1].textContent.trim();
-        const vram = parseInt(vramText.replace('GB', ''));
-        
-        const priceText = cells[5].textContent.trim();
-        const price = parseFloat(priceText.replace('$', '').split('/')[0]);
-        
-        return { name, gpuCount, vram, price };
-      })
-      .filter(row => row && !isNaN(row.price) && row.price !== null);
+        return {
+          name,
+          price
+        };
+      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
     });
 
     console.log('\n📊 Scraped GPU Data:');
@@ -88,8 +86,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
       if (!matchingModel) {
         unmatchedGPUs.push({
           name: gpu.name,
-          vram: gpu.vram,
-          gpuCount: gpu.gpuCount
+          vram: gpu.vram
         });
         console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
         continue;
@@ -97,7 +94,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
 
       console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
 
-      // First, insert the new price record
+      // Insert the new price record
       const { data: priceRecord, error: priceError } = await supabase
         .from('prices')
         .insert({
@@ -119,7 +116,7 @@ async function scrapeLambdaGPUs(dryRun = false) {
       console.table(unmatchedGPUs);
     }
 
-    console.log('\n✨ Successfully completed Lambda Labs GPU data processing');
+    console.log('\n✨ Successfully completed FluidStack GPU data processing');
 
   } catch (error) {
     console.error('❌ Scraping error:', error);
@@ -130,4 +127,4 @@ async function scrapeLambdaGPUs(dryRun = false) {
 
 // Check for --dry-run flag
 const dryRun = process.argv.includes('--dry-run');
-scrapeLambdaGPUs(dryRun); 
+scrapeFluidstackGPUs(dryRun);

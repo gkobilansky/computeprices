@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --gradient-1: linear-gradient(to right, #007CF0, #00DFD8);
-  --gradient-2: linear-gradient(to right, #7928CA, #FF0080);
+  --gradient-1: linear-gradient(to right, #13147f, #2cc5a1);
+  --gradient-2: linear-gradient(to right, #2cc5a1, #91de3e);
   --gradient-3: linear-gradient(to right, #FF4D4D, #F9CB28);
 }
 
@@ -28,6 +28,16 @@ html {
   background: var(--gradient-2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient-1 {
+  background: var(--gradient-1);
+  color: white;
+}
+
+.btn-gradient-2 {
+  background: var(--gradient-2);
+  color: white;
 }
 
 /* Card hover effects */

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function GPUGuide() {
   return (
     <div className="prose max-w-none p-6 card bg-base-100 shadow-lg border border-gray-300">
@@ -19,9 +21,9 @@ export default function GPUGuide() {
             </p>
           </li>
           <li className="mb-3">
-            <strong>CUDA Cores:</strong> 
+            <strong>Architecture:</strong> 
             <p className="ml-5">
-              More cores generally mean faster processing. However, newer architectures are more efficient, so consider both the number of cores and the architecture.
+              The architecture of the GPU can significantly impact performance. For example, the A100 uses the Ampere architecture, which is more efficient than the older Volta architecture used in the V100. 👉 <Link className="text-blue-500 hover:underline" href="/learn-ml">Learn more about GPUs</Link>.
             </p>
           </li>
           <li className="mb-3">

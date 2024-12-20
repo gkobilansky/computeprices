@@ -14,7 +14,13 @@
     "scrape:vast": "node -r dotenv/config scripts/scrape-vast.js dotenv_config_path=.env.local",
     "scrape:vast:dry": "node -r dotenv/config scripts/scrape-vast.js --dry-run dotenv_config_path=.env.local",
     "scrape:coreweave": "node -r dotenv/config scripts/scrape-coreweave.js dotenv_config_path=.env.local",
-    "scrape:coreweave:dry": "node -r dotenv/config scripts/scrape-coreweave.js --dry-run dotenv_config_path=.env.local"
+    "scrape:coreweave:dry": "node -r dotenv/config scripts/scrape-coreweave.js --dry-run dotenv_config_path=.env.local",
+    "scrape:fluidstack": "node -r dotenv/config scripts/scrape-fluidstack.js dotenv_config_path=.env.local",
+    "scrape:fluidstack:dry": "node -r dotenv/config scripts/scrape-fluidstack.js --dry-run dotenv_config_path=.env.local",
+    "scrape:aws": "node -r dotenv/config scripts/scrape-aws.js dotenv_config_path=.env.local",
+    "scrape:aws:dry": "node -r dotenv/config scripts/scrape-aws.js --dry-run dotenv_config_path=.env.local",
+    "scrape:runpod": "node -r dotenv/config scripts/scrape-runpod.js dotenv_config_path=.env.local",
+    "scrape:runpod:dry": "node -r dotenv/config scripts/scrape-runpod.js --dry-run dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.6",

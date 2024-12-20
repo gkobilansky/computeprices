@@ -2,21 +2,23 @@
 
 import { useTableSort } from '@/lib/hooks/useTableSort';
 import { useGPUData } from '@/lib/hooks/useGPUData';
-import { useMemo } from 'react';
-import providers from '@/data/providers.json';
+import { useMemo, useState } from 'react';
 
 export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider, selectedGPU, selectedProvider }) {
+  const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
   const { gpuData, loading, error } = useGPUData({ selectedProvider, selectedGPU });
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
-  const handleRowClick = (gpu) => {
+  const handleRowClick = (row) => {
     setSelectedGPU({
-      name: gpu.gpu_model_name,
-      id: gpu.gpu_model_id
+      name: row.gpu_model_name,
+      id: row.gpu_model_id
     });
 
-    const provider = providers.find(p => p.id === gpu.provider_id);
-    setSelectedProvider(provider);
+    setSelectedProvider({
+      name: row.provider_name,
+      id: row.provider_id
+    });
   };
 
   const SortIcon = ({ column }) => {
@@ -33,7 +35,10 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
   }, [gpuData, getSortedData]);
 
   const filteredData = useMemo(() => {
-    return sortedData.filter(item => {
+    let data = sortedData;
+    
+    // First filter by selected GPU/provider
+    data = data.filter(item => {
       if (selectedGPU && selectedProvider) {
         return item.gpu_model_id === selectedGPU.id && 
                item.provider_name === selectedProvider.name;
@@ -46,7 +51,21 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
       }
       return true;
     });
-  }, [sortedData, selectedGPU, selectedProvider]);
+
+    // Then filter for best prices if enabled
+    if (showBestPriceOnly) {
+      const bestPrices = new Map();
+      data.forEach(item => {
+        const existing = bestPrices.get(item.gpu_model_id);
+        if (!existing || item.price_per_hour < existing.price_per_hour) {
+          bestPrices.set(item.gpu_model_id, item);
+        }
+      });
+      data = Array.from(bestPrices.values());
+    }
+
+    return data;
+  }, [sortedData, selectedGPU, selectedProvider, showBestPriceOnly]);
 
   if (error) {
     return (
@@ -58,6 +77,15 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
 
   return (
     <div className="space-y-8">
+     <label className="flex items-center gap-2 whitespace-nowrap">
+        <span className="text-sm">Show Best Prices Only</span>
+        <input
+          type="checkbox"
+          className="toggle toggle-primary"
+          checked={showBestPriceOnly}
+          onChange={(e) => setShowBestPriceOnly(e.target.checked)}
+        />
+      </label>
       <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
         <table className="table comparison-table w-full md:table hidden">
           <thead>
@@ -70,11 +98,8 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
                   className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                 GPU Model <SortIcon column="gpu_model_name" />
               </th>
-              <th key="vram" className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
-                VRAM
-              </th>
               <th key="price-per-hour" onClick={() => handleSort(gpuData, 'price_per_hour')} 
-                  className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
+                  className="px-6 py-4 w-30 text-left cursor-pointer hover:bg-gray-50">
                 Price/Hour <SortIcon column="price_per_hour" />
               </th>
             </tr>
@@ -95,7 +120,6 @@ export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider
                   className="hover-card-shadow cursor-pointer border-t">
                 <td className="px-6 py-4">{item.provider_name}</td>
                 <td className="px-6 py-4">{item.gpu_model_name}</td>
-                <td className="px-6 py-4">{item.gpu_model_vram ? `${item.gpu_model_vram}GB` : ''}</td>
                 <td className="px-6 py-4">
                   <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
                     <span className="font-medium">
