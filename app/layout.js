@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "GPU Comparison | Find the Perfect GPU for ML/AI",
   description: "Compare cloud GPU specifications and pricing to find the most cost-effective option for your machine learning workloads",
-  keywords: ["GPU comparison", "cloud GPU", "ML GPU", "AI GPU", "machine learning", "GPU pricing"],
+  keywords: ["GPU comparison", "cloud GPU", "ML GPU", "AI GPU", "machine learning", "GPU pricing", "compute prices", "compute costs", "cloud compute", "cloud compute providers"],
   authors: [{ name: "Lansky Tech" }],
   creator: "Lansky Tech",
   publisher: "Lansky Tech",
