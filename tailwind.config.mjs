@@ -6,12 +6,13 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["emerald", "dim"],
+    darkTheme: "dim",
+    base: true,
+    styled: true,
+    utils: true,
+  },
 };

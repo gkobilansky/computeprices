@@ -3,19 +3,64 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --gradient-1: linear-gradient(to right, #13147f, #2cc5a1);
+  --gradient-2: linear-gradient(to right, #2cc5a1, #91de3e);
+  --gradient-3: linear-gradient(to right, #FF4D4D, #F9CB28);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;  
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Gradient text utility */
+.gradient-text-1 {
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-2 {
+  background: var(--gradient-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient-1 {
+  background: var(--gradient-1);
+  color: white;
+}
+
+.btn-gradient-2 {
+  background: var(--gradient-2);
+  color: white;
+}
+
+/* Card hover effects */
+.hover-card-shadow {
+  transition: all 0.2s ease;
+}
+
+.hover-card-shadow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Table styles */
+.comparison-table th {
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.comparison-table tr {
+  transition: background-color 0.15s ease;
+}
+
+.comparison-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
 }
