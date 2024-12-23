@@ -2,16 +2,16 @@ import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
 import { findMatchingGPUModel } from '../lib/utils/gpu.js';
 
-async function scrapeCoreweaveGPUs(dryRun = false) {
+async function scrapeDataCrunchGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   
   try {
-    console.log('🔍 Starting CoreWeave GPU scraper...');
-    await page.goto('https://www.coreweave.com/gpu-cloud-pricing');
-    await page.waitForSelector('.table');
+    console.log('🔍 Starting DataCrunch GPU scraper...');
+    await page.goto('https://datacrunch.io/products');
+    await page.waitForSelector('[data-slide-table]');
     
-    const providerId = '1d434a66-bf40-40a8-8e80-d5ab48b6d27f';
+    const providerId = 'fd8bfdf8-162d-4a95-954d-ca4279edc46f';
 
     // Get existing GPU models first
     const { data: existingModels, error: modelsError } = await supabaseAdmin
@@ -23,37 +23,48 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
       return;
     }
 
-    // Scrape the GPU pricing table
+    // Scrape all GPU tables
     const gpuData = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll('.table-body-row')).filter(row => {
-        // All rows in this structure contain GPU data, so we don't need additional filtering
-        return true;
+      const slides = document.querySelectorAll('[data-slide]');
+      const gpus = [];
+
+      slides.forEach(slide => {
+        // Skip storage and CPU slides
+        const header = slide.querySelector('h4');
+        if (!header || header.textContent.includes('CPU') || header.textContent.includes('Storage')) {
+          return;
+        }
+
+        const table = slide.querySelector('table');
+        if (!table) return;
+
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+          const cells = row.querySelectorAll('td');
+          if (cells.length < 8) return;
+
+          const instanceName = cells[0].textContent.trim();
+          const gpuModel = cells[1].textContent.trim();
+          const gpuCount = parseInt(cells[2].textContent.trim());
+          const vram = parseInt(cells[5].textContent.trim());
+          const price = parseFloat(cells[7].textContent.trim().replace('$', '').replace('/h', ''));
+
+          gpus.push({
+            name: gpuModel,
+            instanceName,
+            gpuCount,
+            vram,
+            price: price / gpuCount // Price per GPU
+          });
+        });
       });
 
-      return rows.map(row => {
-        const nameElement = row.querySelector('.table-body-left a');
-        const priceElement = row.querySelector('.w-col:last-child strong');
-        
-        if (!nameElement || !priceElement) return null;
-
-        // Clean up the GPU name
-        const name = nameElement.textContent.trim().toUpperCase();
-        
-        // Extract price, removing the "$" and "Reserve Now" text if present
-        const priceText = priceElement.textContent.trim().split('\n')[0];
-        const price = parseFloat(priceText.replace('$', ''));
-        
-        return {
-          name,
-          price,
-        };
-      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
+      return gpus;
     });
 
-    console.log('\n📊 Scraped GPU Data:');
-    console.table(gpuData);
-
     if (dryRun) {
+      console.log('\n📊 Scraped GPU data:');
+      console.table(gpuData);
       console.log('\n🏃 DRY RUN: No database updates will be performed');
       return;
     }
@@ -71,6 +82,8 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
       if (!matchingModel) {
         unmatchedGPUs.push({
           name: gpu.name,
+          vram: gpu.vram,
+          instanceName: gpu.instanceName
         });
         console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
         continue;
@@ -78,7 +91,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
       console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
 
-      // First, insert the new price record
+      // Insert the new price record
       const { data: priceRecord, error: priceError } = await supabaseAdmin
         .from('prices')
         .insert({
@@ -100,7 +113,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
       console.table(unmatchedGPUs);
     }
 
-    console.log('\n✨ Successfully completed CoreWeave GPU data processing');
+    console.log('\n✨ Successfully completed DataCrunch GPU data processing');
 
   } catch (error) {
     console.error('❌ Scraping error:', error);
@@ -111,4 +124,4 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
 // Check for --dry-run flag
 const dryRun = process.argv.includes('--dry-run');
-scrapeCoreweaveGPUs(dryRun); 
+scrapeDataCrunchGPUs(dryRun); 

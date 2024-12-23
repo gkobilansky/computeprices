@@ -20,7 +20,11 @@
     "scrape:aws": "node -r dotenv/config scripts/scrape-aws.js dotenv_config_path=.env.local",
     "scrape:aws:dry": "node -r dotenv/config scripts/scrape-aws.js --dry-run dotenv_config_path=.env.local",
     "scrape:runpod": "node -r dotenv/config scripts/scrape-runpod.js dotenv_config_path=.env.local",
-    "scrape:runpod:dry": "node -r dotenv/config scripts/scrape-runpod.js --dry-run dotenv_config_path=.env.local"
+    "scrape:runpod:dry": "node -r dotenv/config scripts/scrape-runpod.js --dry-run dotenv_config_path=.env.local",
+    "scrape:all": "npm run scrape:lambda && npm run scrape:vast && npm run scrape:coreweave && npm run scrape:fluidstack && npm run scrape:aws && npm run scrape:runpod && npm run scrape:datacrunch",
+    "scrape:all:dry": "npm run scrape:lambda:dry && npm run scrape:vast:dry && npm run scrape:coreweave:dry && npm run scrape:fluidstack:dry && npm run scrape:aws:dry && npm run scrape:runpod:dry && npm run scrape:datacrunch:dry",
+    "scrape:datacrunch": "node -r dotenv/config scripts/scrape-datacrunch.js dotenv_config_path=.env.local",
+    "scrape:datacrunch:dry": "node -r dotenv/config scripts/scrape-datacrunch.js --dry-run dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.6",
@@ -34,9 +38,12 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/react": "^19.0.2",
+    "dotenv": "^16.4.7",
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }
