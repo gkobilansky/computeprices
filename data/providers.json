@@ -76,79 +76,108 @@
     },
     {
       "name": "CoreWeave",
-      "description": "CoreWeave provides cloud GPU solutions optimized for rendering, machine learning, and VFX workloads.",
+      "description": "CoreWeave is a specialized cloud provider offering GPU-accelerated infrastructure for compute-intensive workloads such as machine learning, VFX rendering, and batch processing. They provide a Kubernetes-native platform with a wide range of NVIDIA GPUs, delivering high performance at competitive prices.",
       "pros": [
-        "Specialized in GPU workloads",
-        "Flexible pricing",
-        "Strong performance for rendering tasks"
+        "Extensive selection of NVIDIA GPUs, including latest models",
+        "Up to 35x faster and 80% less expensive than legacy cloud providers",
+        "Kubernetes-native infrastructure for easy scaling and deployment",
+        "Rapid deployment with ability to access thousands of GPUs in seconds",
+        "Specialized support for AI, machine learning, and rendering workloads",
+        "NVIDIA Elite Cloud Solutions Provider for both Compute and Visualization",
+        "Fully-managed, bare metal serverless Kubernetes infrastructure"
       ],
       "cons": [
-        "Limited global presence",
-        "Niche market focus",
-        "Less known compared to major providers"
+        "Primary focus on North American data centers",
+        "Specialized nature may not suit all general computing needs",
+        "Newer player compared to established cloud giants",
+        "Learning curve for users unfamiliar with Kubernetes"
       ],
       "link": "https://www.coreweave.com/"
-    },
+    },    
     {
       "name": "RunPod",
-      "description": "RunPod offers affordable and scalable GPU cloud solutions for AI and machine learning applications.",
+      "description": "RunPod is a cloud platform designed for developing and scaling AI models, offering managed containers with or without GPUs across 30+ global regions. It provides affordable GPU access with a focus on developer experience, including features like hot-reloading and pre-configured framework templates.",
       "pros": [
-        "Cost-effective",
-        "Easy to use",
-        "Scalable solutions"
+        "Highly cost-effective GPU solutions, with potential savings over 80%",
+        "Fast spin-up times, with GPU pods available in seconds",
+        "Available in 30+ regions worldwide",
+        "Developer-friendly features like hot-reloading and 50+ framework templates",
+        "Flexible pricing with various GPU configurations",
+        "Managed containers with built-in autoscaling and monitoring",
+        "Supports both AI training and inference workloads",
+        "99.99% guaranteed uptime"
       ],
       "cons": [
-        "Limited features compared to larger providers",
-        "Smaller community",
-        "Limited global reach"
+        "Newer platform, still building reputation compared to major cloud providers",
+        "May have a learning curve for users new to containerized environments",
+        "Limited enterprise-grade certifications (SOC 2, ISO 27001, and HIPAA in progress)",
+        "Focused primarily on AI/ML workloads, may not be suitable for all computing needs"
       ],
       "link": "https://www.runpod.io/"
-    },
+    },    
     {
       "name": "Vast.ai",
-      "description": "Vast.ai provides a marketplace for renting GPU compute power, offering competitive pricing and flexibility.",
+      "description": "Vast.ai is a marketplace for cloud GPU rental, connecting users to a network of GPU providers. It offers significant cost savings compared to traditional cloud services, with both on-demand and interruptible pricing models, real-time bidding, and Docker-based deployments.",
       "pros": [
-        "Competitive pricing",
-        "Flexible rental options",
-        "Large variety of GPU types"
+        "Cost-effective (5-6X cheaper than traditional cloud services)",
+        "Flexible pricing with on-demand and interruptible options",
+        "Real-time bidding system for cost optimization",
+        "Docker ecosystem for quick software deployment",
+        "Enterprise-grade security and compliance",
+        "Supports various AI and deep learning workloads",
+        "CLI support for automated deployment"
       ],
       "cons": [
-        "Variable performance",
-        "Limited support",
-        "Complexity in choosing the right setup"
+        "Primarily focused on Linux-based Docker instances",
+        "No Windows support",
+        "Limited GUI options (SSH, Jupyter, or command-only)",
+        "No remote desktop functionality",
+        "Performance may vary across different providers"
       ],
       "link": "https://vast.ai/"
-    },
+    },    
     {
       "name": "Lambda Labs",
-      "description": "Lambda Labs offers GPU cloud services tailored for deep learning and AI research.",
+      "description": "Lambda Labs is an AI compute platform offering GPU cloud services, specializing in on-demand NVIDIA GPUs for AI training, fine-tuning, and inference. They provide a range of GPU instances, including access to the latest NVIDIA H100 and H200 Tensor Core GPUs.",
       "pros": [
-        "Tailored for deep learning",
-        "High-performance hardware",
-        "Good support for AI frameworks"
+        "Early access to latest NVIDIA GPUs (H100, H200, Blackwell)",
+        "Specialized for AI workloads",
+        "One-click Jupyter access",
+        "Pre-installed popular ML frameworks",
+        "Multi-GPU instances available (up to 8x GPUs)",
+        "Developer-friendly API",
+        "Offers both on-demand and reserved GPU clusters",
+        "High-speed NVIDIA Quantum-2 InfiniBand networking"
       ],
       "cons": [
-        "Higher cost for premium hardware",
-        "Limited to AI and ML workloads",
-        "Smaller provider"
+        "Primarily focused on AI and ML workloads",
+        "Limited global data center presence compared to major cloud providers",
+        "Newer player in the cloud GPU market",
+        "May have higher costs for non-AI workloads"
       ],
-      "link": "https://lambdalabs.com/service/gpu-cloud"
-    },
+      "link": "https://lambdalabs.com/"
+    },    
     {
-      "name": "Fluidstack",
-      "description": "Fluidstack provides affordable GPU cloud services with a focus on AI and rendering workloads.",
+      "name": "FluidStack",
+      "description": "FluidStack is a GPU cloud platform that aggregates underutilized GPUs from data centers worldwide, offering affordable and scalable computing solutions for AI training, machine learning, and rendering. They provide on-demand access to high-performance NVIDIA GPUs, including H100 and A100 models, with fully managed Kubernetes and SLURM environments.",
       "pros": [
-        "Affordable pricing",
-        "Good for AI and rendering",
-        "Easy to use"
+        "Highly cost-effective (30-80% lower costs compared to major cloud providers)",
+        "Large-scale GPU availability (10,000+ NVIDIA H100 GPUs deployed)",
+        "Rapid deployment and scaling capabilities",
+        "Fully managed infrastructure with 24/7 support",
+        "Flexible options from on-demand instances to reserved clusters",
+        "MLOps services included at no extra cost",
+        "Wide range of GPU models available",
+        "Enterprise-grade security and compliance"
       ],
       "cons": [
-        "Limited features",
-        "Smaller provider",
-        "Limited global reach"
+        "Relatively newer and smaller compared to major cloud providers",
+        "Primary focus on AI and ML workloads may not suit all use cases",
+        "Limited global presence compared to hyperscalers",
+        "Less established brand recognition in the broader cloud market"
       ],
       "link": "https://www.fluidstack.io/"
-    },
+    },    
     {
       "name": "Genesis Cloud",
       "description": "Genesis Cloud offers sustainable and cost-effective GPU cloud solutions for AI and rendering.",
@@ -164,6 +193,26 @@
       ],
       "link": "https://www.genesiscloud.com/"
     },
+    {
+      "name": "DataCrunch.io",
+      "description": "DataCrunch.io is a Finnish cloud service provider specializing in AI and machine learning infrastructure. They offer dedicated GPU servers, fully-managed services, and on-demand access to high-performance computing resources, including advanced NVIDIA GPUs like the A100 and H200.",
+      "pros": [
+        "Wide range of GPU models, including latest NVIDIA H200",
+        "Cost-effective compared to major cloud providers",
+        "Streamlined and user-friendly interface",
+        "Excellent documentation and API",
+        "Flexible pricing with pay-as-you-go model",
+        "Based in EU, potentially easing GDPR compliance",
+        "Renewable energy-powered data centers"
+      ],
+      "cons": [
+        "Limited global presence (primarily Europe-focused)",
+        "Smaller company compared to major cloud providers",
+        "Specialized focus may not suit all computing needs",
+        "Fewer data center locations than larger competitors"
+      ],
+      "link": "https://datacrunch.io/"
+    },    
     {
       "name": "Hyperstack",
       "description": "Hyperstack provides GPU cloud solutions with a focus on AI and machine learning. They own, operate, and optimise everything down from the servers and network, to the platform itself.",
