@@ -1,24 +1,6 @@
 import puppeteer from 'puppeteer';
-import { supabase } from '../lib/supabase.js';
-
-// Helper function to extract GPU model number
-function extractGPUModel(gpuName) {
-  // Common GPU model patterns (A100, H100, 4090, etc)
-  const modelPattern = /\b([A-H])?\d{2,4}[A-Za-z-]*\b/;
-  const match = gpuName.match(modelPattern);
-  return match ? match[0].toUpperCase() : null;
-}
-
-async function findMatchingGPUModel(gpuName, existingModels) {
-  const gpuModel = extractGPUModel(gpuName);
-  if (!gpuModel) return null;
-
-  // Find exact model number match
-  return existingModels.find(model => {
-    const existingModel = extractGPUModel(model.name);
-    return existingModel === gpuModel;
-  });
-}
+import { supabaseAdmin } from '../lib/supabase-admin.js';
+import { findMatchingGPUModel } from '../lib/utils/gpu.js';
 
 async function scrapeVastGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
@@ -36,7 +18,7 @@ async function scrapeVastGPUs(dryRun = false) {
     };
 
     // Get existing GPU models first
-    const { data: existingModels, error: modelsError } = await supabase
+    const { data: existingModels, error: modelsError } = await supabaseAdmin
       .from('gpu_models')
       .select('*');
 
@@ -107,7 +89,7 @@ async function scrapeVastGPUs(dryRun = false) {
         if (price === null || !providerId[provider]) continue;
 
         // First, insert the new price record
-        const { data: priceRecord, error: priceError } = await supabase
+        const { data: priceRecord, error: priceError } = await supabaseAdmin
           .from('prices')
           .insert({
             provider_id: providerId[provider],

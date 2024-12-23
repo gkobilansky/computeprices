@@ -23,7 +23,7 @@ export default function GPUGuide() {
           <li className="mb-3">
             <strong>Architecture:</strong> 
             <p className="ml-5">
-              The architecture of the GPU can significantly impact performance. For example, the A100 uses the Ampere architecture, which is more efficient than the older Volta architecture used in the V100. 👉 <Link className="text-blue-500 hover:underline" href="/learn-ml">Learn more about GPUs</Link>.
+              The architecture of the GPU can significantly impact performance. For example, the A100 uses the Ampere architecture, which is more efficient than the older Volta architecture used in the V100. 👉 <Link className="text-blue-500 hover:underline" href="/learn">Learn more about GPUs</Link>.
             </p>
           </li>
           <li className="mb-3">
