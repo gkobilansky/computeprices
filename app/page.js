@@ -13,14 +13,14 @@ export default function Home() {
 
   return (
     <div className="space-y-12">
-      {/* Hero Section - Now more compact and left-aligned */}
+      {/* Hero Section */}
       <section className="max-w-2xl">
-        <h1 className="text-3xl font-bold mb-3">
-          Cloud GPU
-          <span className="gradient-text-1"> Price Comparison</span>
+        <h1 className="text-4xl font-bold mb-4">
+          Find the Best
+          <span className="gradient-text-1 block mt-1">Cloud GPU Pricing</span>
         </h1>
         <p className="text-gray-600 text-lg">
-          Find and compare the most cost-effective GPUs for your machine learning workloads.
+          Compare the most cost-effective GPUs for your machine learning workloads.
           <Link href="/gpus" className="text-primary gradient-text-1 hover:underline ml-1">
             Need help choosing?
           </Link>

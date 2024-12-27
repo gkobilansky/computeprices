@@ -18,15 +18,15 @@ export default function Nav() {
   return (
     <nav className="py-6">
       <div className="flex items-center justify-between">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center space-x-3">
           <Image
             src="/cp-logo.svg"
             alt="Compute Prices Logo"
-            width={75}
-            height={75}
+            width={48}
+            height={48}
             priority
           />
-          Compute Prices
+          <span className="text-xl font-semibold">Compute Prices</span>
         </Link>
 
         <div className="flex items-center space-x-8">
