@@ -46,7 +46,7 @@ export const metadata = {
     title: "GPU Comparison | Find the Perfect GPU for ML/AI",
     description: "Compare cloud GPU specifications and pricing to find the most cost-effective option for your machine learning workloads",
     images: ["/og-image.png"],
-    creator: "@yourtwitterhandle",
+    creator: "@flowathletics",
   },
   // Verification for search engines (if needed)
   verification: {
@@ -81,7 +81,7 @@ export default function RootLayout({ children }) {
             {/* Footer */}
             <footer className="border-t py-8 text-center text-sm text-gray-600">
               <div className="space-y-3">
-                <p>Built with 🦾 by <a href="https://lansky.tech" className="text-primary hover:underline">Lansky Tech</a></p>
+                <p>Built with 🦾 by <a href="https://lansky.tech" className="text-primary hover:underline">lansky.tech</a></p>
                 <PriceComponent />
               </div>
             </footer>

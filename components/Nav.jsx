@@ -12,7 +12,7 @@ export default function Nav() {
     { href: '/', label: 'Home' },
     { href: '/gpus', label: 'Why Cloud Compute?' },
     { href: '/learn', label: 'Learn to Use Those GPUs' },
-    { href: '/cloud', label: 'All about Providers' },
+    { href: '/providers', label: 'All about Providers' },
   ];
 
   return (
