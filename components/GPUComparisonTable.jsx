@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 
 export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider, selectedGPU, selectedProvider }) {
   const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
-  const { gpuData, loading, error } = useGPUData({ selectedProvider, selectedGPU });
+  const { gpuData, loading, error } = useGPUData({ selectedProvider: selectedProvider?.id, selectedGPU: selectedGPU?.id });
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
   const handleRowClick = (row) => {

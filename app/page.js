@@ -6,6 +6,7 @@ import GPUComparisonTable from '@/components/GPUComparisonTable';
 import ProviderFilters from '@/components/ProviderFilters';
 import GPUInfoCard from '@/components/GPUInfoCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
+import Superlatives from '@/components/Superlatives';
 
 export default function Home() {
   const [selectedGPU, setSelectedGPU] = useState(null);
@@ -29,6 +30,11 @@ export default function Home() {
 
       {/* Main Content */}
       <section className="space-y-6">
+        <Superlatives 
+          setSelectedProvider={setSelectedProvider} 
+          setSelectedGPU={setSelectedGPU} 
+        />
+        
         <ProviderFilters 
           setSelectedProvider={setSelectedProvider} 
           selectedProvider={selectedProvider} 

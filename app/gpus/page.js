@@ -16,7 +16,7 @@ export default function WhyGPUs() {
           Discover how cloud GPUs can power your next project, from AI experiments to creative endeavors.
         </p>
       </section>
-
+      <GPUGuide />
       <section className="space-y-8">
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">What can you do with a GPU?</h2>
@@ -95,8 +95,6 @@ export default function WhyGPUs() {
             to find the perfect balance of performance and cost for your needs.
           </p>
         </div>
-        <GPUGuide />
-
       </section>
     </div>
   );
