@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import Nav from '@/components/Nav';
-import PriceComponent from '@/components/PriceComponent';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -78,13 +78,7 @@ export default function RootLayout({ children }) {
             <main className="py-8">
               {children}
             </main>
-            {/* Footer */}
-            <footer className="border-t py-8 text-center text-sm text-gray-600">
-              <div className="space-y-3">
-                <p>Built with 🦾 by <a href="https://lansky.tech" className="text-primary hover:underline">lansky.tech</a></p>
-                <PriceComponent />
-              </div>
-            </footer>
+            <Footer />
           </div>
         </div>
       </body>

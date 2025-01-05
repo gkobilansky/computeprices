@@ -10,9 +10,9 @@ export default function Nav() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/gpus', label: 'Why Cloud Compute?' },
-    { href: '/learn', label: 'Learn to Use Those GPUs' },
-    { href: '/providers', label: 'All about Providers' },
+    { href: '/providers', label: 'Provider Details' },
+    { href: '/gpus', label: 'GPU Details' },
+    { href: '/learn', label: 'Learn ML' }
   ];
 
   return (

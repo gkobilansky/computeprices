@@ -1,52 +1,7 @@
 [
   {
-    "id": "30a69dae-5939-499a-a4f5-5114797dcdb3",
-    "name": "RunPod",
-    "slug": "runpod",
-    "description": "RunPod provides cost-effective GPU rentals with a simple interface and powerful features for AI and ML workloads.",
-    "link": "https://runpod.io",
-    "docsLink": "https://docs.runpod.io",
-    "features": [
-      {
-        "title": "Secure Cloud GPUs",
-        "description": "Access to a wide range of GPU types with enterprise-grade security"
-      },
-      {
-        "title": "Pay-as-you-go",
-        "description": "Only pay for the compute time you actually use"
-      },
-      {
-        "title": "API Access",
-        "description": "Programmatically manage your GPU instances via REST API"
-      }
-    ],
-    "pros": [
-      "Competitive pricing with pay-per-second billing",
-      "Wide variety of GPU options",
-      "Simple and intuitive interface"
-    ],
-    "cons": [
-      "GPU availability can vary by region",
-      "Some features require technical knowledge"
-    ],
-    "gettingStarted": [
-      {
-        "title": "Create an account",
-        "description": "Sign up for RunPod using your email or GitHub account"
-      },
-      {
-        "title": "Add payment method",
-        "description": "Add a credit card or cryptocurrency payment method"
-      },
-      {
-        "title": "Launch your first pod",
-        "description": "Select a template and GPU type to launch your first instance"
-      }
-    ]
-  },
-  {
     "id": "3bb5a379-472f-4c84-9ba4-3337f3922582",
-    "name": "Amazon Web Services",
+    "name": "Amazon AWS",
     "slug": "aws",
     "description": "AWS provides a comprehensive suite of cloud computing services, including compute, storage, and GPU solutions for diverse workloads.",
     "link": "https://aws.amazon.com",
@@ -231,6 +186,50 @@
         "description": "Save up to 72% on compute usage with a 1 or 3-year commitment to a consistent amount of usage."
       }
     ]
+  },{
+    "id": "30a69dae-5939-499a-a4f5-5114797dcdb3",
+    "name": "RunPod",
+    "slug": "runpod",
+    "description": "RunPod provides cost-effective GPU rentals with a simple interface and powerful features for AI and ML workloads.",
+    "link": "https://runpod.io",
+    "docsLink": "https://docs.runpod.io",
+    "features": [
+      {
+        "title": "Secure Cloud GPUs",
+        "description": "Access to a wide range of GPU types with enterprise-grade security"
+      },
+      {
+        "title": "Pay-as-you-go",
+        "description": "Only pay for the compute time you actually use"
+      },
+      {
+        "title": "API Access",
+        "description": "Programmatically manage your GPU instances via REST API"
+      }
+    ],
+    "pros": [
+      "Competitive pricing with pay-per-second billing",
+      "Wide variety of GPU options",
+      "Simple and intuitive interface"
+    ],
+    "cons": [
+      "GPU availability can vary by region",
+      "Some features require technical knowledge"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an account",
+        "description": "Sign up for RunPod using your email or GitHub account"
+      },
+      {
+        "title": "Add payment method",
+        "description": "Add a credit card or cryptocurrency payment method"
+      },
+      {
+        "title": "Launch your first pod",
+        "description": "Select a template and GPU type to launch your first instance"
+      }
+    ]
   },
   {
     "id": "d122f315-b060-4924-8726-788c28ed3905",
@@ -367,7 +366,7 @@
   },
   {
     "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
-    "name": "FluidStack",
+    "name": "Fluidstack",
     "description": "FluidStack is a GPU cloud platform that aggregates underutilized GPUs from data centers worldwide, offering affordable and scalable computing solutions for AI training, machine learning, and rendering. They provide on-demand access to high-performance NVIDIA GPUs, including H100 and A100 models, with fully managed Kubernetes and SLURM environments.",
     "pros": [
       "Highly cost-effective (30-80% lower costs compared to major cloud providers)",
@@ -406,7 +405,7 @@
   },
   {
     "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
-    "name": "DataCrunch.io",
+    "name": "Datacrunch",
     "description": "DataCrunch.io is a Finnish cloud service provider specializing in AI and machine learning infrastructure. They offer dedicated GPU servers, fully-managed services, and on-demand access to high-performance computing resources, including advanced NVIDIA GPUs like the A100 and H200.",
     "pros": [
       "Wide range of GPU models, including latest NVIDIA H200",

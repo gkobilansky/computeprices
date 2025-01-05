@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchGPUData } from '@/lib/utils/fetchGPUData';
+import { fetchGPUModels } from '@/lib/utils/fetchGPUData';
 
 export default function GPUInfoCard({ selectedGPU }) {
   const [gpuDetails, setGpuDetails] = useState(null);
@@ -13,7 +13,7 @@ export default function GPUInfoCard({ selectedGPU }) {
         setIsLoading(true);
         setError(null);
         try {
-          const gpuData = await fetchGPUData(selectedGPU.id);
+          const gpuData = await fetchGPUModels(selectedGPU.id);
           setGpuDetails(gpuData);
         } catch (err) {
           setError(err.message);
