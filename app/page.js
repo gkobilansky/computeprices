@@ -30,7 +30,10 @@ export default function Home() {
 
       {/* Main Content */}
       <section className="space-y-6">
-        <Superlatives />
+        <Superlatives 
+          setSelectedProvider={setSelectedProvider} 
+          setSelectedGPU={setSelectedGPU} 
+        />
         
         <ProviderFilters 
           setSelectedProvider={setSelectedProvider} 
