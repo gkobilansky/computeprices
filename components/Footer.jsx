@@ -33,7 +33,7 @@ export default function Footer() {
   return (
     <footer className="border-t py-12 mt-8 bg-base-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* About Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">About Compute Prices</h3>
@@ -91,7 +91,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* GPUs Section */}
+          {/* GPUs Section
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Popular GPUs</h3>
             <div className="grid grid-cols-2 gap-2">
@@ -105,7 +105,7 @@ export default function Footer() {
                 </Link>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Section */}
