@@ -8,8 +8,8 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
   
   try {
     console.log('🔍 Starting CoreWeave GPU scraper...');
-    await page.goto('https://www.coreweave.com/gpu-cloud-pricing');
-    await page.waitForSelector('.table');
+    await page.goto('https://www.coreweave.com/pricing');
+    await page.waitForSelector('.table-v2.kubernetes-gpu-pricing');
     
     const providerId = '1d434a66-bf40-40a8-8e80-d5ab48b6d27f';
 
@@ -25,23 +25,24 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
     // Scrape the GPU pricing table
     const gpuData = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll('.table-body-row')).filter(row => {
-        // All rows in this structure contain GPU data, so we don't need additional filtering
-        return true;
+      const rows = Array.from(document.querySelectorAll('.table-v2 .table-row')).filter(row => {
+        const hasName = row.querySelector('.table-v2-cell--name');
+        const hasPrice = row.querySelector('.table-v2-cell:last-child');
+        return hasName && hasPrice;
       });
 
       return rows.map(row => {
-        const nameElement = row.querySelector('.table-body-left a');
-        const priceElement = row.querySelector('.w-col:last-child strong');
+        const nameElement = row.querySelector('.table-v2-cell--name');
+        const priceElement = row.querySelector('.table-v2-cell:last-child');
         
         if (!nameElement || !priceElement) return null;
 
         // Clean up the GPU name
         const name = nameElement.textContent.trim().toUpperCase();
         
-        // Extract price, removing the "$" and "Reserve Now" text if present
+        // Extract price, removing the "$" and any other text
         const priceText = priceElement.textContent.trim().split('\n')[0];
-        const price = parseFloat(priceText.replace('$', ''));
+        const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
         
         return {
           name,
