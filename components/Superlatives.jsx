@@ -26,20 +26,22 @@ const Superlatives = ({ setSelectedProvider, setSelectedGPU }) => {
   const getMostPopularGPU = () => {
     if (!gpuData || !Array.isArray(gpuData)) return { name: '...', id: null };
     const gpuCounts = {};
-    let mostPopularId = null;
+    let maxCount = 0;
+    let mostPopular = { name: null, id: null };
     
+    // First count all GPUs
     gpuData.forEach(item => {
       gpuCounts[item.gpu_model_name] = (gpuCounts[item.gpu_model_name] || 0) + 1;
-      if (!mostPopularId || gpuCounts[item.gpu_model_name] > gpuCounts[mostPopularId]) {
-        mostPopularId = item.gpu_model_name;
-        mostPopularId = item.gpu_model_id;
+      
+      // Update maxCount and mostPopular if we find a higher count
+      if (gpuCounts[item.gpu_model_name] > maxCount) {
+        maxCount = gpuCounts[item.gpu_model_name];
+        mostPopular.name = item.gpu_model_name;
+        mostPopular.id = item.gpu_model_id;
       }
     });
     
-    return { 
-      name: Object.entries(gpuCounts).sort(([,a], [,b]) => b - a)[0]?.[0] || '...',
-      id: mostPopularId
-    };
+    return mostPopular;
   };
 
   const handleCheapestClick = () => {
