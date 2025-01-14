@@ -123,6 +123,50 @@ export default function ProviderPage() {
         <ProviderGPUList providerId={provider.id} />
       </section>
 
+      {/* Compute Services */}
+      {provider.computeServices && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Compute Services</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {provider.computeServices.map((service, index) => (
+              <div key={index} className="card bg-base-100 shadow-xl">
+                <div className="card-body">
+                  <h3 className="card-title">{service.name}</h3>
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  {service.features && (
+                    <div>
+                      <h4 className="font-semibold mb-2">Features:</h4>
+                      <ul className="list-disc list-inside space-y-1">
+                        {service.features.map((feature, idx) => (
+                          <li key={idx} className="text-gray-600">{feature}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Pricing Options */}
+      {provider.pricingOptions && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Pricing Options</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {provider.pricingOptions.map((option, index) => (
+              <div key={index} className="card bg-base-100 shadow-xl">
+                <div className="card-body">
+                  <h3 className="card-title text-lg">{option.name}</h3>
+                  <p className="text-gray-600">{option.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Getting Started */}
       <section className="mb-16">
         <h2 className="text-2xl font-bold mb-6">Getting Started</h2>
