@@ -1,48 +1,41 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import providersData from '@/data/providers.json';
-import { useGPUData } from '@/lib/hooks/useGPUData';
-import { useTableSort } from '@/lib/hooks/useTableSort';
-import { formatPrice } from '@/lib/utils';
+import { notFound } from 'next/navigation';
+import { getProviderBySlug, generateProviderMetadata, getAllProviderSlugs, generateProviderSchema } from '@/lib/utils/provider';
+import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
+import ProviderGPUTable from '@/components/ProviderGPUTable';
+import BreadcrumbNav from '@/components/BreadcrumbNav';
 
-export default function ProviderPage() {
-  const params = useParams();
-  const [provider, setProvider] = useState(null);
-  const [loading, setLoading] = useState(true);
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const provider = await getProviderBySlug(slug);
+  if (!provider) return {};
+  return generateProviderMetadata(provider);
+}
 
-  useEffect(() => {
-    const providerData = providersData.find(p => p.slug === params.slug);
-    setProvider(providerData || null);
-    setLoading(false);
-  }, [params.slug]);
+export async function generateStaticParams() {
+  const slugs = await getAllProviderSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="loading loading-spinner loading-lg"></div>
-    </div>;
-  }
-
+export default async function ProviderPage({ params }) {
+  const { slug } = await params;
+  const provider = await getProviderBySlug(slug);
+  
   if (!provider) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold mb-4">Provider not found</h2>
-        <Link href="/providers" className="btn btn-primary">
-          View All Providers
-        </Link>
-      </div>
-    </div>;
+    notFound();
   }
+
+  const gpuPrices = await fetchGPUPrices({ selectedProvider: provider.id });
+
+  const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Providers', href: '/providers' },
+    { label: provider.name, href: `/providers/${provider.slug}` },
+  ];
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-12">
-      <nav className="mb-8">
-        <Link href="/providers" className="text-primary hover:underline mb-4 block">
-          ← Back to Providers
-        </Link>
-      </nav>
+      <BreadcrumbNav items={breadcrumbs} />
 
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto mb-16">
@@ -76,8 +69,8 @@ export default function ProviderPage() {
       </section>
 
       {/* Key Features */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold mb-6">Key Features</h2>
+      <section className="mb-16" aria-labelledby="features-heading">
+        <h2 id="features-heading" className="text-2xl font-bold mb-6">Key Features</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {provider.features?.map((feature, index) => (
             <div key={index} className="card bg-base-100 shadow-xl">
@@ -91,11 +84,12 @@ export default function ProviderPage() {
       </section>
 
       {/* Pros & Cons */}
-      <section className="mb-16">
+      <section className="mb-16" aria-labelledby="comparison-heading">
+        <h2 id="comparison-heading" className="sr-only">Provider Comparison</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
-              <h2 className="card-title text-green-600">Advantages</h2>
+              <h3 className="card-title text-green-600">Advantages</h3>
               <ul className="list-disc list-inside space-y-3">
                 {provider.pros.map((pro, index) => (
                   <li key={index} className="text-gray-600">{pro}</li>
@@ -106,7 +100,7 @@ export default function ProviderPage() {
 
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
-              <h2 className="card-title text-red-600">Limitations</h2>
+              <h3 className="card-title text-red-600">Limitations</h3>
               <ul className="list-disc list-inside space-y-3">
                 {provider.cons.map((con, index) => (
                   <li key={index} className="text-gray-600">{con}</li>
@@ -118,15 +112,15 @@ export default function ProviderPage() {
       </section>
 
       {/* GPU Pricing */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold mb-6">Available GPUs</h2>
-        <ProviderGPUList providerId={provider.id} />
+      <section className="mb-16" aria-labelledby="pricing-heading">
+        <h2 id="pricing-heading" className="text-2xl font-bold mb-6">Available GPUs</h2>
+        <ProviderGPUTable prices={gpuPrices} />
       </section>
 
       {/* Compute Services */}
       {provider.computeServices && (
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Compute Services</h2>
+        <section className="mb-16" aria-labelledby="services-heading">
+          <h2 id="services-heading" className="text-2xl font-bold mb-6">Compute Services</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {provider.computeServices.map((service, index) => (
               <div key={index} className="card bg-base-100 shadow-xl">
@@ -168,8 +162,8 @@ export default function ProviderPage() {
       )}
 
       {/* Getting Started */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold mb-6">Getting Started</h2>
+      <section className="mb-16" aria-labelledby="getting-started-heading">
+        <h2 id="getting-started-heading" className="text-2xl font-bold mb-6">Getting Started</h2>
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
             <div className="space-y-4">
@@ -191,81 +185,43 @@ export default function ProviderPage() {
           </div>
         </div>
       </section>
-    </div>
-  );
-}
 
-function ProviderGPUList({ providerId }) {
-  const { gpuData, loading, error } = useGPUData({ selectedProvider: providerId });
-  const { sortConfig, handleSort, getSortedData } = useTableSort('gpu_model_name', 'asc');
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": `What GPU types does ${provider.name} offer?`,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": `${provider.name} offers various GPU types for different workloads. Check the pricing table above for current GPU availability and pricing.`
+                }
+              },
+              {
+                "@type": "Question",
+                "name": `How do I get started with ${provider.name}?`,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": provider.gettingStarted?.map(step => step.title).join(', ') || `Visit ${provider.name}'s website to create an account and start using their GPU services.`
+                }
+              }
+            ]
+          })
+        }}
+      />
 
-  if (loading) {
-    return (
-      <div className="flex justify-center py-8">
-        <div className="loading loading-spinner loading-lg"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-600 py-8">
-        Error loading GPU data. Please try again later.
-      </div>
-    );
-  }
-
-  const sortedData = getSortedData(gpuData);
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th 
-              onClick={() => handleSort(gpuData, 'gpu_model_name')}
-              className="cursor-pointer hover:bg-base-200"
-            >
-              GPU Model {sortConfig.key === 'gpu_model_name' && (
-                <span>{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>
-              )}
-            </th>
-            <th 
-              onClick={() => handleSort(gpuData, 'gpu_model_vram')}
-              className="cursor-pointer hover:bg-base-200"
-            >
-              vRAM {sortConfig.key === 'gpu_model_vram' && (
-                <span>{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>
-              )}
-            </th>
-            <th 
-              onClick={() => handleSort(gpuData, 'price_per_hour')}
-              className="cursor-pointer hover:bg-base-200"
-            >
-              Hourly Price {sortConfig.key === 'price_per_hour' && (
-                <span>{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>
-              )}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.length > 0 ? (
-            sortedData.map((gpu, index) => (
-              <tr key={index}>
-                <td>{gpu.gpu_model_name}</td>
-                <td>{gpu.gpu_model_vram}GB</td>
-                <td>${gpu.price_per_hour}/hr</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" className="text-center text-gray-600 py-8">
-                No GPU data available for this provider.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {/* Provider Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateProviderSchema(provider, gpuPrices))
+        }}
+      />
     </div>
   );
 } 
