@@ -3,17 +3,18 @@ import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import { siteConfig, defaultMetadata, generateOpenGraph, generateTwitter } from './metadata';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
+  ...defaultMetadata,
   title: "GPU Comparison | Find the Perfect GPU for ML/AI",
-  description: "Compare cloud GPU specifications and pricing to find the most cost-effective option for your machine learning workloads",
+  description: siteConfig.defaultDescription,
   keywords: ["GPU comparison", "cloud GPU", "ML GPU", "AI GPU", "machine learning", "GPU pricing", "compute prices", "compute costs", "cloud compute", "cloud compute providers"],
-  authors: [{ name: "Lansky Tech" }],
-  creator: "Lansky Tech",
-  publisher: "Lansky Tech",
-  // Favicon
+  authors: [{ name: siteConfig.creator }],
+  creator: siteConfig.creator,
+  publisher: siteConfig.creator,
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -23,48 +24,14 @@ export const metadata = {
       { url: "/apple-icon.png", type: "image/png" },
     ],
   },
-  // Open Graph
-  openGraph: {
+  openGraph: generateOpenGraph({
     title: "GPU Comparison | Find the Perfect GPU for ML/AI",
-    description: "Compare cloud GPU specifications and pricing to find the most cost-effective option for your machine learning workloads",
-    url: "https://computeprices.com",
-    siteName: "Compute Prices",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "GPU Comparison Tool",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  // Twitter
-  twitter: {
-    card: "summary_large_image",
+    description: siteConfig.defaultDescription
+  }),
+  twitter: generateTwitter({
     title: "GPU Comparison | Find the Perfect GPU for ML/AI",
-    description: "Compare cloud GPU specifications and pricing to find the most cost-effective option for your machine learning workloads",
-    images: ["/og-image.png"],
-    creator: "@flowathletics",
-  },
-  // Verification for search engines (if needed)
-  verification: {
-    google: "your-google-verification-code",
-    // other verification codes as needed
-  },
-  // Robots
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+    description: siteConfig.defaultDescription
+  })
 };
 
 export default function RootLayout({ children }) {
