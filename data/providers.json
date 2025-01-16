@@ -484,20 +484,164 @@
     ]
   },
   {
+    "id": "11f663cd-d914-4863-9094-f293ee6421e0",
     "name": "Microsoft Azure",
-    "description": "Azure offers a variety of GPU instances suitable for AI, machine learning, and visualization workloads.",
+    "slug": "azure",
+    "description": "Azure provides comprehensive cloud computing services with strong enterprise integration, advanced AI capabilities, and a wide range of GPU options for machine learning, visualization, and high-performance computing workloads.",
+    "link": "https://azure.microsoft.com/en-us/solutions/ai/",
+    "docsLink": "https://learn.microsoft.com/en-us/azure/",
+    "features": [
+      {
+        "title": "Azure AI",
+        "description": "Comprehensive suite of AI services and tools for building intelligent applications"
+      },
+      {
+        "title": "Enterprise Integration",
+        "description": "Seamless integration with Microsoft ecosystem and enterprise tools"
+      },
+      {
+        "title": "Hybrid Capabilities",
+        "description": "Strong hybrid and multi-cloud support with Azure Arc"
+      },
+      {
+        "title": "Advanced Security",
+        "description": "Industry-leading security features and compliance certifications"
+      },
+      {
+        "title": "Global Scale",
+        "description": "Extensive worldwide network of data centers and edge locations"
+      }
+    ],
     "pros": [
-      "Strong enterprise support",
-      "Integration with Microsoft services",
-      "Wide range of GPU options"
+      "Strong enterprise integration and support",
+      "Comprehensive AI and machine learning services",
+      "Advanced security and compliance features",
+      "Extensive hybrid cloud capabilities",
+      "Wide range of GPU options",
+      "Strong .NET and Windows workload support",
+      "Integrated development tools and DevOps services"
     ],
     "cons": [
-      "Complex pricing and billing",
+      "Complex pricing and billing structure",
       "Can be expensive for certain workloads",
-      "Learning curve for new users"
+      "Steeper learning curve for new users",
+      "Some services have limited regional availability",
+      "Documentation can be fragmented"
     ],
-    "link": "https://azure.microsoft.com/en-us/pricing/details/virtual-machines/linux/",
-    "slug": "azure"
+    "gettingStarted": [
+      {
+        "title": "Create an Azure account",
+        "description": "Sign up for Azure and get started with free credits"
+      },
+      {
+        "title": "Set up your environment",
+        "description": "Configure your subscription, resource groups, and access controls"
+      },
+      {
+        "title": "Choose compute services",
+        "description": "Select from VMs, containers, or serverless based on your needs"
+      },
+      {
+        "title": "Deploy resources",
+        "description": "Launch your first GPU-enabled instance or AI service"
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "Azure Virtual Machines",
+        "description": "GPU-enabled VMs for various workloads",
+        "instanceTypes": [
+          {
+            "name": "NDm A100 v4",
+            "description": "Powered by NVIDIA A100 Tensor Core GPUs for AI and HPC",
+            "features": [
+              "Up to 8 NVIDIA A100 80GB GPUs",
+              "NVIDIA NVLink interconnect",
+              "400 Gb/s NVIDIA Mellanox NDR InfiniBand"
+            ]
+          },
+          {
+            "name": "NC A100 v4",
+            "description": "Optimized for deep learning and HPC",
+            "features": [
+              "NVIDIA A100 GPUs",
+              "High-performance computing and AI training",
+              "PCIe-based GPU connectivity"
+            ]
+          },
+          {
+            "name": "ND A100 v4",
+            "description": "For large-scale AI training and inference",
+            "features": [
+              "NVIDIA A100 GPUs",
+              "Optimized for distributed AI workloads",
+              "High-bandwidth GPU interconnect"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Azure Kubernetes Service (AKS)",
+        "description": "Managed Kubernetes service with GPU support",
+        "features": [
+          "Integrated GPU node pools",
+          "Automated scaling and updates",
+          "DevOps integration"
+        ]
+      },
+      {
+        "name": "Azure Machine Learning",
+        "description": "End-to-end ML platform with GPU acceleration",
+        "features": [
+          "Automated ML capabilities",
+          "Integrated MLOps",
+          "Distributed training support"
+        ]
+      }
+    ],
+    "gpuServices": [
+      {
+        "name": "GPU-Optimized Virtual Machines",
+        "description": "Range of GPU-enabled VM sizes for different workloads",
+        "types": [
+          {
+            "name": "NDm A100 v4",
+            "gpuModel": "NVIDIA A100 80GB",
+            "bestFor": "Large-scale AI training, HPC"
+          },
+          {
+            "name": "NC A100 v4",
+            "gpuModel": "NVIDIA A100",
+            "bestFor": "Deep learning, HPC workloads"
+          },
+          {
+            "name": "NV-series",
+            "gpuModel": "NVIDIA Tesla M60",
+            "bestFor": "Visualization, remote workstations"
+          }
+        ]
+      }
+    ],
+    "pricingOptions": [
+      {
+        "name": "Pay-as-you-go",
+        "description": "Flexible pricing with no upfront commitment"
+      },
+      {
+        "name": "Reserved VM Instances",
+        "description": "Save up to 72% with 1 or 3-year commitments"
+      },
+      {
+        "name": "Spot VMs",
+        "description": "Up to 90% savings for interruptible workloads"
+      },
+      {
+        "name": "Azure Hybrid Benefit",
+        "description": "Cost savings for existing Windows Server and SQL Server licenses"
+      }
+    ],
+    "regions": "60+ regions worldwide with multiple availability zones",
+    "support": "Basic, Developer, Standard, and Professional Direct support plans with 24/7 options. Extensive documentation and community resources."
   },
   {
     "name": "IBM Cloud",
@@ -577,7 +721,7 @@
     "slug": "vast"
   },
   {
-    "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
+    "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
     "name": "Lambda Labs",
     "description": "Lambda Labs is an AI compute platform offering GPU cloud services, specializing in on-demand NVIDIA GPUs for AI training, fine-tuning, and inference. They provide a range of GPU instances, including access to the latest NVIDIA H100 and H200 Tensor Core GPUs.",
     "pros": [

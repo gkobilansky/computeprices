@@ -33,7 +33,7 @@ function ProviderInfoCard() {
           </button>
         </div>
         
-        <a href={link} className="btn btn-gradient-2 btn-sm mt-2">Visit Pricing Page</a>
+        <a href={link} className="btn btn-gradient-2 btn-sm mt-2">Visit Provider</a>
 
         {isExpanded && (
           <>
