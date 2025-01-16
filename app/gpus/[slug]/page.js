@@ -5,9 +5,15 @@ import GPUPricingTable from '@/components/GPUPricingTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  if (!params?.slug) {
+    return {
+      title: 'GPU Not Found',
+      description: 'The requested GPU could not be found.'
+    };
+  }
+
   try {
-    const gpu = await getGPUBySlug(slug);
+    const gpu = await getGPUBySlug(params.slug);
     if (!gpu) {
       return {
         title: 'GPU Not Found',
@@ -16,7 +22,6 @@ export async function generateMetadata({ params }) {
     }
     return generateGPUMetadata(gpu);
   } catch (error) {
-    console.error(`Error generating metadata for ${slug}:`, error);
     return {
       title: 'GPU Information',
       description: 'Cloud GPU pricing and specifications'
@@ -30,13 +35,17 @@ export async function generateStaticParams() {
 }
 
 export default async function GPUPage({ params }) {
-  try {
-    const gpu = await getGPUBySlug(params.slug);
-    
-    if (!gpu) {
-      notFound();
-    }
+  // Early return for missing slug
+  if (!params?.slug) {
+    return notFound();
+  }
 
+  const gpu = await getGPUBySlug(params.slug).catch(() => null);
+  if (!gpu) {
+    return notFound();
+  }
+
+  try {
     const gpuPrices = await fetchGPUPrices({ selectedGPU: gpu.id });
 
     const breadcrumbs = [
