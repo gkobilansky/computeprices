@@ -1,7 +1,11 @@
-import { useGPUData } from '@/lib/hooks/useGPUData';
+'use client';
 
-const Superlatives = ({ setSelectedProvider, setSelectedGPU }) => {
-  const { gpuData, loading, error } = useGPUData({ selectedProvider: null, selectedGPU: null });
+import { useGPUData } from '@/lib/hooks/useGPUData';
+import { useFilter } from '@/lib/context/FilterContext';
+
+const Superlatives = () => {
+  const { setSelectedProvider, setSelectedGPU } = useFilter();
+  const { gpuData, loading, error } = useGPUData({ ignoreContext: true });
 
   const getCheapestCombo = () => {
     if (!gpuData || !Array.isArray(gpuData)) return { provider: '...', gpu: '...', price: 0, provider_id: null, gpu_model_id: null };
@@ -73,23 +77,27 @@ const Superlatives = ({ setSelectedProvider, setSelectedGPU }) => {
       <div 
         onClick={handleCheapestClick}
         className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-primary/20 transition-colors cursor-pointer hover:bg-gray-50"
+        role="button"
+        tabIndex={0}
       >
         <div className="text-4xl mb-3">🪙</div>
         <h3 className="font-semibold text-lg mb-1">Cheapest Option</h3>
         <p className="text-gray-600">
-          {cheapest.provider} - {cheapest.gpu}
-          <span className="block text-sm mt-1">${cheapest.price}/hr</span>
+          {loading ? 'Loading...' : `${cheapest.provider} - ${cheapest.gpu}`}
+          <span className="block text-sm mt-1">{loading ? '' : `$${cheapest.price}/hr`}</span>
         </p>
       </div>
 
       <div 
         onClick={handleMostPopularClick}
         className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-primary/20 transition-colors cursor-pointer hover:bg-gray-50"
+        role="button"
+        tabIndex={0}
       >
         <div className="text-4xl mb-3">🦾</div>
         <h3 className="font-semibold text-lg mb-1">Most Popular</h3>
         <p className="text-gray-600">
-          {mostPopular.name}
+          {loading ? 'Loading...' : mostPopular.name}
           <span className="block text-sm mt-1">Available across providers</span>
         </p>
       </div>
@@ -97,11 +105,13 @@ const Superlatives = ({ setSelectedProvider, setSelectedGPU }) => {
       <div 
         onClick={handleTopGPUClick}
         className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-primary/20 transition-colors cursor-pointer hover:bg-gray-50"
+        role="button"
+        tabIndex={0}
       >
         <div className="text-4xl mb-3">🎩</div>
         <h3 className="font-semibold text-lg mb-1">Top of the Line</h3>
         <p className="text-gray-600">
-          {topGPU}
+          {loading ? 'Loading...' : topGPU}
           <span className="block text-sm mt-1">Ultimate performance</span>
         </p>
       </div>

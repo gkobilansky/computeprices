@@ -1,7 +1,11 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { fetchGPUModels } from '@/lib/utils/fetchGPUData';
+import { useFilter } from '@/lib/context/FilterContext';
 
-export default function GPUInfoCard({ selectedGPU }) {
+export default function GPUInfoCard() {
+  const { selectedGPU } = useFilter();
   const [gpuDetails, setGpuDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

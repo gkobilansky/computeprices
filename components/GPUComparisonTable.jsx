@@ -2,11 +2,13 @@
 
 import { useTableSort } from '@/lib/hooks/useTableSort';
 import { useGPUData } from '@/lib/hooks/useGPUData';
+import { useFilter } from '@/lib/context/FilterContext';
 import { useMemo, useState } from 'react';
 
-export default function GPUComparisonTable({ setSelectedGPU, setSelectedProvider, selectedGPU, selectedProvider }) {
+export default function GPUComparisonTable() {
   const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
-  const { gpuData, loading, error } = useGPUData({ selectedProvider: selectedProvider?.id, selectedGPU: selectedGPU?.id });
+  const { selectedGPU, setSelectedGPU, selectedProvider, setSelectedProvider } = useFilter();
+  const { gpuData, loading, error } = useGPUData();
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
   const handleRowClick = (row) => {

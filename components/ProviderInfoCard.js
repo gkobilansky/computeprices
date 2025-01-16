@@ -1,7 +1,11 @@
+'use client';
+
 import React, { useState } from 'react';
 import providers from '@/data/providers.json';
+import { useFilter } from '@/lib/context/FilterContext';
 
-function ProviderInfoCard({ selectedProvider }) {
+function ProviderInfoCard() {
+  const { selectedProvider } = useFilter();
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!selectedProvider) {
@@ -29,7 +33,7 @@ function ProviderInfoCard({ selectedProvider }) {
           </button>
         </div>
         
-        <a href={link} className="btn btn-gradient-2 btn-sm mt-2">Visit Pricing Page</a>
+        <a href={link} className="btn btn-gradient-2 btn-sm mt-2">Visit Provider</a>
 
         {isExpanded && (
           <>
