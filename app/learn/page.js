@@ -269,7 +269,7 @@ export default function AILearningPath() {
 
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4 gradient-text-1">
-          Machine Learning and Artificial Intelligence: From Beginner to GPU-Powered Practitioner
+          Machine Learning and Artificial Intelligence: Put those GPUs to work
         </h1>
         <p className="text-xl">
           We designed this learning path with a focus on practical application, 
