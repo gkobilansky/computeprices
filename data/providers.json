@@ -180,7 +180,8 @@
     ],
     "regions": "25+ regions and 80+ availability zones worldwide.",
     "support": "Basic (free), Developer, Business, Enterprise support plans with varying response times and features. Extensive documentation, forums, and training resources."
-  },{
+  },
+  {
     "id": "30a69dae-5939-499a-a4f5-5114797dcdb3",
     "name": "RunPod",
     "slug": "runpod",
@@ -720,19 +721,87 @@
     "slug": "datacrunch"
   },
   {
+    "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
     "name": "Hyperstack",
-    "description": "Hyperstack provides GPU cloud solutions with a focus on AI and machine learning. They own, operate, and optimise everything down from the servers and network, to the platform itself.",
+    "slug": "hyperstack",
+    "description": "Hyperstack provides GPU cloud solutions with a focus on AI and machine learning. As an NVIDIA Preferred NCP Partner, they own, operate, and optimise everything from the servers and network to the platform itself, offering enterprise-level GPU-acceleration.",
+    "link": "https://www.hyperstack.cloud/",
+    "docsLink": "https://www.hyperstack.cloud/documentation",
+    "features": [
+      {
+        "title": "Managed Kubernetes",
+        "description": "Automated software deployment, scaling and management"
+      },
+      {
+        "title": "Pre-Configured Flavours",
+        "description": "Optimized templates for GPU-accelerated workloads with custom flavor options"
+      },
+      {
+        "title": "First Class API",
+        "description": "Purpose-built API designed specifically for GPU cloud operations"
+      },
+      {
+        "title": "Optimised Networking",
+        "description": "Network architecture optimized for maximum GPU efficiency"
+      },
+      {
+        "title": "Premium Storage",
+        "description": "Multiple storage options including NVMe, HDD block, and HDD Shared storage"
+      }
+    ],
     "pros": [
-      "Cost-effective",
-      "Good for AI and machine learning",
-      "Easy to use"
+      "Up to 75% more cost-effective than major cloud providers",
+      "GPU-optimized ecosystem for maximum performance efficiency",
+      "Easy-to-use platform with 1-click deployments",
+      "100% renewable energy powered infrastructure",
+      "NVIDIA Preferred NCP Partner",
+      "Enterprise-grade features and support",
+      "Role-based access control"
     ],
     "cons": [
-      "Limited global presence",
-      "Niche market focus",
-      "Less known compared to major providers"
+      "Limited global presence (primarily Europe and North America)",
+      "Niche market focus on GPU workloads",
+      "Less established compared to major cloud providers"
     ],
-    "link": "https://www.hyperstack.cloud/gpu-pricing",
-    "slug": "hyperstack"
+    "gettingStarted": [
+      {
+        "title": "Register Account",
+        "description": "Sign up for Hyperstack cloud services"
+      },
+      {
+        "title": "Choose Configuration",
+        "description": "Select from pre-configured flavors or create custom ones"
+      },
+      {
+        "title": "Deploy Resources",
+        "description": "Launch GPU instances with 1-click deployment"
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "GPU Instances",
+        "description": "Range of NVIDIA GPU options for various workloads",
+        "instanceTypes": [
+          {
+            "name": "NVIDIA H100 SXM",
+            "description": "High-performance GPU instances for AI and ML workloads",
+            "features": [
+              "On-demand pricing from $3.00/hour",
+              "Reserved pricing from $2.10/hour",
+              "Scalable from 8 to 16,384 GPUs"
+            ]
+          }
+        ]
+      }
+    ],
+    "regions": "Data centers in Europe and North America",
+    "support": "Human support team, documentation, and developer resources",
+    "uniqueSellingPoints": [
+      "100% renewably powered by hydro-energy",
+      "20x more energy-efficient than traditional computing",
+      "99.982% uptime guarantee",
+      "Free air cooling in data centers",
+      "Multi-region support"
+    ]
   }
 ]
