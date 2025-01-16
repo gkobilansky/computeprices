@@ -80,18 +80,6 @@ export default function ProviderGPUTable({ prices }) {
                 {renderSortIcon('price_per_hour')}
               </div>
             </th>
-            <th 
-              onClick={() => handleSort('region')}
-              className="cursor-pointer hover:bg-base-200"
-              role="columnheader"
-              aria-sort={sortConfig.key === 'region' ? sortConfig.direction : 'none'}
-            >
-              <div className="flex items-center">
-                Region
-                {renderSortIcon('region')}
-              </div>
-            </th>
-            <th role="columnheader">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -102,20 +90,8 @@ export default function ProviderGPUTable({ prices }) {
                   {price.gpu_model_name}
                 </div>
               </td>
-              <td role="cell">{price.vram}GB</td>
+              <td role="cell">{price.gpu_model_vram}GB</td>
               <td role="cell">{formatPrice(price.price_per_hour)}/hr</td>
-              <td role="cell">{price.region}</td>
-              <td role="cell">
-                <a
-                  href={price.instance_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-sm btn-primary"
-                  aria-label={`View ${price.gpu_model_name} instance details`}
-                >
-                  View Details
-                </a>
-              </td>
             </tr>
           ))}
         </tbody>
@@ -138,7 +114,6 @@ export default function ProviderGPUTable({ prices }) {
                 "@type": "Offer",
                 "price": price.price_per_hour,
                 "priceCurrency": "USD",
-                "priceValidUntil": new Date(Date.now() + 86400000).toISOString(),
                 "availability": "https://schema.org/InStock"
               }
             }))

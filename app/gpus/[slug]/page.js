@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getGPUBySlug, generateGPUMetadata, getAllGPUSlugs } from '@/lib/utils/gpu';
 import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
