@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
-import { findMatchingGPUModel } from '../lib/utils/gpu.js';
+import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
 
 async function scrapeLambdaGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
@@ -12,6 +12,8 @@ async function scrapeLambdaGPUs(dryRun = false) {
     await page.waitForSelector('table');
     
     const providerId = '825cef3b-54f5-426e-aa29-c05fe3070833';
+    const matchResults = [];
+    const unmatchedGPUs = [];
 
     // Get existing GPU models first
     const { data: existingModels, error: modelsError } = await supabaseAdmin
@@ -52,56 +54,69 @@ async function scrapeLambdaGPUs(dryRun = false) {
     console.log('\n📊 Scraped GPU Data:');
     console.table(gpuData);
 
+    console.log('\n🔍 Matching GPUs with known models...');
+    
+    for (const gpu of gpuData) {
+      const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
+      
+      if (matchingModel) {
+        matchResults.push({
+          scraped_name: gpu.name,
+          gpu_model_id: matchingModel.id,
+          matched_name: matchingModel.name,
+          vram: gpu.vram,
+          price: gpu.price,
+          gpu_count: gpu.gpuCount
+        });
+        console.log(`✅ Matched: ${gpu.name} → ${matchingModel.name}`);
+      } else {
+        unmatchedGPUs.push({
+          name: gpu.name,
+          vram: gpu.vram,
+          gpu_count: gpu.gpuCount,
+          price: gpu.price
+        });
+        console.log(`❌ Unmatched: ${gpu.name}`);
+      }
+    }
+
     if (dryRun) {
-      console.log('\n🏃 DRY RUN: No database updates will be performed');
+      console.log('\n🏃 DRY RUN RESULTS:');
+      console.log('\n✅ Matched GPUs:');
+      console.table(matchResults.map(r => ({
+        scraped: r.scraped_name,
+        matched: r.matched_name,
+        price: `$${r.price}/hr`,
+        count: r.gpu_count
+      })));
+      
+      if (unmatchedGPUs.length > 0) {
+        console.log('\n❌ Unmatched GPUs:');
+        console.table(unmatchedGPUs);
+      }
       return;
     }
 
     console.log('\n💾 Starting database updates...');
-    const unmatchedGPUs = [];
-    const timestamp = new Date().toISOString();
-    
-    for (const gpu of gpuData) {
-      console.log(`\nProcessing ${gpu.name}:`);
+    for (const result of matchResults) {
+      console.log(`\nProcessing ${result.matched_name}:`);
       
-      // Try to find a matching GPU model
-      const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
-      
-      if (!matchingModel) {
-        unmatchedGPUs.push({
-          name: gpu.name,
-          vram: gpu.vram,
-          gpuCount: gpu.gpuCount
-        });
-        console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
-        continue;
-      }
-
-      console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
-
-      // First, insert the new price record
-      const { data: priceRecord, error: priceError } = await supabaseAdmin
+      const { error: priceError } = await supabaseAdmin
         .from('prices')
         .insert({
           provider_id: providerId,
-          gpu_model_id: matchingModel.id,
-          price_per_hour: gpu.price,
-        })
-        .select()
-        .single();
+          gpu_model_id: result.gpu_model_id,
+          price_per_hour: result.price,
+          gpu_count: result.gpu_count
+        });
 
       if (priceError) {
-        console.error(`❌ Error inserting price record for ${gpu.name}:`, priceError);
+        console.error(`❌ Error inserting price record for ${result.matched_name}:`, priceError);
         continue;
       }
     }
 
-    if (unmatchedGPUs.length > 0) {
-      console.log('\n⚠️ Unmatched GPUs that need to be added manually:');
-      console.table(unmatchedGPUs);
-    }
-
-    console.log('\n✨ Successfully completed Lambda Labs GPU data processing');
+    console.log('\n✅ Successfully completed Lambda Labs GPU data processing');
 
   } catch (error) {
     console.error('❌ Scraping error:', error);

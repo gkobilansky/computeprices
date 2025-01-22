@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
-import { findMatchingGPUModel } from '../lib/utils/gpu.js';
+import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
 
 async function scrapeRunPodGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
@@ -58,52 +58,67 @@ async function scrapeRunPodGPUs(dryRun = false) {
     console.log('\n📊 Scraped GPU Data:');
     console.table(gpuData);
 
+    // Initialize matching arrays
+    const matchResults = [];
+    const unmatchedGPUs = [];
+    
+    console.log('\n🔍 Matching GPUs with known models...');
+    for (const gpu of gpuData) {
+      const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
+      
+      if (matchingModel) {
+        matchResults.push({
+          scraped_name: gpu.name,
+          matched_model: matchingModel.name,
+          price: gpu.price,
+          gpu_model_id: matchingModel.id,
+          vram: gpu.vram
+        });
+        console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
+      } else {
+        unmatchedGPUs.push({
+          name: gpu.name,
+          vram: gpu.vram,
+          price: gpu.price
+        });
+        console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
+      }
+    }
+
+    // Enhanced dry run output
+    console.log('\n📊 Matching Results Summary:');
+    console.log(`Found ${matchResults.length} matches and ${unmatchedGPUs.length} unmatched GPUs`);
+    
+    if (unmatchedGPUs.length > 0) {
+      console.log('\n⚠️ Unmatched GPUs:');
+      console.table(unmatchedGPUs);
+    }
+
     if (dryRun) {
-      console.log('\n🏃 DRY RUN: No database updates will be performed');
+      console.log('\n🏃 DRY RUN: Database updates preview');
+      console.log('\nMatched GPUs that would be updated:');
+      console.table(matchResults);
       return;
     }
 
-    console.log('\n💾 Starting database updates...');
-    const unmatchedGPUs = [];
-    const timestamp = new Date().toISOString();
+    // Database updates using matchResults
+    console.log('\n💾 Updating database with matched GPUs...');
     
-    for (const gpu of gpuData) {
-      console.log(`\nProcessing ${gpu.name}:`);
-      
-      // Try to find a matching GPU model
-      const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
-      
-      if (!matchingModel) {
-        unmatchedGPUs.push({
-          name: gpu.name,
-          vram: gpu.vram
-        });
-        console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
-        continue;
-      }
-
-      console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
-
-      // Insert the new price record
-      const { data: priceRecord, error: priceError } = await supabaseAdmin
+    for (const match of matchResults) {
+      const { error: priceError } = await supabaseAdmin
         .from('prices')
         .insert({
           provider_id: providerId,
-          gpu_model_id: matchingModel.id,
-          price_per_hour: gpu.price,
+          gpu_model_id: match.gpu_model_id,
+          price_per_hour: match.price,
         })
         .select()
         .single();
 
       if (priceError) {
-        console.error(`❌ Error inserting price record for ${gpu.name}:`, priceError);
+        console.error(`❌ Error inserting price for ${match.scraped_name}:`, priceError);
         continue;
       }
-    }
-
-    if (unmatchedGPUs.length > 0) {
-      console.log('\n⚠️ Unmatched GPUs that need to be added manually:');
-      console.table(unmatchedGPUs);
     }
 
     console.log('\n✨ Successfully completed RunPod GPU data processing');
