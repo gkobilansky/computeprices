@@ -107,7 +107,9 @@ async function scrapeLambdaGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: result.gpu_model_id,
           price_per_hour: result.price,
-          gpu_count: result.gpu_count
+          gpu_count: result.gpu_count,
+          source_name: 'Lambda Labs',
+          source_url: 'https://lambdalabs.com/service/gpu-cloud#pricing'
         });
 
       if (priceError) {
