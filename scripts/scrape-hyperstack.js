@@ -2,16 +2,16 @@ import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
 import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
 
-async function scrapeFluidstackGPUs(dryRun = false) {
+async function scrapeRunPodGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   
   try {
-    console.log('🔍 Starting FluidStack GPU scraper...');
-    await page.goto('https://www.fluidstack.io/pricing');
-    await page.waitForSelector('.pricing_table');
+    console.log('🔍 Starting Hyperstack GPU scraper...');
+    await page.goto('https://www.hyperstack.cloud/gpu-pricing');
+    await page.waitForSelector('.gpu-grd-pricing_first');
     
-    const providerId = 'a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182';
+    const providerId = '54cc0c05-b0e6-49b3-95fb-831b36dd7efd';
 
     // Get existing GPU models first
     const { data: existingModels, error: modelsError } = await supabaseAdmin
@@ -23,28 +23,22 @@ async function scrapeFluidstackGPUs(dryRun = false) {
       return;
     }
 
-    // Scrape the GPU pricing table
+    // Scrape the GPU cards
     const gpuData = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll('.pricing_body tr'));
-      
-      return rows.map(row => {
-        const nameElement = row.querySelector('.table-header-mobile');
-        const onDemandElement = row.querySelector('td:nth-child(5) p');
-        
-        if (!nameElement || !onDemandElement) return null;
-
-        const name = nameElement.textContent.trim().toUpperCase();
-        const priceText = onDemandElement?.textContent.trim();
-        // Only include GPUs with valid on-demand pricing (skip "n/a")
-        if (priceText === 'n/a') return null;
-        
-        const price = parseFloat(priceText?.replace('$', ''));
+      const rows = document.querySelectorAll('.gpu-grd-pricing_first .gpugpf-box-table table tbody tr');
+      return Array.from(rows).map(row => {
+        const cells = row.querySelectorAll('td');
+        const name = cells[0].innerText.trim();
+        const vram = parseInt(cells[1].innerText.trim(), 10);
+        const priceText = cells[4].innerText.trim();
+        const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
         
         return {
           name,
+          vram,
           price
         };
-      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
+      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.vram) && !isNaN(gpu.price));
     });
 
     console.log('\n📊 Scraped GPU Data:');
@@ -53,9 +47,7 @@ async function scrapeFluidstackGPUs(dryRun = false) {
     // Initialize matching arrays
     const matchResults = [];
     const unmatchedGPUs = [];
-
-    // Move matching logic before dry run check
-    console.log('\n🔍 Analyzing GPU matches...');
+    
     for (const gpu of gpuData) {
       const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
       
@@ -63,33 +55,25 @@ async function scrapeFluidstackGPUs(dryRun = false) {
         matchResults.push({
           scraped_name: gpu.name,
           matched_model: matchingModel.name,
-          gpu_model_id: matchingModel.id,
-          price: gpu.price,
-          source_name: 'FluidStack',
-          source_url: 'https://www.fluidstack.io/pricing'
+          vram: gpu.vram,
+          price: gpu.price
         });
       } else {
         unmatchedGPUs.push({
           name: gpu.name,
+          vram: gpu.vram,
           price: gpu.price
         });
       }
     }
 
     // Enhanced dry run output
-    console.log('\n✅ Successfully matched GPUs:');
-    console.table(matchResults.map(r => ({
-      scraped_name: r.scraped_name,
-      matched_model: r.matched_model,
-      price: `$${r.price}/hr`
-    })));
-
+    console.log('\n✅ Successfully Matched GPUs:');
+    console.table(matchResults);
+    
     if (unmatchedGPUs.length > 0) {
-      console.log('\n⚠️ Unmatched GPUs that need attention:');
-      console.table(unmatchedGPUs.map(g => ({
-        name: g.name,
-        price: `$${g.price}/hr`
-      })));
+      console.log('\n⚠️ Unmatched GPUs that need manual attention:');
+      console.table(unmatchedGPUs);
     }
 
     if (dryRun) {
@@ -101,12 +85,16 @@ async function scrapeFluidstackGPUs(dryRun = false) {
     console.log('\n💾 Starting database updates...');
     
     for (const result of matchResults) {
+      const matchingModel = await findMatchingGPUModel(result.scraped_name, existingModels);
+      
       const { error: priceError } = await supabaseAdmin
         .from('prices')
         .insert({
           provider_id: providerId,
-          gpu_model_id: result.gpu_model_id,
+          gpu_model_id: matchingModel.id,
           price_per_hour: result.price,
+          source_name: 'Hyperstack',
+          source_url: 'https://www.hyperstack.cloud/gpu-pricing'
         })
         .select()
         .single();
@@ -115,9 +103,11 @@ async function scrapeFluidstackGPUs(dryRun = false) {
         console.error(`❌ Error inserting price record for ${result.scraped_name}:`, priceError);
         continue;
       }
+      
+      console.log(`✅ Updated price for ${result.scraped_name}`);
     }
 
-    console.log('\n✨ Successfully completed FluidStack GPU data processing');
+    console.log('\n✨ Successfully completed Hyperstack GPU data processing');
 
   } catch (error) {
     console.error('❌ Scraping error:', error);
@@ -128,4 +118,4 @@ async function scrapeFluidstackGPUs(dryRun = false) {
 
 // Check for --dry-run flag
 const dryRun = process.argv.includes('--dry-run');
-scrapeFluidstackGPUs(dryRun);
+scrapeRunPodGPUs(dryRun);

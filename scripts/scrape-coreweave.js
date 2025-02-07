@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
-import { findMatchingGPUModel } from '../lib/utils/gpu.js';
+import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
 
 async function scrapeCoreweaveGPUs(dryRun = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
@@ -25,15 +25,18 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
 
     // Scrape the GPU pricing table
     const gpuData = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll('.table-v2 .table-row')).filter(row => {
-        const hasName = row.querySelector('.table-v2-cell--name');
-        const hasPrice = row.querySelector('.table-v2-cell:last-child');
+      console.log('Scraping CoreWeave GPU pricing table...');
+      const rows = document.querySelectorAll('.kubernetes-gpu-pricing .table-cell-column.table-cell-column-left');
+      const priceRows = Array.from(rows).filter(row => {
+        // Ensure the row contains the specific elements for name and price
+        const hasName = row.querySelector('a.table-modal-link .table-model-name');
+        const hasPrice = row.querySelector('.table-meta-text .table-meta-value');
         return hasName && hasPrice;
       });
 
-      return rows.map(row => {
-        const nameElement = row.querySelector('.table-v2-cell--name');
-        const priceElement = row.querySelector('.table-v2-cell:last-child');
+      return priceRows.map(row => {
+        const nameElement = row.querySelector('a.table-modal-link .table-model-name');
+        const priceElement = row.querySelector('.table-meta-text .table-meta-value');
         
         if (!nameElement || !priceElement) return null;
 
@@ -41,7 +44,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
         const name = nameElement.textContent.trim().toUpperCase();
         
         // Extract price, removing the "$" and any other text
-        const priceText = priceElement.textContent.trim().split('\n')[0];
+        const priceText = priceElement.textContent.trim();
         const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
         
         return {
@@ -54,44 +57,63 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
     console.log('\n📊 Scraped GPU Data:');
     console.table(gpuData);
 
+    // Move GPU matching logic before dry run check
+    console.log('\n🔍 Matching GPUs with known models...');
+    const matchResults = [];
+    const unmatchedGPUs = [];
+    
+    for (const gpu of gpuData) {
+      const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
+      
+      if (matchingModel) {
+        matchResults.push({
+          scraped_name: gpu.name,
+          matched_model: matchingModel.name,
+          price: gpu.price
+        });
+      } else {
+        unmatchedGPUs.push({
+          scraped_name: gpu.name,
+          price: gpu.price
+        });
+      }
+    }
+
+    // Enhanced dry run output
     if (dryRun) {
-      console.log('\n🏃 DRY RUN: No database updates will be performed');
+      console.log('\n🏃 DRY RUN MODE - Database updates will be skipped');
+      console.log('\n✅ Successfully matched GPUs:');
+      console.table(matchResults);
+      
+      if (unmatchedGPUs.length > 0) {
+        console.log('\n⚠️ Unmatched GPUs requiring manual review:');
+        console.table(unmatchedGPUs);
+      }
       return;
     }
 
+    // Database update logic
     console.log('\n💾 Starting database updates...');
-    const unmatchedGPUs = [];
-    const timestamp = new Date().toISOString();
     
-    for (const gpu of gpuData) {
-      console.log(`\nProcessing ${gpu.name}:`);
+    for (const result of matchResults) {
+      console.log(`\nProcessing ${result.scraped_name}:`);
+      const matchingModel = await findMatchingGPUModel(result.scraped_name, existingModels);
       
-      // Try to find a matching GPU model
-      const matchingModel = await findMatchingGPUModel(gpu.name, existingModels);
-      
-      if (!matchingModel) {
-        unmatchedGPUs.push({
-          name: gpu.name,
-        });
-        console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
-        continue;
-      }
-
-      console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
-
       // First, insert the new price record
       const { data: priceRecord, error: priceError } = await supabaseAdmin
         .from('prices')
         .insert({
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
-          price_per_hour: gpu.price,
+          price_per_hour: result.price,
+          source_name: 'CoreWeave',
+          source_url: 'https://www.coreweave.com/pricing'
         })
         .select()
         .single();
 
       if (priceError) {
-        console.error(`❌ Error inserting price record for ${gpu.name}:`, priceError);
+        console.error(`❌ Error inserting price record for ${result.scraped_name}:`, priceError);
         continue;
       }
     }

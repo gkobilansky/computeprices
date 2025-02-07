@@ -18,5 +18,6 @@ export interface GPUPrice {
   provider_id: string
   gpu_model_id: string
   price_per_hour: number
+  source: string
   created_at: string
 }
