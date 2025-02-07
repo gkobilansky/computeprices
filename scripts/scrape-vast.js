@@ -3,6 +3,7 @@ import { supabaseAdmin } from '../lib/supabase-admin.js';
 import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
 
 async function scrapeVastGPUs(dryRun = false) {
+  console.log('🔍 Starting Vast.ai GPU scraper...');
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   
@@ -75,12 +76,15 @@ async function scrapeVastGPUs(dryRun = false) {
         matchResults.push({
           scraped: gpu.name,
           matched: matchingModel.name,
-          price: gpu.prices.vast
+          price: gpu.prices.vast,
+          gpu_count: 1,
+          source_name: 'Vast.ai',
+          source_url: 'https://vast.ai/pricing'
         });
       } else {
         unmatchedGPUs.push({
           name: gpu.name,
-          price: gpu.prices.vast
+          price: gpu.prices.vast,
         });
       }
     }
@@ -137,3 +141,7 @@ async function scrapeVastGPUs(dryRun = false) {
 }
 
 export default scrapeVastGPUs;
+
+// Execute the script if running directly
+const isDryRun = process.argv.includes('--dry-run');
+scrapeVastGPUs(isDryRun);

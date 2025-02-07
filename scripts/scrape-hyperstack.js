@@ -93,6 +93,8 @@ async function scrapeRunPodGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: result.price,
+          source_name: 'Hyperstack',
+          source_url: 'https://www.hyperstack.cloud/gpu-pricing'
         })
         .select()
         .single();

@@ -106,6 +106,8 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: result.price,
+          source_name: 'CoreWeave',
+          source_url: 'https://www.coreweave.com/pricing'
         })
         .select()
         .single();

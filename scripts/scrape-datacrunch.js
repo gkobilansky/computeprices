@@ -117,6 +117,9 @@ async function scrapeDataCrunchGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: result.price,
+          gpu_count: result.gpuCount,
+          source_name: 'DataCrunch',
+          source_url: 'https://datacrunch.io/products'
         })
         .select()
         .single();

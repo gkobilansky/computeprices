@@ -1,0 +1,76 @@
+[{
+    "name": "aws",
+    "providerId": "3bb5a379-472f-4c84-9ba4-3337f3922582"
+},
+{
+    "name": "azure",
+    "providerId": "11f663cd-d914-4863-9094-f293ee6421e0"
+},
+{
+    "name": "boostrun",
+    "providerId": ""
+},
+{
+    "name": "crusoe",
+    "providerId": ""
+},
+{
+    "name": "digitalocean",
+    "providerId": ""
+},
+{
+    "name": "evergreen", 
+    "providerId": ""
+},
+{
+    "name": "excesssupply",
+    "providerId": ""
+},
+{
+    "name": "fluidstack",
+    "providerId": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f"
+},
+{
+    "name": "hotaisle",
+    "providerId": ""
+},
+{
+    "name": "hyperstack",
+    "providerId": "8b1f3feb-2c2f-4983-a451-2564dccc8917"
+},
+{
+    "name": "imwt",
+    "providerId": ""
+},
+{
+    "name": "lambdalabs",
+    "providerId": ""
+},
+{
+    "name": "latitude",
+    "providerId": ""
+},
+{
+    "name": "massedcompute",
+    "providerId": ""
+},
+{
+    "name": "nebius",
+    "providerId": ""
+},
+{
+    "name": "paperspace",
+    "providerId": ""
+},
+{
+    "name": "scaleway",
+    "providerId": ""
+},
+{
+    "name": "voltagepark",
+    "providerId": ""
+},
+{
+    "name": "vultr",
+    "providerId": ""
+}]

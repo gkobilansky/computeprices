@@ -37,12 +37,17 @@ async function scrapeRunPodGPUs(dryRun = false) {
         const vramElement = card.querySelector('.css-1xqiyyp');
         const vramMatch = vramElement?.textContent.match(/(\d+)GB VRAM/);
         const vram = vramMatch ? parseInt(vramMatch[1]) : null;
+
+        // Get GPU count
+        const gpuCountElement = card.querySelector('.css-1xqiyyp');
+        const gpuCountMatch = gpuCountElement?.textContent.match(/(\d+) vCPUs/);
         
         // Get prices for both Secure and Community Cloud
         const priceElements = card.querySelectorAll('.css-c16693');
         const prices = Array.from(priceElements).map(el => {
           return parseFloat(el.textContent.replace('$', ''));
         });
+
         
         // Get the lowest price
         const price = Math.min(...prices);
@@ -50,7 +55,7 @@ async function scrapeRunPodGPUs(dryRun = false) {
         return {
           name,
           vram,
-          price
+          price,
         };
       }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
     });
@@ -72,14 +77,15 @@ async function scrapeRunPodGPUs(dryRun = false) {
           matched_model: matchingModel.name,
           price: gpu.price,
           gpu_model_id: matchingModel.id,
-          vram: gpu.vram
+          vram: gpu.vram,
+
         });
         console.log(`✅ Matched ${gpu.name} to ${matchingModel.name}`);
       } else {
         unmatchedGPUs.push({
           name: gpu.name,
           vram: gpu.vram,
-          price: gpu.price
+          price: gpu.price,
         });
         console.log(`⚠️ No matching GPU model found for ${gpu.name}`);
       }
@@ -111,6 +117,8 @@ async function scrapeRunPodGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: match.gpu_model_id,
           price_per_hour: match.price,
+          source_name: 'RunPod',
+          source_url: 'https://www.runpod.io/pricing'
         })
         .select()
         .single();

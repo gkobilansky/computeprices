@@ -78,6 +78,7 @@ async function scrapeAWSGPUs(dryRun = false) {
           scraped_name: gpu.name,
           matched_model: matchingModel.name,
           instance_type: gpu.instanceType,
+          gpu_count: gpu.gpuCount,
           price: `$${gpu.price}/hr`
         });
       } else {
@@ -120,6 +121,9 @@ async function scrapeAWSGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: gpu.price,
+          gpu_count: gpu.gpuCount,
+          source_name: 'AWS',
+          source_url: 'https://aws.amazon.com/ec2/capacityblocks/pricing/'
         })
         .select()
         .single();

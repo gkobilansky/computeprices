@@ -64,7 +64,9 @@ async function scrapeFluidstackGPUs(dryRun = false) {
           scraped_name: gpu.name,
           matched_model: matchingModel.name,
           gpu_model_id: matchingModel.id,
-          price: gpu.price
+          price: gpu.price,
+          source_name: 'FluidStack',
+          source_url: 'https://www.fluidstack.io/pricing'
         });
       } else {
         unmatchedGPUs.push({
