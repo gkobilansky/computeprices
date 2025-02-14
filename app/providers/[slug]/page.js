@@ -3,7 +3,7 @@ import { getProviderBySlug, generateProviderMetadata, getAllProviderSlugs, gener
 import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
-
+import Image from 'next/image';
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const provider = await getProviderBySlug(slug);
@@ -39,8 +39,8 @@ export default async function ProviderPage({ params }) {
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto mb-16">
         <h1 className="text-4xl font-bold mb-4">
-          {provider.name}
-          <span className="gradient-text-1"> GPU Cloud</span>
+          <Image src={`/logos/${provider.slug}.png`} alt={provider.name} width={100} height={100} className='w-10 h-10 rounded-full inline-block mr-2'/>
+          <span> {provider.name}</span>
         </h1>
         <p className="text-gray-600 text-xl mb-8">
           {provider.description}

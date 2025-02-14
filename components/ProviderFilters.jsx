@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Combobox, ComboboxOption } from '@headlessui/react';
 import { supabase } from '@/lib/supabase';
 import { useFilter } from '@/lib/context/FilterContext';
 
@@ -9,6 +10,10 @@ export default function ProviderFilters() {
   const [gpuModels, setGPUModels] = useState([]);
   const [providers, setProviders] = useState([]);
   const [availableGPUs, setAvailableGPUs] = useState([]);
+  const [providerQuery, setProviderQuery] = useState('');
+  const [gpuQuery, setGpuQuery] = useState('');
+  const [isProviderOpen, setIsProviderOpen] = useState(false);
+  const [isGPUOpen, setIsGPUOpen] = useState(false);
 
   useEffect(() => {
     fetchGPUModels();
@@ -79,60 +84,124 @@ export default function ProviderFilters() {
     }
   }
 
-  function handleProviderChange(e) {
-    const providerName = e.target.value;
-    if (providerName === '') {
-      setSelectedProvider(null);
-    } else {
-      const provider = providers.find(p => p.name === providerName);
-      setSelectedProvider(provider);
-    }
-  }
+  const filteredProviders = providerQuery === ''
+    ? providers
+    : providers.filter((provider) =>
+        provider.name
+          .toLowerCase()
+          .includes(providerQuery.toLowerCase())
+      );
 
-  function handleGPUChange(e) {
-    const gpuId = e.target.value;
-    if (gpuId === '') {
-      setSelectedGPU(null);
-    } else {
-      const selectedGPU = availableGPUs.find(g => g.id === gpuId);
-      setSelectedGPU(selectedGPU);
-    }
-  }
+  const filteredGPUs = gpuQuery === ''
+    ? availableGPUs
+    : availableGPUs.filter((gpu) =>
+        gpu.name
+          .toLowerCase()
+          .includes(gpuQuery.toLowerCase())
+      );
 
   function clearFilters() {
     setSelectedProvider(null);
     setSelectedGPU(null);
+    setProviderQuery('');
+    setGpuQuery('');
   }
 
   return (
     <div className="mb-6 space-y-4" role="search" aria-label="GPU and Provider Filters">
       <div className="flex flex-wrap gap-4">
-        <select
-          className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[200px]"
-          value={selectedProvider ? selectedProvider.name : ''}
-          onChange={handleProviderChange}
-          aria-label="Select Provider"
-        >
-          <option value="">All Providers</option>
-          {providers.map((provider) => (
-            <option key={provider.id} value={provider.name}>
-              {provider.name}
-            </option>
-          ))}
-        </select>
-        <select
-          className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[200px]"
-          value={selectedGPU ? selectedGPU.id : ''}
-          onChange={handleGPUChange}
-          aria-label="Select GPU Type"
-        >
-          <option value="">All GPU Types</option>
-          {availableGPUs.map((gpu) => (
-            <option key={gpu.id} value={gpu.id}>
-              {gpu.name}
-            </option>
-          ))}
-        </select>
+        <div className="min-w-[200px]">
+          <Combobox value={selectedProvider} onChange={setSelectedProvider} nullable>
+            <div className="relative">
+              <Combobox.Input
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                displayValue={(provider) => provider?.name ?? ''}
+                onChange={(event) => setProviderQuery(event.target.value)}
+                onFocus={() => setIsProviderOpen(true)}
+                onBlur={() => setTimeout(() => setIsProviderOpen(false), 100)}
+                placeholder="Search providers..."
+              />
+              {isProviderOpen && (
+                <Combobox.Options 
+                  className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  static
+                >
+                  <ComboboxOption
+                    key="all-providers"
+                    value={null}
+                    className={({ active }) =>
+                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        active ? 'bg-blue-600 text-white' : 'text-gray-900'
+                      }`
+                    }
+                  >
+                    All Providers
+                  </ComboboxOption>
+                  {filteredProviders.map((provider) => (
+                    <ComboboxOption
+                      key={provider.id}
+                      value={provider}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active ? 'bg-blue-600 text-white' : 'text-gray-900'
+                        }`
+                      }
+                    >
+                      {provider.name}
+                    </ComboboxOption>
+                  ))}
+                </Combobox.Options>
+              )}
+            </div>
+          </Combobox>
+        </div>
+
+        <div className="min-w-[200px]">
+          <Combobox value={selectedGPU} onChange={setSelectedGPU} nullable>
+            <div className="relative">
+              <Combobox.Input
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                displayValue={(gpu) => gpu?.name ?? ''}
+                onChange={(event) => setGpuQuery(event.target.value)}
+                onFocus={() => setIsGPUOpen(true)}
+                onBlur={() => setTimeout(() => setIsGPUOpen(false), 100)}
+                placeholder="Search GPUs..."
+              />
+              {isGPUOpen && (
+                <Combobox.Options 
+                  className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  static
+                >
+                  <ComboboxOption
+                    key="all-gpus"
+                    value={null}
+                    className={({ active }) =>
+                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        active ? 'bg-blue-600 text-white' : 'text-gray-900'
+                      }`
+                    }
+                  >
+                    All GPU Types
+                  </ComboboxOption>
+                  {filteredGPUs.map((gpu) => (
+                    <ComboboxOption
+                      key={gpu.id}
+                      value={gpu}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active ? 'bg-blue-600 text-white' : 'text-gray-900'
+                        }`
+                      }
+                    >
+                      {gpu.name}
+                    </ComboboxOption>
+                  ))}
+                </Combobox.Options>
+              )}
+            </div>
+          </Combobox>
+        </div>
+
         <button 
           className="btn bg-amber-100 focus:ring-2 focus:ring-amber-200 hover:bg-amber-400" 
           onClick={clearFilters}

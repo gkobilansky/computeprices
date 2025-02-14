@@ -29,6 +29,7 @@
     "scrape:hyperstack:dry": "node -r dotenv/config scripts/scrape-hyperstack.js --dry-run dotenv_config_path=.env.local"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@supabase/supabase-js": "^2.47.6",
     "@vercel/analytics": "^1.4.1",
     "daisyui": "^4.12.22",

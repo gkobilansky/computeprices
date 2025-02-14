@@ -42,25 +42,25 @@ export default function GPUGuide() {
           <li className="mb-3">
             <strong>Entry Level ML/AI:</strong> 
             <p className="ml-5">
-              <em>RTX 4090 (24GB)</em> - Offers the best value proposition for those starting in AI/ML.
+              <Link className="text-blue-500 hover:underline" href="/gpus/rtx4090">RTX 4090</Link> - Offers the best value proposition for those starting in AI/ML.
             </p>
           </li>
           <li className="mb-3">
             <strong>Professional:</strong> 
             <p className="ml-5">
-              <em>A6000 (48GB)</em> - Provides a good balance of performance and cost, ideal for professional use.
+              <Link className="text-blue-500 hover:underline" href="/gpus/rtxa6000">RTX A6000</Link> - Provides a good balance of performance and cost, ideal for professional use.
             </p>
           </li>
           <li className="mb-3">
             <strong>Enterprise:</strong> 
             <p className="ml-5">
-              <em>A100 (40GB/80GB)</em> - Known for high performance and wide availability, suitable for enterprise-level tasks.
+              <Link className="text-blue-500 hover:underline" href="/gpus/a100">A100</Link> - Known for high performance and wide availability, suitable for enterprise-level tasks.
             </p>
           </li>
           <li className="mb-3">
             <strong>Top Tier:</strong> 
             <p className="ml-5">
-              <em>H100 (80GB)</em> - Delivers maximum performance but has limited availability, perfect for cutting-edge research.
+              <Link className="text-blue-500 hover:underline" href="/gpus/h200">H200</Link> - Delivers maximum performance but has limited availability, perfect for cutting-edge research.
             </p>
           </li>
         </ul>

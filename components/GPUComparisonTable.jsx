@@ -4,7 +4,7 @@ import { useTableSort } from '@/lib/hooks/useTableSort';
 import { useGPUData } from '@/lib/hooks/useGPUData';
 import { useFilter } from '@/lib/context/FilterContext';
 import { useMemo, useState } from 'react';
-
+import Image from 'next/image';
 export default function GPUComparisonTable() {
   const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
   const { selectedGPU, setSelectedGPU, selectedProvider, setSelectedProvider } = useFilter();
@@ -118,11 +118,15 @@ export default function GPUComparisonTable() {
                   </div>
                 </td>
               </tr>
-            ) : filteredData.map((item) => (
+            ) : filteredData.map((item) => {
+              console.log(item);
+              return (
               <tr key={item.id} 
                   onClick={() => handleRowClick(item)}
                   className="hover-card-shadow cursor-pointer border-t">
-                <td className="px-6 py-4">{item.provider_name}</td>
+                <td className="px-6 py-4">
+                  <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
+                </td>
                 <td className="px-6 py-4">{item.gpu_model_name}</td>
                 <td className="px-6 py-4">
                   <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
@@ -147,7 +151,8 @@ export default function GPUComparisonTable() {
                   )}
                 </td>
               </tr>
-            ))}
+            );
+            })}
           </tbody>
         </table>
         <div className="block md:hidden">
@@ -163,7 +168,7 @@ export default function GPUComparisonTable() {
                  onClick={() => handleRowClick(item)}
                  className="hover-card-shadow cursor-pointer border-t p-4 mb-4 rounded-lg shadow-md">
               <div className="mb-2">
-                <strong>Provider:</strong> {item.provider_name}
+                <strong>Provider:</strong> <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
               </div>
               <div className="mb-2">
                 <strong>GPU Model:</strong> {item.gpu_model_name}

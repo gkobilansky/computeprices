@@ -1,7 +1,11 @@
 {
     "crons": [
       {
-        "path": "/api/scrape",
+        "path": "/api/cron/lambda",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/shadeform",
         "schedule": "0 5 * * *"
       }
     ]
