@@ -9,8 +9,7 @@ export default function WhyGPUs() {
     <div className="max-w-4xl mx-auto space-y-12">
       <section className="max-w-2xl">
         <h1 className="text-3xl font-bold mb-3">
-          Why Rent a
-          <span className="gradient-text-1"> GPU?</span>
+          Why Rent a GPU?
         </h1>
         <p className="text-gray-600 text-lg">
           Discover how cloud GPUs can power your next project, from AI experiments to creative endeavors.

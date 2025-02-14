@@ -229,7 +229,7 @@
   {
     "id": "d122f315-b060-4924-8726-788c28ed3905",
     "name": "Google Cloud",
-    "slug": "gcp",
+    "slug": "google",
     "description": "GCP provides powerful GPU instances with flexible pricing and integration with Google's AI and machine learning tools. It's a major cloud provider known for its innovation in Kubernetes, AI/ML, and data analytics.",
     "link": "https://cloud.google.com/gpu",
     "docsLink": "https://cloud.google.com/compute/docs",
@@ -947,5 +947,141 @@
       "Free air cooling in data centers",
       "Multi-region support"
     ]
+  },
+  {
+    "id": "6f6f477e-c195-4403-a07a-4cf9faa65a08",
+      "name": "The Cloud Minders",
+      "slug": "cloud-minders",
+      "description": "The Cloud Minders (TCM) offers supercompute-as-a-service, specializing in AI training and inference. They provide purpose-built AI clouds with the latest NVIDIA GPUs and industry-leading CPUs, aiming to offer more flexibility than hyperscalers and more long-term viability than GPU marketplaces. They emphasize a partnership approach, working closely with clients to optimize their AI infrastructure.",
+      "link": "https://www.thecloudminders.com",
+      "docsLink": null,
+      "features": [
+        {
+          "title": "Purpose-Built AI Clouds",
+          "description": "Custom solutions optimized for specific AI/ML workload needs."
+        },
+        {
+          "title": "Bleeding Edge GPUs",
+          "description": "Equipped with the latest NVIDIA GPUs, including H100 and H200."
+        },
+        {
+          "title": "Industry Leading CPUs",
+          "description": "EPYC CPUs with clock speeds over 3.0 GHz for faster processing."
+        },
+        {
+          "title": "AI-Optimized Platform",
+          "description": "Integrates smoothly with popular AI/ML frameworks and tools."
+        },
+        {
+          "title": "NVMe Storage",
+          "description": "Ultra-fast NVMe storage for handling large datasets and numerous small files."
+        },
+        {
+          "title": "Flexible Options",
+          "description": "Supports Docker containers, VMs, and bare metal servers optimized and accelerated by the latest GPUs."
+        }
+      ],
+      "pros": [
+        "Access to the latest NVIDIA GPUs like H200.",
+        "Purpose-built infrastructure optimized for AI/ML workloads.",
+        "Flexible deployment options (VMs, Docker, Bare Metal).",
+        "Transparent pricing model with no hidden fees.",
+        "Potential for workload benchmarking on H200 vs. H100.",
+        "High-speed networking and super-fast storage.",
+        "Strong focus on customer partnership and support."
+      ],
+      "cons": [
+        "Specific geographic availability not explicitly stated.",
+        "May be less established compared to major hyperscalers.",
+        "Details on specific data center certifications (beyond SOC 1 Type 2) are not provided."
+      ],
+      "gettingStarted": [
+        {
+          "title": "Contact TCM",
+          "description": "Reach out to The Cloud Minders to discuss your specific AI infrastructure needs."
+        },
+        {
+          "title": "Benchmark Workload (Optional)",
+          "description": "Sign up to benchmark your workload on an 8x H200 server."
+        },
+        {
+          "title": "Choose Deployment Option",
+          "description": "Select from VM images, Docker containers, or bare metal GPUs based on your requirements."
+        }
+      ],
+      "computeServices": [
+        {
+          "name": "GPU Instances",
+          "description": "Variety of NVIDIA GPU options for different AI/ML tasks.",
+          "instanceTypes": [
+            {
+              "name": "Nvidia H200 SXM",
+              "description": "High-performance GPU for large AI models.",
+              "features": [
+                "141GB vRAM",
+                "4.8TB/s memory bandwidth",
+                "On-demand pricing starting at $4.85/GPU/Hr"
+              ]
+            },
+            {
+              "name": "Nvidia H100 SXM",
+              "description": "High-performance GPU for advanced AI and vision tasks",
+              "features": [
+                "80GB vRAM",
+                "On-demand pricing starting at $4.52/Hr"
+              ]
+            },
+            {
+              "name": "Nvidia H100 NVL",
+              "description": "Optimized for high-throughput inference and complex NLP tasks.",
+              "features": [
+                "94GB vRAM",
+                "On-demand pricing starting at $4.05/Hr"
+              ]
+            },
+            {
+              "name": "RTX A5000",
+              "description": "Suitable for object detection, creative AI tasks, and text-to-image generation.",
+              "features": [
+                "24GB vRAM",
+                "On-demand pricing starting at $0.55/Hr"
+              ]
+            },
+             {
+              "name": "RTX 4000 Ada",
+              "description": "Good for Image segmentation, facial recognition, medical imaging",
+              "features": [
+                "20GB vRAM",
+                "On-demand pricing starting at $0.55/Hr"
+              ]
+            },
+            {
+              "name": "RTX A4000",
+              "description": "Compact inference, real-time audio processing, mobile AI",
+              "features": [
+                "16GB vRAM",
+                "On-demand pricing starting at $0.40/Hr"
+              ]
+            },
+            {
+              "name": "V100",
+              "description": "Image classification, sequential data analysis, NLP fine-tuning",
+              "features": [
+                "16GB vRAM",
+                "On-demand pricing starting at $0.24/Hr"
+              ]
+            }
+          ]
+        }
+      ],
+      "regions": "Data center with SOC 1 Type 2 certification, high-speed connectivity, fault-tolerant storage, and round-the-clock security.",
+      "support": "Remote support available. Partnership approach with direct team interaction.",
+      "uniqueSellingPoints": [
+        "Supercompute as a Service tailored for AI training and inference.",
+        "Access to the latest NVIDIA H200 GPUs.",
+        "Transparent pricing with no hidden fees.",
+        "Option to benchmark workloads on cutting-edge hardware.",
+        "Best-in-class data center infrastructure with reliability and security."
+      ]    
   }
 ]
