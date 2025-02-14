@@ -9,10 +9,10 @@ export default function WhyGPUs() {
     <div className="max-w-4xl mx-auto space-y-12">
       <section className="max-w-2xl">
         <h1 className="text-3xl font-bold mb-3">
-          Why Rent a GPU?
+          GPU Hardware and Usecase Details
         </h1>
         <p className="text-gray-600 text-lg">
-          Discover how cloud GPUs can power your next project, from AI experiments to creative endeavors.
+          Read up on differnt types of GPUs and discover how cloud GPUs can power your next project - from model training, to multi-modal generation and increasing inference compute.
         </p>
       </section>
       <GPUGuide />
@@ -27,6 +27,9 @@ export default function WhyGPUs() {
                 Build your own AI assistants, image generators, or language models. 
                 Train models like Stable Diffusion or fine-tune LLMs on your custom data.
               </p>
+              <Link href="/learn#phase-2-1" className="link link-primary text-sm mt-2 block">
+                Learn model training →
+              </Link>
             </div>
             <div className="p-6 rounded-lg border hover:border-primary transition-colors">
               <ArtIcon />
@@ -35,6 +38,9 @@ export default function WhyGPUs() {
                 Create stunning AI artwork with models like Stable Diffusion. 
                 Generate and iterate on images much faster than on CPU.
               </p>
+              <Link href="/learn#phase-3-2" className="link link-primary text-sm mt-2 block">
+                Learn generative AI →
+              </Link>
             </div>
             <div className="p-6 rounded-lg border hover:border-primary transition-colors">
               <AnalyticsIcon />
@@ -43,6 +49,9 @@ export default function WhyGPUs() {
                 Accelerate predictive analytics and machine learning for business insights. Perfect for 
                 demand forecasting, customer behavior analysis, and automated decision-making.
               </p>
+              <Link href="/learn#phase-1-2" className="link link-primary text-sm mt-2 block">
+                Learn data science →
+              </Link>
             </div>
             <div className="p-6 rounded-lg border hover:border-primary transition-colors">
               <ResearchIcon />
@@ -51,6 +60,9 @@ export default function WhyGPUs() {
                 Experiment with machine learning papers, train models from scratch, 
                 and learn AI development hands-on.
               </p>
+              <Link href="/learn#phase-3-3" className="link link-primary text-sm mt-2 block">
+                Explore advanced topics →
+              </Link>
             </div>
           </div>
         </div>
@@ -87,9 +99,9 @@ export default function WhyGPUs() {
           <p className="text-gray-600">
             Ready to start your GPU-powered project? Whether you're a hobbyist fine-tuning models, 
             a startup building an MVP, or a researcher running experiments, we can help you find the 
-            right GPU. Compare prices and specifications in our
-            <Link href="/" className="text-primary hover:underline mx-1">
-              GPU comparison tool
+            right GPU. Compare prices and specifications with our
+            <Link href="/" className="btn btn-primary btn-sm mx-1">
+              🔍 GPU Price List
             </Link>
             to find the perfect balance of performance and cost for your needs.
           </p>

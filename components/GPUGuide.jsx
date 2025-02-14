@@ -40,7 +40,7 @@ export default function GPUGuide() {
         </p>
         <ul className="list-disc list-inside mb-6 text-gray-700">
           <li className="mb-3">
-            <strong>Entry Level ML/AI:</strong> 
+            <strong>Entry Level AI:</strong> 
             <p className="ml-5">
               <Link className="text-blue-500 hover:underline" href="/gpus/rtx4090">RTX 4090</Link> - Offers the best value proposition for those starting in AI/ML.
             </p>

@@ -9,7 +9,7 @@ import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
 import { generateOpenGraph, generateProviderStructuredData } from './metadata';
 
-const HOME_TITLE = 'Cloud GPU Price Comparison | Find the Best ML/AI GPU Deals';
+const HOME_TITLE = 'Cloud GPU Price Comparison | Find the Best AI GPU Deals';
 const HOME_DESCRIPTION = 'Compare cloud GPU prices across major providers like AWS, Google Cloud, and Azure. Find the most cost-effective GPUs for machine learning and AI workloads.';
 
 export const metadata = {

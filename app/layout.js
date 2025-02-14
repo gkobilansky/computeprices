@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   ...defaultMetadata,
-  title: "GPU Comparison | Find the Perfect GPU for ML/AI",
+  title: "GPU Comparison | Find the Perfect GPU for your next AI project",
   description: siteConfig.defaultDescription,
   keywords: ["GPU comparison", "cloud GPU", "ML GPU", "AI GPU", "machine learning", "GPU pricing", "compute prices", "compute costs", "cloud compute", "cloud compute providers"],
   authors: [{ name: siteConfig.creator }],
@@ -25,11 +25,11 @@ export const metadata = {
     ],
   },
   openGraph: generateOpenGraph({
-    title: "GPU Comparison | Find the Perfect GPU for ML/AI",
+    title: "GPU Comparison | Find the Perfect GPU for your next AI project",
     description: siteConfig.defaultDescription
   }),
   twitter: generateTwitter({
-    title: "GPU Comparison | Find the Perfect GPU for ML/AI",
+    title: "GPU Comparison | Find the Perfect GPU for your next AI project",
     description: siteConfig.defaultDescription
   })
 };
