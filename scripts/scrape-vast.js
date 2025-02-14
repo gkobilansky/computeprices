@@ -14,9 +14,7 @@ async function scrapeVastGPUs(dryRun = false) {
     // Wait for the pricing table to load
     await page.waitForSelector('table');
 
-    const providerId = {
-      vast: '4a4fdeae-7d4f-4d75-9967-54bbd498e4bf',
-    };
+    const vastProviderId = '4a4fdeae-7d4f-4d75-9967-54bbd498e4bf';
 
     // Get existing GPU models first
     const { data: existingModels, error: modelsError } = await supabaseAdmin
@@ -46,24 +44,19 @@ async function scrapeVastGPUs(dryRun = false) {
           .trim()
           .toUpperCase();
 
-        const prices = {
-          vast: parseFloat(cells[1].textContent.replace('$', '')) || null,
-          lambda: parseFloat(cells[2].textContent.replace('$', '')) || null,
-          fluidstack: parseFloat(cells[3].textContent.replace('$', '')) || null,
-          coreweave: parseFloat(cells[4].textContent.replace('$', '')) || null
-        };
+        const price = parseFloat(cells[1].textContent.replace('$', ''));
 
-        return { name, prices };
-      }).filter(row => row && row.prices.vast !== null);
+        return { name, price, source_name: 'Vast.ai', source_url: 'https://vast.ai/pricing' };
+      }).filter(row => row && row.price !== null);
     });
 
     console.log('\n📊 Scraped GPU Data:');
     console.table(gpuData.map(gpu => ({
       name: gpu.name,
-      vast: gpu.prices.vast,
-      lambda: gpu.prices.lambda,
-      fluidstack: gpu.prices.fluidstack,
-      coreweave: gpu.prices.coreweave
+      price: gpu.price,
+      provider_id: vastProviderId,
+      source_name: gpu.source_name,
+      source_url: gpu.source_url
     })));
 
     // Process GPU matches before dry run check
@@ -76,15 +69,13 @@ async function scrapeVastGPUs(dryRun = false) {
         matchResults.push({
           scraped: gpu.name,
           matched: matchingModel.name,
-          price: gpu.prices.vast,
-          gpu_count: 1,
-          source_name: 'Vast.ai',
-          source_url: 'https://vast.ai/pricing'
+          price: gpu.price,
+          gpu_count: 1
         });
       } else {
         unmatchedGPUs.push({
           name: gpu.name,
-          price: gpu.prices.vast,
+          price: gpu.price,
         });
       }
     }
@@ -109,26 +100,27 @@ async function scrapeVastGPUs(dryRun = false) {
       const gpu = gpuData.find(g => g.name === result.scraped);
       const matchingModel = existingModels.find(m => m.name === result.matched);
 
-      // Insert price records and update provider_gpus for each provider
-      for (const [provider, price] of Object.entries(gpu.prices)) {
-        if (price === null || !providerId[provider]) continue;
+      if (gpu.price === null) continue;
 
-        // First, insert the new price record
-        const { data: priceRecord, error: priceError } = await supabaseAdmin
-          .from('prices')
-          .insert({
-            provider_id: providerId[provider],
-            gpu_model_id: matchingModel.id,
-            price_per_hour: price,
-          })
-          .select()
-          .single();
+      // First, insert the new price record
+      const { data: priceRecord, error: priceError } = await supabaseAdmin
+        .from('prices')
+        .insert({
+          provider_id: vastProviderId,
+          gpu_model_id: matchingModel.id,
+          price_per_hour: gpu.price,
+          source_name: 'Vast.ai',
+          source_url: 'https://vast.ai/pricing'
+        })
+        .select()
+        .single();
 
-        if (priceError) {
-          console.error(`❌ Error inserting price record for ${gpu.name} (${provider}):`, priceError);
-          continue;
-        }
+      if (priceError) {
+        console.error(`❌ Error inserting price record for ${gpu.name} Vast.ai:`, priceError);
+        continue;
       }
+
+      console.log(priceRecord);
     }
 
     console.log('\n✨ Successfully completed Vast.ai GPU data processing');

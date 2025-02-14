@@ -1,6 +1,5 @@
 'use client';
 
-import ThemeToggle from '@/components/ThemeToggle';
 import Link from 'next/link';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -12,7 +11,7 @@ export default function Nav() {
     { href: '/', label: 'Home' },
     { href: '/providers', label: 'Provider Details' },
     { href: '/gpus', label: 'GPU Details' },
-    { href: '/learn', label: 'Learn ML' }
+    { href: '/learn', label: 'Learn AI' }
   ];
 
   return (
@@ -41,10 +40,7 @@ export default function Nav() {
                 {link.label}
               </Link>
             ))}
-          </div>
-          
-          <ThemeToggle />
-          
+          </div>          
           {/* Mobile Menu Button */}
           <button
             className="md:hidden p-2"

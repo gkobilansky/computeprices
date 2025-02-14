@@ -5,6 +5,8 @@ import { useGPUData } from '@/lib/hooks/useGPUData';
 import { useFilter } from '@/lib/context/FilterContext';
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+
+const HISTORY_LIMIT = 30;
 export default function GPUComparisonTable() {
   const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
   const { selectedGPU, setSelectedGPU, selectedProvider, setSelectedProvider } = useFilter();
@@ -64,6 +66,14 @@ export default function GPUComparisonTable() {
       });
       data = Array.from(bestPrices.values());
     }
+
+    // Limit the number of rows to HISTORY_LIMIT based on the created_at date less than 30 days ago
+    data = data.filter(item => {
+      const createdAt = new Date(item.created_at);
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - HISTORY_LIMIT);
+      return createdAt >= daysAgo;
+    });
 
     return data;
   }, [sortedData, selectedGPU, selectedProvider, showBestPriceOnly]);
