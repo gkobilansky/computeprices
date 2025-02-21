@@ -31,7 +31,7 @@ interface LambdaResponse {
   data: Record<string, LambdaInstance>;
 }
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   try {
     console.log('🔍 Starting Lambda Labs GPU API fetch...');
     

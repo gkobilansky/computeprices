@@ -1,10 +1,47 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { useState, useMemo, useEffect } from 'react';
 import GPUGuide from '@/components/GPUGuide';
+import { fetchGPUModels } from '@/lib/utils/fetchGPUData';
 import { TrainIcon, ArtIcon, AnalyticsIcon, ResearchIcon } from '@/components/GPUUsageIcons';
 
 export default function WhyGPUs() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [gpus, setGpus] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function loadGPUs() {
+      try {
+        setLoading(true);
+        const data = await fetchGPUModels();
+        setGpus(data || []);
+      } catch (err) {
+        console.error('Error loading GPUs:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadGPUs();
+  }, []);
+
+  const filteredGPUs = useMemo(() => {
+    console.log(gpus);
+    const query = searchQuery.toLowerCase();
+    return gpus.filter(gpu => {
+      const nameMatch = gpu.name.toLowerCase().includes(query);
+      const archMatch = gpu.architecture?.toLowerCase().includes(query);
+      const useCaseMatch = gpu.use_cases?.toLowerCase().includes(query);
+      
+      return nameMatch || archMatch || useCaseMatch;
+    });
+  }, [gpus, searchQuery]);
+
   return (
     <div className="max-w-4xl mx-auto space-y-12">
       <section className="max-w-2xl">
@@ -16,6 +53,82 @@ export default function WhyGPUs() {
         </p>
       </section>
       <GPUGuide />
+      
+      {/* GPU Table Section */}
+      <section className="space-y-4 mb-12">
+        <div className="form-control w-full max-w-md">
+          <input
+            type="text"
+            placeholder="Search GPUs by name, architecture, or use case..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="input input-bordered w-full"
+            aria-label="Search GPUs"
+          />
+        </div>
+        
+        {loading ? (
+          <div className="text-center py-8">
+            <span className="loading loading-spinner loading-lg"></span>
+            <p className="mt-2 text-gray-600">Loading GPUs...</p>
+          </div>
+        ) : error ? (
+          <div className="alert alert-error">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Error loading GPU data. Please try again later.</span>
+          </div>
+        ) : filteredGPUs.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-600">No GPUs found matching your search.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="table table-zebra w-full">
+              <thead>
+                <tr>
+                  <th>Manufacturer</th>
+                  <th>GPU Model</th>
+                  <th>VRAM</th>
+                  <th>Architecture</th>
+                  <th>Best For</th>
+                  <th>More Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredGPUs.map((gpu) => (
+                  <tr key={gpu.id}>
+                    <td>
+                      <Image 
+                        src={`/logos/${gpu.manufacturer.toLowerCase()}.png`}
+                        alt={`${gpu.manufacturer} logo`}
+                        width={20} 
+                        height={20}
+                        className="inline-block mr-2"
+                      />
+                      {gpu.manufacturer}
+                    </td>
+                    <td>{gpu.name}</td>
+                    <td>{gpu.vram}GB</td>
+                    <td>{gpu.architecture}</td>
+                    <td>{gpu.use_cases}</td>
+                    <td>
+                      <Link 
+                        href={`/gpus/${gpu.slug}`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+      
       <section className="space-y-8">
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">What can you do with a GPU?</h2>

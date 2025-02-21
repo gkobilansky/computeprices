@@ -54,7 +54,7 @@ interface ProviderResults {
   unmatchedGPUs: UnmatchedGPU[];
 }
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   try {
     console.log('🔍 Starting Shadeform GPU API fetch...');
     
