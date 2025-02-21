@@ -5,7 +5,8 @@ import GPUPricingTable from '@/components/GPUPricingTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
 
 export async function generateMetadata({ params }) {
-  if (!params?.slug) {
+  const { slug } = await params;
+  if (!slug) {
     return {
       title: 'GPU Not Found',
       description: 'The requested GPU could not be found.'
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }) {
   }
 
   try {
-    const gpu = await getGPUBySlug(params.slug);
+    const gpu = await getGPUBySlug(slug);
     if (!gpu) {
       return {
         title: 'GPU Not Found',
@@ -35,12 +36,13 @@ export async function generateStaticParams() {
 }
 
 export default async function GPUPage({ params }) {
+  const { slug } = await params;
   // Early return for missing slug
-  if (!params?.slug) {
+  if (!slug) {
     return notFound();
   }
 
-  const gpu = await getGPUBySlug(params.slug).catch(() => null);
+  const gpu = await getGPUBySlug(slug).catch(() => null);
   if (!gpu) {
     return notFound();
   }
@@ -51,7 +53,7 @@ export default async function GPUPage({ params }) {
     const breadcrumbs = [
       { label: 'Home', href: '/' },
       { label: 'GPUs', href: '/gpus' },
-      { label: gpu.name, href: `/gpus/${params.slug}` },
+      { label: gpu.name, href: `/gpus/${slug}` },
     ];
 
     return (
@@ -145,7 +147,7 @@ export default async function GPUPage({ params }) {
       </div>
     );
   } catch (error) {
-    console.error(`Error rendering page for ${params.slug}:`, error);
+    console.error(`Error rendering page for ${slug}:`, error);
     notFound();
   }
 } 

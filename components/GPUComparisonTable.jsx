@@ -7,8 +7,11 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 
 const HISTORY_LIMIT = 30;
+const FILTER_LIMIT = 15;
+
 export default function GPUComparisonTable() {
   const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const { selectedGPU, setSelectedGPU, selectedProvider, setSelectedProvider } = useFilter();
   const { gpuData, loading, error } = useGPUData();
   const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
@@ -78,6 +81,10 @@ export default function GPUComparisonTable() {
     return data;
   }, [sortedData, selectedGPU, selectedProvider, showBestPriceOnly]);
 
+  const visibleData = useMemo(() => {
+    return isExpanded ? filteredData : filteredData.slice(0, FILTER_LIMIT);
+  }, [filteredData, isExpanded]);
+
   if (error) {
     return (
       <div className="text-center text-error">
@@ -128,41 +135,60 @@ export default function GPUComparisonTable() {
                   </div>
                 </td>
               </tr>
-            ) : filteredData.map((item) => {
-              console.log(item);
-              return (
-              <tr key={item.id} 
-                  onClick={() => handleRowClick(item)}
-                  className="hover-card-shadow cursor-pointer border-t">
-                <td className="px-6 py-4">
-                  <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
-                </td>
-                <td className="px-6 py-4">{item.gpu_model_name}</td>
-                <td className="px-6 py-4">
-                  <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
-                    <span className="font-medium">
-                      ${item.price_per_hour?.toFixed(2)}
-                    </span>
-                    <span className="text-gray-500 text-sm">/hour</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  {item.source_url && (
-                    <div className="tooltip" data-tip={item.source_name}>
-                      <a href={item.source_url} target="_blank" rel="noopener noreferrer" 
-                         onClick={(e) => e.stopPropagation()} 
-                         className="text-gray-500 hover:text-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                          <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                        </svg>
-                      </a>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            );
-            })}
+            ) : (
+              <>
+                {visibleData.map((item) => {
+                  console.log(item);
+                  return (
+                  <tr key={item.id} 
+                      onClick={() => handleRowClick(item)}
+                      className="hover-card-shadow cursor-pointer border-t">
+                    <td className="px-6 py-4">
+                      <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
+                    </td>
+                    <td className="px-6 py-4">{item.gpu_model_name}</td>
+                    <td className="px-6 py-4">
+                      <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
+                        <span className="font-medium">
+                          ${item.price_per_hour?.toFixed(2)}
+                        </span>
+                        <span className="text-gray-500 text-sm">/hour</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      {item.source_url && (
+                        <div className="tooltip" data-tip={item.source_name}>
+                          <a href={item.source_url} target="_blank" rel="noopener noreferrer" 
+                             onClick={(e) => e.stopPropagation()} 
+                             className="text-gray-500 hover:text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                            </svg>
+                          </a>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+                })}
+                {filteredData.length > FILTER_LIMIT && (
+                  <tr>
+                    <td colSpan={4} className="text-center p-4">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsExpanded(!isExpanded);
+                        }}
+                        className="btn btn-primary btn-sm relative z-[2]"
+                      >
+                        {isExpanded ? 'Show Less' : `Show All ${filteredData.length}`}
+                      </button>
+                    </td>
+                  </tr>
+                )}
+              </>
+            )}
           </tbody>
         </table>
         <div className="block md:hidden">
@@ -173,42 +199,56 @@ export default function GPUComparisonTable() {
                 <span>Loading...</span>
               </div>
             </div>
-          ) : filteredData.map((item) => (
-            <div key={item.id} 
-                 onClick={() => handleRowClick(item)}
-                 className="hover-card-shadow cursor-pointer border-t p-4 mb-4 rounded-lg shadow-md">
-              <div className="mb-2">
-                <strong>Provider:</strong> <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
-              </div>
-              <div className="mb-2">
-                <strong>GPU Model:</strong> {item.gpu_model_name}
-              </div>
-              <div className="mb-2">
-                <strong>VRAM:</strong> {item.gpu_model_vram}GB
-              </div>
-              <div>
-                <strong>Price/Hour:</strong> 
-                <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
-                  <span className="font-medium">
-                    ${item.gpu_count ? (item.price_per_hour / item.gpu_count).toFixed(2) : item.price_per_hour?.toFixed(2)}
-                  </span>
-                  <span className="text-gray-500 text-sm">/hour</span>
+          ) : (
+            <>
+              {visibleData.map((item) => (
+                <div key={item.id} 
+                     onClick={() => handleRowClick(item)}
+                     className="hover-card-shadow cursor-pointer border-t p-4 mb-4 rounded-lg shadow-md">
+                  <div className="mb-2">
+                    <strong>Provider:</strong> <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
+                  </div>
+                  <div className="mb-2">
+                    <strong>GPU Model:</strong> {item.gpu_model_name}
+                  </div>
+                  <div className="mb-2">
+                    <strong>VRAM:</strong> {item.gpu_model_vram}GB
+                  </div>
+                  <div>
+                    <strong>Price/Hour:</strong> 
+                    <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
+                      <span className="font-medium">
+                        ${item.gpu_count ? (item.price_per_hour / item.gpu_count).toFixed(2) : item.price_per_hour?.toFixed(2)}
+                      </span>
+                      <span className="text-gray-500 text-sm">/hour</span>
+                    </div>
+                  </div>
+                  {item.source_url && (
+                    <div className="mt-2">
+                      <strong>Source:</strong>
+                      <a href={item.source_url} 
+                         target="_blank" 
+                         rel="noopener noreferrer" 
+                         onClick={(e) => e.stopPropagation()}
+                         className="ml-2 text-primary hover:text-primary-focus">
+                        {item.source_name}
+                      </a>
+                    </div>
+                  )}
                 </div>
-              </div>
-              {item.source_url && (
-                <div className="mt-2">
-                  <strong>Source:</strong>
-                  <a href={item.source_url} 
-                     target="_blank" 
-                     rel="noopener noreferrer" 
-                     onClick={(e) => e.stopPropagation()}
-                     className="ml-2 text-primary hover:text-primary-focus">
-                    {item.source_name}
-                  </a>
+              ))}
+              {filteredData.length > FILTER_LIMIT && (
+                <div className="text-center p-4">
+                  <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="btn btn-primary btn-sm"
+                  >
+                    {isExpanded ? 'Show Less' : `Show All ${filteredData.length}`}
+                  </button>
                 </div>
               )}
-            </div>
-          ))}
+            </>
+          )}
         </div>
       </div>
     </div>
