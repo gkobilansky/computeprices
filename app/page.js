@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import GPUComparisonTable from '@/components/GPUComparisonTable';
 import ProviderFilters from '@/components/ProviderFilters';
 import GPUInfoCard from '@/components/GPUInfoCard';
+import SponsorCard from '@/components/SponsorCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
 import Superlatives from '@/components/Superlatives';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
@@ -68,6 +69,9 @@ export default async function Home() {
                 </Suspense>
                 <Suspense fallback={<div>Loading GPU info...</div>}>
                   <GPUInfoCard />
+                </Suspense>
+                <Suspense fallback={<div>Loading sponsor info...</div>}>
+                  <SponsorCard />
                 </Suspense>
               </div>
             </div>

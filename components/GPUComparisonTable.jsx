@@ -120,7 +120,7 @@ export default function GPUComparisonTable() {
                   className="px-6 py-4 w-30 text-left cursor-pointer hover:bg-gray-50">
                 Price/Hour <SortIcon column="price_per_hour" />
               </th>
-              <th className="px-6 py-4 w-10">
+              <th className="px-6 py-4 w-24 text-right">
                 Source
               </th>
             </tr>
@@ -155,17 +155,21 @@ export default function GPUComparisonTable() {
                         <span className="text-gray-500 text-sm">/hour</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 flex justify-end">
                       {item.source_url && (
-                        <div className="tooltip" data-tip={item.source_name}>
-                          <a href={item.source_url} target="_blank" rel="noopener noreferrer" 
-                             onClick={(e) => e.stopPropagation()} 
-                             className="text-gray-500 hover:text-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                            </svg>
-                          </a>
+                        <div className="tooltip tooltip-bottom z-50" data-tip={item.source_name === 'Shadeform' ? 'Launch on Shadeform' : item.source_name}>
+                          {item.source_name === 'Shadeform' ? (
+                            <a href={item.source_url} target="_blank" rel="noopener noreferrer" 
+                               onClick={(e) => e.stopPropagation()} 
+                               className="btn btn-xs h-8 px-2 btn-success text-white flex flex-nowrap items-center gap-1 text-sm min-w-10">
+                              <span className="text-base">•</span>Launch
+                            </a>
+                          ) : (
+                            <a href={item.source_url} target="_blank" rel="noopener noreferrer" 
+                               onClick={(e) => e.stopPropagation()} 
+                               className="btn btn-xs h-8 px-2 btn-outline flex items-center gap-1 text-sm">Source
+                            </a>
+                          )}
                         </div>
                       )}
                     </td>
@@ -226,13 +230,23 @@ export default function GPUComparisonTable() {
                   {item.source_url && (
                     <div className="mt-2">
                       <strong>Source:</strong>
-                      <a href={item.source_url} 
-                         target="_blank" 
-                         rel="noopener noreferrer" 
-                         onClick={(e) => e.stopPropagation()}
-                         className="ml-2 text-primary hover:text-primary-focus">
-                        {item.source_name}
-                      </a>
+                      {item.source_name === 'Shadeform' ? (
+                        <a href={item.source_url} 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           onClick={(e) => e.stopPropagation()}
+                           className="ml-2 btn btn-xs h-8 px-3 btn-success text-white w-[150px] flex items-center gap-1 text-sm">
+                          <span className="text-base">•</span>Launch with Shadeform
+                        </a>
+                      ) : (
+                        <a href={item.source_url} 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           onClick={(e) => e.stopPropagation()}
+                           className="ml-2 btn btn-xs h-8 px-3 btn-outline text-white w-[150px] flex items-center gap-1 text-sm">
+                          {item.source_name}
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>
