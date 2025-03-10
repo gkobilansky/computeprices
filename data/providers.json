@@ -845,6 +845,7 @@
   {
     "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
     "name": "Datacrunch",
+    "slug": "datacrunch",
     "description": "DataCrunch.io is a Finnish cloud service provider specializing in AI and machine learning infrastructure. They offer dedicated GPU servers, fully-managed services, and on-demand access to high-performance computing resources, including advanced NVIDIA GPUs like the A100 and H200.",
     "pros": [
       "Wide range of GPU models, including latest NVIDIA H200",
@@ -1083,5 +1084,414 @@
         "Option to benchmark workloads on cutting-edge hardware.",
         "Best-in-class data center infrastructure with reliability and security."
       ]    
+  },
+  {
+    "id": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434",
+    "name": "Crusoe",
+    "slug": "crusoe",
+    "description": "Crusoe Cloud is a cloud computing platform that leverages stranded and wasted energy sources, such as flare gas, to power its data centers, reducing carbon emissions and providing sustainable computing resources. They offer high-performance computing solutions for AI, machine learning, and scientific research, while maintaining a focus on environmental sustainability.",
+    "link": "https://www.crusoe.com/",
+    "docsLink": "https://docs.crusoecloud.com/",
+    "features": [
+      {
+        "title": "Sustainable Computing",
+        "description": "Powered by stranded and wasted energy sources to reduce carbon emissions"
+      },
+      {
+        "title": "Fast Spin Up",
+        "description": "Machines are deployed quickly when they are launched"
+      },
+      {
+        "title": "Persistent Storage",
+        "description": "Disk storage that can be used across multiple instances"
+      },
+      {
+        "title": "SXM Support",
+        "description": "Provides instances with NVIDIA SXM GPU interconnects"
+      },
+      {
+        "title": "SLA Guarantee",
+        "description": "Provider offers an SLA on uptime and performance"
+      }
+    ],
+    "pros": [
+      "Great GPU availability for on-demand use",
+      "Affordable pricing for GPU instances",
+      "Environmentally sustainable approach using stranded energy",
+      "SLA guarantee on uptime and performance",
+      "Lowest market price for A100_80G GPUs",
+      "Fast instance deployment"
+    ],
+    "cons": [
+      "Limited GPU variety (primarily A100, A100_80G, and L40S)",
+      "Regional focus rather than global presence",
+      "Newer player in the cloud GPU market",
+      "Limited GPU interconnect options compared to some competitors"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an account",
+        "description": "Sign up for Crusoe Cloud services through their website"
+      },
+      {
+        "title": "Select GPU instance",
+        "description": "Choose from available GPU types (A100, A100_80G, or L40S)"
+      },
+      {
+        "title": "Configure storage",
+        "description": "Set up persistent storage options for your workloads"
+      },
+      {
+        "title": "Launch instance",
+        "description": "Deploy your instance with fast spin-up times"
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "GPU Instances",
+        "description": "High-performance GPU instances powered by NVIDIA GPUs",
+        "instanceTypes": [
+          {
+            "name": "A100",
+            "description": "40GB NVIDIA A100 GPU instances for AI and ML workloads",
+            "features": [
+              "Limited availability",
+              "Cost-effective pricing",
+              "Suitable for deep learning and HPC workloads"
+            ]
+          },
+          {
+            "name": "A100_80G",
+            "description": "80GB NVIDIA A100 GPU instances for memory-intensive AI workloads",
+            "features": [
+              "High availability",
+              "Lowest market price",
+              "Ideal for large model training and inference"
+            ]
+          },
+          {
+            "name": "L40S",
+            "description": "NVIDIA L40S GPU instances for AI and graphics workloads",
+            "features": [
+              "High availability",
+              "Competitive pricing",
+              "Good balance of performance and cost"
+            ]
+          },
+          {
+            "name": "H200",
+            "description": "Recently added NVIDIA H200 GPU instances for cutting-edge AI workloads",
+            "features": [
+              "On-demand availability",
+              "State-of-the-art performance",
+              "Ideal for large language models and advanced AI research"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Reserved Clusters",
+        "description": "Large-scale reserved GPU clusters for enterprise and research workloads",
+        "features": [
+          "Custom node configurations",
+          "Flexible interconnect options",
+          "Long-term reservation for consistent availability"
+        ]
+      }
+    ],
+    "regions": "Strategically located data centers in low-cost energy areas of the United States",
+    "support": "Documentation, SOC II certified infrastructure",
+    "uniqueSellingPoints": [
+      "Environmentally sustainable cloud computing using stranded energy sources",
+      "Lowest market price for A100_80G GPUs",
+      "Founded in 2018 with $350M Series C funding",
+      "Integration with Shadeform for console and API access",
+      "Focuses on balancing performance, availability, and environmental impact"
+    ]
+  },
+  {
+    "id": "b046d087-96e5-4bd0-9c96-060164cf9a04",
+    "name": "Vultr",
+    "slug": "vultr",
+    "description": "Vultr offers global access to the latest AMD and NVIDIA GPUs for AI/ML, AR/VR, high-performance computing, VDI/CAD, and more, available on demand either as virtual machines or bare metal across 32 worldwide data center regions.",
+    "link": "https://www.vultr.com/products/cloud-gpu/",
+    "docsLink": "https://www.vultr.com/docs/",
+    "features": [
+      {
+        "title": "AMD and NVIDIA GPU Options",
+        "description": "Access to diverse GPU options including AMD Instinct and NVIDIA Tensor Core GPUs"
+      },
+      {
+        "title": "Global Availability",
+        "description": "Deploy GPU resources across 32 cloud data center regions worldwide"
+      },
+      {
+        "title": "Kubernetes Support",
+        "description": "Vultr Kubernetes Engine for GPU-accelerated containerized workloads"
+      },
+      {
+        "title": "Serverless Inference",
+        "description": "Deploy and scale GenAI models quickly with Vultr Serverless Inference"
+      },
+      {
+        "title": "Virtual Machines and Bare Metal",
+        "description": "Choose between GPU-accelerated VMs or dedicated bare metal servers"
+      },
+      {
+        "title": "Global Content Delivery",
+        "description": "Accelerate content delivery across six continents with Vultr CDN"
+      }
+    ],
+    "pros": [
+      "Wide range of AMD and NVIDIA GPU options",
+      "Extensive global network (32 data center regions)",
+      "Both VM and bare metal deployment options",
+      "Kubernetes and containerization support",
+      "NVIDIA Preferred Cloud Partner status",
+      "Simplified driver setup and licensing",
+      "API and Terraform integration"
+    ],
+    "cons": [
+      "Medium GPU availability compared to some specialized providers",
+      "Less established in the GPU market compared to major hyperscalers",
+      "Limited documentation specific to GPU workloads"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an account",
+        "description": "Sign up for a free Vultr account"
+      },
+      {
+        "title": "Select GPU instance",
+        "description": "Choose from AMD or NVIDIA GPU options based on your workload"
+      },
+      {
+        "title": "Choose deployment type",
+        "description": "Select between virtual machine or bare metal deployment"
+      },
+      {
+        "title": "Configure and launch",
+        "description": "Set up networking, storage, and security options before launching"
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "NVIDIA GPU Instances",
+        "description": "Virtual machines and bare metal servers with NVIDIA GPUs",
+        "instanceTypes": [
+          {
+            "name": "NVIDIA GH200 Grace Hopper",
+            "description": "Superchip delivering breakthrough acceleration for large-scale AI, model training, and inference",
+            "features": [
+              "Cutting-edge performance for AI/ML workloads",
+              "Ideal for large language models",
+              "High-speed interconnects"
+            ]
+          },
+          {
+            "name": "NVIDIA H100 & H200",
+            "description": "Tensor Core GPUs for advanced AI, data analytics, and HPC workloads",
+            "features": [
+              "Unprecedented acceleration for AI workloads",
+              "Suitable for complex simulations",
+              "Latest Tensor Core technology"
+            ]
+          },
+          {
+            "name": "NVIDIA A100",
+            "description": "Tensor Core GPU enabling scientific simulation, data analytics, and AI",
+            "features": [
+              "High performance for research applications",
+              "Multi-instance GPU capability",
+              "Versatile for diverse workloads"
+            ]
+          },
+          {
+            "name": "NVIDIA L40S",
+            "description": "Combining AI compute with graphics and media acceleration",
+            "features": [
+              "Balanced performance for AI and graphics",
+              "Suitable for media workloads",
+              "Next-generation data center applications"
+            ]
+          },
+          {
+            "name": "NVIDIA A40",
+            "description": "Professional graphics with powerful compute and AI capabilities",
+            "features": [
+              "Designed for creative and scientific challenges",
+              "Balanced compute and graphics performance",
+              "Professional visualization support"
+            ]
+          },
+          {
+            "name": "NVIDIA A16",
+            "description": "GPU for virtual desktops and workstations",
+            "features": [
+              "Optimized for virtual desktop infrastructure",
+              "Support for remote work solutions",
+              "Efficient multi-user performance"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AMD GPU Instances",
+        "description": "Computing infrastructure powered by AMD Instinct accelerators",
+        "instanceTypes": [
+          {
+            "name": "AMD Instinct MI325X & MI300X",
+            "description": "Setting new standards for powerful and efficient AI and HPC deployments",
+            "features": [
+              "Advanced accelerators for AI workloads",
+              "High-performance computing capabilities",
+              "Energy-efficient design"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Vultr Kubernetes Engine",
+        "description": "Managed Kubernetes service for GPU-accelerated containerized applications",
+        "features": [
+          "GPU-accelerated Kubernetes clusters",
+          "Global deployment options",
+          "Simplified container orchestration",
+          "Support for resource-intensive workloads"
+        ]
+      },
+      {
+        "name": "Vultr Serverless Inference",
+        "description": "Deploy and scale GenAI models efficiently",
+        "features": [
+          "Quick deployment of AI models",
+          "Efficient scaling",
+          "Support for proprietary data or trained models",
+          "Global acceleration"
+        ]
+      }
+    ],
+    "regions": "32 global cloud data center regions across North America, South America, Europe, Asia, Africa, and Australia",
+    "support": "Documentation, community forums, support tickets, and dedicated customer support",
+    "uniqueSellingPoints": [
+      "Partnership with both AMD and NVIDIA",
+      "NVIDIA Preferred Partner status",
+      "Extensive global network of data centers",
+      "Simplified GPU infrastructure setup",
+      "Flexible deployment options (VM or bare metal)",
+      "Integration with Vultr's broader cloud ecosystem"
+    ]
+  },
+  {
+    "id": "5cf897be-8662-4404-9c3b-d4938fb8fa71",
+    "name": "Voltage Park",
+    "slug": "voltage",
+    "description": "Voltage Park is a U.S.-based GPU cloud provider offering scalable bare metal clusters with high availability across six Tier 3+ data centers. Founded in 2023, Voltage Park specializes in providing NVIDIA HGX H100 GPUs for AI and high-performance computing workloads.",
+    "link": "https://www.voltagepark.com/",
+    "docsLink": null,
+    "features": [
+      {
+        "title": "High-Performance Hardware",
+        "description": "NVIDIA HGX H100 GPUs in Dell PowerEdge XE9680 servers with 1TB RAM and v52 CPUs"
+      },
+      {
+        "title": "Tier 3+ Data Centers",
+        "description": "Six U.S.-based data centers with redundancy, availability, and reliability across power, cooling, network, and security"
+      },
+      {
+        "title": "Blazing-Fast Network",
+        "description": "NVIDIA Quantum-2 InfiniBand network with up to 3,200Gbps of aggregate bandwidth for high-speed communication"
+      },
+      {
+        "title": "Bare Metal Access",
+        "description": "Direct hardware access for maximum performance without virtualization overhead"
+      },
+      {
+        "title": "Shadeform Integration",
+        "description": "Integrated with Shadeform for console and API access"
+      },
+      {
+        "title": "Advanced Security",
+        "description": "Top-tier firewalls and comprehensive security protocols including encryption, access controls, and regular audits"
+      }
+    ],
+    "pros": [
+      "Great GPU availability for on-demand use",
+      "Transparent pricing with no hidden costs",
+      "Fast deployment (spin up nodes in 15 minutes)",
+      "Bare metal access for maximum performance",
+      "Exceptional customer service and support",
+      "NVIDIA Cloud Partner status",
+      "Scalable clusters from 64 to 8,176 GPUs"
+    ],
+    "cons": [
+      "U.S.-only regions (limited global presence)",
+      "Low GPU variety (primarily H100s)",
+      "No persistent storage support",
+      "Relatively new provider (founded 2023)"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an account",
+        "description": "Sign up for Voltage Park services through their website"
+      },
+      {
+        "title": "Choose deployment option",
+        "description": "Select between on-demand access or long-term reservation"
+      },
+      {
+        "title": "Configure your cluster",
+        "description": "Specify the number of GPUs and networking requirements"
+      },
+      {
+        "title": "Deploy and access",
+        "description": "Launch your cluster and access via SSH or preferred tools"
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "On-Demand GPU Access",
+        "description": "Self-serve GPU instances available in minutes with no long-term contracts",
+        "instanceTypes": [
+          {
+            "name": "NVIDIA HGX H100",
+            "description": "High-performance GPU instances for AI and ML workloads",
+            "features": [
+              "Spin up in 15 minutes",
+              "No long-term commitment required",
+              "Ideal for bursts and experimentation"
+            ]
+          },
+          {
+            "name": "NVIDIA H200",
+            "description": "Latest generation H200 GPUs available on-demand",
+            "features": [
+              "Recently added to their offering",
+              "High-performance for cutting-edge AI workloads",
+              "Limited availability"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Reserved GPU Clusters",
+        "description": "Long-term GPU reservations with favorable payment terms",
+        "features": [
+          "12+ month contracts",
+          "Friendly payment terms",
+          "Priority access to resources",
+          "Ideal for sustained, high-priority projects"
+        ]
+      }
+    ],
+    "regions": "Six Tier 3+ designed data centers across the United States",
+    "support": "Top-tier support in partnership with Penguin, helping customers set up, optimize, and scale resources effectively",
+    "uniqueSellingPoints": [
+      "24,000 NVIDIA H100 Tensor Core GPUs in their fleet",
+      "InfiniBand clusters supporting up to 8,176 GPUs",
+      "3200 Gbps of aggregate bandwidth with NVIDIA Quantum-2 InfiniBand",
+      "SOC II certified infrastructure",
+      "Founded by Jed McCaleb with $500M in funding"
+    ]
   }
 ]
