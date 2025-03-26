@@ -12,7 +12,7 @@
 },
 {
     "name": "crusoe",
-    "providerId": ""
+    "providerId": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434"
 },
 {
     "name": "digitalocean",
@@ -44,7 +44,7 @@
 },
 {
     "name": "lambdalabs",
-    "providerId": ""
+    "providerId": "8b1f3feb-2c2f-4983-a451-2564dccc8917"
 },
 {
     "name": "latitude",
@@ -68,9 +68,9 @@
 },
 {
     "name": "voltagepark",
-    "providerId": ""
+    "providerId": "5cf897be-8662-4404-9c3b-d4938fb8fa71"
 },
 {
     "name": "vultr",
-    "providerId": ""
+    "providerId": "b046d087-96e5-4bd0-9c96-060164cf9a04"
 }]

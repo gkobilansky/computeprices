@@ -59,16 +59,11 @@ export async function GET(request: Request) {
     console.log('🔍 Starting Shadeform GPU API fetch...');
     
     const apiKey = process.env.SHADEFORM_API_KEY;
-    console.log('API Key exists:', !!apiKey);
-    console.log('API Key prefix:', apiKey?.substring(0, 4));
-
     const response = await fetch('https://api.shadeform.ai/v1/instances/types', {
       headers: {
         'Authorization': `Bearer ${apiKey}`
       }
     });
-
-    console.log('API response status:', response.status);
 
     if (!response.ok) {
       const responseText = await response.text();
@@ -76,8 +71,7 @@ export async function GET(request: Request) {
     }
 
     const responseData = await response.json() as ShadeformResponse;
-    console.log('API response data:', JSON.stringify(responseData, null, 2));
-    
+        
     // Group instances by cloud provider
     const instancesByProvider = responseData.instance_types.reduce((acc, instance) => {
       const cloud = instance.cloud;
