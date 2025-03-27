@@ -34,12 +34,6 @@ interface LambdaResponse {
 export async function GET(request: Request) {
   try {
     console.log('🔍 Starting Lambda Labs GPU API fetch...');
-    
-    // // Verify the request is from Vercel Cron
-    // const authHeader = request.headers.get('authorization');
-    // if (authHeader !== `Bearer ${process.env.CRON_SECRET_KEY}`) {
-    //   return new NextResponse('Unauthorized', { status: 401 });
-    // }
 
     // Debug: Check if API key exists (don't log the full key)
     const apiKey = process.env.LAMBDA_LABS_API_KEY;
