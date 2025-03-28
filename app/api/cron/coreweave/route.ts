@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import puppeteerCore from 'puppeteer-core';
-import puppeteer from 'puppeteer';
 import chromium from '@sparticuz/chromium';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
@@ -21,6 +20,12 @@ export async function GET(request: Request) {
   let browser;
   
   try {
+    // Verify the request is authorized
+    const authHeader = request.headers.get('authorization');
+    if (!process.env.CRON_SECRET_KEY || authHeader !== `Bearer ${process.env.CRON_SECRET_KEY}`) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
     console.log('🔍 Starting CoreWeave GPU scraper...');
 
     browser = await puppeteerCore.launch({
