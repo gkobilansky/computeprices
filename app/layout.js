@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import NewsletterSignup from '@/components/NewsletterSignup';
 import { siteConfig, defaultMetadata, generateOpenGraph, generateTwitter } from './metadata';
 
 const inter = Inter({ subsets: ["latin"] });
