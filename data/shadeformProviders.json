@@ -48,11 +48,11 @@
 },
 {
     "name": "latitude",
-    "providerId": ""
+    "providerId": "e2d056a3-139e-4a9b-9651-d6677bf6932c"
 },
 {
     "name": "massedcompute",
-    "providerId": ""
+    "providerId": "e2d056a3-139e-4a9b-9651-d6677bf6932c"
 },
 {
     "name": "nebius",
@@ -69,6 +69,14 @@
 {
     "name": "voltagepark",
     "providerId": "5cf897be-8662-4404-9c3b-d4938fb8fa71"
+},
+{
+    "name": "whitefiber",
+    "providerId": ""
+},
+{
+    "name": "denvr",
+    "providerId": ""
 },
 {
     "name": "vultr",

@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import PriceComponent from './PriceComponent';
 import providers from '@/data/providers.json';
+import NewsletterSignup from './NewsletterSignup';
 
 // Initialize Supabase client
 const supabase = createClient(
@@ -51,6 +52,7 @@ export default function Footer() {
                 lansky.tech
               </a>
             </p>
+            <NewsletterSignup />
           </div>
 
           {/* Quick Links */}
