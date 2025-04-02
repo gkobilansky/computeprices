@@ -5,11 +5,13 @@ import MLResources from '@/components/learn/MLResources';
 import OngoingLearning from '@/components/learn/OngoingLearning';
 import LearningOverview from '@/components/learn/LearningOverview';
 import VideoCarousel, { VideoType } from '@/components/learn/VideoCarousel';
+import { generateMetadata } from '@/app/metadata';
 
-export const metadata = {
+export const metadata = generateMetadata({
   title: 'Machine Learning and AI - Learning Path',
   description: 'A comprehensive guide on Machine Learning and AI, designed for practical application with GPU computing. Start with foundational concepts, then build and deploy advanced models.',
-};
+  path: '/learn'
+});
 
 const ongoingLearningData = {
   stayUpdated: [
