@@ -77,7 +77,7 @@ export default function GPUGuide() {
               <li className="mb-3">
                 <strong>Top Tier:</strong> 
                 <p className="ml-5">
-                  <Link className="text-blue-500 hover:underline" href="/gpus/h200">H200</Link> - Delivers maximum performance but has limited availability, perfect for cutting-edge research.
+                  <Link className="text-blue-500 hover:underline" href="/gpus/b200">B200</Link> - Delivers maximum performance but has limited availability, perfect for cutting-edge research.
                 </p>
               </li>
             </ul>

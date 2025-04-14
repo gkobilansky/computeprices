@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation';
 import { getGPUBySlug, generateGPUMetadata, getAllGPUSlugs } from '@/lib/utils/gpu';
 import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
-import Image from 'next/image';
 import Link from 'next/link';
 import GPUPricingTable from '@/components/GPUPricingTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
+import GPUImage from '@/components/GPUImage';
 import { formatDate, formatPrice } from '@/lib/utils';
+import DataTransparency from '@/components/DataTransparency';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -65,7 +66,10 @@ function SpecRow({ label, value, emphasize = false }) {
 }
 
 function PerformanceBar({ label, value, maxValue, tier = 'mid' }) {
+  if (!value) return null;
+
   const percentage = (value / maxValue) * 100;
+  const cappedPercentage = Math.min(percentage, 100);
 
   const tierColors = {
     entry: 'bg-blue-500',
@@ -83,7 +87,7 @@ function PerformanceBar({ label, value, maxValue, tier = 'mid' }) {
       <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div
           className={`h-2.5 rounded-full ${tierColors[tier] || tierColors.mid}`}
-          style={{ width: `${percentage}%` }}
+          style={{ width: `${cappedPercentage}%` }}
         ></div>
       </div>
     </div>
@@ -131,7 +135,7 @@ export default async function GPUPage({ params }) {
               {gpu.description || `${gpu.name} GPU for cloud computing, machine learning, and AI workloads`}
             </p>
 
-            <div className="stats shadow mb-6">
+            <div className="stats bg-base-100 shadow-sm mb-6">
               <div className="stat">
                 <div className="stat-title">Starting Price</div>
                 <div className="stat-value text-primary">
@@ -151,113 +155,75 @@ export default async function GPUPage({ params }) {
             </div>
           </div>
 
-          <div className="flex items-center justify-center bg-base-200 rounded-xl p-8">
-            {gpu.image_url ? (
-              <Image
-                src={gpu.image_url}
-                alt={`${gpu.name} GPU`}
-                width={400}
-                height={300}
-                className="object-contain max-h-80"
-                priority
-              />
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                </svg>
-                <p className="text-gray-500 mt-4">{gpu.name}</p>
-              </div>
-            )}
+          <div className="bg-gradient-to-b from-base-200 to-base-100 rounded-xl">
+            <GPUImage slug={slug} name={gpu.name} />
           </div>
         </section>
 
         {/* Key Specifications */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Key Specifications</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <SpecCard
-              title="Memory"
-              value={`${gpu.vram}GB`}
-              unit="VRAM"
-              icon="💾"
-            />
-            <SpecCard
-              title="Architecture"
-              value={gpu.architecture}
-              icon="🏗️"
-            />
-            <SpecCard
-              title="Compute Units"
-              value={gpu.compute_units || 'N/A'}
-              icon="⚙️"
-            />
-            <SpecCard
-              title="Tensor Cores"
-              value={gpu.tensor_cores || 'N/A'}
-              icon="🧮"
-            />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="bg-base-100 p-6 rounded-lg border border-base-200">
+              <h3 className="text-gray-600 text-sm flex items-center gap-2 mb-2">
+                <span className="text-primary">💾</span>
+                Memory
+              </h3>
+              <p className="text-2xl font-bold">
+                {gpu.vram}
+                <span className="text-sm font-normal text-gray-500 ml-1">GB VRAM</span>
+              </p>
+            </div>
+            <div className="bg-base-100 p-6 rounded-lg border border-base-200">
+              <h3 className="text-gray-600 text-sm flex items-center gap-2 mb-2">
+                <span className="text-primary">🏗️</span>
+                Architecture
+              </h3>
+              <p className="text-2xl font-bold">{gpu.architecture}</p>
+            </div>
+            <div className="bg-base-100 p-6 rounded-lg border border-base-200">
+              <h3 className="text-gray-600 text-sm flex items-center gap-2 mb-2">
+                <span className="text-primary">⚙️</span>
+                Compute Units
+              </h3>
+              <p className="text-2xl font-bold">{gpu.compute_units || 'N/A'}</p>
+            </div>
+            <div className="bg-base-100 p-6 rounded-lg border border-base-200">
+              <h3 className="text-gray-600 text-sm flex items-center gap-2 mb-2">
+                <span className="text-primary">🧮</span>
+                Tensor Cores
+              </h3>
+              <p className="text-2xl font-bold">{gpu.tensor_cores || 'N/A'}</p>
+            </div>
           </div>
         </section>
 
-        {/* Detailed Specifications */}
+        {/* Technical Specifications */}
         <section id="specs" className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Technical Specifications</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h3 className="card-title text-xl mb-4">Hardware Details</h3>
-                <div className="space-y-1">
-                  <SpecRow label="Manufacturer" value={gpu.manufacturer} />
-                  <SpecRow label="Architecture" value={gpu.architecture} emphasize={true} />
-                  <SpecRow label="CUDA Cores" value={gpu.cuda_cores || 'N/A'} />
-                  <SpecRow label="Tensor Cores" value={gpu.tensor_cores || 'N/A'} />
-                  <SpecRow label="RT Cores" value={gpu.rt_cores || 'N/A'} />
-                  <SpecRow label="Compute Units" value={gpu.compute_units || 'N/A'} />
-                  <SpecRow label="Generation" value={gpu.generation ? `Gen ${gpu.generation}` : 'N/A'} />
-                </div>
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold mb-4">Hardware Details</h3>
+              <div className="space-y-4 divide-y divide-base-200">
+                <SpecRow label="Manufacturer" value={gpu.manufacturer} />
+                <SpecRow label="Architecture" value={gpu.architecture} emphasize={true} />
+                <SpecRow label="CUDA Cores" value={gpu.cuda_cores || 'N/A'} />
+                <SpecRow label="Tensor Cores" value={gpu.tensor_cores || 'N/A'} />
+                <SpecRow label="RT Cores" value={gpu.rt_cores || 'N/A'} />
+                <SpecRow label="Compute Units" value={gpu.compute_units || 'N/A'} />
+                <SpecRow label="Generation" value={gpu.generation ? `Gen ${gpu.generation}` : 'N/A'} />
               </div>
             </div>
 
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h3 className="card-title text-xl mb-4">Memory & Performance</h3>
-                <div className="space-y-1">
-                  <SpecRow label="VRAM" value={`${gpu.vram}GB`} emphasize={true} />
-                  <SpecRow label="Memory Interface" value={gpu.memory_interface_bit ? `${gpu.memory_interface_bit}-bit` : 'N/A'} />
-                  <SpecRow label="Memory Bandwidth" value={gpu.memory_bandwidth_gbps ? `${gpu.memory_bandwidth_gbps} GB/s` : 'N/A'} />
-                  <SpecRow label="FP32 Performance" value={gpu.fp32_performance_tflops ? `${gpu.fp32_performance_tflops} TFLOPS` : 'N/A'} />
-                  <SpecRow label="FP16 Performance" value={gpu.fp16_performance_tflops ? `${gpu.fp16_performance_tflops} TFLOPS` : 'N/A'} />
-                  <SpecRow label="INT8 Performance" value={gpu.int8_performance_tops ? `${gpu.int8_performance_tops} TOPS` : 'N/A'} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mt-8">
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h3 className="card-title text-xl mb-4">Power & Physical</h3>
-                <div className="space-y-1">
-                  <SpecRow label="TDP" value={gpu.tdp_watt ? `${gpu.tdp_watt}W` : 'N/A'} />
-                  <SpecRow label="Max Power" value={gpu.max_power_watt ? `${gpu.max_power_watt}W` : 'N/A'} />
-                  <SpecRow label="Manufacturing Process" value={gpu.manufacturing_process_nm ? `${gpu.manufacturing_process_nm}nm` : 'N/A'} />
-                  <SpecRow label="Server GPU" value={gpu.server_gpu ? 'Yes' : 'No'} />
-                  <SpecRow label="Cloud Compatible" value={gpu.cloud_compatible ? 'Yes' : 'No'} />
-                </div>
-              </div>
-            </div>
-
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h3 className="card-title text-xl mb-4">Market Information</h3>
-                <div className="space-y-1">
-                  <SpecRow label="Release Date" value={gpu.release_date ? formatDate(gpu.release_date) : 'N/A'} />
-                  <SpecRow label="End of Life" value={gpu.end_of_life_date ? formatDate(gpu.end_of_life_date) : 'N/A'} />
-                  <SpecRow label="MSRP" value={gpu.msrp_usd ? `$${gpu.msrp_usd.toLocaleString()}` : 'N/A'} />
-                  <SpecRow label="Performance Tier" value={gpu.performance_tier ? gpu.performance_tier.charAt(0).toUpperCase() + gpu.performance_tier.slice(1) : 'N/A'} />
-                  <SpecRow label="Cloud Availability" value={`Available on ${gpuPrices.length} providers`} />
-                </div>
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold mb-4">Memory & Performance</h3>
+              <div className="space-y-4 divide-y divide-base-200">
+                <SpecRow label="VRAM" value={`${gpu.vram}GB`} emphasize={true} />
+                <SpecRow label="Memory Interface" value={gpu.memory_interface_bit ? `${gpu.memory_interface_bit}-bit` : 'N/A'} />
+                <SpecRow label="Memory Bandwidth" value={gpu.memory_bandwidth_gbps ? `${gpu.memory_bandwidth_gbps} GB/s` : 'N/A'} />
+                <SpecRow label="FP32 Performance" value={gpu.fp32_performance_tflops ? `${gpu.fp32_performance_tflops} TFLOPS` : 'N/A'} />
+                <SpecRow label="FP16 Performance" value={gpu.fp16_performance_tflops ? `${gpu.fp16_performance_tflops} TFLOPS` : 'N/A'} />
+                <SpecRow label="INT8 Performance" value={gpu.int8_performance_tops ? `${gpu.int8_performance_tops} TOPS` : 'N/A'} />
               </div>
             </div>
           </div>
@@ -276,7 +242,7 @@ export default async function GPUPage({ params }) {
                       <PerformanceBar
                         label="CUDA Cores"
                         value={gpu.cuda_cores}
-                        maxValue={20000}
+                        maxValue={25000}
                         tier={gpu.performance_tier || 'mid'}
                       />
                     )}
@@ -284,7 +250,7 @@ export default async function GPUPage({ params }) {
                       <PerformanceBar
                         label="Tensor Cores"
                         value={gpu.tensor_cores}
-                        maxValue={1000}
+                        maxValue={600}
                         tier={gpu.performance_tier || 'mid'}
                       />
                     )}
@@ -292,7 +258,7 @@ export default async function GPUPage({ params }) {
                       <PerformanceBar
                         label="RT Cores"
                         value={gpu.rt_cores}
-                        maxValue={100}
+                        maxValue={150}
                         tier={gpu.performance_tier || 'mid'}
                       />
                     )}
@@ -304,7 +270,7 @@ export default async function GPUPage({ params }) {
                       <PerformanceBar
                         label="FP32 (TFLOPS)"
                         value={gpu.fp32_performance_tflops}
-                        maxValue={100}
+                        maxValue={500}
                         tier={gpu.performance_tier || 'mid'}
                       />
                     )}
@@ -312,7 +278,7 @@ export default async function GPUPage({ params }) {
                       <PerformanceBar
                         label="FP16 (TFLOPS)"
                         value={gpu.fp16_performance_tflops}
-                        maxValue={200}
+                        maxValue={1000}
                         tier={gpu.performance_tier || 'mid'}
                       />
                     )}
@@ -320,7 +286,7 @@ export default async function GPUPage({ params }) {
                       <PerformanceBar
                         label="INT8 (TOPS)"
                         value={gpu.int8_performance_tops}
-                        maxValue={400}
+                        maxValue={2000}
                         tier={gpu.performance_tier || 'mid'}
                       />
                     )}
@@ -445,25 +411,77 @@ export default async function GPUPage({ params }) {
           </section>
         )}
 
-        {/* Pricing Comparison */}
-        <section id="pricing" className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Current Pricing</h2>
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <GPUPricingTable prices={gpuPrices} />
-            </div>
-          </div>
-          <div className="mt-4 text-sm text-gray-500">
-            <p>Prices are updated regularly. Last updated: {new Date().toLocaleDateString()}</p>
-          </div>
-        </section>
-
         {/* Use Cases */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Common Use Cases</h2>
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <p className="text-gray-600">{gpu.use_cases}</p>
+          <div className="bg-base-100 rounded-lg border border-base-200 p-6">
+            <div className="prose max-w-none">
+              <p className="text-gray-600">{gpu.use_cases || `The ${gpu.name} is commonly used in various compute-intensive applications.`}</p>
+
+              <div className="mt-6 grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Machine Learning & AI</h3>
+                  <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                    <li>Training large language models and transformers</li>
+                    <li>Computer vision and image processing</li>
+                    <li>Deep learning model development</li>
+                    <li>High-performance inference workloads</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Graphics & Compute</h3>
+                  <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                    <li>3D rendering and visualization</li>
+                    <li>Scientific simulations</li>
+                    <li>Data center graphics virtualization</li>
+                    <li>High-performance computing (HPC)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Market Context */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Market Context</h2>
+          <div className="bg-gradient-to-br from-base-100 to-base-200 rounded-lg p-6">
+            <div className="prose max-w-none">
+              <p className="text-gray-600">
+                The {gpu.name} sits within {gpu.manufacturer}'s {gpu.architecture} architecture lineup,
+                {gpu.performance_tier ? ` positioned in the ${gpu.performance_tier} performance tier` : ''}.
+                {gpu.server_gpu ? " It's designed specifically for data center and enterprise use." : ""}
+              </p>
+
+              <div className="mt-6 flex gap-4 flex-wrap">
+                <div className="bg-base-100 rounded-lg p-4 flex-1 min-w-[250px]">
+                  <h3 className="font-semibold mb-2">Cloud Availability</h3>
+                  <p className="text-gray-600">
+                    Available across {gpuPrices.length} cloud providers with prices ranging from {lowestPrice ? formatPrice(lowestPrice.price_per_hour) : 'N/A'}/hr.
+                    Pricing and availability may vary by region and provider.
+                  </p>
+                </div>
+
+                <div className="bg-base-100 rounded-lg p-4 flex-1 min-w-[250px]">
+                  <h3 className="font-semibold mb-2">Market Position</h3>
+                  <p className="text-gray-600">
+                    {gpu.release_date ? `Released in ${new Date(gpu.release_date).getFullYear()}, ` : ''}
+                    this GPU {gpu.msrp_usd ? `launched at $${gpu.msrp_usd.toLocaleString()}` : 'is positioned'} for
+                    {gpu.server_gpu ? ' enterprise and data center' : ' professional'} workloads.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing Comparison */}
+        <section id="pricing" className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Current Pricing</h2>
+          <div className="bg-base-100 rounded-lg border border-base-200 p-6">
+            <GPUPricingTable prices={gpuPrices} />
+            <div className="mt-4 text-sm text-gray-500">
+              <p>Prices are updated regularly. Last updated: {new Date().toLocaleDateString()}</p>
             </div>
           </div>
         </section>
@@ -494,6 +512,9 @@ export default async function GPUPage({ params }) {
             </div>
           </section>
         )}
+
+        {/* Data Transparency */}
+        <DataTransparency />
 
         {/* FAQ Schema */}
         <script
