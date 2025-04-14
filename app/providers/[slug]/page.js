@@ -4,6 +4,8 @@ import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
 import Image from 'next/image';
+import DataTransparency from '@/components/DataTransparency';
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const provider = await getProviderBySlug(slug);
@@ -184,6 +186,9 @@ export default async function ProviderPage({ params }) {
           </div>
         </div>
       </section>
+
+      {/* Data Transparency */}
+      <DataTransparency />
 
       {/* FAQ Schema */}
       <script

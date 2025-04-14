@@ -61,16 +61,16 @@ const Superlatives = () => {
   };
 
   const handleTopGPUClick = () => {
-    const topGPUModel = gpuData?.find(item => item.gpu_model_name === "H200");
+    const topGPUModel = gpuData?.find(item => item.gpu_model_name === "B200");
     if (topGPUModel) {
       setSelectedProvider(null);
-      setSelectedGPU({ id: topGPUModel.gpu_model_id, name: "NVIDIA H200" });
+      setSelectedGPU({ id: topGPUModel.gpu_model_id, name: "NVIDIA B200" });
     }
   };
 
   const cheapest = getCheapestCombo();
   const mostPopular = getMostPopularGPU();
-  const topGPU = "NVIDIA H200"; // Hardcoded as requested
+  const topGPU = "NVIDIA B200"; // Hardcoded as requested
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
