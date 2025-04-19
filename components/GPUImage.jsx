@@ -18,12 +18,12 @@ export default function GPUImage({ slug, name }) {
     }
 
     return (
-        <div className="relative w-full min-h-[400px] flex items-center justify-center">
+        <div className="relative w-full aspect-video flex items-center justify-center">
             <Image
-                src={`/images/gpus/${slug}.jpg`}
+                src={`/images/gpus/${slug}.webp`}
                 alt={`${name} GPU`}
                 fill
-                sizes="(max-width: 768px) 100vw, 600px"
+                sizes="(max-width: 768px) 80vw, 600px"
                 className="object-contain"
                 priority
                 onError={() => setShowFallback(true)}

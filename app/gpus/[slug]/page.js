@@ -561,7 +561,7 @@ export default async function GPUPage({ params }) {
               "@context": "https://schema.org",
               "@type": "Product",
               "name": gpu.name,
-              "image": gpu.image_url || `/og-image.png`,
+              "image": `/images/gpus/${gpu.slug}.webp` || `/og-image.png`,
               "description": gpu.description || `${gpu.name} GPU for cloud computing, machine learning, and AI workloads`,
               "brand": {
                 "@type": "Brand",
