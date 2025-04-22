@@ -1,17 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import PriceComponent from './PriceComponent';
 import providers from '@/data/providers.json';
 import NewsletterSignup from './NewsletterSignup';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
 
 export default function Footer() {
   const [gpuModels, setGpuModels] = useState([]);

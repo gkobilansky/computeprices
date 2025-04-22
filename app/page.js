@@ -54,9 +54,7 @@ export default async function Home() {
             <div className="mt-6 grid grid-cols-12 gap-6">
               {/* Main Table Section */}
               <div className="col-span-12 lg:col-span-9">
-                <Suspense fallback={<div>Loading comparison table...</div>}>
-                  <GPUComparisonTable />
-                </Suspense>
+                <GPUComparisonTable />
               </div>
 
               {/* Side Info Section */}

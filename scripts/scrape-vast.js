@@ -46,7 +46,7 @@ async function scrapeVastGPUs(dryRun = false) {
 
         const price = parseFloat(cells[2].textContent.replace('$', ''));
 
-        return { name, price, source_name: 'Vast.ai', source_url: 'https://vast.ai/pricing' };
+        return { name, price, source_name: 'Vast.ai', source_url: 'https://cloud.vast.ai/?ref_id=236521' };
       }).filter(row => row && row.price !== null);
     });
 
