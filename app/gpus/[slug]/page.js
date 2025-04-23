@@ -516,43 +516,6 @@ export default async function GPUPage({ params }) {
         {/* Data Transparency */}
         <DataTransparency />
 
-        {/* FAQ Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": `What is the VRAM capacity of ${gpu.name}?`,
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": `The ${gpu.name} comes with ${gpu.vram}GB of VRAM (Video RAM).`
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": `Where can I rent ${gpu.name} GPUs?`,
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": `${gpu.name} GPUs are available from multiple cloud providers. Compare their current prices and specifications on this page.`
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": `What are common use cases for ${gpu.name}?`,
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": gpu.use_cases || `${gpu.name} GPUs are commonly used for AI training, machine learning, deep learning, and high-performance computing workloads.`
-                  }
-                }
-              ]
-            })
-          }}
-        />
-
         {/* Product Schema */}
         <script
           type="application/ld+json"
@@ -577,6 +540,74 @@ export default async function GPUPage({ params }) {
                   "name": price.provider_name
                 }
               }))
+            })
+          }}
+        />
+
+        {/* BreadcrumbList Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://computeprices.com"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "GPUs",
+                  "item": "https://computeprices.com/gpus"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": gpu.name,
+                  "item": `https://computeprices.com/gpus/${gpu.slug}`
+                }
+              ]
+            })
+          }}
+        />
+
+        {/* FAQ Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": `What's the cheapest ${gpu.name} price?`,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `The cheapest ${gpu.name} price is currently $${Math.min(...gpuPrices.map(p => p.price_per_hour)).toFixed(2)}/hour from ${gpuPrices.find(p => p.price_per_hour === Math.min(...gpuPrices.map(p => p.price_per_hour))).provider_name}. Prices are updated daily.`
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": `Can I reserve ${gpu.name} instances for lower rates?`,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `Yes, many providers offer reserved instances for ${gpu.name} at discounted rates. Reserved instances typically offer 30-75% savings compared to on-demand pricing. Check the pricing table above for specific provider offerings.`
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": `What workloads is ${gpu.name} best suited for?`,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `${gpu.name} is ideal for ${gpu.use_cases || 'AI training, machine learning, deep learning, and high-performance computing workloads'}. Its ${gpu.vram}GB VRAM and ${gpu.architecture} architecture make it particularly well-suited for large model training and inference.`
+                  }
+                }
+              ]
             })
           }}
         />

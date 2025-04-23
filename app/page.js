@@ -9,8 +9,8 @@ import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
 import { generateMetadata } from './metadata';
 
-const HOME_TITLE = 'Cloud GPU Price Comparison | Find the Best AI GPU Deals';
-const HOME_DESCRIPTION = 'Compare cloud GPU prices across major providers like AWS, Google Cloud, and Azure. Find the most cost-effective GPUs for machine learning and AI workloads.';
+const HOME_TITLE = 'Cloud GPU Price Comparison: Lambda, Coreweave, AWS & More | ComputePrices.com';
+const HOME_DESCRIPTION = 'Compare cloud GPU prices across 11+ providers. Find the cheapest H100, A100, and L40S rates for AI training and inference. Save up to 80% on cloud GPU costs.';
 
 export const metadata = generateMetadata({
   title: HOME_TITLE,
@@ -54,9 +54,7 @@ export default async function Home() {
             <div className="mt-6 grid grid-cols-12 gap-6">
               {/* Main Table Section */}
               <div className="col-span-12 lg:col-span-9">
-                <Suspense fallback={<div>Loading comparison table...</div>}>
-                  <GPUComparisonTable />
-                </Suspense>
+                <GPUComparisonTable />
               </div>
 
               {/* Side Info Section */}
