@@ -5,22 +5,34 @@ import { useState } from 'react';
 export default function NewsletterSignup() {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState('idle'); // idle, loading, success, error
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus('loading');
-        setError('');
+        setMessage('');
 
-        // Here you would typically send this to your API endpoint
-        // For now, we'll just simulate a successful signup
         try {
-            await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API call
+            const response = await fetch('/api/newsletter/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to sign up');
+            }
+
             setStatus('success');
+            setMessage(data.message || 'Thanks for joining!');
             setEmail('');
         } catch (err) {
             setStatus('error');
-            setError('Something went wrong. Please try again.');
+            setMessage(err.message || 'Something went wrong. Please try again.');
         }
     };
 
@@ -50,12 +62,12 @@ export default function NewsletterSignup() {
                     {status === 'success' ? 'Joined!' : 'Join'}
                 </button>
             </form>
-            {error && (
-                <p className="mt-2 text-error text-sm">{error}</p>
+            {status === 'error' && (
+                <p className="mt-2 text-error text-sm">{message}</p>
             )}
             {status === 'success' && (
-                <p className="mt-2 text-success text-sm">Thanks for joining!</p>
+                <p className="mt-2 text-success text-sm">{message}</p>
             )}
         </div>
     );
-} 
+}
