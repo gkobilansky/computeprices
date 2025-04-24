@@ -41,7 +41,7 @@ Market data:
 - msrp_usd: Integer
 - server_gpu: Boolean
 - cloud_compatible: Boolean
-- performance_tier: Enum ('entry', 'mid', 'high', 'ultra')
+- performance_tier: Enum ('entry', 'mid', 'high', 'ultra') - Required field with check constraint
 - generation: Integer
 - release_date, end_of_life_date: Date
 
@@ -123,6 +123,7 @@ Stores user information for newsletter subscribers and future user data:
 - Each provider has a dedicated scraper in `/app/api/cron/[provider]/route.ts`
 - Scrapers run on a schedule and update the prices table
 - Newsletter signups are captured in the users table via the `/api/newsletter/signup` endpoint
+- GPU model data can be updated via the `scripts/upsert-gpu-models.js` script (supports validation, data type conversion, and performance tier inference)
 
 ### Data Retrieval Functions
 - `fetchGPUModels()`: Gets GPU information, optionally filtered by ID
