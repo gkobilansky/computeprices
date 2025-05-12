@@ -44,9 +44,9 @@ async function scrapeVastGPUs(dryRun = false) {
           .trim()
           .toUpperCase();
 
-        const price = parseFloat(cells[1].textContent.replace('$', ''));
+        const price = parseFloat(cells[2].textContent.replace('$', ''));
 
-        return { name, price, source_name: 'Vast.ai', source_url: 'https://vast.ai/pricing' };
+        return { name, price, source_name: 'Vast.ai', source_url: 'https://cloud.vast.ai/?ref_id=236521' };
       }).filter(row => row && row.price !== null);
     });
 
@@ -110,7 +110,7 @@ async function scrapeVastGPUs(dryRun = false) {
           gpu_model_id: matchingModel.id,
           price_per_hour: gpu.price,
           source_name: 'Vast.ai',
-          source_url: 'https://vast.ai/pricing'
+          source_url: 'https://cloud.vast.ai/?ref_id=236521'
         })
         .select()
         .single();

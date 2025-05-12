@@ -71,13 +71,13 @@ export default function GPUGuide() {
               <li className="mb-3">
                 <strong>Enterprise:</strong> 
                 <p className="ml-5">
-                  <Link className="text-blue-500 hover:underline" href="/gpus/a100">A100</Link> - Known for high performance and wide availability, suitable for enterprise-level tasks.
+                  <Link className="text-blue-500 hover:underline" href="/gpus/a100pcie">A100</Link> - Known for high performance and wide availability, suitable for enterprise-level tasks.
                 </p>
               </li>
               <li className="mb-3">
                 <strong>Top Tier:</strong> 
                 <p className="ml-5">
-                  <Link className="text-blue-500 hover:underline" href="/gpus/h200">H200</Link> - Delivers maximum performance but has limited availability, perfect for cutting-edge research.
+                  <Link className="text-blue-500 hover:underline" href="/gpus/b200">B200</Link> - Delivers maximum performance but has limited availability, perfect for cutting-edge research.
                 </p>
               </li>
             </ul>

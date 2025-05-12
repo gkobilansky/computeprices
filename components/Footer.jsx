@@ -1,16 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { createClient } from '@supabase/supabase-js';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import PriceComponent from './PriceComponent';
 import providers from '@/data/providers.json';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import NewsletterSignup from './NewsletterSignup';
 
 export default function Footer() {
   const [gpuModels, setGpuModels] = useState([]);
@@ -50,6 +46,10 @@ export default function Footer() {
               >
                 lansky.tech
               </a>
+            </p>
+            <NewsletterSignup />
+            <p className="text-sm">
+              <a href="https://startupfa.me/s/compute-prices?utm_source=computeprices.com" target="_blank"><Image src="/featured-badge-small.webp" alt="Featured on Startup Fame" width="224" height="36" /></a>
             </p>
           </div>
 

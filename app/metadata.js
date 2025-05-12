@@ -24,8 +24,26 @@ export const defaultMetadata = {
   },
   verification: {
     google: 'your-google-verification-code',
+  },
+  // Add default alternates for canonical URLs
+  alternates: {
+    canonical: siteConfig.url
   }
 };
+
+// Helper function to generate metadata with canonical URL
+export function generateMetadata({ title, description, path = '' }) {
+  return {
+    ...defaultMetadata,
+    title,
+    description,
+    alternates: {
+      canonical: `${siteConfig.url}${path}`
+    },
+    openGraph: generateOpenGraph({ title, description, path }),
+    twitter: generateTwitter({ title, description })
+  };
+}
 
 // Helper function to generate OpenGraph metadata
 export function generateOpenGraph({ title, description, path = '', images = ['/og-image.png'] }) {

@@ -4,6 +4,8 @@ import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
 import Image from 'next/image';
+import DataTransparency from '@/components/DataTransparency';
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const provider = await getProviderBySlug(slug);
@@ -185,6 +187,17 @@ export default async function ProviderPage({ params }) {
         </div>
       </section>
 
+      {/* Data Transparency */}
+      <DataTransparency />
+
+      {/* Provider Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateProviderSchema(provider, gpuPrices))
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -198,7 +211,7 @@ export default async function ProviderPage({ params }) {
                 "name": `What GPU types does ${provider.name} offer?`,
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": `${provider.name} offers various GPU types for different workloads. Check the pricing table above for current GPU availability and pricing.`
+                  "text": `${provider.name} offers various GPU types including ${gpuPrices.map(p => p.gpu_model_name).join(', ')}. Check the pricing table above for current availability and pricing.`
                 }
               },
               {
@@ -208,17 +221,56 @@ export default async function ProviderPage({ params }) {
                   "@type": "Answer",
                   "text": provider.gettingStarted?.map(step => step.title).join(', ') || `Visit ${provider.name}'s website to create an account and start using their GPU services.`
                 }
+              },
+              {
+                "@type": "Question",
+                "name": `What are ${provider.name}'s main advantages?`,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": `${provider.name}'s main advantages include: ${provider.pros.join(', ')}.`
+                }
+              },
+              {
+                "@type": "Question",
+                "name": `What are ${provider.name}'s limitations?`,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": `${provider.name}'s main limitations include: ${provider.cons.join(', ')}.`
+                }
               }
             ]
           })
         }}
       />
 
-      {/* Provider Schema */}
+      {/* BreadcrumbList Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(generateProviderSchema(provider, gpuPrices))
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://computeprices.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Providers",
+                "item": "https://computeprices.com/providers"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": provider.name,
+                "item": `https://computeprices.com/providers/${provider.slug}`
+              }
+            ]
+          })
         }}
       />
     </div>

@@ -8,23 +8,16 @@ import ProviderInfoCard from '@/components/ProviderInfoCard';
 import Superlatives from '@/components/Superlatives';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
-import { generateOpenGraph, generateProviderStructuredData } from './metadata';
+import { generateMetadata } from './metadata';
 
-const HOME_TITLE = 'Cloud GPU Price Comparison | Find the Best AI GPU Deals';
-const HOME_DESCRIPTION = 'Compare cloud GPU prices across major providers like AWS, Google Cloud, and Azure. Find the most cost-effective GPUs for machine learning and AI workloads.';
+const HOME_TITLE = 'Cloud GPU Price Comparison: Lambda, Coreweave, AWS & More | ComputePrices.com';
+const HOME_DESCRIPTION = 'Compare cloud GPU prices across 11+ providers. Find the cheapest H100, A100, and L40S rates for AI training and inference. Save up to 80% on cloud GPU costs.';
 
-export const metadata = {
+export const metadata = generateMetadata({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
-  alternates: {
-    canonical: 'https://computeprices.com'
-  },
-  openGraph: generateOpenGraph({
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
-    path: '/'
-  })
-};
+  path: '/'
+});
 
 export default async function Home() {
   const providerSlugs = await getAllProviderSlugs();
@@ -32,7 +25,7 @@ export default async function Home() {
   return (
     <>
       <FilterProvider>
-        <div className="space-y-12">
+        <div className="space-y-8">
           {/* Hero Section */}
           <section className="max-w-2xl">
             <h1 className="text-4xl font-bold mb-4">
@@ -48,22 +41,25 @@ export default async function Home() {
           </section>
 
           {/* Main Content */}
-          <section className="space-y-6" aria-label="GPU Comparison Tools">
+          <section aria-label="GPU Comparison Tools">
             <Suspense fallback={<div>Loading top picks...</div>}>
               <Superlatives />
             </Suspense>
             
-            <Suspense fallback={<div>Loading filters...</div>}>
-              <ProviderFilters />
-            </Suspense>
+            <div className="mt-8">
+              <Suspense fallback={<div>Loading filters...</div>}>
+                <ProviderFilters />
+              </Suspense>
+            </div>
             
-            <div className="flex flex-col lg:flex-row gap-8">
-              <div className="flex-1 order-2 lg:order-1">
-                <Suspense fallback={<div>Loading comparison table...</div>}>
-                  <GPUComparisonTable />
-                </Suspense>
+            <div className="mt-6 grid grid-cols-12 gap-6">
+              {/* Main Table Section */}
+              <div className="col-span-12 lg:col-span-9">
+                <GPUComparisonTable />
               </div>
-              <div className="lg:w-80 space-y-6 order-1 lg:order-2">
+
+              {/* Side Info Section */}
+              <div className="col-span-12 lg:col-span-3 space-y-6 lg:sticky lg:top-8 self-start pt-14">
                 <Suspense fallback={<div>Loading provider info...</div>}>
                   <ProviderInfoCard />
                 </Suspense>

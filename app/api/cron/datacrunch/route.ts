@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteerCore from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
 
@@ -21,17 +22,20 @@ interface MatchResult {
 }
 
 export async function GET(request: Request) {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+  let browser;
   
   try {
     console.log('🔍 Starting DataCrunch GPU scraper...');
+
+    browser = await puppeteerCore.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: true,
+      ignoreHTTPSErrors: true,
+    });
     
-    // // Verify the request is from Vercel Cron
-    // const authHeader = request.headers.get('authorization');
-    // if (authHeader !== `Bearer ${process.env.CRON_SECRET_KEY}`) {
-    //   return new NextResponse('Unauthorized', { status: 401 });
-    // }
+    const page = await browser.newPage();
 
     await page.goto('https://datacrunch.io/products');
     await page.waitForSelector('[data-slide-table]');
@@ -139,7 +143,9 @@ export async function GET(request: Request) {
       }
     }
 
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
 
     return NextResponse.json({
       success: true,
@@ -152,7 +158,9 @@ export async function GET(request: Request) {
 
   } catch (error) {
     console.error('Error:', error);
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
     return NextResponse.json({ 
       success: false, 
       error: error instanceof Error ? error.message : 'Unknown error' 
