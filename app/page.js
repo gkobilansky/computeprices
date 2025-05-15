@@ -60,14 +60,14 @@ export default async function Home() {
 
               {/* Side Info Section */}
               <div className="col-span-12 lg:col-span-3 space-y-6 lg:sticky lg:top-8 self-start pt-14">
+                <Suspense fallback={<div>Loading sponsor info...</div>}>
+                  <SponsorCard />
+                </Suspense>
                 <Suspense fallback={<div>Loading provider info...</div>}>
                   <ProviderInfoCard />
                 </Suspense>
                 <Suspense fallback={<div>Loading GPU info...</div>}>
                   <GPUInfoCard />
-                </Suspense>
-                <Suspense fallback={<div>Loading sponsor info...</div>}>
-                  <SponsorCard />
                 </Suspense>
               </div>
             </div>
