@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     console.log('API Key exists:', !!apiKey);
     console.log('API Key prefix:', apiKey?.substring(0, 4));
 
-    const response = await fetch('https://cloud.lambdalabs.com/api/v1/instances', {
+    const response = await fetch('https://cloud.lambdalabs.com/api/v1/instance-types', {
       headers: {
         'Authorization': `Basic ${Buffer.from(apiKey + ':').toString('base64')}`
       }

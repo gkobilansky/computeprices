@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import puppeteerCore from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
+import { getBrowserConfig, closeBrowser } from '@/lib/utils/puppeteer-config';
 
 interface ScrapedGPU {
   name: string;
@@ -20,18 +19,14 @@ interface MatchResult {
 
 export async function GET(request: Request) {
   let browser;
+  let isRemote = false;
   
   try {
     console.log('🔍 Starting RunPod GPU scraper...');
-   
 
-    browser = await puppeteerCore.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
-      headless: true,
-      ignoreHTTPSErrors: true,
-    });
+    const config = await getBrowserConfig();
+    browser = config.browser;
+    isRemote = config.isRemote;
     
     const page = await browser.newPage();
 
@@ -132,9 +127,7 @@ export async function GET(request: Request) {
       }
     }
 
-    if (browser) {
-      await browser.close();
-    }
+    await closeBrowser(browser, isRemote);
 
     return NextResponse.json({
       success: true,
@@ -156,9 +149,7 @@ export async function GET(request: Request) {
 
   } catch (error) {
     console.error('Error:', error);
-    if (browser) {
-      await browser.close();
-    }
+    await closeBrowser(browser, isRemote);
     return NextResponse.json({ 
       success: false, 
       error: error instanceof Error ? error.message : 'Unknown error' 

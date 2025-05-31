@@ -30,7 +30,8 @@
     "scrape:hyperstack:dry": "node -r dotenv/config scripts/scrape-hyperstack.js --dry-run dotenv_config_path=.env.local",
     "upsert:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js dotenv_config_path=.env.local",
     "validate:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --validate-only dotenv_config_path=.env.local",
-    "dry-run:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --dry-run dotenv_config_path=.env.local"
+    "dry-run:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --dry-run dotenv_config_path=.env.local",
+    "add-manual-price": "node -r dotenv/config scripts/add-manual-price.js dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
