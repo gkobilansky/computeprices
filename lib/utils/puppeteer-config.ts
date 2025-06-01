@@ -1,12 +1,17 @@
-import puppeteerCore from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+import puppeteerCore, { Browser } from 'puppeteer-core';
+import puppeteer from 'puppeteer';
+
+interface BrowserConfig {
+  browser: Browser;
+  isRemote: boolean;
+}
 
 /**
  * Get Puppeteer browser configuration for different environments
  * - Development/Local: Uses local Chromium via @sparticuz/chromium
  * - Production: Uses Browserless.io service
  */
-export async function getBrowserConfig() {
+export async function getBrowserConfig(): Promise<BrowserConfig> {
   const isProduction = process.env.NODE_ENV === 'production';
   const browserlessKey = process.env.BLESS_KEY;
 
@@ -21,16 +26,13 @@ export async function getBrowserConfig() {
       isRemote: true
     };
   } else {
-    // Use local Chromium for development or fallback
-    console.log('🖥️ Using local Chromium for browser automation');
+    // Use regular puppeteer for local development
+    console.log('🖥️ Using local Puppeteer with bundled Chromium');
     
     return {
-      browser: await puppeteerCore.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(),
+      browser: await puppeteer.launch({
         headless: true,
-        ignoreHTTPSErrors: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
       }),
       isRemote: false
     };
@@ -41,7 +43,7 @@ export async function getBrowserConfig() {
  * Safely close browser connection
  * Handles both local and remote browser instances
  */
-export async function closeBrowser(browser, isRemote = false) {
+export async function closeBrowser(browser: Browser | null, isRemote = false): Promise<void> {
   if (browser) {
     try {
       if (isRemote) {
