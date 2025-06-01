@@ -1,8 +1,11 @@
 import puppeteerCore, { Browser } from 'puppeteer-core';
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser as PuppeteerBrowser } from 'puppeteer';
+
+// Centralized browser types
+export type BrowserInstance = Browser | PuppeteerBrowser;
 
 interface BrowserConfig {
-  browser: Browser;
+  browser: BrowserInstance;
   isRemote: boolean;
 }
 
@@ -43,7 +46,7 @@ export async function getBrowserConfig(): Promise<BrowserConfig> {
  * Safely close browser connection
  * Handles both local and remote browser instances
  */
-export async function closeBrowser(browser: Browser | null, isRemote = false): Promise<void> {
+export async function closeBrowser(browser: BrowserInstance | null, isRemote = false): Promise<void> {
   if (browser) {
     try {
       if (isRemote) {

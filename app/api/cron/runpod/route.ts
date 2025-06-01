@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { Browser } from 'puppeteer-core';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
-import { getBrowserConfig, closeBrowser } from '@/lib/utils/puppeteer-config';
+import { getBrowserConfig, closeBrowser, BrowserInstance } from '@/lib/utils/puppeteer-config';
 
 interface ScrapedGPU {
   name: string;
@@ -19,7 +18,7 @@ interface MatchResult {
 }
 
 export async function GET(request: Request) {
-  let browser: Browser | null = null;
+  let browser: BrowserInstance | null = null;
   let isRemote = false;
   
   try {
@@ -46,7 +45,7 @@ export async function GET(request: Request) {
     }
 
     // Scrape the GPU cards
-    const gpuData: ScrapedGPU[] = await page.evaluate(() => {
+    const gpuData: ScrapedGPU[] = await (page as any).evaluate(() => {
       const cards = document.querySelectorAll('.MuiGrid-container .MuiGrid-item');
       
       return Array.from(cards).map(card => {

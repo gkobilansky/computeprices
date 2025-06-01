@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { Browser } from 'puppeteer-core';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
-import { getBrowserConfig, closeBrowser } from '@/lib/utils/puppeteer-config';
+import { getBrowserConfig, closeBrowser, BrowserInstance } from '@/lib/utils/puppeteer-config';
 
 interface ScrapedGPU {
   instanceType: string;
@@ -22,7 +21,7 @@ interface MatchResult {
 }
 
 export async function GET(request: Request) {
-  let browser: Browser | null = null;
+  let browser: BrowserInstance | null = null;
   let isRemote = false;
   
   try {
@@ -48,8 +47,8 @@ export async function GET(request: Request) {
       throw new Error(`Error fetching GPU models: ${modelsError.message}`);
     }
 
-    // Scrape the GPU pricing table
-    const gpuData: ScrapedGPU[] = await page.evaluate(() => {
+    // Scrape the GPU pricing table  
+    const gpuData: ScrapedGPU[] = await (page as any).evaluate(() => {
       const rows = Array.from(document.querySelectorAll('table tbody tr')).slice(1); // Skip header row
       
       return rows.map(row => {
