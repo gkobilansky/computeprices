@@ -135,3 +135,90 @@ Stores user information for newsletter subscribers and future user data:
 - GPU detail pages show comprehensive GPU info and pricing
 - Provider pages display provider-specific pricing
 - Various components present the data in tables for comparison
+
+## Cron Job API Routes
+
+The application includes automated data collection through cron job endpoints in `/app/api/cron/`. These routes scrape GPU pricing data from various cloud providers and update the database.
+
+### Available Cron Routes
+
+#### `/api/cron/all`
+Master endpoint that triggers all individual provider scrapers concurrently:
+- Calls all provider endpoints in parallel with 9-second timeout per request
+- Returns 200 OK if all succeed, 207 Multi-Status if some fail
+- Provides comprehensive results showing success/failure for each provider
+
+#### Provider-Specific Routes
+
+**1. `/api/cron/aws`**
+- **Method**: Web scraping with Puppeteer
+- **Source**: https://aws.amazon.com/ec2/capacityblocks/pricing/
+- **Data**: Scrapes AWS EC2 capacity blocks pricing table
+- **Provider ID**: `3bb5a379-472f-4c84-9ba4-3337f3922582`
+- **Features**: Extracts instance type, region, price per GPU, GPU count, and VRAM
+
+**2. `/api/cron/coreweave`**
+- **Method**: Web scraping with Puppeteer  
+- **Source**: https://www.coreweave.com/pricing
+- **Data**: Scrapes Kubernetes GPU pricing table
+- **Provider ID**: `1d434a66-bf40-40a8-8e80-d5ab48b6d27f`
+- **Features**: Extracts GPU model names and hourly prices
+
+**3. `/api/cron/datacrunch`**
+- **Method**: Web scraping with Puppeteer
+- **Source**: https://datacrunch.io/products
+- **Data**: Scrapes multiple GPU configuration tables
+- **Provider ID**: `fd8bfdf8-162d-4a95-954d-ca4279edc46f`
+- **Features**: Extracts instance names, GPU models, counts, VRAM, and prices per GPU
+
+**4. `/api/cron/fluidstack`**
+- **Method**: Web scraping with Puppeteer
+- **Source**: https://www.fluidstack.io/pricing
+- **Data**: Scrapes on-demand pricing table
+- **Provider ID**: `a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182`
+- **Features**: Extracts GPU names and on-demand hourly prices (skips n/a entries)
+
+**5. `/api/cron/hyperstack`**
+- **Method**: Web scraping with Puppeteer
+- **Source**: https://www.hyperstack.cloud/gpu-pricing
+- **Data**: Scrapes GPU pricing table
+- **Provider ID**: `54cc0c05-b0e6-49b3-95fb-831b36dd7efd`
+- **Features**: Extracts GPU names, VRAM, and hourly prices
+
+**6. `/api/cron/lambda`**
+- **Method**: API integration
+- **Source**: Lambda Labs API (https://cloud.lambdalabs.com/api/v1/instances)
+- **Data**: Fetches instance types via REST API
+- **Provider ID**: `825cef3b-54f5-426e-aa29-c05fe3070833`
+- **Auth**: Requires `LAMBDA_LABS_API_KEY` environment variable
+- **Features**: Processes API response for GPU descriptions, pricing, and GPU counts
+
+**7. `/api/cron/runpod`**
+- **Method**: Web scraping with Puppeteer
+- **Source**: https://www.runpod.io/pricing
+- **Data**: Scrapes GPU pricing cards
+- **Provider ID**: `30a69dae-5939-499a-a4f5-5114797dcdb3`
+- **Features**: Extracts GPU names, VRAM, and lowest price between Secure/Community Cloud
+
+**8. `/api/cron/shadeform`**
+- **Method**: API integration
+- **Source**: Shadeform API (https://api.shadeform.ai/v1/instances/types)
+- **Data**: Fetches instance types across multiple cloud providers
+- **Auth**: Requires `SHADEFORM_API_KEY` environment variable
+- **Features**: Groups instances by cloud provider, maps to provider IDs via `shadeformProviders.json`
+
+### Common Scraper Features
+
+All scrapers share these common patterns:
+
+1. **GPU Model Matching**: Use `findMatchingGPUModel()` utility to match scraped GPU names with database records
+2. **Database Updates**: Insert pricing data into the `prices` table with provider ID, GPU model ID, and pricing information
+3. **Error Handling**: Comprehensive error handling with browser cleanup for Puppeteer-based scrapers
+4. **Response Format**: Standardized JSON response showing matched/unmatched GPUs and database insertion results
+5. **Logging**: Detailed console logging for debugging and monitoring
+
+### Environment Variables Required
+
+- `LAMBDA_LABS_API_KEY`: API key for Lambda Labs integration  
+- `SHADEFORM_API_KEY`: API key for Shadeform integration
+- `BLESS_KEY`: Browserless.io API key for production Puppeteer automation (optional for local development)
