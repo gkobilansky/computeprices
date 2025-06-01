@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { Browser } from 'puppeteer-core';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
 import { getBrowserConfig, closeBrowser } from '@/lib/utils/puppeteer-config';
@@ -6,6 +7,7 @@ import { getBrowserConfig, closeBrowser } from '@/lib/utils/puppeteer-config';
 interface ScrapedGPU {
   name: string;
   price: number;
+  gpuCount: number;
 }
 
 interface MatchResult {
@@ -13,10 +15,11 @@ interface MatchResult {
   matched_model: string;
   gpu_model_id: string;
   price: number;
+  gpuCount: number;
 }
 
 export async function GET(request: Request) {
-  let browser;
+  let browser: Browser | null = null;
   let isRemote = false;
   
   try {
@@ -45,26 +48,39 @@ export async function GET(request: Request) {
 
     // Scrape the GPU pricing table
     const gpuData: ScrapedGPU[] = await page.evaluate(() => {
-      const rows = document.querySelectorAll('.kubernetes-gpu-pricing .table-cell-column.table-cell-column-left');
-      const priceRows = Array.from(rows).filter(row => {
-        const hasName = row.querySelector('a.table-modal-link .table-model-name');
-        const hasPrice = row.querySelector('.table-meta-text .table-meta-value');
-        return hasName && hasPrice;
-      });
+      // Look for GPU pricing rows specifically
+      const rows = document.querySelectorAll('.kubernetes-gpu-pricing .table-row');
+      
+      return Array.from(rows).map((row, index) => {
+        const cells = row.querySelectorAll('.table-v2-cell');
+        if (cells.length < 7) return null;
 
-      return priceRows.map(row => {
-        const nameElement = row.querySelector('a.table-modal-link .table-model-name');
-        const priceElement = row.querySelector('.table-meta-text .table-meta-value');
-        
-        if (!nameElement || !priceElement) return null;
-
+        // Extract GPU name from first cell
+        const nameElement = cells[0].querySelector('.table-model-name');
+        if (!nameElement) return null;
         const name = nameElement.textContent?.trim().toUpperCase() || '';
+        
+        // Extract GPU count from second cell
+        const gpuCountText = cells[1].textContent?.trim() || '';
+        // Handle superscript numbers (like "4¹" should be "4")
+        const cleanedCountText = gpuCountText.split(/[¹²³⁴⁵⁶⁷⁸⁹⁰]/)[0];
+        const gpuCount = parseInt(cleanedCountText.replace(/[^\d]/g, '')) || 1;
+        
+        // Extract price from last cell (7th cell - Instance Price Per Hour)
+        const priceElement = cells[6]; // 7th cell (0-indexed)
+        if (!priceElement) return null;
         const priceText = priceElement.textContent?.trim() || '';
-        const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+        const totalPrice = parseFloat(priceText.replace(/[^\d.]/g, ''));
+        
+        // Calculate per-GPU price
+        const price = totalPrice / gpuCount;
+        
+        if (!name || isNaN(totalPrice) || isNaN(gpuCount)) return null;
         
         return {
           name,
           price,
+          gpuCount,
         };
       }).filter((gpu): gpu is ScrapedGPU => gpu !== null && Boolean(gpu.name) && !isNaN(gpu.price));
     });
@@ -84,7 +100,8 @@ export async function GET(request: Request) {
           scraped_name: gpu.name,
           matched_model: matchingModel.name,
           gpu_model_id: matchingModel.id,
-          price: gpu.price
+          price: gpu.price,
+          gpuCount: gpu.gpuCount
         });
       } else {
         unmatchedGPUs.push(gpu);
@@ -102,6 +119,7 @@ export async function GET(request: Request) {
           provider_id: providerId,
           gpu_model_id: result.gpu_model_id,
           price_per_hour: result.price,
+          gpu_count: result.gpuCount,
           source_name: 'CoreWeave',
           source_url: 'https://www.coreweave.com/pricing'
         });

@@ -221,3 +221,4 @@ All scrapers share these common patterns:
 
 - `LAMBDA_LABS_API_KEY`: API key for Lambda Labs integration  
 - `SHADEFORM_API_KEY`: API key for Shadeform integration
+- `BLESS_KEY`: Browserless.io API key for production Puppeteer automation (optional for local development)

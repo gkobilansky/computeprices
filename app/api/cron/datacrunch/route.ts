@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { Browser } from 'puppeteer-core';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
 import { getBrowserConfig, closeBrowser } from '@/lib/utils/puppeteer-config';
@@ -21,7 +22,7 @@ interface MatchResult {
 }
 
 export async function GET(request: Request) {
-  let browser;
+  let browser: Browser | null = null;
   let isRemote = false;
   
   try {
