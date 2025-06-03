@@ -29,64 +29,64 @@ function getBaseUrl(request: Request): string {
   return `${protocol}://${host}`;
 }
 
+// Helper function to add delay between requests
+function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export async function GET(request: Request) {
-  console.log('🚀 Triggering all cron jobs...');
+  console.log('🚀 Triggering all cron jobs sequentially...');
 
   const baseUrl = getBaseUrl(request);
   console.log(`ℹ️ Base URL: ${baseUrl}`);
 
-  const results = await Promise.allSettled(
-    CRON_ROUTES.map(async (route) => {
-      const url = `${baseUrl}/api/cron/${route}`;
-      console.log(`➡️ Triggering ${route} at ${url}...`);
+  const results = [];
+  
+  // Run jobs sequentially with delays to avoid rate limiting
+  for (let i = 0; i < CRON_ROUTES.length; i++) {
+    const route = CRON_ROUTES[i];
+    const url = `${baseUrl}/api/cron/${route}`;
+    console.log(`➡️ Triggering ${route} at ${url}... (${i + 1}/${CRON_ROUTES.length})`);
+    
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        signal: AbortSignal.timeout(15000), // Increased timeout to 15 seconds
+        cache: 'no-store',
+      });
       
-      try {
-        const response = await fetch(url, {
-          method: 'GET',
-          signal: AbortSignal.timeout(9000), // 9 second timeout
-          cache: 'no-store',
-        });
-        
-        if (!response.ok) {
-          console.error(`❌ Failed to trigger ${route}: ${response.status} ${response.statusText}`);
-          throw new Error(`Failed: ${response.status} ${response.statusText}`);
-        }
-
+      if (!response.ok) {
+        console.error(`❌ Failed to trigger ${route}: ${response.status} ${response.statusText}`);
+        results.push({ route, status: 'error', error: `Failed: ${response.status} ${response.statusText}` });
+      } else {
         console.log(`✅ Successfully triggered ${route}: ${response.status}`);
-        return { route, status: 'success', statusCode: response.status };
-      } catch (error: any) {
-        if (error.name === 'TimeoutError') {
-          console.error(`⌛ Timeout triggering ${route}`);
-          return { route, status: 'error', error: 'Timeout' };
-        } else {
-          console.error(`❌ Error triggering ${route}:`, error.message);
-          return { route, status: 'error', error: error.message };
-        }
+        results.push({ route, status: 'success', statusCode: response.status });
       }
-    })
-  );
+    } catch (error: any) {
+      if (error.name === 'TimeoutError') {
+        console.error(`⌛ Timeout triggering ${route}`);
+        results.push({ route, status: 'error', error: 'Timeout' });
+      } else {
+        console.error(`❌ Error triggering ${route}:`, error.message);
+        results.push({ route, status: 'error', error: error.message });
+      }
+    }
+    
+    // Add delay between requests (except after the last one)
+    if (i < CRON_ROUTES.length - 1) {
+      console.log('⏳ Waiting 3 seconds before next request...');
+      await delay(3000); // 3 second delay between requests
+    }
+  }
 
   console.log('🏁 Finished triggering all cron jobs');
 
-  const summary = results.map(result => {
-    if (result.status === 'fulfilled') {
-      return result.value;
-    } else {
-      console.error('Unexpected Promise rejection:', result.reason);
-      return { 
-        route: result.reason?.route || 'unknown', 
-        status: 'error', 
-        error: 'Unexpected rejection: ' + result.reason?.message 
-      };
-    }
-  });
-
-  const hasErrors = summary.some(item => item.status === 'error');
+  const hasErrors = results.some(item => item.status === 'error');
 
   return NextResponse.json(
     { 
       message: 'Cron job trigger process completed', 
-      results: summary 
+      results 
     },
     { status: hasErrors ? 207 : 200 } // 207 Multi-Status if some failed, 200 OK if all succeeded
   );
