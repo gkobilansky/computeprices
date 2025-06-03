@@ -60,7 +60,7 @@ export async function GET(request: Request) {
         let price = 0;
         
         // Find the first visible price element (not in a .hide container)
-        for (const priceEl of priceElements) {
+        for (const priceEl of Array.from(priceElements)) {
           const priceWrap = priceEl.closest('.instance-price-wrap');
           if (priceWrap && !priceWrap.classList.contains('hide')) {
             const priceText = priceEl.textContent?.trim() || '';
