@@ -13,6 +13,7 @@ const CRON_ROUTES = [
   'lambda',
   'runpod',
   'shadeform',
+  'whitefiber',
 ];
 
 // Function to get the base URL
