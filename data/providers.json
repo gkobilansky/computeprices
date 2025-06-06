@@ -721,7 +721,7 @@
     "slug": "vast"
   },
   {
-    "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
+    "id": "825cef3b-54f5-426e-aa29-c05fe3070833",
     "name": "Lambda Labs",
     "description": "Lambda Labs is an AI compute platform offering GPU cloud services, specializing in on-demand NVIDIA GPUs for AI training, fine-tuning, and inference. They provide a range of GPU instances, including access to the latest NVIDIA H100 and H200 Tensor Core GPUs.",
     "pros": [
@@ -865,7 +865,7 @@
     "link": "https://datacrunch.io/"
   },
   {
-    "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
+    "id": "54cc0c05-b0e6-49b3-95fb-831b36dd7efd",
     "name": "Hyperstack",
     "slug": "hyperstack",
     "description": "Hyperstack provides GPU cloud solutions with a focus on AI and machine learning. As an NVIDIA Preferred NCP Partner, they own, operate, and optimise everything from the servers and network to the platform itself, offering enterprise-level GPU-acceleration.",
