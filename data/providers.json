@@ -200,6 +200,18 @@
       {
         "title": "API Access",
         "description": "Programmatically manage your GPU instances via REST API"
+      },
+      {
+        "title": "Fast cold-starts",
+        "description": "Pods typically ready in 20-30 s"
+      },
+      {
+        "title": "Hot-reload dev loop",
+        "description": "SSH & VS Code tunnels built-in"
+      },
+      {
+        "title": "Spot-to-on-demand fallback",
+        "description": "Automatic migration on pre-empt"
       }
     ],
     "pros": [
@@ -1083,6 +1095,276 @@
         "Option to benchmark workloads on cutting-edge hardware.",
         "Best-in-class data center infrastructure with reliability and security."
       ]    
+  },
+  {
+    "id": "c58cd5f6-4bbc-454a-abbf-fad2b94180c6",
+    "name": "Paperspace",
+    "slug": "paperspace",
+    "description": "Paperspace, a part of DigitalOcean, is a cloud computing platform designed for AI/ML developers, offering a suite of products including interactive Jupyter notebooks (Gradient), virtual machines (Core), and an MLOps platform for building, training, and deploying machine learning models. They provide access to a wide range of NVIDIA GPUs with a focus on simplicity and ease of use.",
+    "link": "https://www.paperspace.com/",
+    "docsLink": "https://docs.digitalocean.com/products/paperspace/",
+    "features": [
+      {
+        "title": "Gradient Notebooks",
+        "description": "Interactive Jupyter notebooks with a free tier, pre-configured templates, and access to powerful GPUs."
+      },
+      {
+        "title": "Gradient Deployments",
+        "description": "Serve machine learning models as scalable API endpoints."
+      },
+      {
+        "title": "Core Machines",
+        "description": "High-performance virtual machines with a wide variety of NVIDIA GPUs for demanding workloads."
+      },
+      {
+        "title": "Team Collaboration",
+        "description": "Features for teams to collaborate on projects, including shared drives and SSO."
+      },
+      {
+        "title": "Persistent Storage",
+        "description": "Offers persistent storage that can be shared across different machines and notebooks."
+      },
+      {
+        "title": "API and CLI",
+        "description": "Programmatic access to the Paperspace platform to automate workflows."
+      }
+    ],
+    "pros": [
+      "User-friendly interface and easy to get started",
+      "Wide range of NVIDIA GPU options",
+      "Free GPU and CPU plans for notebooks",
+      "Pay-per-second billing model",
+      "Comprehensive MLOps platform (Gradient)",
+      "Strong community forum and extensive documentation"
+    ],
+    "cons": [
+      "Limited data center regions (US and Europe)",
+      "Some user reports of inconsistent customer support",
+      "Availability of high-end multi-GPU instances can be limited",
+      "The platform is undergoing changes after being acquired by DigitalOcean"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an Account",
+        "description": "Sign up for a Paperspace account. You can start with a free plan."
+      },
+      {
+        "title": "Choose a Product",
+        "description": "Select the product that best fits your needs, such as Gradient Notebooks for interactive development or Core Machines for more control."
+      },
+      {
+        "title": "Select a Template and Machine",
+        "description": "Choose a pre-configured template for your desired framework and select a GPU or CPU instance."
+      },
+      {
+        "title": "Start Working",
+        "description": "Launch your machine or notebook and begin building, training, or deploying your AI applications."
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "Core GPU Instances",
+        "description": "Virtual machines with a wide range of NVIDIA GPUs for various workloads.",
+        "instanceTypes": [
+          {
+            "name": "NVIDIA H100",
+            "description": "Top-tier GPU for large-scale AI model training and inference.",
+            "features": [
+              "80GB of VRAM",
+              "PCIe interface",
+              "Available in single and multi-GPU configurations"
+            ]
+          },
+          {
+            "name": "NVIDIA A100",
+            "description": "Powerful GPU for AI, data analytics, and HPC.",
+            "features": [
+              "40GB and 80GB VRAM options",
+              "SXM4 and PCIe interconnects",
+              "Available in multi-GPU configurations"
+            ]
+          },
+          {
+            "name": "NVIDIA A6000",
+            "description": "Professional GPU for graphics-intensive workloads, rendering, and AI.",
+            "features": [
+              "48GB of VRAM",
+              "Suitable for professional visualization and AI",
+              "Available in multi-GPU configurations"
+            ]
+          },
+          {
+            "name": "NVIDIA A5000 / A4000",
+            "description": "Cost-effective GPUs for a variety of AI and graphics workloads.",
+            "features": [
+              "24GB (A5000) and 16GB (A4000) of VRAM",
+              "Balanced performance for development and smaller-scale training"
+            ]
+          },
+          {
+            "name": "NVIDIA RTX 5000 / RTX 4000",
+            "description": "Quadro GPUs suitable for professional graphics and some ML tasks.",
+            "features": [
+              "16GB (RTX 5000) and 8GB (RTX 4000) of VRAM",
+              "Real-time ray tracing capabilities"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Gradient Notebooks",
+        "description": "Managed Jupyter notebooks for interactive development and experimentation.",
+        "features": [
+          "Free CPU and GPU tiers",
+          "1-click launch with pre-configured templates",
+          "Persistent storage for your projects",
+          "Collaboration features for teams"
+        ]
+      },
+      {
+        "name": "Gradient Deployments",
+        "description": "A serverless product for deploying trained models as REST APIs.",
+        "features": [
+          "Scalable and managed infrastructure",
+          "Integration with Gradient Notebooks and Workflows",
+          "Real-time monitoring of deployed models"
+        ]
+      }
+    ],
+    "regions": "Data centers are located in the US (Secaucus, NJ and Santa Clara, CA) and Europe (Amsterdam, NL).",
+    "support": "Support is available through a community forum, extensive documentation, and a support ticket system.",
+    "uniqueSellingPoints": [
+      "Simplicity and developer-focused user experience",
+      "A comprehensive MLOps platform (Gradient) for the entire ML lifecycle",
+      "Offers a free tier with GPU access for notebooks",
+      "Strong community and a showcase of public projects",
+      "Now part of the DigitalOcean ecosystem"
+    ]
+  },
+  {
+    "id": "ee80fbec-5f7f-4f44-b6bb-d70042b0a799",
+    "name": "TensorWave",
+    "slug": "tensorwave",
+    "description": "TensorWave is a cloud provider specializing in AI and HPC workloads, leveraging AMD Instinct accelerators. They offer scalable, memory-optimized infrastructure designed for demanding AI tasks, including training, fine-tuning, and inference. TensorWave aims to provide an alternative to Nvidia-based platforms, with a focus on performance, scalability, and a better price-to-performance ratio.",
+    "link": "https://tensorwave.com/",
+    "docsLink": "https://docs.tensorwave.com/",
+    "features": [
+      {
+        "title": "AMD Instinct Accelerators",
+        "description": "Powered by AMD Instinct™ Series GPUs for high-performance AI workloads."
+      },
+      {
+        "title": "High VRAM GPUs",
+        "description": "Offers instances with 192GB of VRAM per GPU, ideal for large models."
+      },
+      {
+        "title": "Bare Metal & Kubernetes",
+        "description": "Provides both bare metal servers for maximum control and managed Kubernetes for orchestration."
+      },
+      {
+        "title": "Direct Liquid Cooling",
+        "description": "Utilizes direct liquid cooling to reduce data center energy costs and improve efficiency."
+      },
+      {
+        "title": "High-Speed Network Storage",
+        "description": "Features high-speed network storage to support demanding AI pipelines."
+      },
+      {
+        "title": "ROCm Software Ecosystem",
+        "description": "Leverages the AMD ROCm open software ecosystem to avoid vendor lock-in."
+      }
+    ],
+    "pros": [
+      "Specialized in high-performance AMD GPUs",
+      "Offers GPUs with large VRAM (192GB)",
+      "Claims better price-to-performance than competitors",
+      "Provides 'white-glove' onboarding and support",
+      "Utilizes an open-source software stack (ROCm)",
+      "Offers bare metal access for greater control"
+    ],
+    "cons": [
+      "A newer and less established company (founded in 2023)",
+      "Exclusively focused on AMD, which may be a limitation for some users",
+      "Limited publicly available information on pricing",
+      "A smaller ecosystem when compared to major cloud providers"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Request Access",
+        "description": "Sign up on the TensorWave website to get access to their platform."
+      },
+      {
+        "title": "Choose a Service",
+        "description": "Select between Bare Metal servers or a managed Kubernetes cluster."
+      },
+      {
+        "title": "Follow Quickstarts",
+        "description": "Utilize the documentation and quick-start guides for PyTorch, Docker, Kubernetes, and other tools."
+      },
+      {
+        "title": "Deploy Your Model",
+        "description": "Deploy your AI model for training, fine-tuning, or inference."
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "AMD GPU Instances",
+        "description": "Bare metal servers and managed Kubernetes clusters with AMD Instinct GPUs.",
+        "instanceTypes": [
+          {
+            "name": "AMD Instinct MI300X",
+            "description": "High-performance GPU with 192GB of HBM3 memory, suitable for large language models and generative AI.",
+            "features": [
+              "192GB of HBM3 memory",
+              "Ideal for large-scale AI model training and inference",
+              "High-speed interconnects"
+            ]
+          },
+          {
+            "name": "AMD Instinct MI325X",
+            "description": "Next-generation accelerator for AI and HPC workloads.",
+            "features": [
+              "Enhanced performance for AI and scientific computing",
+              "Advanced memory architecture"
+            ]
+          },
+          {
+            "name": "AMD Instinct MI355X",
+            "description": "Cutting-edge GPU built on the 4th Gen AMD CDNA architecture with 288GB of HBM3E memory.",
+            "features": [
+              "288GB of HBM3E memory",
+              "Optimized for generative AI training and inference",
+              "High-density computing with advanced cooling"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Managed Kubernetes",
+        "description": "Kubernetes clusters for orchestrated AI workloads.",
+        "features": [
+          "Scalable from 8 to 1024 GPUs",
+          "Interconnected with 3.2TB/s RoCE v2 networking"
+        ]
+      },
+      {
+        "name": "Inference Platform (Manifest)",
+        "description": "An enterprise inference platform designed for larger context windows and reduced latency.",
+        "features": [
+          "Accelerated reasoning",
+          "Secure and private data storage"
+        ]
+      }
+    ],
+    "regions": "Primary data center and headquarters are located in Las Vegas, Nevada. The company is building the largest AMD-specific AI training cluster in North America.",
+    "support": "Offers 'white-glove' onboarding and support, extensive documentation, and a company blog.",
+    "uniqueSellingPoints": [
+      "Exclusive focus on AMD Instinct GPUs",
+      "First-to-market with the latest AMD Instinct models",
+      "Building the largest AMD-specific AI training cluster in North America",
+      "Emphasis on an open-source software stack (ROCm) to prevent vendor lock-in",
+      "High-memory GPUs (192GB) as a standard offering"
+    ]
   },
   {
     "id": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434",
