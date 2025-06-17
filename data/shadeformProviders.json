@@ -32,7 +32,7 @@
 },
 {
     "name": "hotaisle",
-    "providerId": ""
+    "providerId": "6e62d7f4-b22d-44fe-8ff8-412f4045074f"
 },
 {
     "name": "hyperstack",
@@ -56,15 +56,15 @@
 },
 {
     "name": "nebius",
-    "providerId": ""
+    "providerId": "1d03e458-c92b-42fc-bcc1-0093f4c62b58"
 },
 {
     "name": "paperspace",
-    "providerId": ""
+    "providerId": "c58cd5f6-4bbc-454a-abbf-fad2b94180c6"
 },
 {
     "name": "scaleway",
-    "providerId": ""
+    "providerId": "ac50553e-b011-4eea-84a0-e9bd7389055a"
 },
 {
     "name": "voltagepark",
@@ -72,7 +72,7 @@
 },
 {
     "name": "whitefiber",
-    "providerId": ""
+    "providerId": "89652cce-71dc-44d0-af20-ab44485e84ba"
 },
 {
     "name": "denvr",
