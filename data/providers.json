@@ -1365,7 +1365,7 @@
       "Emphasis on an open-source software stack (ROCm) to prevent vendor lock-in",
       "High-memory GPUs (192GB) as a standard offering"
     ]
-  }
+  },
   {
     "id": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434",
     "name": "Crusoe",
