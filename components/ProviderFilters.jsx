@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Combobox, ComboboxOption } from '@headlessui/react';
 import { supabase } from '@/lib/supabase';
 import { useFilter } from '@/lib/context/FilterContext';
+import Image from 'next/image';
 
 export default function ProviderFilters() {
   const { selectedProvider, setSelectedProvider, selectedGPU, setSelectedGPU } = useFilter();
@@ -14,6 +15,42 @@ export default function ProviderFilters() {
   const [gpuQuery, setGpuQuery] = useState('');
   const [isProviderOpen, setIsProviderOpen] = useState(false);
   const [isGPUOpen, setIsGPUOpen] = useState(false);
+
+  const getProviderLogo = (providerName) => {
+    const logoMap = {
+      'Amazon AWS': 'aws.png',
+      'Microsoft Azure': 'azure.png',
+      'Google Cloud': 'google.png',
+      'CoreWeave': 'coreweave.png',
+      'Datacrunch': 'datacrunch.png',
+      'Fluidstack': 'fluidstack.png',
+      'Hyperstack': 'hyperstack.png',
+      'Lambda Labs': 'lambda.png',
+      'RunPod': 'runpod.png',
+      'Vast.ai': 'vast.png',
+      'Paperspace': 'paperspace.png',
+      'Crusoe': 'crusoe.png',
+      'Genesis Cloud': 'genesis.png',
+      'TensorWave': 'tensorwave.png',
+      'Latitude': 'latitude.png',
+      'Civo': 'civo.png',
+      'Vultr': 'vultr.png',
+      'Oracle Cloud': 'oracle.png',
+      'IMB Cloud': 'ibm.png',
+      'Voltage Park': 'voltage.png',
+      'The Cloud Minders': 'cloud-minders.png',
+      'Hot Aisle': 'hot-aisle.png',
+      'White Fiber': 'white-fiber.png',
+      'Scaleway': 'scaleway.png',
+      'Nebius': 'nebius.png',
+      'Massed Compute': 'massedcompute.png',
+      'Deep Infra': 'deep-infra.png',
+      'Cudo Compute': 'cudo-compute.png',
+      'Build AI': 'buildai.png'
+    };
+    
+    return logoMap[providerName] || null;
+  };
 
   useEffect(() => {
     fetchGPUModels();
@@ -113,14 +150,27 @@ export default function ProviderFilters() {
         <div className="min-w-[200px]">
           <Combobox value={selectedProvider} onChange={setSelectedProvider} nullable>
             <div className="relative">
-              <Combobox.Input
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                displayValue={(provider) => provider?.name ?? ''}
-                onChange={(event) => setProviderQuery(event.target.value)}
-                onFocus={() => setIsProviderOpen(true)}
-                onBlur={() => setTimeout(() => setIsProviderOpen(false), 100)}
-                placeholder="Search providers..."
-              />
+              <div className="relative">
+                {selectedProvider && getProviderLogo(selectedProvider.name) && (
+                  <Image
+                    src={`/logos/${getProviderLogo(selectedProvider.name)}`}
+                    alt={`${selectedProvider.name} logo`}
+                    width={20}
+                    height={20}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 object-contain z-10"
+                  />
+                )}
+                <Combobox.Input
+                  className={`w-full py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    selectedProvider && getProviderLogo(selectedProvider.name) ? 'pl-10 pr-4' : 'px-4'
+                  }`}
+                  displayValue={(provider) => provider?.name ?? ''}
+                  onChange={(event) => setProviderQuery(event.target.value)}
+                  onFocus={() => setIsProviderOpen(true)}
+                  onBlur={() => setTimeout(() => setIsProviderOpen(false), 100)}
+                  placeholder="Search providers..."
+                />
+              </div>
               {isProviderOpen && (
                 <Combobox.Options 
                   className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
@@ -137,19 +187,31 @@ export default function ProviderFilters() {
                   >
                     All Providers
                   </ComboboxOption>
-                  {filteredProviders.map((provider) => (
-                    <ComboboxOption
-                      key={provider.id}
-                      value={provider}
-                      className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                          active ? 'bg-blue-600 text-white' : 'text-gray-900'
-                        }`
-                      }
-                    >
-                      {provider.name}
-                    </ComboboxOption>
-                  ))}
+                  {filteredProviders.map((provider) => {
+                    const logoPath = getProviderLogo(provider.name);
+                    return (
+                      <ComboboxOption
+                        key={provider.id}
+                        value={provider}
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-3 pr-4 flex items-center gap-2 ${
+                            active ? 'bg-blue-600 text-white' : 'text-gray-900'
+                          }`
+                        }
+                      >
+                        {logoPath && (
+                          <Image
+                            src={`/logos/${logoPath}`}
+                            alt={`${provider.name} logo`}
+                            width={20}
+                            height={20}
+                            className="object-contain"
+                          />
+                        )}
+                        {provider.name}
+                      </ComboboxOption>
+                    );
+                  })}
                 </Combobox.Options>
               )}
             </div>
