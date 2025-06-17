@@ -41,21 +41,25 @@ export default async function ProviderPage({ params }) {
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto mb-16">
         <h1 className="text-4xl font-bold mb-4">
-          <Image src={`/logos/${provider.slug}.png`} alt={provider.name} width={100} height={100} className='w-10 h-10 rounded-full inline-block mr-2'/>
+          {!provider.isMinimal && (
+            <Image src={`/logos/${provider.slug}.png`} alt={provider.name} width={100} height={100} className='w-10 h-10 rounded-full inline-block mr-2'/>
+          )}
           <span> {provider.name}</span>
         </h1>
         <p className="text-gray-600 text-xl mb-8">
           {provider.description}
         </p>
         <div className="flex gap-4 justify-center">
-          <a
-            href={provider.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-          >
-            Visit {provider.name}
-          </a>
+          {provider.link && (
+            <a
+              href={provider.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
+              Visit {provider.name}
+            </a>
+          )}
           {provider.docsLink && (
             <a
               href={provider.docsLink}
@@ -70,47 +74,51 @@ export default async function ProviderPage({ params }) {
       </section>
 
       {/* Key Features */}
-      <section className="mb-16" aria-labelledby="features-heading">
-        <h2 id="features-heading" className="text-2xl font-bold mb-6">Key Features</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {provider.features?.map((feature, index) => (
-            <div key={index} className="card bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h3 className="card-title text-lg">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+      {!provider.isMinimal && provider.features?.length > 0 && (
+        <section className="mb-16" aria-labelledby="features-heading">
+          <h2 id="features-heading" className="text-2xl font-bold mb-6">Key Features</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {provider.features?.map((feature, index) => (
+              <div key={index} className="card bg-base-100 shadow-xl">
+                <div className="card-body">
+                  <h3 className="card-title text-lg">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Pros & Cons */}
-      <section className="mb-16" aria-labelledby="comparison-heading">
-        <h2 id="comparison-heading" className="sr-only">Provider Comparison</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="card-title text-green-600">Advantages</h3>
-              <ul className="list-disc list-inside space-y-3">
-                {provider.pros.map((pro, index) => (
-                  <li key={index} className="text-gray-600">{pro}</li>
-                ))}
-              </ul>
+      {!provider.isMinimal && (provider.pros?.length > 0 || provider.cons?.length > 0) && (
+        <section className="mb-16" aria-labelledby="comparison-heading">
+          <h2 id="comparison-heading" className="sr-only">Provider Comparison</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="card bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h3 className="card-title text-green-600">Advantages</h3>
+                <ul className="list-disc list-inside space-y-3">
+                  {provider.pros.map((pro, index) => (
+                    <li key={index} className="text-gray-600">{pro}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
 
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="card-title text-red-600">Limitations</h3>
-              <ul className="list-disc list-inside space-y-3">
-                {provider.cons.map((con, index) => (
-                  <li key={index} className="text-gray-600">{con}</li>
-                ))}
-              </ul>
+            <div className="card bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h3 className="card-title text-red-600">Limitations</h3>
+                <ul className="list-disc list-inside space-y-3">
+                  {provider.cons.map((con, index) => (
+                    <li key={index} className="text-gray-600">{con}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* GPU Pricing */}
       <section className="mb-16" aria-labelledby="pricing-heading">
@@ -119,7 +127,7 @@ export default async function ProviderPage({ params }) {
       </section>
 
       {/* Compute Services */}
-      {provider.computeServices && (
+      {!provider.isMinimal && provider.computeServices && (
         <section className="mb-16" aria-labelledby="services-heading">
           <h2 id="services-heading" className="text-2xl font-bold mb-6">Compute Services</h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -146,7 +154,7 @@ export default async function ProviderPage({ params }) {
       )}
 
       {/* Pricing Options */}
-      {provider.pricingOptions && (
+      {!provider.isMinimal && provider.pricingOptions && (
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Pricing Options</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -163,29 +171,31 @@ export default async function ProviderPage({ params }) {
       )}
 
       {/* Getting Started */}
-      <section className="mb-16" aria-labelledby="getting-started-heading">
-        <h2 id="getting-started-heading" className="text-2xl font-bold mb-6">Getting Started</h2>
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <div className="space-y-4">
-              {provider.gettingStarted?.map((step, index) => (
-                <div key={index} className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center flex-shrink-0">
-                    {index + 1}
+      {!provider.isMinimal && (
+        <section className="mb-16" aria-labelledby="getting-started-heading">
+          <h2 id="getting-started-heading" className="text-2xl font-bold mb-6">Getting Started</h2>
+          <div className="card bg-base-100 shadow-xl">
+            <div className="card-body">
+              <div className="space-y-4">
+                {provider.gettingStarted?.map((step, index) => (
+                  <div key={index} className="flex gap-4">
+                    <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center flex-shrink-0">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">{step.title}</h3>
+                      <p className="text-gray-600">{step.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">{step.title}</h3>
-                    <p className="text-gray-600">{step.description}</p>
-                  </div>
-                </div>
-              ))}
-              {!provider.gettingStarted && (
-                <p className="text-gray-600">Getting started guide coming soon...</p>
-              )}
+                ))}
+                {(!provider.gettingStarted || provider.gettingStarted.length === 0) && (
+                  <p className="text-gray-600">Getting started guide coming soon...</p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Data Transparency */}
       <DataTransparency />
