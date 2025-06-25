@@ -10,9 +10,16 @@ const HISTORY_LIMIT = 30;
 const FILTER_LIMIT = 15;
 
 export default function GPUComparisonTableClient({ initialData }) {
-    const [showBestPriceOnly, setShowBestPriceOnly] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
-    const { selectedGPU, setSelectedGPU, selectedProvider, setSelectedProvider } = useFilter();
+    const {
+        selectedGPU,
+        setSelectedGPU,
+        selectedProvider,
+        setSelectedProvider,
+        useCase,
+        budget,
+        showBestPriceOnly
+    } = useFilter();
     const { gpuData, loading, error } = useGPUData({ initialData });
     const { sortConfig, handleSort, getSortedData } = useTableSort('price_per_hour', 'asc');
 
@@ -43,7 +50,8 @@ export default function GPUComparisonTableClient({ initialData }) {
 
     const filteredData = useMemo(() => {
         let data = sortedData;
-        // First filter by selected GPU/provider
+
+        // Filter by selected GPU/provider
         data = data.filter(item => {
             if (selectedGPU && selectedProvider) {
                 return item.gpu_model_id === selectedGPU.id &&
@@ -58,7 +66,45 @@ export default function GPUComparisonTableClient({ initialData }) {
             return true;
         });
 
-        // Then filter for best prices if enabled
+        // Filter by budget range
+        if (budget) {
+            data = data.filter(item => {
+                const price = item.price_per_hour;
+                switch (budget) {
+                    case 'under-1':
+                        return price < 1;
+                    case '1-5':
+                        return price >= 1 && price <= 5;
+                    case '5-20':
+                        return price >= 5 && price <= 20;
+                    case '20-plus':
+                        return price >= 20;
+                    default:
+                        return true;
+                }
+            });
+        }
+
+        // Filter by use case (basic GPU recommendations)
+        if (useCase) {
+            data = data.filter(item => {
+                const gpuName = item.gpu_model_name.toUpperCase();
+                switch (useCase) {
+                    case 'fine-tuning':
+                        return gpuName.includes('H100') || gpuName.includes('A100') || gpuName.includes('A40');
+                    case 'inference':
+                        return gpuName.includes('RTX 4090') || gpuName.includes('L40S') || gpuName.includes('RTX 4080');
+                    case 'training':
+                        return gpuName.includes('H100') || gpuName.includes('A100') || gpuName.includes('V100');
+                    case 'development':
+                        return gpuName.includes('RTX 3090') || gpuName.includes('RTX A4000') || gpuName.includes('T4');
+                    default:
+                        return true;
+                }
+            });
+        }
+
+        // Filter for best prices if enabled
         if (showBestPriceOnly) {
             const bestPrices = new Map();
             data.forEach(item => {
@@ -70,7 +116,7 @@ export default function GPUComparisonTableClient({ initialData }) {
             data = Array.from(bestPrices.values());
         }
 
-        // Limit the number of rows to HISTORY_LIMIT based on the created_at date less than 30 days ago
+        // Limit to recent entries (last 30 days)
         data = data.filter(item => {
             const createdAt = new Date(item.created_at);
             const daysAgo = new Date();
@@ -79,7 +125,7 @@ export default function GPUComparisonTableClient({ initialData }) {
         });
 
         return data;
-    }, [sortedData, selectedGPU, selectedProvider, showBestPriceOnly]);
+    }, [sortedData, selectedGPU, selectedProvider, useCase, budget, showBestPriceOnly]);
 
     const visibleData = useMemo(() => {
         return isExpanded ? filteredData : filteredData.slice(0, FILTER_LIMIT);
@@ -94,16 +140,22 @@ export default function GPUComparisonTableClient({ initialData }) {
     }
 
     return (
-        <div className="space-y-8">
-            <label className="flex items-center gap-2 whitespace-nowrap">
-                <span className="text-sm">Show Best Prices Only</span>
-                <input
-                    type="checkbox"
-                    className="toggle toggle-primary"
-                    checked={showBestPriceOnly}
-                    onChange={(e) => setShowBestPriceOnly(e.target.checked)}
-                />
-            </label>
+        <div className="space-y-4">
+            {/* Results Summary */}
+            <div className="flex justify-between items-center text-sm text-gray-600">
+                <span>
+                    Showing {visibleData.length} of {filteredData.length} results
+                    {(selectedGPU || selectedProvider || useCase || budget || showBestPriceOnly) &&
+                        ` (filtered from ${sortedData.length} total)`
+                    }
+                </span>
+                {filteredData.length === 0 && (
+                    <span className="text-amber-600">
+                        No results found. Try adjusting your filters.
+                    </span>
+                )}
+            </div>
+
             <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
                 <table className="table comparison-table w-full md:table hidden">
                     <thead>
@@ -151,6 +203,11 @@ export default function GPUComparisonTableClient({ initialData }) {
                                                     ${item.price_per_hour?.toFixed(2)}
                                                 </span>
                                                 <span className="text-gray-500 text-sm">/hour</span>
+                                                {budget && (
+                                                    <span className="ml-2 text-xs text-green-600">
+                                                        ✓ Within budget
+                                                    </span>
+                                                )}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -188,6 +245,8 @@ export default function GPUComparisonTableClient({ initialData }) {
                         )}
                     </tbody>
                 </table>
+
+                {/* Mobile View */}
                 <div className="block md:hidden">
                     {loading ? (
                         <div className="px-6 py-8 text-center">
@@ -218,6 +277,11 @@ export default function GPUComparisonTableClient({ initialData }) {
                                                 ${item.gpu_count ? (item.price_per_hour / item.gpu_count).toFixed(2) : item.price_per_hour?.toFixed(2)}
                                             </span>
                                             <span className="text-gray-500 text-sm">/hour</span>
+                                            {budget && (
+                                                <span className="ml-2 text-xs text-green-600">
+                                                    ✓ Within budget
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                     {item.source_url && (
