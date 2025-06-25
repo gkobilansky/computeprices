@@ -53,7 +53,7 @@ export async function GET(request: Request) {
     try {
       const response = await fetch(url, {
         method: 'GET',
-        signal: AbortSignal.timeout(15000), // Increased timeout to 15 seconds
+        signal: AbortSignal.timeout(45000), // Increased timeout to 45 seconds for retry logic
         cache: 'no-store',
       });
       
@@ -76,8 +76,8 @@ export async function GET(request: Request) {
     
     // Add delay between requests (except after the last one)
     if (i < CRON_ROUTES.length - 1) {
-      console.log('⏳ Waiting 3 seconds before next request...');
-      await delay(3000); // 3 second delay between requests
+      console.log('⏳ Waiting 10 seconds before next request...');
+      await delay(10000); // 10 second delay between requests to reduce browserless load
     }
   }
 

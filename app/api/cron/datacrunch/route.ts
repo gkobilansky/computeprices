@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel } from '@/lib/utils/gpu-scraping';
-import { getBrowserConfig, closeBrowser, BrowserInstance } from '@/lib/utils/puppeteer-config';
+import { getSafeBrowserConfig, closeBrowser, BrowserInstance } from '@/lib/utils/puppeteer-config';
 
 interface ScrapedGPU {
   name: string;
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
   try {
     console.log('🔍 Starting DataCrunch GPU scraper...');
 
-    const config = await getBrowserConfig();
+    const config = await getSafeBrowserConfig();
     browser = config.browser;
     isRemote = config.isRemote;
     
