@@ -1,7 +1,47 @@
 {
     "crons": [
       {
-        "path": "/api/cron/all",
+        "path": "/api/cron/aws",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/coreweave",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/datacrunch",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/fluidstack",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/hyperstack",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/lambda",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/runpod",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/vast",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/shadeform",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/whitefiber",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/runpod",
         "schedule": "0 5 * * *"
       }
     ]
