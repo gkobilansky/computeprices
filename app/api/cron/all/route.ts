@@ -11,8 +11,10 @@ const CRON_ROUTES = [
   'fluidstack',
   'hyperstack',
   'lambda',
+  'paperspace',
   'runpod',
   'shadeform',
+  'vast',
   'whitefiber',
 ];
 
