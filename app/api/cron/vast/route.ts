@@ -117,7 +117,7 @@ export async function GET(request: Request) {
     console.log(`Found ${gpuPriceMap.size} unique GPU types`);
 
     // Process each unique GPU
-    for (const gpuData of gpuPriceMap.values()) {
+    for (const gpuData of Array.from(gpuPriceMap.values())) {
       const matchingModel = await findMatchingGPUModel(gpuData.gpu_name, existingModels);
       
       if (matchingModel) {
@@ -158,7 +158,6 @@ export async function GET(request: Request) {
         console.error(`Error inserting price for ${result.matched_name}:`, priceError);
       }
     }
-,
     return NextResponse.json({
       success: true,
       matched: matchResults.length,
