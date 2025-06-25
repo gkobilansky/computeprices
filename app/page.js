@@ -77,45 +77,7 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-
-            {/* Statistics */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
-                <div className="text-2xl font-bold text-blue-600">$2.3M+</div>
-                <div className="text-sm text-gray-600">Saved by users</div>
-              </div>
-              <div className="text-center bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4">
-                <div className="text-2xl font-bold text-green-600">{stats.providerCount}+</div>
-                <div className="text-sm text-gray-600">Providers</div>
-              </div>
-              <div className="text-center bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
-                <div className="text-2xl font-bold text-purple-600">24/7</div>
-                <div className="text-sm text-gray-600">Price monitoring</div>
-              </div>
-              <div className="text-center bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4">
-                <div className="text-2xl font-bold text-orange-600">80%</div>
-                <div className="text-sm text-gray-600">Max savings</div>
-              </div>
-            </div>
           </section>
-
-          {/* Real Price Alert Banner */}
-          {priceAlert.hasAlert && (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg p-4 mb-6">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-yellow-800">
-                    <strong>💥 Price Alert:</strong> {priceAlert.message}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Enhanced Superlatives Section */}
           <section className="bg-gradient-to-r from-blue-50 via-purple-50 to-blue-50 rounded-xl p-6 mb-8" aria-label="Top GPU Picks">
@@ -141,7 +103,7 @@ export default async function Home() {
           </Suspense>
 
           {/* Main Content */}
-          <section aria-label="GPU Comparison Tools">
+          <section id="gpu-table" aria-label="GPU Comparison Tools">
             <div className="grid grid-cols-12 gap-6">
               {/* Main Table Section */}
               <div className="col-span-12 lg:col-span-9">

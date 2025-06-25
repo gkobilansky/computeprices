@@ -48,16 +48,25 @@ const Superlatives = () => {
     return mostPopular;
   };
 
+  const scrollToTable = () => {
+    const tableSection = document.getElementById('gpu-table');
+    if (tableSection) {
+      tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const handleCheapestClick = () => {
     const cheapest = getCheapestCombo();
     setSelectedProvider({ id: cheapest.provider_id, name: cheapest.provider });
     setSelectedGPU({ id: cheapest.gpu_model_id, name: cheapest.gpu });
+    setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
   };
 
   const handleMostPopularClick = () => {
     const popular = getMostPopularGPU();
     setSelectedProvider(null);
     setSelectedGPU({ id: popular.id, name: popular.name });
+    setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
   };
 
   const handleTopGPUClick = () => {
@@ -66,6 +75,7 @@ const Superlatives = () => {
       setSelectedProvider(null);
       setSelectedGPU({ id: topGPUModel.gpu_model_id, name: "NVIDIA B200" });
     }
+    setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
   };
 
   const cheapest = getCheapestCombo();
