@@ -25,6 +25,10 @@
         "schedule": "0 5 * * *"
       },
       {
+        "path": "/api/cron/paperspace",
+        "schedule": "0 5 * * *"
+      },
+      {
         "path": "/api/cron/runpod",
         "schedule": "0 5 * * *"
       },
@@ -38,10 +42,6 @@
       },
       {
         "path": "/api/cron/whitefiber",
-        "schedule": "0 5 * * *"
-      },
-      {
-        "path": "/api/cron/runpod",
         "schedule": "0 5 * * *"
       }
     ]
