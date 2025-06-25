@@ -24,7 +24,7 @@ export async function getBrowserConfig(): Promise<BrowserConfig> {
     
     return {
       browser: await puppeteerCore.connect({
-        browserWSEndpoint: `wss://chrome.browserless.io?token=${browserlessKey}`,
+        browserWSEndpoint: `wss://production-sfo.browserless.io?token=${browserlessKey}`,
       }),
       isRemote: true
     };
