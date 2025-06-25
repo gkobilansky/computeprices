@@ -50,7 +50,7 @@ export default async function Home() {
                 RTX 4090
               </Link>{' '}
               rates in seconds.
-              <strong className="text-gray-800 ml-1">Daily pricing from Lambda, CoreWeave, AWS & more.</strong>
+              <strong className="text-gray-800 ml-1">Daily pricing from Lambda, CoreWeave, AWS & <Link href="/providers" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">more</Link>.</strong>
             </p>
 
             {/* Trust Indicators */}
