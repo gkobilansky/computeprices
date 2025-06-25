@@ -211,8 +211,8 @@ export async function GET(request: Request) {
           gpu_model_id: match.gpu_model_id,
           price_per_hour: match.price,
           gpu_count: match.gpu_count,
-          source_name: 'RunPod GraphQL API',
-          source_url: 'https://api.runpod.io/graphql'
+          source_name: 'RunPod API',
+          source_url: 'https://runpod.io?ref=fdhbgkyk'
         });
 
       if (priceError) {
