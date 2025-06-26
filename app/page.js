@@ -43,10 +43,10 @@ export default async function Home() {
               <Link href="/gpus/h100" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
                 H100
               </Link>,{' '}
-              <Link href="/gpus/a100-pcie" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
+              <Link href="/gpus/a100pcie" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
                 A100
               </Link>, and{' '}
-              <Link href="/gpus/rtx-4090" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
+              <Link href="/gpus/rtx4090" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
                 RTX 4090
               </Link>{' '}
               rates in seconds.
