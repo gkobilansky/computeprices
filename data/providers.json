@@ -1930,5 +1930,98 @@
       "Browser-based virtual desktop for no-CLI launches",
       "SOC 2 Type II compliance for enterprise workloads"
     ]
+  },
+  {
+    "id": "973ad9bb-3d03-4c5f-b407-d90911f786bf",
+    "name": "Jarvis Labs",
+    "slug": "jarvis",
+    "description": "Jarvislabs.ai is a GPU cloud platform that offers instant access to powerful GPUs and customizable environments. Whether you're training machine learning models, developing AI applications, or conducting research, the platform provides enterprise-grade infrastructure with pay-as-you-go flexibility and zero setup complexity.",
+    "link": "https://jarvislabs.ai/",
+    "docsLink": "https://docs.jarvislabs.ai/",
+    "features": [
+      {
+        "title": "Instant GPU Access",
+        "description": "Get access to powerful GPUs instantly with zero setup complexity"
+      },
+      {
+        "title": "Customizable Environments",
+        "description": "Wide range of pre-configured templates for various AI/ML frameworks"
+      },
+      {
+        "title": "Pay-as-you-go",
+        "description": "Flexible pricing model with no upfront commitments"
+      },
+      {
+        "title": "Enterprise-grade Infrastructure",
+        "description": "Reliable and scalable infrastructure for production workloads"
+      },
+      {
+        "title": "Instance Management",
+        "description": "Easy pause, resume, and delete functionality for cost optimization"
+      },
+      {
+        "title": "SSH Access",
+        "description": "Full SSH access to instances for complete control"
+      },
+      {
+        "title": "GPU Switching",
+        "description": "Switch GPU types when resuming paused instances"
+      },
+      {
+        "title": "Regional Flexibility",
+        "description": "Resume instances within the same region for seamless operation"
+      }
+    ],
+    "pros": [
+      "Quick setup - get started in less than 5 minutes",
+      "Easy instance lifecycle management (pause, resume, delete)",
+      "Ability to switch GPU types when resuming instances",
+      "Wide range of pre-configured templates",
+      "Cost optimization through pause/resume functionality",
+      "Enterprise-grade infrastructure with pay-as-you-go pricing"
+    ],
+    "cons": [
+      "Limited information available about specific GPU types",
+      "Regional availability details not clearly specified",
+      "Newer player compared to established cloud providers"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create a New Account",
+        "description": "Sign up for a new account on the Jarvis Labs platform"
+      },
+      {
+        "title": "Recharge Your Wallet",
+        "description": "Add funds to your account in the Recharge section"
+      },
+      {
+        "title": "Choose and Launch a Template",
+        "description": "Explore the wide range of templates, configure your desired setup, and click Launch"
+      },
+      {
+        "title": "Manage Your Instances",
+        "description": "Easily pause ⏸️, resume ▶️, and delete 🗑️ your instances with just a few clicks"
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "GPU Instances",
+        "description": "On-demand GPU instances with various configuration options",
+        "features": [
+          "Pre-configured templates for popular ML frameworks",
+          "Scalable GPU resources",
+          "Instance pause and resume capabilities",
+          "SSH access for full control"
+        ]
+      }
+    ],
+    "regions": "Multiple regions available with flexibility to resume instances within the same region",
+    "support": "Documentation, tutorials, and getting started guides available",
+    "uniqueSellingPoints": [
+      "5-minute setup process for immediate productivity",
+      "Flexible instance management with pause/resume functionality",
+      "GPU type switching capability when resuming instances",
+      "Wide selection of pre-configured AI/ML templates"
+    ]
   }
 ]
