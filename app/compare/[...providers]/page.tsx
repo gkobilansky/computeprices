@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import {
   parseProviderSlugs,
   validateProviderComparison,
+  validateProviderComparisonWithSuggestions,
   getCanonicalRedirectURL,
   generateCanonicalComparisonURL
 } from '@/lib/providers'
@@ -15,6 +16,7 @@ import {
   ComparisonError
 } from '@/types/comparison'
 import { siteConfig } from '@/app/metadata'
+import ComparisonPricingTableWrapper from '@/components/comparison/ComparisonPricingTableWrapper'
 
 interface ComparePageProps {
   params: Promise<{
@@ -59,8 +61,8 @@ export default async function ComparePage({ params }: ComparePageProps) {
       )
     }
 
-    // Validate that both providers exist
-    const validation = await validateProviderComparison(
+    // Validate that both providers exist with suggestions
+    const validation = await validateProviderComparisonWithSuggestions(
       parsed.provider1,
       parsed.provider2
     )
@@ -68,19 +70,115 @@ export default async function ComparePage({ params }: ComparePageProps) {
     if (!validation.isValid) {
       return (
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
+          <div className="text-center max-w-4xl mx-auto px-4">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               Provider Not Found
             </h1>
             <p className="text-gray-600 mb-8">
               {validation.error}
             </p>
-            <div className="space-x-4">
+            
+            {/* Show suggestions if available */}
+            {(validation.provider1Suggestions && validation.provider1Suggestions.length > 0) || 
+             (validation.provider2Suggestions && validation.provider2Suggestions.length > 0) ? (
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                  Did you mean?
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Provider 1 Suggestions */}
+                  {validation.provider1Suggestions && validation.provider1Suggestions.length > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h3 className="font-semibold text-gray-700 mb-3">
+                        Similar to "{parsed.provider1}":
+                      </h3>
+                      <div className="space-y-2">
+                        {validation.provider1Suggestions.slice(0, 3).map((suggestion, idx) => (
+                          <a
+                            key={idx}
+                            href={`/compare/${suggestion.slug}-vs-${parsed.provider2}`}
+                            className="block px-3 py-2 text-left rounded hover:bg-blue-50 border border-gray-200 hover:border-blue-300 transition-colors"
+                          >
+                            <div className="font-medium text-blue-600">
+                              {suggestion.name}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {Math.round(suggestion.similarity * 100)}% match
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Provider 2 Suggestions */}
+                  {validation.provider2Suggestions && validation.provider2Suggestions.length > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h3 className="font-semibold text-gray-700 mb-3">
+                        Similar to "{parsed.provider2}":
+                      </h3>
+                      <div className="space-y-2">
+                        {validation.provider2Suggestions.slice(0, 3).map((suggestion, idx) => (
+                          <a
+                            key={idx}
+                            href={`/compare/${parsed.provider1}-vs-${suggestion.slug}`}
+                            className="block px-3 py-2 text-left rounded hover:bg-blue-50 border border-gray-200 hover:border-blue-300 transition-colors"
+                          >
+                            <div className="font-medium text-blue-600">
+                              {suggestion.name}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {Math.round(suggestion.similarity * 100)}% match
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : null}
+            
+            {/* Popular Comparisons */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                Popular Comparisons
+              </h2>
+              <div className="flex flex-wrap gap-3 justify-center">
+                <a
+                  href="/compare/aws-vs-coreweave"
+                  className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                >
+                  AWS vs CoreWeave
+                </a>
+                <a
+                  href="/compare/aws-vs-runpod"
+                  className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                >
+                  AWS vs RunPod
+                </a>
+                <a
+                  href="/compare/coreweave-vs-lambda"
+                  className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                >
+                  CoreWeave vs Lambda
+                </a>
+                <a
+                  href="/compare/google-vs-azure"
+                  className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                >
+                  Google vs Azure
+                </a>
+              </div>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/providers"
                 className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Browse Providers
+                Browse All Providers
               </a>
               <a
                 href="/"
@@ -213,15 +311,13 @@ export default async function ComparePage({ params }: ComparePageProps) {
             </div>
           </div>
 
-          {/* Placeholder for future GPU pricing comparison table */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
-              GPU Pricing Comparison
-            </h2>
-            <p className="text-gray-600 text-center">
-              Detailed GPU pricing comparison table will be implemented in a future update.
-            </p>
-          </div>
+          {/* GPU Pricing Comparison Table */}
+          <ComparisonPricingTableWrapper
+            provider1Id={validation.provider1!.id}
+            provider2Id={validation.provider2!.id}
+            provider1Name={validation.provider1!.name}
+            provider2Name={validation.provider2!.name}
+          />
         </div>
       </div>
     )
