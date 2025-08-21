@@ -16,19 +16,28 @@ import {
   ComparisonError
 } from '@/types/comparison'
 import { siteConfig } from '@/app/metadata'
-import ComparisonPricingTableWrapper from '@/components/comparison/ComparisonPricingTableWrapper'
+import OptimizedComparisonWrapper from '@/components/comparison/OptimizedComparisonWrapper'
 import ComparisonHeader from '@/components/comparison/ComparisonHeader'
 import ComparisonNavigation from '@/components/comparison/ComparisonNavigation'
 import ComparisonLayout, { ComparisonSection, ComparisonFullSection } from '@/components/comparison/ComparisonLayout'
 import { 
-  FeaturesComparisonSection, 
-  ProsConsSection, 
-  ComputeServicesSection,
-  PricingOptionsSection,
-  GettingStartedSection,
-  SupportRegionsSection
-} from '@/components/comparison/ComparisonSections'
+  LazyFeaturesComparisonSection, 
+  LazyProsConsSection, 
+  LazyComputeServicesSection,
+  LazyPricingOptionsSection,
+  LazyGettingStartedSection,
+  LazySupportRegionsSection
+} from '@/components/comparison/LazyComparisonSections'
+import RelatedComparisons from '@/components/comparison/RelatedComparisons'
+import ComparisonStructuredData from '@/components/seo/ComparisonStructuredData'
 import { fetchProviderComparison } from '@/lib/utils/fetchGPUData'
+import { generateComparisonMetadata, extractComparisonStats } from '@/lib/seo/comparison-metadata'
+import { 
+  generateStaticParamsWithLimit, 
+  PRODUCTION_STATIC_CONFIG,
+  DEVELOPMENT_STATIC_CONFIG
+} from '@/lib/static-generation'
+import PerformanceProvider from '@/components/performance/PerformanceProvider'
 
 interface ComparePageProps {
   params: Promise<{
@@ -234,29 +243,35 @@ export default async function ComparePage({ params }: ComparePageProps) {
 
     // Render the enhanced comparison page
     return (
-      <div className="min-h-screen">
+      <PerformanceProvider
+        provider1Id={validation.provider1!.id}
+        provider2Id={validation.provider2!.id}
+        enableWebVitals={true}
+        enablePreloading={true}
+      >
+        <div className="min-h-screen">
         {/* Header Section */}
         <ComparisonHeader 
-          provider1={validation.provider1}
-          provider2={validation.provider2}
+          provider1={validation.provider1!}
+          provider2={validation.provider2!}
           comparisonData={comparisonData || []}
           metadata={metadata || {}}
         />
 
         {/* Navigation Section */}
         <ComparisonNavigation 
-          provider1={validation.provider1}
-          provider2={validation.provider2}
+          provider1={validation.provider1!}
+          provider2={validation.provider2!}
         />
 
         {/* Main Content */}
         <ComparisonLayout 
-          provider1={validation.provider1}
-          provider2={validation.provider2}
+          provider1={validation.provider1!}
+          provider2={validation.provider2!}
         >
-          {/* GPU Pricing Comparison Table - Full Width */}
+          {/* GPU Pricing Comparison Table - Full Width - Optimized */}
           <ComparisonFullSection title="GPU Pricing Comparison">
-            <ComparisonPricingTableWrapper
+            <OptimizedComparisonWrapper
               provider1Id={validation.provider1!.id}
               provider2Id={validation.provider2!.id}
               provider1Name={validation.provider1!.name}
@@ -264,43 +279,59 @@ export default async function ComparePage({ params }: ComparePageProps) {
             />
           </ComparisonFullSection>
 
-          {/* Features Comparison */}
-          <FeaturesComparisonSection 
-            provider1={validation.provider1}
-            provider2={validation.provider2}
+          {/* Features Comparison - Lazy Loaded */}
+          <LazyFeaturesComparisonSection 
+            provider1={validation.provider1!}
+            provider2={validation.provider2!}
           />
 
-          {/* Pros and Cons */}
-          <ProsConsSection 
-            provider1={validation.provider1}
-            provider2={validation.provider2}
+          {/* Pros and Cons - Lazy Loaded */}
+          <LazyProsConsSection 
+            provider1={validation.provider1!}
+            provider2={validation.provider2!}
           />
 
-          {/* Compute Services */}
-          <ComputeServicesSection 
-            provider1={validation.provider1}
-            provider2={validation.provider2}
+          {/* Compute Services - Lazy Loaded */}
+          <LazyComputeServicesSection 
+            provider1={validation.provider1!}
+            provider2={validation.provider2!}
           />
 
-          {/* Pricing Options */}
-          <PricingOptionsSection 
-            provider1={validation.provider1}
-            provider2={validation.provider2}
+          {/* Pricing Options - Lazy Loaded */}
+          <LazyPricingOptionsSection 
+            provider1={validation.provider1!}
+            provider2={validation.provider2!}
           />
 
-          {/* Getting Started - Full Width */}
-          <GettingStartedSection 
-            provider1={validation.provider1}
-            provider2={validation.provider2}
+          {/* Getting Started - Full Width - Lazy Loaded */}
+          <LazyGettingStartedSection 
+            provider1={validation.provider1!}
+            provider2={validation.provider2!}
           />
 
-          {/* Support & Regions - Full Width */}
-          <SupportRegionsSection 
-            provider1={validation.provider1}
-            provider2={validation.provider2}
+          {/* Support & Regions - Full Width - Lazy Loaded */}
+          <LazySupportRegionsSection 
+            provider1={validation.provider1!}
+            provider2={validation.provider2!}
           />
+
+          {/* Related Comparisons - Full Width */}
+          <ComparisonFullSection title="">
+            <RelatedComparisons 
+              currentProvider1={validation.provider1!}
+              currentProvider2={validation.provider2!}
+            />
+          </ComparisonFullSection>
         </ComparisonLayout>
-      </div>
+
+        {/* SEO Structured Data */}
+        <ComparisonStructuredData
+          provider1={validation.provider1!}
+          provider2={validation.provider2!}
+          comparisonData={comparisonData || []}
+        />
+        </div>
+      </PerformanceProvider>
     )
 
   } catch (error) {
@@ -392,94 +423,24 @@ export async function generateMetadata({
       siteConfig.url
     )
 
-    // Generate enhanced titles and descriptions
-    const title = `${provider1.name} vs ${provider2.name} GPU Pricing Comparison 2024 | ComputePrices.com`
-    const description = `Compare ${provider1.name} and ${provider2.name} GPU cloud pricing, features, and performance. Real-time pricing data for AI training, inference, and ML workloads. Find the best deals and save up to 80% on cloud compute costs.`
-
-    // Generate keywords based on providers
-    const keywords = [
-      `${provider1.name} vs ${provider2.name}`,
-      `${provider1.name} GPU pricing`,
-      `${provider2.name} GPU pricing`,
-      'GPU cloud comparison',
-      'AI training costs',
-      'ML inference pricing',
-      'cloud GPU providers',
-      'NVIDIA GPU pricing',
-      'H100 pricing comparison',
-      'A100 pricing comparison',
-      provider1.slug,
-      provider2.slug
-    ].join(', ')
+    const currentPath = `/compare/${providers.join('/')}`
 
     // Try to fetch comparison data for richer metadata
-    let comparisonMetadata = null
+    let comparisonStats = null
     try {
       const comparison = await fetchProviderComparison(provider1.id, provider2.id)
-      comparisonMetadata = comparison.metadata
+      comparisonStats = extractComparisonStats(comparison.comparisonData)
     } catch (error) {
-      console.warn('Could not fetch comparison metadata for SEO:', error)
+      console.warn('Could not fetch comparison data for SEO metadata:', error)
     }
 
-    const totalGPUs = comparisonMetadata?.totalGPUs || 0
-    const bothAvailable = comparisonMetadata?.bothAvailable || 0
-
-    // Enhanced description with stats if available
-    const enhancedDescription = totalGPUs > 0 
-      ? `${description} Compare pricing for ${totalGPUs} GPU models with ${bothAvailable} direct comparisons available.`
-      : description
-
-    return {
-      title,
-      description: enhancedDescription,
-      keywords,
-      alternates: {
-        canonical: canonicalUrl,
-      },
-      openGraph: {
-        title,
-        description: enhancedDescription,
-        url: canonicalUrl,
-        siteName: siteConfig.name,
-        type: 'website',
-        locale: 'en_US',
-        images: [
-          {
-            url: `${siteConfig.url}/og-image.png`,
-            width: 1200,
-            height: 630,
-            alt: `${provider1.name} vs ${provider2.name} GPU Pricing Comparison`,
-          },
-        ],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title,
-        description: enhancedDescription,
-        images: [`${siteConfig.url}/og-image.png`],
-        site: '@computeprices',
-      },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          'max-video-preview': -1,
-          'max-image-preview': 'large',
-          'max-snippet': -1,
-        },
-      },
-      verification: {
-        google: process.env.GOOGLE_SITE_VERIFICATION,
-      },
-      other: {
-        'article:author': 'ComputePrices Team',
-        'article:section': 'Technology',
-        'article:tag': keywords,
-        'og:site_name': siteConfig.name,
-      },
-    }
+    // Use the new SEO metadata generation utility
+    return generateComparisonMetadata({
+      provider1,
+      provider2,
+      comparisonStats: comparisonStats || undefined,
+      currentPath
+    })
   } catch (error) {
     console.error('Error generating metadata for comparison page:', error)
     return {
@@ -492,3 +453,43 @@ export async function generateMetadata({
     }
   }
 }
+
+/**
+ * Generate static params for all valid provider combinations
+ * This enables static generation at build time for better performance and SEO
+ */
+export async function generateStaticParams(): Promise<Array<{ providers: string[] }>> {
+  try {
+    console.log('[Static Generation] Starting generateStaticParams for comparison pages...')
+    
+    const isProduction = process.env.NODE_ENV === 'production'
+    const config = isProduction ? PRODUCTION_STATIC_CONFIG : DEVELOPMENT_STATIC_CONFIG
+    
+    // In production, limit combinations to manage build time
+    const maxCombinations = isProduction ? 150 : 20
+    
+    const combinations = await generateStaticParamsWithLimit(maxCombinations, config)
+    
+    console.log(`[Static Generation] Generated ${combinations.length} static params for comparison pages`)
+    
+    // Log some examples for debugging
+    if (combinations.length > 0) {
+      const examples = combinations.slice(0, 3).map(c => c.providers[0])
+      console.log(`[Static Generation] Examples: ${examples.join(', ')}`)
+    }
+    
+    return combinations
+  } catch (error) {
+    console.error('[Static Generation] Error in generateStaticParams:', error)
+    
+    // Return empty array to prevent build failure
+    // Pages will be generated on-demand instead
+    return []
+  }
+}
+
+/**
+ * ISR (Incremental Static Regeneration) configuration
+ * Automatically revalidate pages when pricing data changes (6 hours)
+ */
+export const revalidate = 21600 // 6 hours in seconds
