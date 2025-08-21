@@ -17,6 +17,18 @@ import {
 } from '@/types/comparison'
 import { siteConfig } from '@/app/metadata'
 import ComparisonPricingTableWrapper from '@/components/comparison/ComparisonPricingTableWrapper'
+import ComparisonHeader from '@/components/comparison/ComparisonHeader'
+import ComparisonNavigation from '@/components/comparison/ComparisonNavigation'
+import ComparisonLayout, { ComparisonSection, ComparisonFullSection } from '@/components/comparison/ComparisonLayout'
+import { 
+  FeaturesComparisonSection, 
+  ProsConsSection, 
+  ComputeServicesSection,
+  PricingOptionsSection,
+  GettingStartedSection,
+  SupportRegionsSection
+} from '@/components/comparison/ComparisonSections'
+import { fetchProviderComparison } from '@/lib/utils/fetchGPUData'
 
 interface ComparePageProps {
   params: Promise<{
@@ -204,121 +216,90 @@ export default async function ComparePage({ params }: ComparePageProps) {
       redirect(canonicalRedirect)
     }
 
-    // Render the comparison page
+    // Fetch provider comparison data with pricing information
+    let comparisonData: any[] | null = null;
+    let metadata: any | null = null;
+    
+    try {
+      const comparison = await fetchProviderComparison(
+        validation.provider1!.id, 
+        validation.provider2!.id
+      );
+      comparisonData = comparison.comparisonData;
+      metadata = comparison.metadata;
+    } catch (error) {
+      console.error('Error fetching comparison data:', error);
+      // Continue with empty comparison data - the pricing table will handle its own data loading
+    }
+
+    // Render the enhanced comparison page
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              {validation.provider1!.name} vs {validation.provider2!.name}
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Compare GPU pricing, features, and specifications between {validation.provider1!.name} and {validation.provider2!.name} cloud providers.
-            </p>
-          </div>
+      <div className="min-h-screen">
+        {/* Header Section */}
+        <ComparisonHeader 
+          provider1={validation.provider1}
+          provider2={validation.provider2}
+          comparisonData={comparisonData || []}
+          metadata={metadata || {}}
+        />
 
-          {/* Comparison Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Provider 1 */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  {validation.provider1!.name}
-                </h2>
-                {validation.provider1!.description && (
-                  <p className="text-gray-600">
-                    {validation.provider1!.description}
-                  </p>
-                )}
-              </div>
+        {/* Navigation Section */}
+        <ComparisonNavigation 
+          provider1={validation.provider1}
+          provider2={validation.provider2}
+        />
 
-              {/* Provider 1 Details */}
-              {validation.provider1!.features && validation.provider1!.features.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Features</h3>
-                  <ul className="space-y-2">
-                    {validation.provider1!.features.slice(0, 5).map((feature, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <div>
-                          <strong className="text-gray-900">{feature.title}</strong>
-                          <p className="text-gray-600 text-sm">{feature.description}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+        {/* Main Content */}
+        <ComparisonLayout 
+          provider1={validation.provider1}
+          provider2={validation.provider2}
+        >
+          {/* GPU Pricing Comparison Table - Full Width */}
+          <ComparisonFullSection title="GPU Pricing Comparison">
+            <ComparisonPricingTableWrapper
+              provider1Id={validation.provider1!.id}
+              provider2Id={validation.provider2!.id}
+              provider1Name={validation.provider1!.name}
+              provider2Name={validation.provider2!.name}
+            />
+          </ComparisonFullSection>
 
-              {validation.provider1!.link && (
-                <div className="text-center">
-                  <a
-                    href={validation.provider1!.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Visit {validation.provider1!.name}
-                  </a>
-                </div>
-              )}
-            </div>
-
-            {/* Provider 2 */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  {validation.provider2!.name}
-                </h2>
-                {validation.provider2!.description && (
-                  <p className="text-gray-600">
-                    {validation.provider2!.description}
-                  </p>
-                )}
-              </div>
-
-              {/* Provider 2 Details */}
-              {validation.provider2!.features && validation.provider2!.features.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Features</h3>
-                  <ul className="space-y-2">
-                    {validation.provider2!.features.slice(0, 5).map((feature, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <div>
-                          <strong className="text-gray-900">{feature.title}</strong>
-                          <p className="text-gray-600 text-sm">{feature.description}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {validation.provider2!.link && (
-                <div className="text-center">
-                  <a
-                    href={validation.provider2!.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    Visit {validation.provider2!.name}
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* GPU Pricing Comparison Table */}
-          <ComparisonPricingTableWrapper
-            provider1Id={validation.provider1!.id}
-            provider2Id={validation.provider2!.id}
-            provider1Name={validation.provider1!.name}
-            provider2Name={validation.provider2!.name}
+          {/* Features Comparison */}
+          <FeaturesComparisonSection 
+            provider1={validation.provider1}
+            provider2={validation.provider2}
           />
-        </div>
+
+          {/* Pros and Cons */}
+          <ProsConsSection 
+            provider1={validation.provider1}
+            provider2={validation.provider2}
+          />
+
+          {/* Compute Services */}
+          <ComputeServicesSection 
+            provider1={validation.provider1}
+            provider2={validation.provider2}
+          />
+
+          {/* Pricing Options */}
+          <PricingOptionsSection 
+            provider1={validation.provider1}
+            provider2={validation.provider2}
+          />
+
+          {/* Getting Started - Full Width */}
+          <GettingStartedSection 
+            provider1={validation.provider1}
+            provider2={validation.provider2}
+          />
+
+          {/* Support & Regions - Full Width */}
+          <SupportRegionsSection 
+            provider1={validation.provider1}
+            provider2={validation.provider2}
+          />
+        </ComparisonLayout>
       </div>
     )
 
@@ -368,7 +349,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
   }
 }
 
-// Generate metadata for the comparison page
+// Generate enhanced metadata for the comparison page
 export async function generateMetadata({
   params,
 }: ComparePageProps): Promise<Metadata> {
@@ -379,7 +360,11 @@ export async function generateMetadata({
     if (!parsed.isValid) {
       return {
         title: 'Invalid Provider Comparison | ComputePrices.com',
-        description: 'Invalid provider comparison URL format.',
+        description: 'Invalid provider comparison URL format. Use formats like aws-vs-coreweave or provider1/vs/provider2.',
+        robots: {
+          index: false,
+          follow: true,
+        },
       }
     }
 
@@ -391,7 +376,11 @@ export async function generateMetadata({
     if (!validation.isValid) {
       return {
         title: 'Provider Not Found | ComputePrices.com',
-        description: 'The requested provider comparison could not be found.',
+        description: 'The requested provider comparison could not be found. Browse our available GPU cloud providers instead.',
+        robots: {
+          index: false,
+          follow: true,
+        },
       }
     }
 
@@ -403,43 +392,103 @@ export async function generateMetadata({
       siteConfig.url
     )
 
-    const title = `${provider1.name} vs ${provider2.name} GPU Pricing Comparison | ComputePrices.com`
-    const description = `Compare ${provider1.name} and ${provider2.name} GPU cloud pricing, features, and specifications. Find the best deals for AI training, inference, and ML workloads. Save up to 80% on cloud compute costs.`
+    // Generate enhanced titles and descriptions
+    const title = `${provider1.name} vs ${provider2.name} GPU Pricing Comparison 2024 | ComputePrices.com`
+    const description = `Compare ${provider1.name} and ${provider2.name} GPU cloud pricing, features, and performance. Real-time pricing data for AI training, inference, and ML workloads. Find the best deals and save up to 80% on cloud compute costs.`
+
+    // Generate keywords based on providers
+    const keywords = [
+      `${provider1.name} vs ${provider2.name}`,
+      `${provider1.name} GPU pricing`,
+      `${provider2.name} GPU pricing`,
+      'GPU cloud comparison',
+      'AI training costs',
+      'ML inference pricing',
+      'cloud GPU providers',
+      'NVIDIA GPU pricing',
+      'H100 pricing comparison',
+      'A100 pricing comparison',
+      provider1.slug,
+      provider2.slug
+    ].join(', ')
+
+    // Try to fetch comparison data for richer metadata
+    let comparisonMetadata = null
+    try {
+      const comparison = await fetchProviderComparison(provider1.id, provider2.id)
+      comparisonMetadata = comparison.metadata
+    } catch (error) {
+      console.warn('Could not fetch comparison metadata for SEO:', error)
+    }
+
+    const totalGPUs = comparisonMetadata?.totalGPUs || 0
+    const bothAvailable = comparisonMetadata?.bothAvailable || 0
+
+    // Enhanced description with stats if available
+    const enhancedDescription = totalGPUs > 0 
+      ? `${description} Compare pricing for ${totalGPUs} GPU models with ${bothAvailable} direct comparisons available.`
+      : description
 
     return {
       title,
-      description,
+      description: enhancedDescription,
+      keywords,
       alternates: {
         canonical: canonicalUrl,
       },
       openGraph: {
         title,
-        description,
+        description: enhancedDescription,
         url: canonicalUrl,
         siteName: siteConfig.name,
+        type: 'website',
+        locale: 'en_US',
         images: [
           {
-            url: '/og-image.png',
+            url: `${siteConfig.url}/og-image.png`,
             width: 1200,
             height: 630,
-            alt: `${provider1.name} vs ${provider2.name} GPU Comparison`,
+            alt: `${provider1.name} vs ${provider2.name} GPU Pricing Comparison`,
           },
         ],
-        locale: 'en_US',
-        type: 'website',
       },
       twitter: {
         card: 'summary_large_image',
         title,
-        description,
-        images: ['/og-image.png'],
+        description: enhancedDescription,
+        images: [`${siteConfig.url}/og-image.png`],
+        site: '@computeprices',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+      verification: {
+        google: process.env.GOOGLE_SITE_VERIFICATION,
+      },
+      other: {
+        'article:author': 'ComputePrices Team',
+        'article:section': 'Technology',
+        'article:tag': keywords,
+        'og:site_name': siteConfig.name,
       },
     }
   } catch (error) {
     console.error('Error generating metadata for comparison page:', error)
     return {
       title: 'Provider Comparison | ComputePrices.com',
-      description: 'Compare cloud GPU providers and find the best deals.',
+      description: 'Compare cloud GPU providers and find the best deals for AI training and inference workloads.',
+      robots: {
+        index: false,
+        follow: true,
+      },
     }
   }
 }
