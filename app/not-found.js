@@ -27,13 +27,72 @@ export default function NotFound() {
           The page you're looking for has either been moved, deleted, or never existed. 
           Maybe it's processing in another compute queue? 
         </p>
-        <Link 
-          href="/"
-          className="btn btn-primary btn-lg"
-        >
-          <span className="mr-2">⚡</span>
-          Return to Homepage
-        </Link>
+        
+        {/* Navigation Links */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <Link 
+            href="/"
+            className="btn btn-primary btn-lg"
+          >
+            <span className="mr-2">⚡</span>
+            Return to Homepage
+          </Link>
+          
+          <Link 
+            href="/providers"
+            className="btn btn-secondary btn-lg"
+          >
+            <span className="mr-2">🏢</span>
+            Browse Providers
+          </Link>
+          
+          <Link 
+            href="/gpus"
+            className="btn btn-accent btn-lg"
+          >
+            <span className="mr-2">🎮</span>
+            Explore GPUs
+          </Link>
+        </div>
+        
+        {/* Popular Comparisons */}
+        <div className="mt-12 border-t pt-8">
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            Popular Provider Comparisons
+          </h2>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Link 
+              href="/compare/aws-vs-coreweave"
+              className="badge badge-outline hover:badge-primary transition-colors"
+            >
+              AWS vs CoreWeave
+            </Link>
+            <Link 
+              href="/compare/aws-vs-runpod"
+              className="badge badge-outline hover:badge-primary transition-colors"
+            >
+              AWS vs RunPod
+            </Link>
+            <Link 
+              href="/compare/coreweave-vs-lambda"
+              className="badge badge-outline hover:badge-primary transition-colors"
+            >
+              CoreWeave vs Lambda
+            </Link>
+            <Link 
+              href="/compare/google-vs-azure"
+              className="badge badge-outline hover:badge-primary transition-colors"
+            >
+              Google vs Azure
+            </Link>
+            <Link 
+              href="/compare/fluidstack-vs-vast"
+              className="badge badge-outline hover:badge-primary transition-colors"
+            >
+              FluidStack vs Vast.ai
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
