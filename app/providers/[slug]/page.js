@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import { getProviderBySlug, generateProviderMetadata, getAllProviderSlugs, generateProviderSchema } from '@/lib/utils/provider';
-import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
+import { fetchGPUPrices, getProviderSuggestions } from '@/lib/utils/fetchGPUData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
+import CompareProviders from '@/components/CompareProviders';
 import Image from 'next/image';
 import DataTransparency from '@/components/DataTransparency';
 
@@ -27,6 +28,7 @@ export default async function ProviderPage({ params }) {
   }
 
   const gpuPrices = await fetchGPUPrices({ selectedProvider: provider.id });
+  const providerSuggestions = await getProviderSuggestions(provider.id);
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -196,6 +198,12 @@ export default async function ProviderPage({ params }) {
           </div>
         </section>
       )}
+
+      {/* Compare Providers */}
+      <CompareProviders 
+        suggestions={providerSuggestions} 
+        currentProvider={provider}
+      />
 
       {/* Data Transparency */}
       <DataTransparency />
