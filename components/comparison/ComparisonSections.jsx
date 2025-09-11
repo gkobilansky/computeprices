@@ -1,6 +1,4 @@
 'use client';
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 // Define inline SVG icons to avoid heroicons dependency
 const CheckCircleIcon = ({ className }) => (
@@ -56,62 +54,10 @@ const ArrowRightIcon = ({ className }) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
   </svg>
 );
-import FeatureComparisonMatrix from './FeatureComparisonMatrix';
-import ProviderProsConsCards from './ProviderProsConsCards';
 
-// Features Comparison Section - Enhanced with FeatureComparisonMatrix
+// Features Comparison Section - Using providers.json data
 export function FeaturesComparisonSection({ provider1, provider2 }) {
-  const [providerComparisonData, setProviderComparisonData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Load provider comparison data
-  useEffect(() => {
-    const loadProviderData = async () => {
-      try {
-        // Import the provider-comparisons.json data
-        const response = await fetch('/data/provider-comparisons.json');
-        if (!response.ok) throw new Error('Failed to fetch comparison data');
-        
-        const data = await response.json();
-        
-        // Find the provider data by slug
-        const provider1Data = Object.values(data.providers).find(p => 
-          p.slug === provider1.slug || p.name === provider1.name
-        );
-        const provider2Data = Object.values(data.providers).find(p => 
-          p.slug === provider2.slug || p.name === provider2.name
-        );
-
-        setProviderComparisonData({
-          provider1: provider1Data,
-          provider2: provider2Data
-        });
-      } catch (error) {
-        console.error('Error loading provider comparison data:', error);
-        // Fallback to basic comparison if detailed data unavailable
-        setProviderComparisonData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProviderData();
-  }, [provider1.slug, provider2.slug, provider1.name, provider2.name]);
-
-  // If we have detailed comparison data, use the enhanced matrix
-  if (providerComparisonData?.provider1 && providerComparisonData?.provider2) {
-    return (
-      <FeatureComparisonMatrix
-        provider1Data={providerComparisonData.provider1}
-        provider2Data={providerComparisonData.provider2}
-        provider1Name={provider1.name}
-        provider2Name={provider2.name}
-        loading={loading}
-      />
-    );
-  }
-
-  // Fallback to basic features comparison
+  // Directly use the provider data from props which comes from providers.json
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200">
       <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
@@ -122,13 +68,7 @@ export function FeaturesComparisonSection({ provider1, provider2 }) {
       </div>
       
       <div className="p-6">
-        {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span className="ml-2 text-gray-600">Loading feature comparison...</span>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Provider 1 Features */}
             <div>
               <div className="flex items-center space-x-2 mb-4">
@@ -166,8 +106,7 @@ export function FeaturesComparisonSection({ provider1, provider2 }) {
                 ))}
               </ul>
             </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -175,56 +114,7 @@ export function FeaturesComparisonSection({ provider1, provider2 }) {
 
 // Pros and Cons Section - Enhanced with ProviderProsConsCards
 export function ProsConsSection({ provider1, provider2 }) {
-  const [providerComparisonData, setProviderComparisonData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Load provider comparison data
-  useEffect(() => {
-    const loadProviderData = async () => {
-      try {
-        // Import the provider-comparisons.json data
-        const response = await fetch('/data/provider-comparisons.json');
-        if (!response.ok) throw new Error('Failed to fetch comparison data');
-        
-        const data = await response.json();
-        
-        // Find the provider data by slug
-        const provider1Data = Object.values(data.providers).find(p => 
-          p.slug === provider1.slug || p.name === provider1.name
-        );
-        const provider2Data = Object.values(data.providers).find(p => 
-          p.slug === provider2.slug || p.name === provider2.name
-        );
-
-        setProviderComparisonData({
-          provider1: provider1Data,
-          provider2: provider2Data
-        });
-      } catch (error) {
-        console.error('Error loading provider comparison data:', error);
-        // Fallback to basic comparison if detailed data unavailable
-        setProviderComparisonData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProviderData();
-  }, [provider1.slug, provider2.slug, provider1.name, provider2.name]);
-
-  // If we have detailed comparison data, use the enhanced cards
-  if (providerComparisonData?.provider1 && providerComparisonData?.provider2) {
-    return (
-      <ProviderProsConsCards
-        provider1Data={providerComparisonData.provider1}
-        provider2Data={providerComparisonData.provider2}
-        provider1Name={provider1.name}
-        provider2Name={provider2.name}
-      />
-    );
-  }
-
-  // Fallback to basic pros/cons comparison
+  // Use provider data directly from props
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200">
       <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
@@ -235,13 +125,7 @@ export function ProsConsSection({ provider1, provider2 }) {
       </div>
       
       <div className="p-6">
-        {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span className="ml-2 text-gray-600">Loading provider comparison...</span>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Provider 1 */}
             <div>
               <div className="flex items-center space-x-2 mb-4">
@@ -314,7 +198,6 @@ export function ProsConsSection({ provider1, provider2 }) {
               )}
             </div>
           </div>
-        )}
       </div>
     </div>
   );
