@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Custom SVG Icons
 const ArrowRightIcon = ({ className = "w-4 h-4" }) => (
@@ -46,6 +47,42 @@ export default function ComparisonHeader({
     .filter(item => item.price_difference !== null)
     .reduce((acc, item, _, arr) => acc + Math.abs(item.price_difference) / arr.length, 0);
 
+  // Helper to render a provider avatar: logo if available, else letter box
+  const ProviderAvatar = ({ provider, size = 'lg', color = 'blue' }) => {
+    const sizeMap = {
+      sm: 'w-8 h-8 rounded-full',
+      md: 'w-12 h-12 rounded-lg',
+      lg: 'w-16 h-16 rounded-lg',
+    };
+    const bgColor = color === 'green' ? 'bg-green-600' : 'bg-blue-600';
+    const containerClasses = `${sizeMap[size]} ${!provider?.isMinimal ? 'bg-gray-50' : bgColor} flex items-center justify-center overflow-hidden`;
+    const letter = provider?.name?.charAt(0) || 'P';
+
+    // If provider is not minimal, we assume logo exists under /logos/{slug}.png
+    if (provider && !provider.isMinimal && provider.slug) {
+      return (
+        <div className={containerClasses}>
+          <Image
+            src={`/logos/${provider.slug}.png`}
+            alt={`${provider.name} logo`}
+            width={size === 'sm' ? 24 : size === 'md' ? 32 : 48}
+            height={size === 'sm' ? 24 : size === 'md' ? 32 : 48}
+            className="object-contain"
+          />
+        </div>
+      );
+    }
+
+    // Fallback to letter box
+    return (
+      <div className={`${sizeMap[size]} ${bgColor} flex items-center justify-center`}>
+        <span className={`${size === 'sm' ? 'text-xs' : size === 'md' ? 'text-lg' : 'text-2xl'} font-bold text-white`}>
+          {letter}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div className="bg-white border-b border-gray-200">
       <div className="container mx-auto px-4 py-8">
@@ -66,11 +103,7 @@ export default function ComparisonHeader({
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">
-                    {provider1?.name?.charAt(0) || 'P'}
-                  </span>
-                </div>
+                <ProviderAvatar provider={provider1} size="lg" color="blue" />
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900">
                     {provider1?.name}
@@ -104,11 +137,7 @@ export default function ComparisonHeader({
           <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-green-600 rounded-lg flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">
-                    {provider2?.name?.charAt(0) || 'P'}
-                  </span>
-                </div>
+                <ProviderAvatar provider={provider2} size="lg" color="green" />
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900">
                     {provider2?.name}
@@ -155,11 +184,7 @@ export default function ComparisonHeader({
             
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {provider1?.name?.charAt(0) || 'P1'}
-                  </span>
-                </div>
+                <ProviderAvatar provider={provider1} size="sm" color="blue" />
               </div>
               <div className="text-2xl font-bold text-blue-600">{provider1Available}</div>
               <div className="text-sm text-gray-600">{provider1?.name} GPUs</div>
@@ -167,11 +192,7 @@ export default function ComparisonHeader({
             
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {provider2?.name?.charAt(0) || 'P2'}
-                  </span>
-                </div>
+                <ProviderAvatar provider={provider2} size="sm" color="green" />
               </div>
               <div className="text-2xl font-bold text-green-600">{provider2Available}</div>
               <div className="text-sm text-gray-600">{provider2?.name} GPUs</div>

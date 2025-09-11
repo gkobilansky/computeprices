@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     source TEXT DEFAULT 'newsletter',
     subscribed_to_newsletter BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    role TEXT DEFAULT 'user'
 );
 
 -- Create index on email for faster lookups

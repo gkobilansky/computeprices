@@ -656,6 +656,7 @@
     "support": "Basic, Developer, Standard, and Professional Direct support plans with 24/7 options. Extensive documentation and community resources."
   },
   {
+    "id": "8b627aa8-dfbb-40c2-9291-a23eab57b098",
     "name": "IBM Cloud",
     "description": "IBM Cloud provides GPU instances optimized for AI and data-intensive workloads, with a focus on enterprise solutions.",
     "pros": [
@@ -672,6 +673,7 @@
     "slug": "ibm"
   },
   {
+    "id": "c53a1b15-f227-4ca5-be92-68e24a7643d9",
     "name": "Oracle Cloud",
     "description": "Oracle Cloud offers GPU instances with a focus on high-performance computing and enterprise applications.",
     "pros": [
@@ -710,7 +712,7 @@
     "slug": "coreweave"
   },
   {
-    "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
+    "id": "4a4fdeae-7d4f-4d75-9967-54bbd498e4bf",
     "name": "Vast.ai",
     "description": "Vast.ai is a marketplace for cloud GPU rental, connecting users to a network of GPU providers. It offers significant cost savings compared to traditional cloud services, with both on-demand and interruptible pricing models, real-time bidding, and Docker-based deployments.",
     "pros": [
@@ -756,7 +758,7 @@
     "slug": "lambda"
   },
   {
-    "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
+    "id": "a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182",
     "name": "Fluidstack",
     "description": "FluidStack is a GPU cloud platform that aggregates underutilized GPUs from data centers worldwide, offering affordable and scalable computing solutions for AI training, machine learning, and rendering. They provide on-demand access to high-performance NVIDIA GPUs, including H100 and A100 models, with fully managed Kubernetes and SLURM environments.",
     "pros": [
@@ -855,7 +857,7 @@
     ]
   },
   {
-    "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
+    "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
     "name": "Datacrunch",
     "slug": "datacrunch",
     "description": "DataCrunch.io is a Finnish cloud service provider specializing in AI and machine learning infrastructure. They offer dedicated GPU servers, fully-managed services, and on-demand access to high-performance computing resources, including advanced NVIDIA GPUs like the A100 and H200.",

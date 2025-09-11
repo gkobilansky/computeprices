@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import { getProviderBySlug, generateProviderMetadata, getAllProviderSlugs, generateProviderSchema } from '@/lib/utils/provider';
-import { fetchGPUPrices } from '@/lib/utils/fetchGPUData';
+import { fetchGPUPrices, getProviderSuggestions } from '@/lib/utils/fetchGPUData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
+import CompareProviders from '@/components/CompareProviders';
 import Image from 'next/image';
 import DataTransparency from '@/components/DataTransparency';
 
@@ -27,6 +28,7 @@ export default async function ProviderPage({ params }) {
   }
 
   const gpuPrices = await fetchGPUPrices({ selectedProvider: provider.id });
+  const providerSuggestions = await getProviderSuggestions(provider.id);
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -77,15 +79,34 @@ export default async function ProviderPage({ params }) {
       {!provider.isMinimal && provider.features?.length > 0 && (
         <section className="mb-16" aria-labelledby="features-heading">
           <h2 id="features-heading" className="text-2xl font-bold mb-6">Key Features</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {provider.features?.map((feature, index) => (
-              <div key={index} className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                  <h3 className="card-title text-lg">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
+          <div className="rounded-lg border border-base-200 bg-base-100/50">
+            <dl className="divide-y divide-base-200">
+              {provider.features?.map((feature, index) => (
+                <div key={index} className="p-4 sm:p-5">
+                  <div className="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      className="h-5 w-5 text-primary flex-shrink-0 mt-0.5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.06l2.5 2.5a.75.75 0 001.14-.094l4.057-5.494z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <div className="min-w-0 w-full lg:grid lg:grid-cols-12 lg:gap-6">
+                      <dt className="font-medium text-base-content lg:col-span-4">{feature.title}</dt>
+                      <dd className="mt-1 lg:mt-0 text-sm text-base-content/70 leading-relaxed lg:col-span-8">
+                        {feature.description}
+                      </dd>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </dl>
           </div>
         </section>
       )}
@@ -130,42 +151,80 @@ export default async function ProviderPage({ params }) {
       {!provider.isMinimal && provider.computeServices && (
         <section className="mb-16" aria-labelledby="services-heading">
           <h2 id="services-heading" className="text-2xl font-bold mb-6">Compute Services</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {provider.computeServices.map((service, index) => (
-              <div key={index} className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                  <h3 className="card-title">{service.name}</h3>
-                  <p className="text-gray-600 mb-4">{service.description}</p>
-                  {service.features && (
-                    <div>
-                      <h4 className="font-semibold mb-2">Features:</h4>
-                      <ul className="list-disc list-inside space-y-1">
-                        {service.features.map((feature, idx) => (
-                          <li key={idx} className="text-gray-600">{feature}</li>
-                        ))}
-                      </ul>
+          <div className="rounded-lg border border-base-200 bg-base-100/50">
+            <div className="divide-y divide-base-200">
+              {provider.computeServices.map((service, index) => (
+                <div key={index} className="p-4 sm:p-5">
+                  <div className="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      className="h-5 w-5 text-primary flex-shrink-0 mt-0.5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.06l2.5 2.5a.75.75 0 001.14-.094l4.057-5.494z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <div className="min-w-0 w-full lg:grid lg:grid-cols-12 lg:gap-6">
+                      <div className="lg:col-span-4">
+                        <h3 className="font-medium text-base-content">{service.name}</h3>
+                      </div>
+                      <div className="lg:col-span-8">
+                        {service.description && (
+                          <p className="text-sm text-base-content/70 leading-relaxed">
+                            {service.description}
+                          </p>
+                        )}
+                        {service.features && service.features.length > 0 && (
+                          <div className="mt-3 lg:mt-2">
+                            <h4 className="text-sm font-semibold text-base-content/80 mb-1">Features</h4>
+                            <ul role="list" className="space-y-1">
+                              {service.features.map((feature, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-sm text-base-content/70">
+                                  <span className="mt-1 inline-flex h-1.5 w-1.5 rounded-full bg-primary/70" aria-hidden="true" />
+                                  <span>{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
       )}
 
       {/* Pricing Options */}
       {!provider.isMinimal && provider.pricingOptions && (
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Pricing Options</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {provider.pricingOptions.map((option, index) => (
-              <div key={index} className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                  <h3 className="card-title text-lg">{option.name}</h3>
-                  <p className="text-gray-600">{option.description}</p>
-                </div>
-              </div>
-            ))}
+        <section className="mb-16" aria-labelledby="pricing-options-heading">
+          <h2 id="pricing-options-heading" className="text-2xl font-bold mb-6">Pricing Options</h2>
+          <div className="rounded-lg border border-base-200 bg-base-100/50 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead className="bg-base-200/60">
+                  <tr>
+                    <th scope="col" className="text-left font-semibold text-base-content/80 py-3 px-4 w-48">Option</th>
+                    <th scope="col" className="text-left font-semibold text-base-content/80 py-3 px-4">Details</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-base-200">
+                  {provider.pricingOptions.map((option, index) => (
+                    <tr key={index} className="align-top">
+                      <td className="py-4 px-4 text-base-content font-medium">{option.name}</td>
+                      <td className="py-4 px-4 text-base-content/70 leading-relaxed">{option.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       )}
@@ -196,6 +255,12 @@ export default async function ProviderPage({ params }) {
           </div>
         </section>
       )}
+
+      {/* Compare Providers */}
+      <CompareProviders 
+        suggestions={providerSuggestions} 
+        currentProvider={provider}
+      />
 
       {/* Data Transparency */}
       <DataTransparency />
