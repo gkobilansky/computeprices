@@ -98,6 +98,19 @@ export default function ProvidersPage() {
     });
   }, [searchQuery, providers]);
 
+  // Build provider comparison combinations for Popular Comparisons section
+  const combinations = useMemo(() => {
+    if (!providers?.length) return [];
+    const sorted = [...providers].sort((a, b) => a.name.localeCompare(b.name));
+    const pairs = [];
+    for (let i = 0; i < sorted.length; i++) {
+      for (let j = i + 1; j < sorted.length; j++) {
+        pairs.push([sorted[i], sorted[j]]);
+      }
+    }
+    return pairs;
+  }, [providers]);
+
   // Reset selected index when search query changes
   useEffect(() => {
     setSelectedIndex(-1);
@@ -324,6 +337,72 @@ export default function ProvidersPage() {
             </div>
           )}
         </div>
+      )}
+
+      {/* Popular Comparisons */}
+      {combinations.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-2xl font-bold mb-8 text-center">Popular Comparisons</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {combinations.slice(0, 6).map(([provider1, provider2]) => (
+              <div 
+                key={`${provider1.id}-${provider2.id}`}
+                className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow"
+              >
+                <div className="card-body p-6">
+                  <div className="flex justify-center items-center gap-4 mb-4">
+                    {(!provider1.isMinimal && provider1.slug) ? (
+                      <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
+                        <Image 
+                          src={`/logos/${provider1.slug}.png`} 
+                          alt={`${provider1.name} logo`}
+                          width={24} 
+                          height={24} 
+                          className="object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
+                        <span className="text-white font-bold">
+                          {provider1.name?.charAt(0) || 'P'}
+                        </span>
+                      </div>
+                    )}
+                    <span className="text-gray-400 font-bold text-lg">VS</span>
+                    {(!provider2.isMinimal && provider2.slug) ? (
+                      <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
+                        <Image 
+                          src={`/logos/${provider2.slug}.png`} 
+                          alt={`${provider2.name} logo`}
+                          width={24} 
+                          height={24} 
+                          className="object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
+                        <span className="text-white font-bold">
+                          {provider2.name?.charAt(0) || 'P'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="card-title text-center justify-center text-base mb-4">
+                    {provider1.name} vs {provider2.name}
+                  </h3>
+                  <div className="card-actions justify-center">
+                    <Link
+                      href={`/compare/${(provider1.slug || provider1.name.toLowerCase().replace(/\s+/g, '-'))}/${(provider2.slug || provider2.name.toLowerCase().replace(/\s+/g, '-'))}`}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Compare Now
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Additional Information Section */}
