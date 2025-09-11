@@ -7,6 +7,38 @@ import Link from 'next/link';
 export default function ProviderSelector({ providers }) {
   const [selectedProviders, setSelectedProviders] = useState([]);
 
+  // Shared full-width compare CTA used at top and bottom
+  const CompareCTA = ({ selected }) => {
+    const canCompare = selected.length === 2;
+    const label = canCompare
+      ? `Compare ${selected[0].name} vs ${selected[1].name}`
+      : 'Select 2 Providers to Compare';
+    const href = canCompare
+      ? `/compare/${selected[0].slug}/${selected[1].slug}`
+      : '#';
+
+    return (
+      <div className="max-w-2xl mx-auto mb-8">
+        {canCompare ? (
+          <Link
+            href={href}
+            className="group btn btn-primary btn-lg w-full justify-between"
+          >
+            <span>{label}</span>
+            <span className="inline-flex items-center transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        ) : (
+          <button className="btn btn-primary btn-lg w-full justify-between btn-disabled" disabled>
+            <span>{label}</span>
+            <span className="inline-flex items-center opacity-50">→</span>
+          </button>
+        )}
+      </div>
+    );
+  };
+
   const handleProviderClick = (provider) => {
     if (selectedProviders.find(p => p.id === provider.id)) {
       // Deselect provider
@@ -24,25 +56,10 @@ export default function ProviderSelector({ providers }) {
     return selectedProviders.find(p => p.id === providerId);
   };
 
-  const canCompare = selectedProviders.length === 2;
-
   return (
     <div>
-      {/* Selection Status */}
-      <div className="mb-8 text-center">
-        <div className="alert alert-info max-w-2xl mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <div>
-            <div className="text-sm">
-              {selectedProviders.length === 0 && "Select 2 providers to compare"}
-              {selectedProviders.length === 1 && `Selected: ${selectedProviders[0].name}. Select 1 more provider.`}
-              {selectedProviders.length === 2 && `Comparing: ${selectedProviders[0].name} vs ${selectedProviders[1].name}`}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Top full-width Compare CTA */}
+      <CompareCTA selected={selectedProviders} />
 
       {/* Provider Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
@@ -94,61 +111,10 @@ export default function ProviderSelector({ providers }) {
         })}
       </div>
 
-      {/* Compare Button */}
-      <div className="text-center mb-8">
-        {canCompare ? (
-          <Link
-            href={`/compare/${selectedProviders[0].slug}/${selectedProviders[1].slug}`}
-            className="btn btn-primary btn-lg"
-          >
-            Compare {selectedProviders[0].name} vs {selectedProviders[1].name}
-          </Link>
-        ) : (
-          <button
-            className="btn btn-primary btn-lg btn-disabled"
-            disabled
-          >
-            Select 2 Providers to Compare
-          </button>
-        )}
-      </div>
+      {/* Bottom full-width Compare CTA */}
+      <CompareCTA selected={selectedProviders} />
 
-      {/* Selected Providers Preview */}
-      {selectedProviders.length > 0 && (
-        <div className="bg-base-200 rounded-xl p-6">
-          <h3 className="text-lg font-semibold mb-4 text-center">Selected Providers</h3>
-          <div className="flex justify-center items-center gap-8">
-            {selectedProviders.map((provider, index) => (
-              <div key={provider.id} className="text-center">
-                <div className="w-16 h-16 mx-auto mb-2 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-sm">
-                  {!provider.isMinimal ? (
-                    <Image 
-                      src={`/logos/${provider.slug}.png`} 
-                      alt={`${provider.name} logo`}
-                      width={40} 
-                      height={40} 
-                      className="object-contain"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 bg-gray-300 rounded"></div>
-                  )}
-                </div>
-                <div className="font-medium text-sm">{provider.name}</div>
-                <button
-                  onClick={() => handleProviderClick(provider)}
-                  className="text-xs text-red-500 hover:text-red-700 mt-1"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            
-            {selectedProviders.length === 2 && (
-              <div className="text-2xl font-bold text-gray-400">VS</div>
-            )}
-          </div>
-        </div>
-      )}
+      {/* Simplified: remove selected providers preview to reduce complexity */}
 
       {/* Quick Actions */}
       <div className="text-center mt-8">
