@@ -236,9 +236,9 @@ export default function ProvidersPage() {
                     </div>
                   </div>
                 ) : (
-                    <p className="text-gray-600 mb-2" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                  <p className="text-gray-600 mb-2" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     <Highlight text={provider.description} query={searchQuery} />
-                    </p>
+                  </p>
                 )}
 
                 {/* Show matching features if any */}
@@ -327,50 +327,55 @@ export default function ProvidersPage() {
       )}
 
       {/* Additional Information Section */}
-      <section className="space-y-6 mt-12">
+      <section className="space-y-8 mt-12">
         <h2 className="text-2xl font-semibold">Choosing a Cloud Provider</h2>
-        
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="card-title">For Enterprise Users</h3>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-3">For Enterprise Users</h3>
               <p className="text-gray-600">
-                Enterprise users should consider providers like AWS, GCP, or Azure for their comprehensive 
-                service offerings, strong security compliance, and global infrastructure. These providers 
+                Enterprise users should consider providers like{' '}
+                <Link href="/providers/aws" className="text-blue-600 hover:text-blue-800 underline">AWS</Link>,{' '}
+                <Link href="/providers/google" className="text-blue-600 hover:text-blue-800 underline">GCP</Link>, or{' '}
+                <Link href="/providers/azure" className="text-blue-600 hover:text-blue-800 underline">Azure</Link>{' '}
+                for their comprehensive service offerings, strong security compliance, and global infrastructure. These providers
                 offer enterprise-grade support, robust SLAs, and deep integration with existing business tools.
               </p>
             </div>
-          </div>
 
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="card-title">For AI Researchers</h3>
+            <div>
+              <h3 className="text-lg font-semibold mb-3">For Startups</h3>
               <p className="text-gray-600">
-                Researchers might prefer specialized providers like Lambda Labs or Vast.ai for their 
-                focus on ML workloads, competitive pricing, and access to specific GPU models. These 
-                providers often offer simpler interfaces and better price-to-performance ratios.
-              </p>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="card-title">For Startups</h3>
-              <p className="text-gray-600">
-                Startups should consider providers like RunPod or CoreWeave for their flexible pricing, 
-                pay-as-you-go models, and lower entry barriers. These providers often offer good 
+                Startups should consider providers like{' '}
+                <Link href="/providers/runpod" className="text-blue-600 hover:text-blue-800 underline">RunPod</Link> or{' '}
+                <Link href="/providers/coreweave" className="text-blue-600 hover:text-blue-800 underline">CoreWeave</Link>{' '}
+                for their flexible pricing, pay-as-you-go models, and lower entry barriers. These providers often offer good
                 documentation and community support for quick deployment.
               </p>
             </div>
           </div>
 
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="card-title">For Cost Optimization</h3>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-3">For AI Researchers</h3>
               <p className="text-gray-600">
-                For cost-sensitive workloads, consider using spot instances from major providers or 
-                specialized services like Vast.ai and Fluidstack. These options can offer significant 
-                savings, though they may require more careful workflow management.
+                Researchers might prefer specialized providers like{' '}
+                <Link href="/providers/lambda" className="text-blue-600 hover:text-blue-800 underline">Lambda Labs</Link> or{' '}
+                <Link href="/providers/vast" className="text-blue-600 hover:text-blue-800 underline">Vast.ai</Link>{' '}
+                for their focus on ML workloads, competitive pricing, and access to specific GPU models. These
+                providers often offer simpler interfaces and better price-to-performance ratios.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-3">For Cost Optimization</h3>
+              <p className="text-gray-600">
+                For cost-sensitive workloads, consider using spot instances from major providers or
+                specialized services like{' '}
+                <Link href="/providers/vast" className="text-blue-600 hover:text-blue-800 underline">Vast.ai</Link> and{' '}
+                <Link href="/providers/fluidstack" className="text-blue-600 hover:text-blue-800 underline">Fluidstack</Link>.
+                These options can offer significant savings, though they may require more careful workflow management.
               </p>
             </div>
           </div>
