@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import PriceComponent from './PriceComponent';
-import providers from '@/data/providers.json';
 import NewsletterSignup from './NewsletterSignup';
 
 export default function Footer() {
   const [gpuModels, setGpuModels] = useState([]);
+  const [providers, setProviders] = useState([]);
 
   useEffect(() => {
     async function fetchGPUModels() {
@@ -24,6 +24,21 @@ export default function Footer() {
     }
 
     fetchGPUModels();
+  }, []);
+
+  useEffect(() => {
+    async function fetchProviders() {
+      const { data, error } = await supabase
+        .from('providers')
+        .select('name, slug')
+        .order('name');
+
+      if (!error && data) {
+        setProviders(data);
+      }
+    }
+
+    fetchProviders();
   }, []);
 
   return (
@@ -53,49 +68,83 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="text-sm text-gray-600 hover:text-primary">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/learn" className="text-sm text-gray-600 hover:text-primary">
-                  Learn
-                </Link>
-              </li>
-              <li>
-                <Link href="/providers" className="text-sm text-gray-600 hover:text-primary">
-                  Providers
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Providers Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Cloud Providers</h3>
             <div className="grid grid-cols-2 gap-2">
               {providers.map(provider => (
-                <Link 
+                <Link
                   key={provider.slug}
-                  href={`/providers/${provider.slug}`} 
-                  className="text-sm text-gray-600 hover:text-primary"
+                  href={`/providers/${provider.slug}`}
+                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-primary group"
                 >
-                  {provider.name}
+                  <Image
+                    src={`/logos/${provider.slug}.png`}
+                    alt={`${provider.name} logo`}
+                    width={16}
+                    height={16}
+                    className="flex-shrink-0 group-hover:scale-110 transition-transform"
+                  />
+                  <span className="truncate">{provider.name}</span>
                 </Link>
               ))}
             </div>
           </div>
 
+          {/* Comparisons */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Provider Comparisons</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/compare/aws-vs-coreweave" className="text-sm text-gray-600 hover:text-primary">
+                  AWS vs CoreWeave
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/aws-vs-runpod" className="text-sm text-gray-600 hover:text-primary">
+                  AWS vs RunPod
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/coreweave-vs-lambda" className="text-sm text-gray-600 hover:text-primary">
+                  CoreWeave vs Lambda
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/google-vs-azure" className="text-sm text-gray-600 hover:text-primary">
+                  Google vs Azure
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/runpod-vs-vast" className="text-sm text-gray-600 hover:text-primary">
+                  RunPod vs Vast
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/lambda-vs-vast" className="text-sm text-gray-600 hover:text-primary">
+                  Lambda vs Vast
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/aws-vs-google" className="text-sm text-gray-600 hover:text-primary">
+                  AWS vs Google
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare/coreweave-vs-runpod" className="text-sm text-gray-600 hover:text-primary">
+                  CoreWeave vs RunPod
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+
+
           {/* GPUs Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Popular GPUs</h3>
+            <h3 className="text-lg font-semibold">Tracked GPUs</h3>
             <div className="grid grid-cols-2 gap-2">
-              {gpuModels.slice(0, 10).map(gpu => (
+              {gpuModels.map(gpu => (
                 <Link 
                   key={gpu.name}
                   href={`/gpus/${gpu.slug}`}
