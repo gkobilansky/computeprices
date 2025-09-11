@@ -9,12 +9,12 @@ import providersData from '@/data/providers.json';
 // Helper function to highlight matching text
 const Highlight = ({ text, query }) => {
   if (!query.trim()) return text;
-  
+
   const parts = text.split(new RegExp(`(${query})`, 'gi'));
   return (
     <span>
-      {parts.map((part, i) => 
-        part.toLowerCase() === query.toLowerCase() ? 
+      {parts.map((part, i) =>
+        part.toLowerCase() === query.toLowerCase() ?
           <mark key={i} className="bg-primary/20 rounded px-0.5">{part}</mark> : part
       )}
     </span>
@@ -33,15 +33,15 @@ export default function ProvidersPage() {
     async function loadProviders() {
       try {
         const dbProviders = await fetchProviders();
-        
+
         // Merge DB providers with JSON data
         const mergedProviders = dbProviders.map(dbProvider => {
           // Try to find matching provider in JSON by ID first, then by name
-          const jsonProvider = providersData.find(jp => 
-            jp.id === dbProvider.id || 
+          const jsonProvider = providersData.find(jp =>
+            jp.id === dbProvider.id ||
             jp.name.toLowerCase() === dbProvider.name.toLowerCase()
           );
-          
+
           if (jsonProvider) {
             // Merge DB data with JSON data, prioritizing JSON for rich content
             return {
@@ -61,7 +61,7 @@ export default function ProvidersPage() {
             };
           }
         });
-        
+
         setProviders(mergedProviders);
       } catch (error) {
         console.error('Failed to load providers:', error);
@@ -78,22 +78,22 @@ export default function ProvidersPage() {
       // Search in name and description
       const nameMatch = provider.name.toLowerCase().includes(query);
       const descMatch = provider.description?.toLowerCase().includes(query);
-      
+
       // Search in features for providers with full data
       const featureMatch = provider.features?.some(
-        feature => 
+        feature =>
           feature.title.toLowerCase().includes(query) ||
           feature.description.toLowerCase().includes(query)
       );
-      
+
       // Search in pros and cons for providers with full data
-      const prosMatch = provider.pros?.some(pro => 
+      const prosMatch = provider.pros?.some(pro =>
         pro.toLowerCase().includes(query)
       );
-      const consMatch = provider.cons?.some(con => 
+      const consMatch = provider.cons?.some(con =>
         con.toLowerCase().includes(query)
       );
-      
+
       return nameMatch || descMatch || featureMatch || prosMatch || consMatch;
     });
   }, [searchQuery, providers]);
@@ -110,7 +110,7 @@ export default function ProvidersPage() {
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev => 
+        setSelectedIndex(prev =>
           prev < filteredProviders.length - 1 ? prev + 1 : prev
         );
         break;
@@ -204,24 +204,24 @@ export default function ProvidersPage() {
       ) : (
         <div id="search-results" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredProviders.map((provider, index) => (
-            <div
+            <Link
               key={provider.id}
-              ref={el => resultsRef.current[index] = el}
-              className={`card bg-base-100 shadow-xl transition-colors ${
-                index === selectedIndex ? 'ring-2 ring-primary' : ''
-              }`}
+              href={`/providers/${provider.slug || provider.name.toLowerCase().replace(/\s+/g, '-')}`}
+              ref={el => (resultsRef.current[index] = el)}
               id={`provider-${index}`}
               role="option"
               aria-selected={index === selectedIndex}
+              className={`group block card h-full bg-base-100 shadow-md border border-base-200 transition-all duration-200 hover:shadow-lg hover:border-base-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary ${index === selectedIndex ? 'ring-2 ring-primary' : ''
+                }`}
             >
-              <div className="card-body justify-start align-top">
+              <div className="card-body flex flex-col justify-start align-top h-full">
                 <h2 className="card-title">
                   {!provider.isMinimal && provider.slug && (
                     <Image src={`/logos/${provider.slug}.png`} alt={provider.name} width={20} height={20} className='inline-block' />
                   )}
                   <Highlight text={provider.name} query={searchQuery} />
                 </h2>
-                
+
                 {provider.isMinimal ? (
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1">
@@ -230,99 +230,93 @@ export default function ProvidersPage() {
                       </svg>
                     </div>
                     <div className="flex-grow">
-                      <p className="text-gray-600">
+                      <p className="text-gray-600" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         <Highlight text={provider.description} query={searchQuery} />
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <span className="text-gray-600 mb-4">
+                    <p className="text-gray-600 mb-2" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     <Highlight text={provider.description} query={searchQuery} />
-                  </span>
+                    </p>
                 )}
-                
+
                 {/* Show matching features if any */}
-                {!provider.isMinimal && searchQuery && provider.features?.some(f => 
+                {!provider.isMinimal && searchQuery && provider.features?.some(f =>
                   f.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                   f.description.toLowerCase().includes(searchQuery.toLowerCase())
                 ) && (
-                  <div className="mb-4">
-                    <h3 className="font-semibold mb-2">Matching Features:</h3>
-                    <ul className="list-disc list-inside space-y-1">
-                      {provider.features
-                        .filter(f => 
-                          f.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          f.description.toLowerCase().includes(searchQuery.toLowerCase())
-                        )
-                        .map((f, i) => (
-                          <li key={i} className="text-sm">
-                            <strong><Highlight text={f.title} query={searchQuery} /></strong>: {' '}
-                            <Highlight text={f.description} query={searchQuery} />
-                          </li>
-                        ))
-                      }
-                    </ul>
-                  </div>
-                )}
+                    <div className="mb-4">
+                      <h3 className="font-semibold mb-2">Matching Features:</h3>
+                      <ul className="list-disc list-inside space-y-1">
+                        {provider.features
+                          .filter(f =>
+                            f.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            f.description.toLowerCase().includes(searchQuery.toLowerCase())
+                          )
+                          .map((f, i) => (
+                            <li key={i} className="text-sm">
+                              <strong><Highlight text={f.title} query={searchQuery} /></strong>: {' '}
+                              <Highlight text={f.description} query={searchQuery} />
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  )}
 
                 {/* Show matching pros if any */}
-                {!provider.isMinimal && searchQuery && provider.pros?.some(pro => 
+                {!provider.isMinimal && searchQuery && provider.pros?.some(pro =>
                   pro.toLowerCase().includes(searchQuery.toLowerCase())
                 ) && (
-                  <div className="mb-4">
-                    <h3 className="font-semibold mb-2">Matching Pros:</h3>
-                    <ul className="list-disc list-inside space-y-1">
-                      {provider.pros
-                        .filter(pro => pro.toLowerCase().includes(searchQuery.toLowerCase()))
-                        .map((pro, i) => (
-                          <li key={i} className="text-sm">
-                            <Highlight text={pro} query={searchQuery} />
-                          </li>
-                        ))
-                      }
-                    </ul>
-                  </div>
-                )}
+                    <div className="mb-4">
+                      <h3 className="font-semibold mb-2">Matching Pros:</h3>
+                      <ul className="list-disc list-inside space-y-1">
+                        {provider.pros
+                          .filter(pro => pro.toLowerCase().includes(searchQuery.toLowerCase()))
+                          .map((pro, i) => (
+                            <li key={i} className="text-sm">
+                              <Highlight text={pro} query={searchQuery} />
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  )}
 
                 {/* Show matching cons if any */}
-                {!provider.isMinimal && searchQuery && provider.cons?.some(con => 
+                {!provider.isMinimal && searchQuery && provider.cons?.some(con =>
                   con.toLowerCase().includes(searchQuery.toLowerCase())
                 ) && (
-                  <div className="mb-4">
-                    <h3 className="font-semibold mb-2">Matching Cons:</h3>
-                    <ul className="list-disc list-inside space-y-1">
-                      {provider.cons
-                        .filter(con => con.toLowerCase().includes(searchQuery.toLowerCase()))
-                        .map((con, i) => (
-                          <li key={i} className="text-sm">
-                            <Highlight text={con} query={searchQuery} />
-                          </li>
-                        ))
-                      }
-                    </ul>
-                  </div>
-                )}
-                
-                <div className="card-actions justify-end mt-auto">
-                  <Link 
-                    href={`/providers/${provider.slug || provider.name.toLowerCase().replace(/\s+/g, '-')}`} 
-                    className="btn btn-primary"
-                  >
-                    {provider.isMinimal ? 'View Pricing' : 'Learn More'}
-                  </Link>
-                  {!provider.isMinimal && provider.link && (
-                    <a
-                      href={provider.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-outline"
-                    >
-                      Visit Site
-                    </a>
+                    <div className="mb-4">
+                      <h3 className="font-semibold mb-2">Matching Cons:</h3>
+                      <ul className="list-disc list-inside space-y-1">
+                        {provider.cons
+                          .filter(con => con.toLowerCase().includes(searchQuery.toLowerCase()))
+                          .map((con, i) => (
+                            <li key={i} className="text-sm">
+                              <Highlight text={con} query={searchQuery} />
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
                   )}
+
+                <div className="mt-auto pt-2 flex items-center justify-end gap-2 text-sm">
+                  <span className="text-base-content/70 transition-all duration-200 group-hover:text-base-content">Learn more</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className="h-6 w-6 text-primary transition-transform duration-200 transform group-hover:translate-x-1"
+                  >
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.19l-3.22-3.22a.75.75 0 111.06-1.06l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                  </svg>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
           {!loading && filteredProviders.length === 0 && (
             <div className="col-span-full text-center py-12">
