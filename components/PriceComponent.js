@@ -30,6 +30,7 @@ function PriceComponent() {
                 <div>
                     <h3>Found a GPU for <span className="font-medium">
                         ${latestPriceData.price_per_hour?.toFixed(2)}</span><span className="text-gray-500 text-sm">/hour</span> on {new Date(latestPriceData.created_at).toLocaleDateString()} at {new Date(latestPriceData.created_at).toLocaleTimeString()}</h3>
+                    <p>Price is per GPU and excludes full CPU, disk amount and type, and network factors.</p>
                 </div>
             ) : (
                 <p>Loading prices...</p>
