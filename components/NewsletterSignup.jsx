@@ -44,19 +44,19 @@ export default function NewsletterSignup() {
             <p className="text-sm text-gray-600 mb-2">
                 Join the waitlist.
             </p>
-            <form onSubmit={handleSubmit} className="flex gap-2 items-stretch">
+            <form onSubmit={handleSubmit} className="flex flex-wrap gap-2 items-stretch">
                 <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
                     required
-                    className="flex-1 input input-sm input-bordered bg-white/50"
+                    className="flex-1 min-w-0 input input-sm input-bordered bg-white/50"
                     disabled={status === 'loading' || status === 'success'}
                 />
                 <button
                     type="submit"
-                    className={`btn btn-sm btn-primary ${status === 'loading' ? 'loading' : ''}`}
+                    className={`btn btn-sm btn-primary flex-shrink-0 ${status === 'loading' ? 'loading' : ''}`}
                     disabled={status === 'loading' || status === 'success'}
                 >
                     {status === 'success' ? 'Joined!' : 'Join'}
