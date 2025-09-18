@@ -1,6 +1,7 @@
 import { getAllGPUSlugs } from '@/lib/utils/gpu';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { generateCanonicalComparisonURL } from '@/lib/providers';
+import { getAllPosts } from '@/lib/blog';
 
 export default async function sitemap() {
   const baseUrl = 'https://computeprices.com';
@@ -31,13 +32,20 @@ export default async function sitemap() {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
   ];
 
   try {
     // Try to get dynamic pages
-    const [gpuSlugs = [], providerSlugs = []] = await Promise.allSettled([
+    const [gpuSlugs = [], providerSlugs = [], posts = []] = await Promise.allSettled([
       getAllGPUSlugs().catch(() => []),
       getAllProviderSlugs().catch(() => []),
+      getAllPosts().catch(() => []),
     ]).then(results => results.map(r => r.status === 'fulfilled' ? r.value : []));
 
     // GPU pages
@@ -113,9 +121,17 @@ export default async function sitemap() {
       }
     }
 
-    console.log(`Generated ${comparisonPages.length} comparison pages for sitemap`);
+    // Blog posts
+    const blogPages = posts.map(post => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(post.publishedAt),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    }));
 
-    return [...staticPages, ...gpuPages, ...providerPages, ...comparisonPages];
+    console.log(`Generated ${comparisonPages.length} comparison pages and ${blogPages.length} blog pages for sitemap`);
+
+    return [...staticPages, ...gpuPages, ...providerPages, ...comparisonPages, ...blogPages];
   } catch (error) {
     console.error('Error generating dynamic sitemap entries:', error);
     // Return static pages if dynamic page generation fails

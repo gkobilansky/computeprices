@@ -9,6 +9,11 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [...compat.extends("next/core-web-vitals")];
+const eslintConfig = [
+  {
+    ignores: ['blog/**/*.md', 'blog/**/*.mdx'],
+  },
+  ...compat.extends("next/core-web-vitals"),
+];
 
 export default eslintConfig;

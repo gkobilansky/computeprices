@@ -11,7 +11,8 @@ export default function Nav() {
     { href: '/', label: 'Home' },
     { href: '/providers', label: 'Provider Details' },
     { href: '/gpus', label: 'GPU Details' },
-    { href: '/learn', label: 'Learn AI' }
+    { href: '/learn', label: 'Learn AI' },
+    { href: '/blog', label: 'Blog' }
   ];
 
   return (
