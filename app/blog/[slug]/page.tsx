@@ -3,14 +3,20 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown, { Components } from 'react-markdown';
+import type { ExtraProps } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import type { Metadata } from 'next';
 import { getPostBySlug, getPostSlugs } from '@/lib/blog';
 import { formatDate } from '@/lib/utils';
 import { generateMetadata as createSiteMetadata, siteConfig } from '@/app/metadata';
+import type { ComponentPropsWithoutRef } from 'react';
 
 export const revalidate = 3600;
+
+type MarkdownCodeProps = ComponentPropsWithoutRef<'code'> & ExtraProps & {
+  inline?: boolean;
+};
 
 const markdownComponents: Components = {
   h1: ({ children, ...props }) => (
@@ -68,7 +74,7 @@ const markdownComponents: Components = {
       {children}
     </blockquote>
   ),
-  code: ({ inline, className, children, ...props }) => {
+  code: ({ inline, className, children, node: _node, ...props }: MarkdownCodeProps) => {
     if (inline) {
       return (
         <code className="rounded bg-base-200 px-1 py-0.5 text-sm" {...props}>
@@ -147,9 +153,15 @@ export async function generateMetadata({ params }: BlogPostPageParams): Promise<
       description: post.meta.description ?? post.meta.excerpt,
       path: `/blog/${post.meta.slug}`,
     });
-
-    const images = post.meta.coverImage
-      ? [{ url: post.meta.coverImage, alt: post.meta.title }]
+    const images: NonNullable<Metadata['openGraph']>['images'] = post.meta.coverImage
+      ? [
+          {
+            url: post.meta.coverImage,
+            alt: post.meta.title,
+            width: 1200,
+            height: 630,
+          },
+        ]
       : base.openGraph?.images;
 
     return {

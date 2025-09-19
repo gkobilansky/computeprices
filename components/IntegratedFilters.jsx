@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Combobox, ComboboxOption } from '@headlessui/react';
 import { supabase } from '@/lib/supabase';
 import { useFilter } from '@/lib/context/FilterContext';
@@ -85,20 +85,7 @@ export default function IntegratedFilters() {
         return logoMap[providerName] || null;
     };
 
-    useEffect(() => {
-        fetchGPUModels();
-        fetchProviders();
-    }, []);
-
-    useEffect(() => {
-        if (selectedProvider) {
-            fetchAvailableGPUs(selectedProvider.id);
-        } else {
-            setAvailableGPUs(gpuModels);
-        }
-    }, [selectedProvider, gpuModels]);
-
-    async function fetchAvailableGPUs(providerId) {
+    const fetchAvailableGPUs = useCallback(async (providerId) => {
         const { data, error } = await supabase
             .from('prices')
             .select(`
@@ -129,9 +116,9 @@ export default function IntegratedFilters() {
         } else {
             console.error('Error fetching available GPUs:', error);
         }
-    }
+    }, [selectedGPU, setSelectedGPU]);
 
-    async function fetchGPUModels() {
+    const fetchGPUModels = useCallback(async () => {
         const { data, error } = await supabase
             .from('gpu_models')
             .select('id, name, vram')
@@ -141,9 +128,9 @@ export default function IntegratedFilters() {
             setGPUModels(data);
             setAvailableGPUs(data);
         }
-    }
+    }, []);
 
-    async function fetchProviders() {
+    const fetchProviders = useCallback(async () => {
         const { data, error } = await supabase
             .from('providers')
             .select('id, name')
@@ -152,7 +139,20 @@ export default function IntegratedFilters() {
         if (!error) {
             setProviders(data);
         }
-    }
+    }, []);
+
+    useEffect(() => {
+        fetchGPUModels();
+        fetchProviders();
+    }, [fetchGPUModels, fetchProviders]);
+
+    useEffect(() => {
+        if (selectedProvider) {
+            fetchAvailableGPUs(selectedProvider.id);
+        } else {
+            setAvailableGPUs(gpuModels);
+        }
+    }, [selectedProvider, gpuModels, fetchAvailableGPUs]);
 
     const filteredProviders = providerQuery === ''
         ? providers

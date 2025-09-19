@@ -53,7 +53,7 @@ const PricingTableError = memo(({ onRetry }: { onRetry?: () => void }) => (
       <h3 className="text-lg font-semibold">Failed to load pricing comparison</h3>
     </div>
     <p className="text-red-600 mb-4">
-      We're having trouble loading the pricing data. Please try again.
+      We&rsquo;re having trouble loading the pricing data. Please try again.
     </p>
     {onRetry && (
       <button

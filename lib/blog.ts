@@ -4,7 +4,8 @@ import matter from 'gray-matter';
 import { cache } from 'react';
 
 const BLOG_DIRECTORY = path.join(process.cwd(), 'blog');
-const MARKDOWN_EXTENSIONS = new Set(['.md', '.mdx']);
+const MARKDOWN_EXTENSION_LIST = ['.md', '.mdx'] as const;
+const MARKDOWN_EXTENSIONS = new Set<string>(MARKDOWN_EXTENSION_LIST);
 const WORDS_PER_MINUTE = 200;
 
 export interface BlogPostMeta {
@@ -99,7 +100,7 @@ function coerceString(value: unknown) {
 }
 
 async function resolvePostFile(slug: string) {
-  for (const extension of MARKDOWN_EXTENSIONS) {
+  for (const extension of MARKDOWN_EXTENSION_LIST) {
     const candidate = path.join(BLOG_DIRECTORY, `${slug}${extension}`);
     if (await pathExists(candidate)) {
       return candidate;

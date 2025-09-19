@@ -210,7 +210,7 @@ export default function WhyGPUs() {
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">Getting Started</h2>
           <p className="text-gray-600">
-            Ready to start your GPU-powered project? Whether you're a hobbyist fine-tuning models, 
+            Ready to start your GPU-powered project? Whether you&rsquo;re a hobbyist fine-tuning models, 
             a startup building an MVP, or a researcher running experiments, we can help you find the 
             right GPU. Compare prices and specifications with our
             <Link href="/" className="btn btn-primary btn-sm mx-1">

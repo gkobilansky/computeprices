@@ -231,26 +231,27 @@ export function initPerformanceMonitoring(): void {
  * Hook for measuring React component performance
  */
 export function usePerformanceTracking(componentName: string) {
-  const [renderCount, setRenderCount] = React.useState(0)
-  
+  const renderCountRef = React.useRef(0)
+  renderCountRef.current += 1
+  const currentRender = renderCountRef.current
+
   React.useEffect(() => {
-    setRenderCount(prev => prev + 1)
-    performanceTracker.start(`${componentName}-render-${renderCount}`)
-    
+    performanceTracker.start(`${componentName}-render-${currentRender}`)
+
     return () => {
-      performanceTracker.end(`${componentName}-render-${renderCount}`)
+      performanceTracker.end(`${componentName}-render-${currentRender}`)
     }
   })
 
   React.useEffect(() => {
-    performanceTracker.end(`${componentName}-mount`)
-  }, [componentName])
-
-  React.useEffect(() => {
     performanceTracker.start(`${componentName}-mount`)
+
+    return () => {
+      performanceTracker.end(`${componentName}-mount`)
+    }
   }, [componentName])
 
-  return renderCount
+  return currentRender
 }
 
 /**
