@@ -5,7 +5,6 @@ import Link from 'next/link';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import type { Metadata } from 'next';
 import { getPostBySlug, getPostSlugs } from '@/lib/blog';
 import { formatDate } from '@/lib/utils';
@@ -236,15 +235,6 @@ export default async function BlogPostPage({ params }: BlogPostPageParams) {
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[
               rehypeSlug,
-              [
-                rehypeAutolinkHeadings,
-                {
-                  behavior: 'wrap',
-                  properties: {
-                    className: 'anchor-link',
-                  },
-                },
-              ],
             ]}
             components={markdownComponents}
           >

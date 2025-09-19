@@ -34,7 +34,8 @@
     "upsert:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js dotenv_config_path=.env.local",
     "validate:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --validate-only dotenv_config_path=.env.local",
     "dry-run:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --dry-run dotenv_config_path=.env.local",
-    "add-manual-price": "node -r dotenv/config scripts/add-manual-price.js dotenv_config_path=.env.local"
+    "add-manual-price": "node -r dotenv/config scripts/add-manual-price.js dotenv_config_path=.env.local",
+    "blog:sync": "node -r dotenv/config scripts/sync-seobot-blog.js dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
@@ -51,7 +52,8 @@
     "react-markdown": "^10.1.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "seobot": "^1.3.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

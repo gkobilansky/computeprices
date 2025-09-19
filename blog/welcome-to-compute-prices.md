@@ -6,7 +6,7 @@ description: "Why we track GPU pricing across providers and what you can expect 
 tags:
   - GPU pricing
   - Market insights
-coverImage: "/placeholder.jpg"
+coverImage: "/blog/og-image.png"
 ---
 
 Monitoring the cost of GPU infrastructure has never been more important. Every week we compare offerings from hyperscalers and specialized GPU clouds, and we wanted a single place to share what we learn along the way.
