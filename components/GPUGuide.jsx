@@ -20,7 +20,7 @@ export default function GPUGuide() {
           </div>
           <div className="collapse-content">
             <p className="mb-6 text-gray-700">
-              When evaluating GPUs, it's essential to focus on a few critical specifications that will impact your workload's performance.
+              When evaluating GPUs, it&rsquo;s essential to focus on a few critical specifications that will impact your workload&rsquo;s performance.
             </p>
             <ul className="list-disc list-inside mb-6 text-gray-700">
               <li className="mb-3">
@@ -53,7 +53,7 @@ export default function GPUGuide() {
           </div>
           <div className="collapse-content">
             <p className="mb-6 text-gray-700">
-              Depending on your needs and budget, different GPU tiers may be more suitable. Here's a breakdown of popular options:
+              Depending on your needs and budget, different GPU tiers may be more suitable. Here&rsquo;s a breakdown of popular options:
             </p>
             <ul className="list-disc list-inside mb-6 text-gray-700">
               <li className="mb-3">

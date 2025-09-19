@@ -24,8 +24,8 @@ export default function NotFound() {
           Looks like this GPU has been mining elsewhere! 🔍
         </p>
         <p className="text-gray-500 mb-8">
-          The page you're looking for has either been moved, deleted, or never existed. 
-          Maybe it's processing in another compute queue? 
+          The page you&rsquo;re looking for has either been moved, deleted, or never existed. 
+          Maybe it&rsquo;s processing in another compute queue? 
         </p>
         
         {/* Navigation Links */}

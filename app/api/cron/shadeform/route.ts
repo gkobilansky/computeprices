@@ -136,7 +136,7 @@ export async function GET(request: Request) {
               price_per_hour: hourly_price / 100,
               gpu_count: gpuCount,
               source_name: 'Shadeform API',
-              source_url: 'https://docs.shadeform.ai/'
+              source_url: 'https://platform.shadeform.ai/?referral=6B321750'
             });
 
           if (priceError) {

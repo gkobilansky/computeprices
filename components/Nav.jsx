@@ -9,9 +9,10 @@ export default function Nav() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/providers', label: 'Provider Details' },
-    { href: '/gpus', label: 'GPU Details' },
-    { href: '/learn', label: 'Learn AI' }
+    { href: '/providers', label: 'Providers' },
+    { href: '/gpus', label: 'GPUs' },
+    { href: '/learn', label: 'Learn' },
+    { href: '/blog', label: 'Blog' }
   ];
 
   return (

@@ -91,3 +91,88 @@ html {
   pointer-events: none;
   z-index: 1;
 }
+
+/* Blog content styling */
+.blog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: rgba(17, 24, 39, 0.85);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+  color: rgb(17, 24, 39);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.blog-content h2 {
+  font-size: 2rem;
+  margin-top: 3rem;
+}
+
+.blog-content h3 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.blog-content h4 {
+  font-size: 1.25rem;
+  margin-top: 2rem;
+}
+
+.blog-content p {
+  margin: 0;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin-left: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid rgba(16, 185, 129, 0.4);
+  background-color: rgba(16, 185, 129, 0.08);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  font-style: italic;
+}
+
+.blog-content pre {
+  background-color: rgba(15, 23, 42, 0.08);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.blog-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.blog-content a {
+  color: rgb(14, 116, 144);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.blog-content table {
+  border-collapse: collapse;
+}
+
+.blog-content th,
+.blog-content td {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.blog-content thead th {
+  background-color: rgba(15, 23, 42, 0.06);
+}
