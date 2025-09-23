@@ -17,7 +17,7 @@ import {
   ComparisonError
 } from '@/types/comparison'
 import { siteConfig } from '@/app/metadata'
-import OptimizedComparisonWrapper from '@/components/comparison/OptimizedComparisonWrapper'
+import ComparisonPricingTable from '@/components/comparison/ComparisonPricingTable'
 import ComparisonHeader from '@/components/comparison/ComparisonHeader'
 import ComparisonNavigation from '@/components/comparison/ComparisonNavigation'
 import ComparisonLayout, { ComparisonSection, ComparisonFullSection } from '@/components/comparison/ComparisonLayout'
@@ -248,7 +248,6 @@ export default async function ComparePage({ params }: ComparePageProps) {
         provider1Id={validation.provider1!.id}
         provider2Id={validation.provider2!.id}
         enableWebVitals={true}
-        enablePreloading={true}
       >
         <div className="min-h-screen">
         {/* Header Section */}
@@ -272,7 +271,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
         >
           {/* GPU Pricing Comparison Table - Full Width - Optimized */}
           <ComparisonFullSection title="GPU Pricing Comparison">
-            <OptimizedComparisonWrapper
+            <ComparisonPricingTable
               provider1Id={validation.provider1!.id}
               provider2Id={validation.provider2!.id}
               provider1Name={validation.provider1!.name}

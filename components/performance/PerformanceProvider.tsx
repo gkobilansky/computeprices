@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react'
 import { initPerformanceMonitoring, performanceTracker } from '@/lib/performance'
-import { preloadComparisonData } from '@/components/comparison/OptimizedComparisonWrapper'
 
 /**
  * Props for the PerformanceProvider
@@ -12,7 +11,6 @@ interface PerformanceProviderProps {
   provider1Id?: string
   provider2Id?: string
   enableWebVitals?: boolean
-  enablePreloading?: boolean
 }
 
 /**
@@ -22,8 +20,7 @@ export default function PerformanceProvider({
   children,
   provider1Id,
   provider2Id,
-  enableWebVitals = true,
-  enablePreloading = true
+  enableWebVitals = true
 }: PerformanceProviderProps) {
   useEffect(() => {
     // Initialize performance monitoring
@@ -37,14 +34,6 @@ export default function PerformanceProvider({
       provider2Id,
       timestamp: Date.now()
     })
-
-    // Preload critical resources if IDs are provided
-    if (enablePreloading && provider1Id && provider2Id) {
-      // Small delay to not interfere with initial render
-      setTimeout(() => {
-        preloadComparisonData(provider1Id, provider2Id)
-      }, 100)
-    }
 
     // Report page load completion
     const handleLoad = () => {
@@ -64,7 +53,7 @@ export default function PerformanceProvider({
     return () => {
       document.removeEventListener('DOMContentLoaded', handleLoad)
     }
-  }, [provider1Id, provider2Id, enableWebVitals, enablePreloading])
+  }, [provider1Id, provider2Id, enableWebVitals])
 
   // Track visibility changes (user switching tabs)
   useEffect(() => {
@@ -229,3 +218,4 @@ export function PerformanceDebugger() {
     </div>
   )
 }
+
