@@ -170,8 +170,8 @@ export default function ComparisonTableFilters({
           <div className="text-xs text-gray-400 bg-gray-100 p-3 rounded-lg">
             <div className="font-medium mb-1">💡 Filter Tips:</div>
             <ul className="space-y-1 list-disc list-inside">
-              <li>Use "Both providers available" to compare direct alternatives</li>
-              <li>Enable "Best prices only" to focus on cost-effective options</li>
+              <li>Use &ldquo;Both providers available&rdquo; to compare direct alternatives</li>
+              <li>Enable &ldquo;Best prices only&rdquo; to focus on cost-effective options</li>
               <li>Combine filters to narrow down to specific use cases</li>
             </ul>
           </div>

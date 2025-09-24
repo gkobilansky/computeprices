@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { formatPrice } from '@/lib/utils';
 
 export default function GPUPricingTable({ prices }) {
@@ -27,9 +28,9 @@ export default function GPUPricingTable({ prices }) {
               <td>
                 <div className="flex items-center gap-2">
                   {price.slug && (
-                    <img 
-                      src={`/logos/${price.slug}.png`} 
-                      alt={price.provider_name} 
+                    <Image
+                      src={`/logos/${price.slug}.png`}
+                      alt={price.provider_name}
                       className="w-6 h-6"
                       width={24}
                       height={24}

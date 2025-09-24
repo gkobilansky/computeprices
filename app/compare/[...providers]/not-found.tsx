@@ -62,8 +62,8 @@ export default function ComparisonNotFound() {
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            The provider comparison you're looking for doesn't exist or the URL format is incorrect. 
-            Let's help you find the right comparison.
+            The provider comparison you&rsquo;re looking for doesn&rsquo;t exist or the URL format is incorrect. 
+            Let&rsquo;s help you find the right comparison.
           </p>
 
           {/* URL Format Help */}
@@ -168,7 +168,7 @@ export default function ComparisonNotFound() {
             <p className="text-sm text-gray-600">
               <strong>Need help?</strong> Provider comparisons follow the format{' '}
               <code className="bg-white px-1 py-0.5 rounded text-xs">/compare/provider1-vs-provider2</code>.
-              Use lowercase provider slugs (e.g., "aws", "coreweave", "runpod").
+              Use lowercase provider slugs (e.g., &quot;aws&quot;, &quot;coreweave&quot;, &quot;runpod&quot;).
             </p>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import {
   parseProviderSlugs,
@@ -16,7 +17,7 @@ import {
   ComparisonError
 } from '@/types/comparison'
 import { siteConfig } from '@/app/metadata'
-import OptimizedComparisonWrapper from '@/components/comparison/OptimizedComparisonWrapper'
+import ComparisonPricingTable from '@/components/comparison/ComparisonPricingTable'
 import ComparisonHeader from '@/components/comparison/ComparisonHeader'
 import ComparisonNavigation from '@/components/comparison/ComparisonNavigation'
 import ComparisonLayout, { ComparisonSection, ComparisonFullSection } from '@/components/comparison/ComparisonLayout'
@@ -71,12 +72,12 @@ export default async function ComparePage({ params }: ComparePageProps) {
               <li>aws,coreweave</li>
               <li>aws/coreweave</li>
             </ul>
-            <a
+            <Link
               href="/"
               className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Back to Home
-            </a>
+            </Link>
           </div>
         </div>
       )
@@ -112,11 +113,11 @@ export default async function ComparePage({ params }: ComparePageProps) {
                   {validation.provider1Suggestions && validation.provider1Suggestions.length > 0 && (
                     <div className="bg-gray-50 rounded-lg p-4">
                       <h3 className="font-semibold text-gray-700 mb-3">
-                        Similar to "{parsed.provider1}":
+                        Similar to &ldquo;{parsed.provider1}&rdquo;:
                       </h3>
                       <div className="space-y-2">
                         {validation.provider1Suggestions.slice(0, 3).map((suggestion, idx) => (
-                          <a
+                          <Link
                             key={idx}
                             href={`/compare/${suggestion.slug}-vs-${parsed.provider2}`}
                             className="block px-3 py-2 text-left rounded hover:bg-blue-50 border border-gray-200 hover:border-blue-300 transition-colors"
@@ -127,7 +128,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
                             <div className="text-sm text-gray-500">
                               {Math.round(suggestion.similarity * 100)}% match
                             </div>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -137,11 +138,11 @@ export default async function ComparePage({ params }: ComparePageProps) {
                   {validation.provider2Suggestions && validation.provider2Suggestions.length > 0 && (
                     <div className="bg-gray-50 rounded-lg p-4">
                       <h3 className="font-semibold text-gray-700 mb-3">
-                        Similar to "{parsed.provider2}":
+                        Similar to &ldquo;{parsed.provider2}&rdquo;:
                       </h3>
                       <div className="space-y-2">
                         {validation.provider2Suggestions.slice(0, 3).map((suggestion, idx) => (
-                          <a
+                          <Link
                             key={idx}
                             href={`/compare/${parsed.provider1}-vs-${suggestion.slug}`}
                             className="block px-3 py-2 text-left rounded hover:bg-blue-50 border border-gray-200 hover:border-blue-300 transition-colors"
@@ -152,7 +153,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
                             <div className="text-sm text-gray-500">
                               {Math.round(suggestion.similarity * 100)}% match
                             </div>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -167,46 +168,46 @@ export default async function ComparePage({ params }: ComparePageProps) {
                 Popular Comparisons
               </h2>
               <div className="flex flex-wrap gap-3 justify-center">
-                <a
+                <Link
                   href="/compare/aws-vs-coreweave"
                   className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                 >
                   AWS vs CoreWeave
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/compare/aws-vs-runpod"
                   className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                 >
                   AWS vs RunPod
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/compare/coreweave-vs-lambda"
                   className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                 >
                   CoreWeave vs Lambda
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/compare/google-vs-azure"
                   className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                 >
                   Google vs Azure
-                </a>
+                </Link>
               </div>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
+              <Link
                 href="/providers"
                 className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Browse All Providers
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/"
                 className="inline-block bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
               >
                 Back to Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -247,7 +248,6 @@ export default async function ComparePage({ params }: ComparePageProps) {
         provider1Id={validation.provider1!.id}
         provider2Id={validation.provider2!.id}
         enableWebVitals={true}
-        enablePreloading={true}
       >
         <div className="min-h-screen">
         {/* Header Section */}
@@ -271,7 +271,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
         >
           {/* GPU Pricing Comparison Table - Full Width - Optimized */}
           <ComparisonFullSection title="GPU Pricing Comparison">
-            <OptimizedComparisonWrapper
+            <ComparisonPricingTable
               provider1Id={validation.provider1!.id}
               provider2Id={validation.provider2!.id}
               provider1Name={validation.provider1!.name}
@@ -347,12 +347,12 @@ export default async function ComparePage({ params }: ComparePageProps) {
             <p className="text-gray-600 mb-8">
               {error.message}
             </p>
-            <a
+            <Link
               href="/"
               className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Back to Home
-            </a>
+            </Link>
           </div>
         </div>
       )
@@ -368,12 +368,12 @@ export default async function ComparePage({ params }: ComparePageProps) {
           <p className="text-gray-600 mb-8">
             An unexpected error occurred while loading the comparison.
           </p>
-          <a
+          <Link
             href="/"
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     )

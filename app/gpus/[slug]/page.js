@@ -448,9 +448,9 @@ export default async function GPUPage({ params }) {
           <div className="bg-gradient-to-br from-base-100 to-base-200 rounded-lg p-6">
             <div className="prose max-w-none">
               <p className="text-gray-600">
-                The {gpu.name} sits within {gpu.manufacturer}'s {gpu.architecture} architecture lineup,
+                The {gpu.name} sits within {gpu.manufacturer}&rsquo;s {gpu.architecture} architecture lineup,
                 {gpu.performance_tier ? ` positioned in the ${gpu.performance_tier} performance tier` : ''}.
-                {gpu.server_gpu ? " It's designed specifically for data center and enterprise use." : ""}
+                {gpu.server_gpu ? ' It&rsquo;s designed specifically for data center and enterprise use.' : ''}
               </p>
 
               <div className="mt-6 flex gap-4 flex-wrap">

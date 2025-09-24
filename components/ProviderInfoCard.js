@@ -40,7 +40,7 @@ function ProviderInfoCard() {
               </svg>
             </div>
             <h3 className="font-medium text-lg">Limited Information</h3>
-            <p className="text-gray-500 text-sm">We don't have enough details about this provider yet. Check back later for updates.</p>
+            <p className="text-gray-500 text-sm">We don&rsquo;t have enough details about this provider yet. Check back later for updates.</p>
           </div>
         </div>
       </div>

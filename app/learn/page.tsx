@@ -176,7 +176,7 @@ export default function AILearningPath() {
       <BreadcrumbNav 
         items={[
           { label: 'Home', href: '/' },
-          { label: 'AI Learning Path', href: '/learn' },
+          { label: 'Learn', href: '/learn' },
         ]} 
       />
 
@@ -186,7 +186,7 @@ export default function AILearningPath() {
         </h1>
         <p className="text-xl">
           We designed this learning path with a focus on practical application, 
-          leveraging the power of GPUs to accelerate your learning and development.
+          using the power of GPUs to deliver real world results.
         </p>
       </div>
 

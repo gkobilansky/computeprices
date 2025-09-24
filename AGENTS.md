@@ -42,3 +42,7 @@
 - Secrets live in `.env.local` (not committed). Common vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
 - For scraping scripts, prefer `:dry` variants first (e.g., `npm run scrape:aws:dry`).
 - Avoid storing scraped raw data in repo; use Supabase and provided upsert scripts (`npm run upsert:gpu-models`).
+
+## Additional Agent Notes
+- Keep the `Learn` link in the global navigation unless the user explicitly asks for its removal.
+- Avoid destructive changes when handling tasks that are unrelated to the user's current request; check with the user before modifying or deleting existing content beyond the asked scope.
