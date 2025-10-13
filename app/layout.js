@@ -1,12 +1,15 @@
 import { Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import ClientAnalytics from '@/components/ClientAnalytics';
 import { siteConfig, defaultMetadata, generateOpenGraph, generateTwitter } from './metadata';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata = {
   ...defaultMetadata,
@@ -39,7 +42,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light" className="transition-colors duration-300">
       <body className={inter.className}>
-        <Analytics />
+        <ClientAnalytics />
         <div className="min-h-screen bg-gradient-to-b from-base-100 to-base-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Nav />
