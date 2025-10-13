@@ -38,7 +38,6 @@ import {
   PRODUCTION_STATIC_CONFIG,
   DEVELOPMENT_STATIC_CONFIG
 } from '@/lib/static-generation'
-import PerformanceProvider from '@/components/performance/PerformanceProvider'
 
 interface ComparePageProps {
   params: Promise<{
@@ -227,35 +226,27 @@ export default async function ComparePage({ params }: ComparePageProps) {
     }
 
     // Fetch provider comparison data with pricing information
-    let comparisonData: any[] | null = null;
-    let metadata: any | null = null;
+    let comparisonPayload: Awaited<ReturnType<typeof fetchProviderComparison>> | null = null;
     
     try {
-      const comparison = await fetchProviderComparison(
-        validation.provider1!.id, 
+      comparisonPayload = await fetchProviderComparison(
+        validation.provider1!.id,
         validation.provider2!.id
       );
-      comparisonData = comparison.comparisonData;
-      metadata = comparison.metadata;
     } catch (error) {
       console.error('Error fetching comparison data:', error);
       // Continue with empty comparison data - the pricing table will handle its own data loading
     }
 
-    // Render the enhanced comparison page
-    return (
-      <PerformanceProvider
-        provider1Id={validation.provider1!.id}
-        provider2Id={validation.provider2!.id}
-        enableWebVitals={true}
-      >
-        <div className="min-h-screen">
+
+    const pageContent = (
+      <div className="min-h-screen">
         {/* Header Section */}
         <ComparisonHeader 
           provider1={validation.provider1!}
           provider2={validation.provider2!}
-          comparisonData={comparisonData || []}
-          metadata={metadata || {}}
+          comparisonData={comparisonPayload?.comparisonData || []}
+          metadata={comparisonPayload?.metadata || {}}
         />
 
         {/* Navigation Section */}
@@ -328,11 +319,12 @@ export default async function ComparePage({ params }: ComparePageProps) {
         <ComparisonStructuredData
           provider1={validation.provider1!}
           provider2={validation.provider2!}
-          comparisonData={comparisonData || []}
+          comparisonData={comparisonPayload?.comparisonData || []}
         />
-        </div>
-      </PerformanceProvider>
+      </div>
     )
+
+    return pageContent
 
   } catch (error) {
     console.error('Error in ComparePage:', error)

@@ -20,11 +20,10 @@ export default function Nav() {
       <div className="flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-3">
           <Image
-            src="/cp-logo.svg"
+            src="/android-chrome-192x192.png"
             alt="Compute Prices Logo"
             width={48}
             height={48}
-            priority
           />
           <span className="text-xl font-semibold">Compute Prices</span>
         </Link>

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { unstable_cache } from 'next/cache';
 import { getProviderBySlug, generateProviderMetadata, getAllProviderSlugs, generateProviderSchema } from '@/lib/utils/provider';
 import { fetchGPUPrices, getProviderSuggestions } from '@/lib/utils/fetchGPUData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
@@ -6,6 +7,24 @@ import BreadcrumbNav from '@/components/BreadcrumbNav';
 import CompareProviders from '@/components/CompareProviders';
 import Image from 'next/image';
 import DataTransparency from '@/components/DataTransparency';
+
+export const revalidate = 3600;
+
+const getCachedProviderData = unstable_cache(
+  async (providerId) => {
+    const [gpuPrices, providerSuggestions] = await Promise.all([
+      fetchGPUPrices({ selectedProvider: providerId }),
+      getProviderSuggestions(providerId),
+    ]);
+
+    return {
+      gpuPrices: gpuPrices ?? [],
+      providerSuggestions: providerSuggestions ?? [],
+    };
+  },
+  ['provider-page-data'],
+  { revalidate }
+);
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -27,8 +46,7 @@ export default async function ProviderPage({ params }) {
     notFound();
   }
 
-  const gpuPrices = await fetchGPUPrices({ selectedProvider: provider.id });
-  const providerSuggestions = await getProviderSuggestions(provider.id);
+  const { gpuPrices, providerSuggestions } = await getCachedProviderData(provider.id);
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },

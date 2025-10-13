@@ -46,3 +46,9 @@
 ## Additional Agent Notes
 - Keep the `Learn` link in the global navigation unless the user explicitly asks for its removal.
 - Avoid destructive changes when handling tasks that are unrelated to the user's current request; check with the user before modifying or deleting existing content beyond the asked scope.
+
+## Agent Workflow Expectations
+- After making code changes always run the linter (`pnpm run lint` or `npm run lint`) and resolve any reported issues before handing work back.
+- Run a production build locally (`pnpm run build` or `npm run build`) whenever Server Components, configuration, or dependency changes are involved; surface and fix build-time errors instead of relying on the user to find them.
+- If a command fails in the sandbox (e.g., missing dependencies), call it with escalation rather than skipping the check.
+- Mention the commands you ran (and their success/failure) in your final summary so reviewers know validation happened.

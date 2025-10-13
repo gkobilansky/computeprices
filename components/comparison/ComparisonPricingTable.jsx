@@ -12,10 +12,11 @@ export default function ComparisonPricingTable({
   provider1Id, 
   provider2Id,
   provider1Name,
-  provider2Name 
+  provider2Name,
+  initialData = null,
 }) {
-  const [comparisonData, setComparisonData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [comparisonData, setComparisonData] = useState(initialData);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(null);
   const [selectedGPU, setSelectedGPU] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -30,25 +31,50 @@ export default function ComparisonPricingTable({
 
   // Fetch comparison data
   useEffect(() => {
+    let isSubscribed = true;
+
     const fetchData = async () => {
+      if (!provider1Id || !provider2Id) return;
+      if (initialData) {
+        setError(null);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
-        
+
         const data = await fetchProviderComparison(provider1Id, provider2Id);
-        setComparisonData(data);
+        if (isSubscribed) {
+          setComparisonData(data);
+        }
       } catch (err) {
-        console.error('Error fetching comparison data:', err);
-        setError(err.message || 'Failed to load comparison data');
+        if (isSubscribed) {
+          console.error('Error fetching comparison data:', err);
+          setError(err.message || 'Failed to load comparison data');
+        }
       } finally {
-        setLoading(false);
+        if (isSubscribed) {
+          setLoading(false);
+        }
       }
     };
 
-    if (provider1Id && provider2Id) {
-      fetchData();
+    fetchData();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [provider1Id, provider2Id, initialData]);
+
+  useEffect(() => {
+    if (initialData) {
+      setComparisonData(initialData);
+      setLoading(false);
+      setError(null);
     }
-  }, [provider1Id, provider2Id]);
+  }, [initialData]);
 
   // Sort and filter data
   const processedData = useMemo(() => {
@@ -212,7 +238,7 @@ export default function ComparisonPricingTable({
             <tr>
               <th 
                 className="px-6 py-4 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSort(comparisonData.comparisonData, 'gpu_model_name')}
+                onClick={() => handleSort(comparisonData?.comparisonData ?? [], 'gpu_model_name')}
               >
                 GPU Model <SortIcon column="gpu_model_name" />
               </th>
@@ -224,7 +250,7 @@ export default function ComparisonPricingTable({
               </th>
               <th 
                 className="px-6 py-4 text-center text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSort(comparisonData.comparisonData, 'price_difference')}
+                onClick={() => handleSort(comparisonData?.comparisonData ?? [], 'price_difference')}
               >
                 Price Diff <SortIcon column="price_difference" />
               </th>
