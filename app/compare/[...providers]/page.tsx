@@ -267,7 +267,6 @@ export default async function ComparePage({ params }: ComparePageProps) {
               provider2Id={validation.provider2!.id}
               provider1Name={validation.provider1!.name}
               provider2Name={validation.provider2!.name}
-              initialData={comparisonPayload || undefined}
             />
           </ComparisonFullSection>
 
