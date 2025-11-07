@@ -8,8 +8,11 @@ async function scrapeRunPodGPUs(dryRun = false) {
   
   try {
     console.log('🔍 Starting Hyperstack GPU scraper...');
-    await page.goto('https://www.hyperstack.cloud/gpu-pricing');
-    await page.waitForSelector('.gpu-grd-pricing_first');
+    await page.goto('https://www.hyperstack.cloud/gpu-pricing', {
+      waitUntil: 'networkidle0',
+      timeout: 60000,
+    });
+    await page.waitForSelector('.page-price_card_row_item', { timeout: 60000 });
     
     const providerId = '54cc0c05-b0e6-49b3-95fb-831b36dd7efd';
 
@@ -25,20 +28,46 @@ async function scrapeRunPodGPUs(dryRun = false) {
 
     // Scrape the GPU cards
     const gpuData = await page.evaluate(() => {
-      const rows = document.querySelectorAll('.gpu-grd-pricing_first .gpugpf-box-table table tbody tr');
-      return Array.from(rows).map(row => {
-        const cells = row.querySelectorAll('td');
-        const name = cells[0].innerText.trim();
-        const vram = parseInt(cells[1].innerText.trim(), 10);
-        const priceText = cells[4].innerText.trim();
-        const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
-        
-        return {
-          name,
-          vram,
-          price
-        };
-      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.vram) && !isNaN(gpu.price));
+      const normalizeText = (text = '') =>
+        text
+          .replace(/\u00a0/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+      const cards = Array.from(document.querySelectorAll('.page-price_card'));
+      const onDemandCard = cards.find(card => {
+        const heading = normalizeText(card.querySelector('h3')?.textContent || '');
+        return heading.toLowerCase().includes('on-demand gpu');
+      });
+
+      if (!onDemandCard) {
+        return [];
+      }
+
+      const rows = onDemandCard.querySelectorAll('.page-price_card_row_item');
+
+      return Array.from(rows)
+        .map(row => {
+          const cols = row.querySelectorAll('.page-price_card_row_item_col');
+          const name = normalizeText(cols[0]?.textContent || '');
+          const vramText = normalizeText(cols[1]?.textContent || '');
+          const vram = parseInt(vramText.replace(/[^0-9.]/g, ''), 10);
+          const priceTextRaw = normalizeText(
+            (cols[4] ?? cols[cols.length - 1])?.textContent || ''
+          );
+          const price = parseFloat(priceTextRaw.replace(/[^0-9.]/g, ''));
+
+          if (!name || Number.isNaN(vram) || Number.isNaN(price)) {
+            return null;
+          }
+
+          return {
+            name,
+            vram,
+            price,
+          };
+        })
+        .filter(gpu => gpu && gpu.name && !Number.isNaN(gpu.vram) && !Number.isNaN(gpu.price));
     });
 
     console.log('\n📊 Scraped GPU Data:');
