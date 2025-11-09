@@ -8,8 +8,11 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
   
   try {
     console.log('🔍 Starting CoreWeave GPU scraper...');
-    await page.goto('https://www.coreweave.com/pricing');
-    await page.waitForSelector('.table-v2.kubernetes-gpu-pricing');
+    await page.goto('https://www.coreweave.com/pricing', {
+      waitUntil: 'domcontentloaded',
+      timeout: 60000,
+    });
+    await page.waitForSelector('.table-v2.kubernetes-gpu-pricing', { timeout: 60000 });
     
     const providerId = '1d434a66-bf40-40a8-8e80-d5ab48b6d27f';
 
@@ -26,32 +29,44 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
     // Scrape the GPU pricing table
     const gpuData = await page.evaluate(() => {
       console.log('Scraping CoreWeave GPU pricing table...');
-      const rows = document.querySelectorAll('.kubernetes-gpu-pricing .table-cell-column.table-cell-column-left');
-      const priceRows = Array.from(rows).filter(row => {
-        // Ensure the row contains the specific elements for name and price
-        const hasName = row.querySelector('a.table-modal-link .table-model-name');
-        const hasPrice = row.querySelector('.table-meta-text .table-meta-value');
-        return hasName && hasPrice;
-      });
+      const rows = document.querySelectorAll('.kubernetes-gpu-pricing .table-row');
 
-      return priceRows.map(row => {
-        const nameElement = row.querySelector('a.table-modal-link .table-model-name');
-        const priceElement = row.querySelector('.table-meta-text .table-meta-value');
-        
-        if (!nameElement || !priceElement) return null;
+      const extractNumber = (text = '') => {
+        const normalized = text.replace(/\s+/g, ' ').trim();
+        const match = normalized.match(/\d+(?:,\d+)?/);
+        return match ? parseInt(match[0].replace(/,/g, ''), 10) : null;
+      };
 
-        // Clean up the GPU name
-        const name = nameElement.textContent.trim().toUpperCase();
-        
-        // Extract price, removing the "$" and any other text
-        const priceText = priceElement.textContent.trim();
-        const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
-        
-        return {
-          name,
-          price,
-        };
-      }).filter(gpu => gpu && gpu.name && !isNaN(gpu.price));
+      const getGpuCount = (cell) => {
+        if (!cell) return 1;
+        const supText = cell.querySelector('sup')?.textContent || '';
+        const baseText = (cell.textContent || '').replace(supText, '');
+        return extractNumber(baseText) ?? 1;
+      };
+
+      return Array.from(rows)
+        .map(row => {
+          const cells = row.querySelectorAll('.table-v2-cell');
+          if (cells.length < 7) return null;
+
+          const nameElement = row.querySelector('.table-model-name');
+          if (!nameElement) return null;
+          const name = nameElement.textContent?.trim().toUpperCase() || '';
+
+          const gpuCount = getGpuCount(cells[1]);
+
+          const priceText = cells[6]?.textContent || '';
+          const totalPrice = parseFloat(priceText.replace(/[^\d.]/g, ''));
+
+          if (!name || Number.isNaN(totalPrice)) return null;
+
+          return {
+            name,
+            price: totalPrice / Math.max(1, gpuCount),
+            gpuCount,
+          };
+        })
+        .filter(gpu => gpu && gpu.name && !Number.isNaN(gpu.price));
     });
 
     console.log('\n📊 Scraped GPU Data:');
@@ -69,12 +84,14 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
         matchResults.push({
           scraped_name: gpu.name,
           matched_model: matchingModel.name,
-          price: gpu.price
+          price: gpu.price,
+          gpuCount: gpu.gpuCount
         });
       } else {
         unmatchedGPUs.push({
           scraped_name: gpu.name,
-          price: gpu.price
+          price: gpu.price,
+          gpuCount: gpu.gpuCount
         });
       }
     }
@@ -106,6 +123,7 @@ async function scrapeCoreweaveGPUs(dryRun = false) {
           provider_id: providerId,
           gpu_model_id: matchingModel.id,
           price_per_hour: result.price,
+          gpu_count: result.gpuCount,
           source_name: 'CoreWeave',
           source_url: 'https://www.coreweave.com/pricing'
         })

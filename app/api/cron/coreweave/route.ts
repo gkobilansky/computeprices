@@ -31,8 +31,11 @@ export async function GET(request: Request) {
     
     const page = await browser.newPage();
 
-    await page.goto('https://www.coreweave.com/pricing');
-    await page.waitForSelector('.table-v2.kubernetes-gpu-pricing');
+    await page.goto('https://www.coreweave.com/pricing', {
+      waitUntil: 'domcontentloaded',
+      timeout: 60000,
+    });
+    await page.waitForSelector('.table-v2.kubernetes-gpu-pricing', { timeout: 60000 });
     
     const providerId = '1d434a66-bf40-40a8-8e80-d5ab48b6d27f';
 
@@ -49,6 +52,20 @@ export async function GET(request: Request) {
     const gpuData: ScrapedGPU[] = await (page as any).evaluate(() => {
       // Look for GPU pricing rows specifically
       const rows = document.querySelectorAll('.kubernetes-gpu-pricing .table-row');
+
+      const extractNumber = (text?: string | null) => {
+        if (!text) return null;
+        const normalized = text.replace(/\s+/g, ' ').trim();
+        const match = normalized.match(/\d+(?:,\d+)?/);
+        return match ? parseInt(match[0].replace(/,/g, ''), 10) : null;
+      };
+
+      const getGpuCount = (cell: Element | null) => {
+        if (!cell) return 1;
+        const supText = cell.querySelector('sup')?.textContent || '';
+        const baseText = (cell.textContent || '').replace(supText, '');
+        return extractNumber(baseText) ?? 1;
+      };
       
       return Array.from(rows).map((row, index) => {
         const cells = row.querySelectorAll('.table-v2-cell');
@@ -60,19 +77,16 @@ export async function GET(request: Request) {
         const name = nameElement.textContent?.trim().toUpperCase() || '';
         
         // Extract GPU count from second cell
-        const gpuCountText = cells[1].textContent?.trim() || '';
-        // Handle superscript numbers (like "4¹" should be "4")
-        const cleanedCountText = gpuCountText.split(/[¹²³⁴⁵⁶⁷⁸⁹⁰]/)[0];
-        const gpuCount = parseInt(cleanedCountText.replace(/[^\d]/g, '')) || 1;
+        const gpuCount = getGpuCount(cells[1] || null);
         
         // Extract price from last cell (7th cell - Instance Price Per Hour)
         const priceElement = cells[6]; // 7th cell (0-indexed)
         if (!priceElement) return null;
-        const priceText = priceElement.textContent?.trim() || '';
+        const priceText = priceElement.textContent || '';
         const totalPrice = parseFloat(priceText.replace(/[^\d.]/g, ''));
         
         // Calculate per-GPU price
-        const price = totalPrice / gpuCount;
+        const price = totalPrice / Math.max(1, gpuCount);
         
         if (!name || isNaN(totalPrice) || isNaN(gpuCount)) return null;
         
