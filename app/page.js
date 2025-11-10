@@ -10,7 +10,7 @@ import { FilterProvider } from '@/lib/context/FilterContext';
 import { generateMetadata } from './metadata';
 import { getHomepageStats, getLatestPriceDrops } from '@/lib/utils/fetchGPUData';
 
-const HOME_TITLE = 'Cloud GPU Price Comparison: Lambda, Coreweave, AWS & More | ComputePrices.com';
+const HOME_TITLE = 'Cloud GPU Price Comparison: Lambda, Runpod, Coreweave, AWS & More | ComputePrices.com';
 const HOME_DESCRIPTION = 'Compare cloud GPU prices across 11+ providers. Find the cheapest H100, A100, and L40S rates for AI training and inference. Save up to 80% on cloud GPU costs.';
 
 export const metadata = generateMetadata({
@@ -50,7 +50,7 @@ export default async function Home() {
                 RTX 4090
               </Link>{' '}
               rates in seconds.
-              <strong className="text-gray-800 ml-1">Daily pricing from Lambda, CoreWeave, AWS & <Link href="/providers" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">more</Link>.</strong>
+              <strong className="text-gray-800 ml-1">Daily pricing from Lambda, Runpod, CoreWeave, AWS & <Link href="/providers" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">more</Link>.</strong>
             </p>
 
             {/* Trust Indicators */}
