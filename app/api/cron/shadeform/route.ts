@@ -54,6 +54,18 @@ interface ProviderResults {
   unmatchedGPUs: UnmatchedGPU[];
 }
 
+const buildShadeformSourceUrl = (cloud: string, gpuType: string) => {
+  const url = new URL('https://platform.shadeform.ai/');
+  url.searchParams.set('referral', '6B321750');
+  if (cloud) {
+    url.searchParams.set('cloud', cloud.trim().toLowerCase().replace(/\s+/g, ''));
+  }
+  if (gpuType) {
+    url.searchParams.set('gputype', gpuType.trim().toUpperCase());
+  }
+  return url.toString();
+};
+
 export async function GET(request: Request) {
   try {
     console.log('🔍 Starting Shadeform GPU API fetch...');
@@ -115,6 +127,7 @@ export async function GET(request: Request) {
         const { configuration, hourly_price } = instance;
         const gpuName = configuration.gpu_type.toUpperCase();
         const gpuCount = configuration.num_gpus;
+        const sourceUrl = buildShadeformSourceUrl(cloud, gpuName);
 
         const matchingModel = await findMatchingGPUModel(gpuName, existingModels);
         
@@ -136,7 +149,7 @@ export async function GET(request: Request) {
               price_per_hour: hourly_price / 100,
               gpu_count: gpuCount,
               source_name: 'Shadeform API',
-              source_url: 'https://platform.shadeform.ai/?referral=6B321750'
+              source_url: sourceUrl
             });
 
           if (priceError) {
