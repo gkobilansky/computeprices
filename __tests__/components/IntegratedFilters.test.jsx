@@ -108,10 +108,20 @@ describe('IntegratedFilters - Collapsible Functionality', () => {
     });
   });
 
-  test('should show Clear All button', () => {
+  test('should show Clear All button when expanded', async () => {
     renderWithContext(<IntegratedFilters />);
     
-    const clearButton = screen.getByText(/Clear All/i);
-    expect(clearButton).toBeInTheDocument();
+    // Initially hidden when collapsed
+    expect(screen.queryByText(/Clear All/i)).not.toBeInTheDocument();
+    
+    // Expand
+    const toggleButton = screen.getByRole('button', { expanded: false });
+    fireEvent.click(toggleButton);
+    
+    // Should appear when expanded
+    await waitFor(() => {
+      const clearButton = screen.getByText(/Clear All/i);
+      expect(clearButton).toBeInTheDocument();
+    });
   });
 });

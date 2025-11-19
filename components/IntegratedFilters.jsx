@@ -174,36 +174,43 @@ export default function IntegratedFilters() {
     const hasActiveFilters = selectedProvider || selectedGPU || useCase || budget || providerQuery || gpuQuery || showBestPriceOnly;
 
     return (
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <div className={`transition-all duration-300 ${isExpanded ? 'bg-white rounded-lg shadow-lg border border-gray-200 p-6' : 'p-4'}`}>
             {/* Header with title, toggle, and clear button */}
             <div className="flex items-center justify-between mb-6">
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+                    className="flex flex-col items-start hover:opacity-70 transition-opacity"
                     aria-expanded={isExpanded}
                     aria-controls="filter-content"
                 >
-                    <span className="text-2xl">🚀</span>
-                    <h3 className="text-lg font-semibold">Find Your Perfect GPU</h3>
-                    <svg
-                        className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                    <div className="flex items-center gap-2">
+                        <span className="text-2xl">🚀</span>
+                        <h3 className="text-lg font-semibold">Find Your Perfect GPU</h3>
+                        <svg
+                            className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                    {!isExpanded && (
+                        <span className="text-sm text-gray-500 ml-9">Search by use case, budget, provider or GPU model</span>
+                    )}
+                </button>
+                {isExpanded && (
+                    <button
+                        className={`btn btn-sm ${hasActiveFilters
+                            ? 'btn-outline btn-warning'
+                            : 'btn-disabled'
+                            }`}
+                        onClick={clearAllFilters}
+                        disabled={!hasActiveFilters}
                     >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <button
-                    className={`btn btn-sm ${hasActiveFilters
-                        ? 'btn-outline btn-warning'
-                        : 'btn-disabled'
-                        }`}
-                    onClick={clearAllFilters}
-                    disabled={!hasActiveFilters}
-                >
-                    🧼 Clear All
-                </button>
+                        🧼 Clear All
+                    </button>
+                )}
             </div>
 
             {/* Collapsible Content */}
