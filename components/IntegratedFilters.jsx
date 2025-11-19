@@ -31,6 +31,7 @@ export default function IntegratedFilters() {
     const [availableGPUs, setAvailableGPUs] = useState([]);
     const [isProviderOpen, setIsProviderOpen] = useState(false);
     const [isGPUOpen, setIsGPUOpen] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     // GPU use case mappings
     const useCaseOptions = [
@@ -174,12 +175,25 @@ export default function IntegratedFilters() {
 
     return (
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-            {/* Header with title and clear button */}
+            {/* Header with title, toggle, and clear button */}
             <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
+                <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+                    aria-expanded={isExpanded}
+                    aria-controls="filter-content"
+                >
                     <span className="text-2xl">🚀</span>
                     <h3 className="text-lg font-semibold">Find Your Perfect GPU</h3>
-                </div>
+                    <svg
+                        className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
                 <button
                     className={`btn btn-sm ${hasActiveFilters
                         ? 'btn-outline btn-warning'
@@ -192,8 +206,15 @@ export default function IntegratedFilters() {
                 </button>
             </div>
 
-            {/* Quick Search Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {/* Collapsible Content */}
+            <div
+                id="filter-content"
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+                }`}
+            >
+                {/* Quick Search Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
                     <label className="block text-sm font-medium mb-2 text-gray-700">I need a GPU for:</label>
                     <select
@@ -422,6 +443,7 @@ export default function IntegratedFilters() {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 } 
