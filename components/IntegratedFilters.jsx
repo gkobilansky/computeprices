@@ -155,6 +155,12 @@ export default function IntegratedFilters() {
         }
     }, [selectedProvider, gpuModels, fetchAvailableGPUs]);
 
+    useEffect(() => {
+        const openListener = () => setIsExpanded(true);
+        window.addEventListener('open-filters-panel', openListener);
+        return () => window.removeEventListener('open-filters-panel', openListener);
+    }, []);
+
     const filteredProviders = providerQuery === ''
         ? providers
         : providers.filter((provider) =>
@@ -176,7 +182,7 @@ export default function IntegratedFilters() {
     return (
         <div className={`transition-all duration-300 ${isExpanded ? 'bg-white rounded-lg shadow-lg border border-gray-200 p-6' : 'p-4'}`}>
             {/* Header with title, toggle, and clear button */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 gap-4">
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="flex flex-col items-start hover:opacity-70 transition-opacity"

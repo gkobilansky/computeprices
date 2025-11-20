@@ -98,50 +98,62 @@ CREATE POLICY "Allow public read access to prices"
     ON prices FOR SELECT
     USING (true);
 
--- Create the get_latest_prices stored procedure
-CREATE OR REPLACE FUNCTION get_latest_prices(
-    selected_provider UUID DEFAULT NULL,
-    selected_gpu UUID DEFAULT NULL
-)
-RETURNS TABLE (
-    id UUID,
-    provider_id UUID,
-    gpu_model_id UUID,
-    price_per_hour DECIMAL,
-    gpu_count INTEGER,
-    source_name TEXT,
-    source_url TEXT,
-    created_at TIMESTAMP WITH TIME ZONE,
-    provider_name TEXT,
-    gpu_model_name TEXT,
-    gpu_model_slug TEXT,
-    gpu_model_vram INTEGER,
-    manufacturer TEXT
-) 
-LANGUAGE plpgsql
-AS $$
+-- Create the get_latest_prices stored procedure only if it doesn't exist
+DO $body$
 BEGIN
-    RETURN QUERY
-    SELECT DISTINCT ON (p.provider_id, p.gpu_model_id)
-        p.id,
-        p.provider_id,
-        p.gpu_model_id,
-        p.price_per_hour,
-        p.gpu_count,
-        p.source_name,
-        p.source_url,
-        p.created_at,
-        pr.name as provider_name,
-        gm.name as gpu_model_name,
-        COALESCE(gm.slug, LOWER(REPLACE(gm.name, ' ', '-'))) as gpu_model_slug,
-        gm.vram as gpu_model_vram,
-        COALESCE(gm.manufacturer::TEXT, 'NVIDIA') as manufacturer
-    FROM prices p
-    JOIN providers pr ON p.provider_id = pr.id
-    JOIN gpu_models gm ON p.gpu_model_id = gm.id
-    WHERE 
-        (selected_provider IS NULL OR p.provider_id = selected_provider)
-        AND (selected_gpu IS NULL OR p.gpu_model_id = selected_gpu)
-    ORDER BY p.provider_id, p.gpu_model_id, p.created_at DESC;
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_proc
+        WHERE proname = 'get_latest_prices'
+          AND oid = 'public.get_latest_prices(uuid, uuid)'::regprocedure
+    ) THEN
+        EXECUTE $func$
+        CREATE FUNCTION get_latest_prices(
+            selected_provider UUID DEFAULT NULL,
+            selected_gpu UUID DEFAULT NULL
+        )
+        RETURNS TABLE (
+            id UUID,
+            provider_id UUID,
+            gpu_model_id UUID,
+            price_per_hour DECIMAL,
+            gpu_count INTEGER,
+            source_name TEXT,
+            source_url TEXT,
+            created_at TIMESTAMP WITH TIME ZONE,
+            provider_name TEXT,
+            gpu_model_name TEXT,
+            gpu_model_slug TEXT,
+            gpu_model_vram INTEGER,
+            manufacturer TEXT
+        ) 
+        LANGUAGE plpgsql
+        AS $$
+        BEGIN
+            RETURN QUERY
+            SELECT DISTINCT ON (p.provider_id, p.gpu_model_id)
+                p.id,
+                p.provider_id,
+                p.gpu_model_id,
+                p.price_per_hour,
+                p.gpu_count,
+                p.source_name,
+                p.source_url,
+                p.created_at,
+                pr.name as provider_name,
+                gm.name as gpu_model_name,
+                COALESCE(gm.slug, LOWER(REPLACE(gm.name, ' ', '-'))) as gpu_model_slug,
+                gm.vram as gpu_model_vram,
+                COALESCE(gm.manufacturer::TEXT, 'NVIDIA') as manufacturer
+            FROM prices p
+            JOIN providers pr ON p.provider_id = pr.id
+            JOIN gpu_models gm ON p.gpu_model_id = gm.id
+            WHERE 
+                (selected_provider IS NULL OR p.provider_id = selected_provider)
+                AND (selected_gpu IS NULL OR p.gpu_model_id = selected_gpu)
+            ORDER BY p.provider_id, p.gpu_model_id, p.created_at DESC;
+        END;
+        $$;
+        $func$;
+    END IF;
 END;
-$$;
+$body$;

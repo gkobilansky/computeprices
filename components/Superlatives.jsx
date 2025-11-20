@@ -60,6 +60,7 @@ const Superlatives = () => {
     setSelectedProvider({ id: cheapest.provider_id, name: cheapest.provider });
     setSelectedGPU({ id: cheapest.gpu_model_id, name: cheapest.gpu });
     setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
+    window.dispatchEvent(new Event('open-filters-panel'));
   };
 
   const handleMostPopularClick = () => {
@@ -67,6 +68,7 @@ const Superlatives = () => {
     setSelectedProvider(null);
     setSelectedGPU({ id: popular.id, name: popular.name });
     setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
+    window.dispatchEvent(new Event('open-filters-panel'));
   };
 
   const handleTopGPUClick = () => {
@@ -76,6 +78,7 @@ const Superlatives = () => {
       setSelectedGPU({ id: topGPUModel.gpu_model_id, name: "NVIDIA B200" });
     }
     setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
+    window.dispatchEvent(new Event('open-filters-panel'));
   };
 
   const cheapest = getCheapestCombo();
@@ -83,48 +86,60 @@ const Superlatives = () => {
   const topGPU = "NVIDIA B200"; // Hardcoded as requested
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div 
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <button
+        type="button"
         onClick={handleCheapestClick}
-        className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-primary/20 transition-colors cursor-pointer hover:bg-gray-50"
-        role="button"
-        tabIndex={0}
+        className="w-full text-left bg-white rounded-lg p-4 shadow-sm border border-primary/10 hover:border-primary/30 hover:-translate-y-0.5 transition transform"
       >
-        <div className="text-4xl mb-3">🪙</div>
-        <h3 className="font-semibold text-lg mb-1">Cheapest Option</h3>
-        <p className="text-gray-600">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🪙</span>
+            <h3 className="font-semibold text-base">Cheapest Option</h3>
+          </div>
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-primary/80 bg-primary/10 px-2 py-1 rounded-full">Sets filters</span>
+        </div>
+        <p className="text-sm text-gray-600 leading-snug">
           {loading ? 'Loading...' : `${cheapest.provider} - ${cheapest.gpu}`}
-          <span className="block text-sm mt-1">{loading ? '' : `$${cheapest.price}/hr`}</span>
+          <span className="block text-[13px] mt-1">{loading ? '' : `$${cheapest.price}/hr`}</span>
         </p>
-      </div>
+      </button>
 
-      <div 
+      <button
+        type="button"
         onClick={handleMostPopularClick}
-        className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-primary/20 transition-colors cursor-pointer hover:bg-gray-50"
-        role="button"
-        tabIndex={0}
+        className="w-full text-left bg-white rounded-lg p-4 shadow-sm border border-primary/10 hover:border-primary/30 hover:-translate-y-0.5 transition transform"
       >
-        <div className="text-4xl mb-3">🦾</div>
-        <h3 className="font-semibold text-lg mb-1">Most Popular</h3>
-        <p className="text-gray-600">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🦾</span>
+            <h3 className="font-semibold text-base">Most Popular</h3>
+          </div>
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-primary/80 bg-primary/10 px-2 py-1 rounded-full">Sets filters</span>
+        </div>
+        <p className="text-sm text-gray-600 leading-snug">
           {loading ? 'Loading...' : mostPopular.name}
-          <span className="block text-sm mt-1">Available across providers</span>
+          <span className="block text-[13px] mt-1">Filters for the hottest pick</span>
         </p>
-      </div>
+      </button>
 
-      <div 
+      <button
+        type="button"
         onClick={handleTopGPUClick}
-        className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-primary/20 transition-colors cursor-pointer hover:bg-gray-50"
-        role="button"
-        tabIndex={0}
+        className="w-full text-left bg-white rounded-lg p-4 shadow-sm border border-primary/10 hover:border-primary/30 hover:-translate-y-0.5 transition transform"
       >
-        <div className="text-4xl mb-3">🎩</div>
-        <h3 className="font-semibold text-lg mb-1">Top of the Line</h3>
-        <p className="text-gray-600">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🎩</span>
+            <h3 className="font-semibold text-base">Top of the Line</h3>
+          </div>
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-primary/80 bg-primary/10 px-2 py-1 rounded-full">Sets filters</span>
+        </div>
+        <p className="text-sm text-gray-600 leading-snug">
           {loading ? 'Loading...' : topGPU}
-          <span className="block text-sm mt-1">Ultimate performance</span>
+          <span className="block text-[13px] mt-1">Filters for premium performance</span>
         </p>
-      </div>
+      </button>
     </div>
   );
 };
