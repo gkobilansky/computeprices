@@ -4,6 +4,7 @@ import GPUComparisonTable from '@/components/GPUComparisonTable';
 import IntegratedFilters from '@/components/IntegratedFilters';
 import GPUInfoCard from '@/components/GPUInfoCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
+import FeedbackLauncher from '@/components/FeedbackLauncher';
 import Superlatives from '@/components/Superlatives';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
@@ -80,10 +81,16 @@ export default async function Home() {
           </section>
 
           {/* Enhanced Superlatives Section */}
-          <section className="bg-gradient-to-r from-blue-50 via-purple-50 to-blue-50 rounded-xl p-6 mb-8" aria-label="Top GPU Picks">
-            <h2 className="text-2xl font-semibold mb-6 text-center">
-              💡 <span className="gradient-text-1">Top Picks Right Now</span>
-            </h2>
+          <section className="bg-gradient-to-r from-blue-50 via-purple-50 to-blue-50 rounded-xl p-4 lg:p-5 mb-8" aria-label="Top GPU Picks">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2 text-gray-900">
+                <span className="text-xl">💡</span>
+                <h2 className="text-xl font-semibold">Top Picks Right Now</h2>
+              </div>
+              <span className="text-xs font-medium px-3 py-1 rounded-full bg-white text-gray-800 shadow-sm border border-primary/10">
+                Click a tile to filter the table
+              </span>
+            </div>
             <Suspense fallback={
               <div className="flex justify-center items-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -122,9 +129,13 @@ export default async function Home() {
                 }>
                   <GPUInfoCard />
                 </Suspense>
+                <div className="flex justify-end">
+                  <FeedbackLauncher />
+                </div>
               </div>
             </div>
           </section>
+
         </div>
       </FilterProvider>
 

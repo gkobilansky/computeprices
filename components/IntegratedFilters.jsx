@@ -31,6 +31,7 @@ export default function IntegratedFilters() {
     const [availableGPUs, setAvailableGPUs] = useState([]);
     const [isProviderOpen, setIsProviderOpen] = useState(false);
     const [isGPUOpen, setIsGPUOpen] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     // GPU use case mappings
     const useCaseOptions = [
@@ -154,6 +155,12 @@ export default function IntegratedFilters() {
         }
     }, [selectedProvider, gpuModels, fetchAvailableGPUs]);
 
+    useEffect(() => {
+        const openListener = () => setIsExpanded(true);
+        window.addEventListener('open-filters-panel', openListener);
+        return () => window.removeEventListener('open-filters-panel', openListener);
+    }, []);
+
     const filteredProviders = providerQuery === ''
         ? providers
         : providers.filter((provider) =>
@@ -173,27 +180,54 @@ export default function IntegratedFilters() {
     const hasActiveFilters = selectedProvider || selectedGPU || useCase || budget || providerQuery || gpuQuery || showBestPriceOnly;
 
     return (
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-            {/* Header with title and clear button */}
-            <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                    <span className="text-2xl">🚀</span>
-                    <h3 className="text-lg font-semibold">Find Your Perfect GPU</h3>
-                </div>
+        <div className={`transition-all duration-300 ${isExpanded ? 'bg-white rounded-lg shadow-lg border border-gray-200 p-6' : 'p-4'}`}>
+            {/* Header with title, toggle, and clear button */}
+            <div className="flex items-center justify-between mb-6 gap-4">
                 <button
-                    className={`btn btn-sm ${hasActiveFilters
-                        ? 'btn-outline btn-warning'
-                        : 'btn-disabled'
-                        }`}
-                    onClick={clearAllFilters}
-                    disabled={!hasActiveFilters}
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="flex flex-col items-start hover:opacity-70 transition-opacity"
+                    aria-expanded={isExpanded}
+                    aria-controls="filter-content"
                 >
-                    🧼 Clear All
+                    <div className="flex items-center gap-2">
+                        <span className="text-2xl">🚀</span>
+                        <h3 className="text-lg font-semibold">Find Your Perfect GPU</h3>
+                        <svg
+                            className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                    {!isExpanded && (
+                        <span className="text-sm text-gray-500 ml-9">Search by use case, budget, provider or GPU model</span>
+                    )}
                 </button>
+                {isExpanded && (
+                    <button
+                        className={`btn btn-sm ${hasActiveFilters
+                            ? 'btn-outline btn-warning'
+                            : 'btn-disabled'
+                            }`}
+                        onClick={clearAllFilters}
+                        disabled={!hasActiveFilters}
+                    >
+                        🧼 Clear All
+                    </button>
+                )}
             </div>
 
-            {/* Quick Search Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {/* Collapsible Content */}
+            <div
+                id="filter-content"
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+                }`}
+            >
+                {/* Quick Search Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
                     <label className="block text-sm font-medium mb-2 text-gray-700">I need a GPU for:</label>
                     <select
@@ -422,6 +456,7 @@ export default function IntegratedFilters() {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 } 
