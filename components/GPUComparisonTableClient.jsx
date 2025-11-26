@@ -160,15 +160,15 @@ export default function GPUComparisonTableClient({ initialData }) {
                 <table className="table comparison-table w-full md:table hidden">
                     <thead>
                         <tr className="bg-gray-50/50">
-                            <th key="provider-name" onClick={() => handleSort(gpuData, 'provider_name')}
+                            <th key="provider-name" onClick={() => handleSort('provider_name')}
                                 className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                                 Provider <SortIcon column="provider_name" />
                             </th>
-                            <th key="gpu-model" onClick={() => handleSort(gpuData, 'gpu_model_name')}
+                            <th key="gpu-model" onClick={() => handleSort('gpu_model_name')}
                                 className="px-6 py-4 text-left cursor-pointer hover:bg-gray-50">
                                 GPU Model <SortIcon column="gpu_model_name" />
                             </th>
-                            <th key="price-per-hour" onClick={() => handleSort(gpuData, 'price_per_hour')}
+                            <th key="price-per-hour" onClick={() => handleSort('price_per_hour')}
                                 className="px-6 py-4 w-30 text-left cursor-pointer hover:bg-gray-50">
                                 Price/Hour <SortIcon column="price_per_hour" />
                             </th>

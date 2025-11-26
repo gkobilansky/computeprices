@@ -17,10 +17,11 @@ import {
   ComparisonError
 } from '@/types/comparison'
 import { siteConfig } from '@/app/metadata'
+import BreadcrumbNav from '@/components/BreadcrumbNav'
 import ComparisonPricingTable from '@/components/comparison/ComparisonPricingTable'
 import ComparisonHeader from '@/components/comparison/ComparisonHeader'
 import ComparisonNavigation from '@/components/comparison/ComparisonNavigation'
-import ComparisonLayout, { ComparisonSection, ComparisonFullSection } from '@/components/comparison/ComparisonLayout'
+import ComparisonLayout, { ComparisonFullSection } from '@/components/comparison/ComparisonLayout'
 import { 
   LazyFeaturesComparisonSection, 
   LazyProsConsSection, 
@@ -238,9 +239,21 @@ export default async function ComparePage({ params }: ComparePageProps) {
       // Continue with empty comparison data - the pricing table will handle its own data loading
     }
 
+    const breadcrumbs = [
+      { label: 'Home', href: '/' },
+      { label: 'Compare', href: '/compare' },
+      { 
+        label: `${validation.provider1!.name} vs ${validation.provider2!.name}`, 
+        href: generateCanonicalComparisonURL(validation.provider1!.slug, validation.provider2!.slug) 
+      },
+    ]
 
     const pageContent = (
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <BreadcrumbNav items={breadcrumbs} />
+        </div>
+
         {/* Header Section */}
         <ComparisonHeader 
           provider1={validation.provider1!}
@@ -256,10 +269,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
         />
 
         {/* Main Content */}
-        <ComparisonLayout 
-          provider1={validation.provider1!}
-          provider2={validation.provider2!}
-        >
+        <ComparisonLayout>
           {/* GPU Pricing Comparison Table - Full Width - Optimized */}
           <ComparisonFullSection title="GPU Pricing Comparison">
             <ComparisonPricingTable
@@ -267,6 +277,7 @@ export default async function ComparePage({ params }: ComparePageProps) {
               provider2Id={validation.provider2!.id}
               provider1Name={validation.provider1!.name}
               provider2Name={validation.provider2!.name}
+              initialData={comparisonPayload}
             />
           </ComparisonFullSection>
 

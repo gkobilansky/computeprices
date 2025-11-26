@@ -6,9 +6,7 @@ import PriceComparisonCell from './PriceComparisonCell';
 export default function DualProviderTableRow({ 
   comparisonData, 
   provider1, 
-  provider2, 
-  isSelected = false,
-  onClick 
+  provider2
 }) {
   const {
     gpu_model_name,
@@ -51,12 +49,7 @@ export default function DualProviderTableRow({
   return (
     <>
       {/* Desktop Table Row */}
-      <tr 
-        className={`hover:bg-gray-50 cursor-pointer border-t ${
-          isSelected ? 'bg-blue-50 border-blue-200' : ''
-        }`}
-        onClick={() => onClick?.(comparisonData)}
-      >
+      <tr className="hidden md:table-row hover:bg-gray-50 border-t">
         {/* GPU Model Column */}
         <td className="px-6 py-4">
           <div className="flex flex-col">
@@ -190,12 +183,7 @@ export default function DualProviderTableRow({
       {/* Mobile Card (shown only on small screens) */}
       <tr className="md:hidden">
         <td colSpan={5} className="p-0">
-          <div 
-            className={`m-4 rounded-lg border cursor-pointer ${
-              isSelected ? 'border-blue-200 bg-blue-50' : 'border-gray-200 bg-white'
-            }`}
-            onClick={() => onClick?.(comparisonData)}
-          >
+          <div className="mx-3 my-4 rounded-lg border border-gray-100 bg-white shadow-sm">
             {/* GPU Header */}
             <div className="p-4 border-b border-gray-200">
               <div className="font-medium text-gray-900 mb-1">{gpu_model_name}</div>
@@ -210,7 +198,6 @@ export default function DualProviderTableRow({
                 provider1Data={provider1Data}
                 provider2Data={provider2Data}
                 comparisonMetrics={comparisonMetrics}
-                isHighlighted={isSelected}
               />
             </div>
           </div>

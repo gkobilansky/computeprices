@@ -4,10 +4,23 @@ import { useState, useMemo, useEffect } from 'react';
 import { useTableSort } from '@/lib/hooks/useTableSort';
 import { fetchProviderComparison } from '@/lib/utils/fetchGPUData';
 import DualProviderTableRow from './DualProviderTableRow';
-import ComparisonTableFilters from './ComparisonTableFilters';
 
 const DISPLAY_LIMIT = 15;
 
+/**
+ * @typedef {Awaited<ReturnType<typeof fetchProviderComparison>> | null} ComparisonPayload
+ *
+ * @typedef {Object} ComparisonPricingTableProps
+ * @property {string} provider1Id
+ * @property {string} provider2Id
+ * @property {string} provider1Name
+ * @property {string} provider2Name
+ * @property {ComparisonPayload} [initialData]
+ */
+
+/**
+ * @param {ComparisonPricingTableProps} props
+ */
 export default function ComparisonPricingTable({ 
   provider1Id, 
   provider2Id,
@@ -18,14 +31,7 @@ export default function ComparisonPricingTable({
   const [comparisonData, setComparisonData] = useState(initialData);
   const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(null);
-  const [selectedGPU, setSelectedGPU] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  // Comparison-specific filters
-  const [showBothAvailable, setShowBothAvailable] = useState(false);
-  const [showBestPricesOnly, setShowBestPricesOnly] = useState(false);
-  const [priceRangeFilter, setPriceRangeFilter] = useState('all');
-  const [manufacturerFilter, setManufacturerFilter] = useState('all');
 
   const { sortConfig, handleSort, getSortedData } = useTableSort('gpu_model_name', 'asc');
 
@@ -33,13 +39,14 @@ export default function ComparisonPricingTable({
   useEffect(() => {
     let isSubscribed = true;
 
+    const hydrateFromInitialData = () => {
+      setComparisonData(initialData);
+      setLoading(false);
+      setError(null);
+    };
+
     const fetchData = async () => {
       if (!provider1Id || !provider2Id) return;
-      if (initialData) {
-        setError(null);
-        setLoading(false);
-        return;
-      }
 
       try {
         setLoading(true);
@@ -61,6 +68,13 @@ export default function ComparisonPricingTable({
       }
     };
 
+    if (initialData) {
+      hydrateFromInitialData();
+      return () => {
+        isSubscribed = false;
+      };
+    }
+
     fetchData();
 
     return () => {
@@ -68,66 +82,12 @@ export default function ComparisonPricingTable({
     };
   }, [provider1Id, provider2Id, initialData]);
 
-  useEffect(() => {
-    if (initialData) {
-      setComparisonData(initialData);
-      setLoading(false);
-      setError(null);
-    }
-  }, [initialData]);
-
   // Sort and filter data
   const processedData = useMemo(() => {
     if (!comparisonData?.comparisonData) return [];
 
-    let data = [...comparisonData.comparisonData];
-
-    // Apply filters
-    if (showBothAvailable) {
-      data = data.filter(item => item.availability.provider1 && item.availability.provider2);
-    }
-
-    if (showBestPricesOnly && !showBothAvailable) {
-      // Show only items where this provider has the best price
-      data = data.filter(item => item.best_price !== null);
-    }
-
-    if (manufacturerFilter !== 'all') {
-      data = data.filter(item => 
-        item.manufacturer?.toLowerCase() === manufacturerFilter.toLowerCase()
-      );
-    }
-
-    if (priceRangeFilter !== 'all') {
-      data = data.filter(item => {
-        // Get the lower price from both providers for filtering
-        const prices = [
-          item.provider1?.price_per_hour,
-          item.provider2?.price_per_hour
-        ].filter(Boolean);
-        
-        if (prices.length === 0) return false;
-        
-        const minPrice = Math.min(...prices);
-        
-        switch (priceRangeFilter) {
-          case 'under-1':
-            return minPrice < 1;
-          case '1-5':
-            return minPrice >= 1 && minPrice <= 5;
-          case '5-20':
-            return minPrice >= 5 && minPrice <= 20;
-          case '20-plus':
-            return minPrice >= 20;
-          default:
-            return true;
-        }
-      });
-    }
-
-    // Apply sorting
-    return getSortedData(data);
-  }, [comparisonData, showBothAvailable, showBestPricesOnly, priceRangeFilter, manufacturerFilter, getSortedData]);
+    return getSortedData(comparisonData.comparisonData);
+  }, [comparisonData, getSortedData]);
 
   const visibleData = useMemo(() => {
     return isExpanded ? processedData : processedData.slice(0, DISPLAY_LIMIT);
@@ -182,52 +142,19 @@ export default function ComparisonPricingTable({
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      {/* Header with Summary Stats */}
-      <div className="p-6 border-b border-gray-200 bg-gray-50">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">
-              GPU Pricing Comparison
-            </h2>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-              <span>Total GPUs: {comparisonData.metadata.totalGPUs}</span>
-              <span>Both Available: {comparisonData.metadata.bothAvailable}</span>
-              <span>{provider1Name}: {comparisonData.metadata.provider1Available}</span>
-              <span>{provider2Name}: {comparisonData.metadata.provider2Available}</span>
-            </div>
-          </div>
-          <div className="text-xs text-gray-500">
-            Last updated: {new Date(comparisonData.metadata.fetchedAt).toLocaleString()}
-          </div>
+      {/* Lightweight summary bar */}
+      <div className="px-6 py-3 bg-gray-50 border-b border-gray-200 flex flex-col gap-2 md:flex-row md:items-center md:justify-between text-sm text-gray-700">
+        <div className="flex flex-wrap gap-4">
+          <span>Total GPUs: {comparisonData.metadata.totalGPUs}</span>
+          <span>Both available: {comparisonData.metadata.bothAvailable}</span>
+          <span>{provider1Name}: {comparisonData.metadata.provider1Available}</span>
+          <span>{provider2Name}: {comparisonData.metadata.provider2Available}</span>
         </div>
-      </div>
-
-      {/* Filters */}
-      <ComparisonTableFilters
-        showBothAvailable={showBothAvailable}
-        setShowBothAvailable={setShowBothAvailable}
-        showBestPricesOnly={showBestPricesOnly}
-        setShowBestPricesOnly={setShowBestPricesOnly}
-        priceRangeFilter={priceRangeFilter}
-        setPriceRangeFilter={setPriceRangeFilter}
-        manufacturerFilter={manufacturerFilter}
-        setManufacturerFilter={setManufacturerFilter}
-        totalResults={processedData.length}
-        provider1Name={provider1Name}
-        provider2Name={provider2Name}
-      />
-
-      {/* Results Summary */}
-      <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-        <div className="flex justify-between items-center text-sm text-gray-600">
-          <span>
-            Showing {visibleData.length} of {processedData.length} GPUs
-          </span>
-          {processedData.length === 0 && (
-            <span className="text-amber-600">
-              No results match your current filters
-            </span>
-          )}
+        <div className="text-sm text-gray-600">
+          Showing {visibleData.length} of {processedData.length} GPUs
+        </div>
+        <div className="text-xs text-gray-500">
+          Last updated: {new Date(comparisonData.metadata.fetchedAt).toLocaleString()}
         </div>
       </div>
 
@@ -238,7 +165,7 @@ export default function ComparisonPricingTable({
             <tr>
               <th 
                 className="px-6 py-4 text-left text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSort(comparisonData?.comparisonData ?? [], 'gpu_model_name')}
+                onClick={() => handleSort('gpu_model_name')}
               >
                 GPU Model <SortIcon column="gpu_model_name" />
               </th>
@@ -250,7 +177,7 @@ export default function ComparisonPricingTable({
               </th>
               <th 
                 className="px-6 py-4 text-center text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSort(comparisonData?.comparisonData ?? [], 'price_difference')}
+                onClick={() => handleSort('price_difference')}
               >
                 Price Diff <SortIcon column="price_difference" />
               </th>
@@ -266,11 +193,6 @@ export default function ComparisonPricingTable({
                 comparisonData={item}
                 provider1={comparisonData.provider1}
                 provider2={comparisonData.provider2}
-                isSelected={selectedGPU?.id === item.gpu_model_id}
-                onClick={(data) => setSelectedGPU({ 
-                  id: data.gpu_model_id, 
-                  name: data.gpu_model_name 
-                })}
               />
             ))}
           </tbody>
@@ -287,11 +209,6 @@ export default function ComparisonPricingTable({
                 comparisonData={item}
                 provider1={comparisonData.provider1}
                 provider2={comparisonData.provider2}
-                isSelected={selectedGPU?.id === item.gpu_model_id}
-                onClick={(data) => setSelectedGPU({ 
-                  id: data.gpu_model_id, 
-                  name: data.gpu_model_name 
-                })}
               />
             ))}
           </tbody>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { lazy, Suspense, useEffect, useState } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Provider } from '@/types/comparison'
 
 /**
@@ -183,41 +183,3 @@ export const LazySupportRegionsSection = ({ provider1, provider2 }: ComparisonSe
     provider2={provider2}
   />
 )
-
-/**
- * Hook for progressive loading of sections
- * This loads sections in order as the user scrolls or after a delay
- */
-export const useProgressiveLoading = () => {
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['pricing']))
-  
-  const loadSection = (sectionName: string) => {
-    setVisibleSections(prev => new Set(prev).add(sectionName))
-  }
-  
-  const loadNextSection = () => {
-    const sections = ['features', 'proscons', 'compute', 'pricingOptions', 'gettingStarted', 'support']
-    for (const section of sections) {
-      if (!visibleSections.has(section)) {
-        loadSection(section)
-        break
-      }
-    }
-  }
-  
-  // Auto-load sections progressively with delays
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => loadSection('features'), 500),
-      setTimeout(() => loadSection('proscons'), 1000),
-      setTimeout(() => loadSection('compute'), 1500),
-      setTimeout(() => loadSection('pricingOptions'), 2000),
-      setTimeout(() => loadSection('gettingStarted'), 2500),
-      setTimeout(() => loadSection('support'), 3000),
-    ]
-    
-    return () => timers.forEach(timer => clearTimeout(timer))
-  }, [])
-  
-  return { visibleSections, loadSection, loadNextSection }
-}

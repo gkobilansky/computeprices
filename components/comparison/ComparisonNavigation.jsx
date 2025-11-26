@@ -2,19 +2,6 @@
 
 import Link from 'next/link';
 
-// Custom SVG Icons
-const ChevronRightIcon = ({ className = "w-4 h-4" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-  </svg>
-);
-
-const HomeIcon = ({ className = "w-4 h-4" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-  </svg>
-);
-
 const ScaleIcon = ({ className = "w-4 h-4" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
@@ -56,28 +43,6 @@ export default function ComparisonNavigation({
   return (
     <nav className={`bg-gray-50 border-b border-gray-200 ${className}`}>
       <div className="container mx-auto px-4 py-4">
-        {/* Breadcrumbs */}
-        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-          <Link 
-            href="/" 
-            className="flex items-center hover:text-gray-900 transition-colors"
-          >
-            <HomeIcon className="w-4 h-4 mr-1" />
-            Home
-          </Link>
-          <ChevronRightIcon className="w-4 h-4 text-gray-400" />
-          <Link 
-            href="/compare" 
-            className="hover:text-gray-900 transition-colors"
-          >
-            Compare
-          </Link>
-          <ChevronRightIcon className="w-4 h-4 text-gray-400" />
-          <span className="text-gray-900 font-medium">
-            {provider1?.name} vs {provider2?.name}
-          </span>
-        </div>
-
         {/* Navigation Links */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
           {/* Quick Actions */}

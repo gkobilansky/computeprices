@@ -5,8 +5,7 @@ import Image from 'next/image';
 export default function PriceComparisonCell({ 
   provider1Data, 
   provider2Data, 
-  comparisonMetrics,
-  isHighlighted = false 
+  comparisonMetrics
 }) {
   const { price_difference, price_difference_percent, best_price } = comparisonMetrics;
 
@@ -32,12 +31,10 @@ export default function PriceComparisonCell({
   const priceDiff = formatPriceDifference(price_difference, price_difference_percent);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg border ${
-      isHighlighted ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200'
-    }`}>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg border border-gray-200">
       {/* Provider 1 */}
       <div className={`p-4 rounded-lg ${
-        best_price === 'provider1' ? 'bg-green-50 border-2 border-green-200' : 'bg-gray-50 border border-gray-200'
+        best_price === 'provider1' ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
       }`}>
         {provider1Data ? (
           <div className="space-y-2">
@@ -81,7 +78,7 @@ export default function PriceComparisonCell({
 
       {/* Provider 2 */}
       <div className={`p-4 rounded-lg ${
-        best_price === 'provider2' ? 'bg-green-50 border-2 border-green-200' : 'bg-gray-50 border border-gray-200'
+        best_price === 'provider2' ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
       }`}>
         {provider2Data ? (
           <div className="space-y-2">
@@ -126,12 +123,12 @@ export default function PriceComparisonCell({
       {/* Price Difference Indicator (only show when both prices exist) */}
       {priceDiff && provider1Data && provider2Data && (
         <div className="md:col-span-2 mt-2 pt-2 border-t border-gray-200">
-          <div className="flex justify-center items-center gap-2 text-sm">
+          <div className="flex flex-wrap justify-center items-center gap-2 text-sm">
             <span className="text-gray-600">Price Difference:</span>
             <span className={`font-medium ${priceDiff.color} flex items-center gap-1`}>
               <span>{priceDiff.arrow}</span>
-              <span>{priceDiff.absolute}</span>
-              <span>({priceDiff.percentage})</span>
+              <span className="whitespace-nowrap">{priceDiff.absolute}</span>
+              <span className="whitespace-nowrap">({priceDiff.percentage})</span>
             </span>
           </div>
         </div>
