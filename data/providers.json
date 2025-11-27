@@ -3486,5 +3486,168 @@
       "Competitive flagship NVIDIA pricing including published A100/H100/H200/B200 hourly rates",
       "SSH-accessible B200 rentals plus custom model deployments on dedicated GPUs"
     ]
+  },
+  {
+    "id": "6e62d7f4-b22d-44fe-8ff8-412f4045074f",
+    "name": "Hot Aisle",
+    "slug": "hotaisle",
+    "description": "Hot Aisle provides on-demand AMD Instinct MI300X virtual machines and bare metal nodes in a secure Michigan data center with 8x400G RoCE networking and minute-level pricing.",
+    "link": "https://hotaisle.xyz",
+    "docsLink": "https://admin.hotaisle.app/api/docs/",
+    "features": [
+      {
+        "title": "AMD MI300X Fleet",
+        "description": "Dell PowerEdge XE9680 servers with 8x 192GB AMD Instinct MI300X GPUs and Intel Xeon CPUs."
+      },
+      {
+        "title": "Minute-Level Pricing",
+        "description": "Published $1.99/GPU/hr MI300X rate with no contracts and billing by the minute."
+      },
+      {
+        "title": "High-Speed Fabric",
+        "description": "8x400G RoCEv2 per chassis plus 100G internet and unlimited bandwidth."
+      },
+      {
+        "title": "Ready-to-Use Images",
+        "description": "Ubuntu options with ROCm, Docker, and optional K8s/Slurm/Ray installs via cloud-init."
+      },
+      {
+        "title": "Operations & API",
+        "description": "SSH, BMC, iDRAC access and an API for lifecycle automation; dstack integration highlighted."
+      },
+      {
+        "title": "Tier 5 Facility",
+        "description": "Switch Pyramid data center in Grand Rapids, Michigan with renewable energy and layered security."
+      }
+    ],
+    "pros": [
+      "On-demand MI300X VMs and bare metal with transparent minute-based pricing",
+      "Dense XE9680 nodes with 8x400G RoCEv2 for multi-server scaling",
+      "100G internet with unlimited bandwidth plus included IPv4/IPv6 addresses",
+      "Hands-on support with ROCm-ready images, API access, and optional cluster tooling installs"
+    ],
+    "cons": [
+      "Single public region (Grand Rapids, MI) limits locality options",
+      "AMD-only GPU lineup today; MI355x is reservation-only for now",
+      "Documentation lives in site pages and API docs, so some workflows may require coordinator support"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Connect to the admin portal",
+        "description": "SSH to admin.hotaisle.app and create your account from the TUI."
+      },
+      {
+        "title": "Add billing credits",
+        "description": "Load credits via credit card to unlock on-demand VM launches."
+      },
+      {
+        "title": "Pick a VM size",
+        "description": "Choose 1, 2, 4, or 8 MI300X VMs or the 8x MI300X bare metal option."
+      },
+      {
+        "title": "Launch and configure",
+        "description": "Select Ubuntu and start the instance; ROCm and Docker come preinstalled with cloud-init support."
+      },
+      {
+        "title": "Automate with the API",
+        "description": "Use the documented API or dstack integration for lifecycle management and monitoring."
+      }
+    ],
+    "computeServices": [
+      {
+        "name": "MI300X Virtual Machines",
+        "description": "On-demand MI300X VMs billed by the minute with inclusive bandwidth.",
+        "instanceTypes": [
+          {
+            "name": "Small",
+            "description": "1x 192GB MI300X VM (on-demand).",
+            "features": [
+              "CPU: 8 or 13 cores",
+              "RAM: 224GB",
+              "Disk: 12,288GB NVMe",
+              "$1.99/GPU/hr minute-billed pricing"
+            ]
+          },
+          {
+            "name": "Medium",
+            "description": "2x or 4x 192GB MI300X VMs (on-demand).",
+            "features": [
+              "CPU: 26 or 52 cores",
+              "RAM: 448GB or 896GB",
+              "Disk: 12,288GB NVMe",
+              "Private networking and RoCE support in-cluster"
+            ]
+          },
+          {
+            "name": "Large",
+            "description": "8x 192GB MI300X VM (on-demand).",
+            "features": [
+              "CPU: 64 or 102 cores",
+              "RAM: 2048GB",
+              "Disk: 122TB NVMe",
+              "Up to eight MI300X GPUs for a single tenant VM"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MI300X Bare Metal",
+        "description": "Dell PowerEdge XE9680 access with full control for custom deployments.",
+        "instanceTypes": [
+          {
+            "name": "XE9680 8x MI300X",
+            "description": "Bare metal chassis with 8x MI300X OAM GPUs.",
+            "features": [
+              "CPU: Intel Xeon Platinum 8470 (52C) or 8462Y+ (32C)",
+              "System RAM: 2048GB plus 1.5TB HBM3 on GPUs",
+              "Storage: 8x 15.36TB NVMe (122.88TB total)",
+              "Networking: 8x400G (3200 Gbps) RoCEv2 Ethernet",
+              "Backed by Dell ProSupport with onsite parts locker"
+            ]
+          }
+        ]
+      }
+    ],
+    "gpuServices": [
+      {
+        "name": "AMD Instinct GPUs",
+        "description": "MI300X fleet live today with next-gen MI355x reservations open.",
+        "types": [
+          {
+            "name": "MI300X",
+            "gpuModel": "AMD Instinct MI300X 192GB",
+            "bestFor": "Training and inference workloads that need large HBM and fast RoCEv2 networking"
+          },
+          {
+            "name": "MI355x (reservations)",
+            "gpuModel": "AMD Instinct MI355x",
+            "bestFor": "Upcoming Instinct generation reserved for planned deployments"
+          }
+        ]
+      }
+    ],
+    "pricingOptions": [
+      {
+        "name": "Minute-billed MI300X",
+        "description": "Published $1.99 per GPU-hour MI300X rate with on-demand, no-contract access billed by the minute."
+      },
+      {
+        "name": "VM sizes from 1-8 GPUs",
+        "description": "Small (1x), Medium (2x/4x), and Large (8x) MI300X VMs with inclusive 100G internet and public IPv4/IPv6."
+      },
+      {
+        "name": "Bare metal XE9680",
+        "description": "8x MI300X bare metal nodes with 8x400G RoCEv2; custom designs and MI355x reservations available via sales."
+      }
+    ],
+    "regions": "Switch Pyramid data center in Grand Rapids, Michigan (Tier 5 facility, renewable energy, high physical security).",
+    "support": "hello@hotaisle.ai with real-time Slack/Discord access, white-glove onboarding, API docs, and Dell ProSupport-backed hardware.",
+    "uniqueSellingPoints": [
+      "Focuses on AMD Instinct MI300X with dense 8-GPU XE9680 nodes and RoCEv2 fabric",
+      "Minute-level $1.99/GPU/hr pricing with on-demand VM and bare metal access",
+      "3200 Gbps RoCEv2 plus 100G internet and unlimited bandwidth included",
+      "Hosted in the Switch Pyramid Tier 5 data center powered by 100% renewable energy",
+      "Hands-on support with ROCm-ready images, API automation, and optional K8s/Slurm/Ray installs"
+    ]
   }
 ]
