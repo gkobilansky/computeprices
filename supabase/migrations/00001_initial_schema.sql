@@ -104,7 +104,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM pg_proc
         WHERE proname = 'get_latest_prices'
-          AND oid = 'public.get_latest_prices(uuid, uuid)'::regprocedure
+          AND array_length(proargtypes, 1) = 2
     ) THEN
         EXECUTE $func$
         CREATE FUNCTION get_latest_prices(

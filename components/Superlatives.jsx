@@ -3,9 +3,16 @@
 import { useGPUData } from '@/lib/hooks/useGPUData';
 import { useFilter } from '@/lib/context/FilterContext';
 
-const Superlatives = () => {
+const Superlatives = ({ gpuData: gpuDataProp = null, loading: loadingProp = null, error: errorProp = null, picks = null }) => {
   const { setSelectedProvider, setSelectedGPU } = useFilter();
-  const { gpuData, loading, error } = useGPUData({ ignoreContext: true });
+  const { gpuData: hookGpuData, loading: hookLoading, error: hookError } = useGPUData({
+    ignoreContext: true,
+    initialData: gpuDataProp ?? null
+  });
+
+  const gpuData = gpuDataProp ?? hookGpuData;
+  const loading = loadingProp ?? hookLoading;
+  const error = errorProp ?? hookError;
 
   const getCheapestCombo = () => {
     if (!gpuData || !Array.isArray(gpuData)) return { provider: '...', gpu: '...', price: 0, provider_id: null, gpu_model_id: null };
@@ -56,7 +63,7 @@ const Superlatives = () => {
   };
 
   const handleCheapestClick = () => {
-    const cheapest = getCheapestCombo();
+    const cheapest = picks?.cheapest ?? getCheapestCombo();
     setSelectedProvider({ id: cheapest.provider_id, name: cheapest.provider });
     setSelectedGPU({ id: cheapest.gpu_model_id, name: cheapest.gpu });
     setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
@@ -64,7 +71,7 @@ const Superlatives = () => {
   };
 
   const handleMostPopularClick = () => {
-    const popular = getMostPopularGPU();
+    const popular = picks?.mostPopular ?? getMostPopularGPU();
     setSelectedProvider(null);
     setSelectedGPU({ id: popular.id, name: popular.name });
     setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
@@ -72,18 +79,22 @@ const Superlatives = () => {
   };
 
   const handleTopGPUClick = () => {
-    const topGPUModel = gpuData?.find(item => item.gpu_model_name === "B200");
-    if (topGPUModel) {
+    const selectedTopId = picks?.topLine?.id;
+    const topGPUModel = selectedTopId
+      ? gpuData?.find(item => item.gpu_model_id === selectedTopId)
+      : gpuData?.find(item => item.gpu_model_name === "B200");
+
+    if (topGPUModel || picks?.topLine) {
       setSelectedProvider(null);
-      setSelectedGPU({ id: topGPUModel.gpu_model_id, name: "NVIDIA B200" });
+      setSelectedGPU({ id: topGPUModel?.gpu_model_id ?? picks?.topLine?.id, name: "NVIDIA B200" });
     }
     setTimeout(scrollToTable, 100); // Small delay to ensure filters are applied first
     window.dispatchEvent(new Event('open-filters-panel'));
   };
 
-  const cheapest = getCheapestCombo();
-  const mostPopular = getMostPopularGPU();
-  const topGPU = "NVIDIA B200"; // Hardcoded as requested
+  const cheapest = picks?.cheapest ?? getCheapestCombo();
+  const mostPopular = picks?.mostPopular ?? getMostPopularGPU();
+  const topGPU = picks?.topLine?.name ?? "NVIDIA B200"; // Hardcoded as requested
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

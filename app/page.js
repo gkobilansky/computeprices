@@ -5,7 +5,7 @@ import IntegratedFilters from '@/components/IntegratedFilters';
 import GPUInfoCard from '@/components/GPUInfoCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
 import FeedbackLauncher from '@/components/FeedbackLauncher';
-import Superlatives from '@/components/Superlatives';
+import TopPicksSection from '@/components/TopPicksSection';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
 import { generateMetadata } from './metadata';
@@ -96,7 +96,7 @@ export default async function Home() {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
             }>
-              <Superlatives />
+              <TopPicksSection />
             </Suspense>
           </section>
 
