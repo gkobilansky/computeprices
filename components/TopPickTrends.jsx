@@ -12,7 +12,8 @@ import {
 } from 'recharts';
 import { computeMovingAverage } from '@/lib/utils/trendMath';
 
-const DEFAULT_WINDOW = 30;
+const MAX_FETCH_WINDOW = 60;
+const WINDOWS = [7, 30, 60];
 
 const formatDate = (value) => {
   const date = new Date(value);
@@ -75,7 +76,7 @@ export default function TopPickTrends({ picks, loading }) {
       setIsFetching(true);
       try {
         const results = await Promise.all(validTargets.map(async (target) => {
-          const response = await fetch(`/api/gpu-trends?gpuId=${encodeURIComponent(target.gpuId)}&days=${DEFAULT_WINDOW}`, {
+          const response = await fetch(`/api/gpu-trends?gpuId=${encodeURIComponent(target.gpuId)}&days=${MAX_FETCH_WINDOW}`, {
             cache: 'no-store'
           });
 
@@ -137,6 +138,8 @@ export default function TopPickTrends({ picks, loading }) {
       );
     }
 
+    const tickGap = windowSize >= 90 ? 30 : windowSize >= 60 ? 24 : 18;
+
     return (
       <div className="h-[280px]">
         <div className="flex items-center justify-between mb-2">
@@ -158,7 +161,7 @@ export default function TopPickTrends({ picks, loading }) {
               tickFormatter={formatDate}
               stroke="#9ca3af"
               tickMargin={8}
-              minTickGap={12}
+              minTickGap={tickGap}
               padding={{ left: 10, right: 10 }}
             />
             <YAxis
@@ -189,7 +192,7 @@ export default function TopPickTrends({ picks, loading }) {
           <p className="text-sm text-gray-600">Moving average across providers (latest price per provider per day)</p>
         </div>
         <div className="flex items-center gap-2">
-          {[7, 30].map((value) => (
+          {WINDOWS.map((value) => (
             <button
               key={value}
               type="button"
