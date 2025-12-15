@@ -43,6 +43,14 @@
       {
         "path": "/api/cron/whitefiber",
         "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/salad",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/tensordock",
+        "schedule": "0 5 * * *"
       }
     ]
   }
