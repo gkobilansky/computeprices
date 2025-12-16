@@ -60,7 +60,7 @@ export async function GET() {
     }
 
     // Scrape GPU data from the page
-    const gpuData: ScrapedGPU[] = await page.evaluate(() => {
+    const gpuData: ScrapedGPU[] = await (page as any).evaluate(() => {
       const results: ScrapedGPU[] = [];
 
       const normalizeText = (text?: string | null) =>
