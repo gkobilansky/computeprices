@@ -17,8 +17,13 @@ export default function HeroSection({ stats }) {
         </span>
       </h1>
 
+      {/* Provider Logo Scroller */}
+      <div className="animate-fade-in-up animation-delay-100 mb-6">
+        <ProviderLogoScroller />
+      </div>
+
       {/* Subheadline */}
-      <p className="text-xl text-gray-600 mb-6 animate-fade-in-up animation-delay-100">
+      <p className="text-xl text-gray-600 mb-6 animate-fade-in-up animation-delay-200">
         Find the cheapest{' '}
         <Link href="/gpus/h100" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
           H100
@@ -34,7 +39,7 @@ export default function HeroSection({ stats }) {
       </p>
 
       {/* Trust Indicators */}
-      <div className="flex flex-wrap items-center gap-6 mb-6 text-sm text-gray-600 animate-fade-in-up animation-delay-200">
+      <div className="flex flex-wrap items-center gap-6 mb-6 text-sm text-gray-600 animate-fade-in-up animation-delay-300">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
           Updated daily
@@ -54,13 +59,8 @@ export default function HeroSection({ stats }) {
       </div>
 
       {/* Price Drop Alert Signup */}
-      <div className="mb-6 animate-fade-in-up animation-delay-300">
+      <div className="mb-6 animate-fade-in-up animation-delay-400">
         <PriceDropAlertSignup />
-      </div>
-
-      {/* Provider Logo Scroller */}
-      <div className="animate-fade-in-up animation-delay-400">
-        <ProviderLogoScroller />
       </div>
     </section>
   );

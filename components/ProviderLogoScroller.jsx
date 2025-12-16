@@ -20,10 +20,7 @@ export default function ProviderLogoScroller() {
   const duplicatedLogos = [...PROVIDER_LOGOS, ...PROVIDER_LOGOS];
 
   return (
-    <div className="w-full overflow-hidden py-4">
-      <p className="text-xs text-gray-500 mb-3 font-medium uppercase tracking-wider">
-        Tracking prices from
-      </p>
+    <div className="w-full overflow-hidden py-2">
       <div className="relative">
         {/* Gradient masks for smooth fade effect */}
         <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
