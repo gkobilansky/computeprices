@@ -5,20 +5,15 @@ import Image from 'next/image';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fetchProviders } from '@/lib/utils/fetchGPUData';
 import providersData from '@/data/providers.json';
+import { getCountryFlag, getCountryName } from '@/lib/utils/countryFlags';
 
-// Helper function to highlight matching text
-const Highlight = ({ text, query }) => {
-  if (!query.trim()) return text;
-
-  const parts = text.split(new RegExp(`(${query})`, 'gi'));
-  return (
-    <span>
-      {parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ?
-          <mark key={i} className="bg-primary/20 rounded px-0.5">{part}</mark> : part
-      )}
-    </span>
-  );
+// Tag colors for visual distinction
+const tagColors = {
+  'Enterprise': 'bg-blue-100 text-blue-700',
+  'ML-Focused': 'bg-purple-100 text-purple-700',
+  'Budget': 'bg-green-100 text-green-700',
+  'Green': 'bg-emerald-100 text-emerald-700',
+  'Decentralized': 'bg-orange-100 text-orange-700',
 };
 
 export default function ProvidersPage() {
@@ -36,24 +31,24 @@ export default function ProvidersPage() {
 
         // Merge DB providers with JSON data
         const mergedProviders = dbProviders.map(dbProvider => {
-          // Try to find matching provider in JSON by ID first, then by name
           const jsonProvider = providersData.find(jp =>
             jp.id === dbProvider.id ||
             jp.name.toLowerCase() === dbProvider.name.toLowerCase()
           );
 
           if (jsonProvider) {
-            // Merge DB data with JSON data, prioritizing JSON for rich content
             return {
               ...jsonProvider,
-              id: dbProvider.id, // Use DB ID as authoritative
-              name: dbProvider.name // Use DB name as authoritative
+              id: dbProvider.id,
+              name: dbProvider.name
             };
           } else {
-            // Return DB provider with minimal info and placeholder message
             return {
               ...dbProvider,
               description: "We're still gathering detailed info on this provider.",
+              tagline: "GPU cloud provider",
+              hqCountry: 'US',
+              tags: [],
               features: [],
               pros: [],
               cons: [],
@@ -75,18 +70,15 @@ export default function ProvidersPage() {
   const filteredProviders = useMemo(() => {
     const query = searchQuery.toLowerCase();
     return providers.filter(provider => {
-      // Search in name and description
       const nameMatch = provider.name.toLowerCase().includes(query);
       const descMatch = provider.description?.toLowerCase().includes(query);
-
-      // Search in features for providers with full data
+      const taglineMatch = provider.tagline?.toLowerCase().includes(query);
+      const tagMatch = provider.tags?.some(tag => tag.toLowerCase().includes(query));
       const featureMatch = provider.features?.some(
         feature =>
           feature.title.toLowerCase().includes(query) ||
           feature.description.toLowerCase().includes(query)
       );
-
-      // Search in pros and cons for providers with full data
       const prosMatch = provider.pros?.some(pro =>
         pro.toLowerCase().includes(query)
       );
@@ -94,22 +86,9 @@ export default function ProvidersPage() {
         con.toLowerCase().includes(query)
       );
 
-      return nameMatch || descMatch || featureMatch || prosMatch || consMatch;
+      return nameMatch || descMatch || taglineMatch || tagMatch || featureMatch || prosMatch || consMatch;
     });
   }, [searchQuery, providers]);
-
-  // Build provider comparison combinations for Popular Comparisons section
-  const combinations = useMemo(() => {
-    if (!providers?.length) return [];
-    const sorted = [...providers].sort((a, b) => a.name.localeCompare(b.name));
-    const pairs = [];
-    for (let i = 0; i < sorted.length; i++) {
-      for (let j = i + 1; j < sorted.length; j++) {
-        pairs.push([sorted[i], sorted[j]]);
-      }
-    }
-    return pairs;
-  }, [providers]);
 
   // Reset selected index when search query changes
   useEffect(() => {
@@ -157,65 +136,66 @@ export default function ProvidersPage() {
   }, [selectedIndex]);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <section className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">GPU Cloud Providers</h1>
-        <p className="text-xl text-gray-600 mb-8">
-          Compare different GPU cloud providers to find the best fit for your needs.
+    <div className="max-w-3xl mx-auto px-4 py-8">
+      {/* Header */}
+      <section className="mb-8 text-center">
+        <h1 className="text-4xl font-bold mb-3">GPU Cloud Providers</h1>
+        <p className="text-lg text-gray-600">
+          Compare GPU cloud providers for your next project
         </p>
-
-        {/* Search Input */}
-        <div className="form-control w-full max-w-md mb-8">
-          <div className="relative">
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search providers, features, pros & cons..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="input input-bordered w-full pr-20"
-              aria-label="Search providers"
-              role="combobox"
-              aria-expanded={searchQuery.length > 0}
-              aria-controls="search-results"
-              aria-activedescendant={selectedIndex >= 0 ? `provider-${selectedIndex}` : undefined}
-            />
-            {/* Clear button */}
-            {searchQuery && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  searchInputRef.current?.focus();
-                }}
-                className="absolute inset-y-0 right-10 flex items-center px-2 text-gray-400 hover:text-gray-600"
-                aria-label="Clear search"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-              </button>
-            )}
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-              </svg>
-            </div>
-          </div>
-          {searchQuery && (
-            <div className="text-sm text-gray-500 mt-2">
-              Use ↑↓ to navigate, Enter to select, Esc to clear
-            </div>
-          )}
-        </div>
       </section>
 
+      {/* Search */}
+      <div className="mb-8">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+            <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            aria-label="Search providers"
+            role="combobox"
+            aria-expanded={searchQuery.length > 0}
+            aria-controls="search-results"
+            aria-activedescendant={selectedIndex >= 0 ? `provider-${selectedIndex}` : undefined}
+          />
+          {searchQuery && (
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                searchInputRef.current?.focus();
+              }}
+              className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600"
+              aria-label="Clear search"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            </button>
+          )}
+        </div>
+        {searchQuery && (
+          <p className="text-sm text-gray-500 mt-2 text-center">
+            Use <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">↑↓</kbd> to navigate, <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">Enter</kbd> to select
+          </p>
+        )}
+      </div>
+
+      {/* Provider List */}
       {loading ? (
         <div className="flex justify-center items-center py-12">
           <div className="loading loading-spinner loading-lg"></div>
         </div>
       ) : (
-        <div id="search-results" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div id="search-results" className="space-y-3">
           {filteredProviders.map((provider, index) => (
             <Link
               key={provider.id}
@@ -224,242 +204,127 @@ export default function ProvidersPage() {
               id={`provider-${index}`}
               role="option"
               aria-selected={index === selectedIndex}
-              className={`group block card h-full bg-base-100 shadow-md border border-base-200 transition-all duration-200 hover:shadow-lg hover:border-base-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary ${index === selectedIndex ? 'ring-2 ring-primary' : ''
-                }`}
+              className={`group flex items-center gap-4 p-4 bg-white rounded-xl border transition-all duration-200 hover:border-gray-300 hover:shadow-sm ${
+                index === selectedIndex ? 'border-primary ring-2 ring-primary/20' : 'border-gray-100'
+              }`}
             >
-              <div className="card-body flex flex-col justify-start align-top h-full">
-                <h2 className="card-title">
-                  {!provider.isMinimal && provider.slug && (
-                    <Image src={`/logos/${provider.slug}.png`} alt={provider.name} width={20} height={20} className='inline-block' />
-                  )}
-                  <Highlight text={provider.name} query={searchQuery} />
-                </h2>
-
-                {provider.isMinimal ? (
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1">
-                      <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div className="flex-grow">
-                      <p className="text-gray-600" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        <Highlight text={provider.description} query={searchQuery} />
-                      </p>
-                    </div>
-                  </div>
+              {/* Logo */}
+              <div className="flex-shrink-0 w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
+                {!provider.isMinimal && provider.slug ? (
+                  <Image
+                    src={`/logos/${provider.slug}.png`}
+                    alt={provider.name}
+                    width={32}
+                    height={32}
+                    className="object-contain"
+                  />
                 ) : (
-                  <p className="text-gray-600 mb-2" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    <Highlight text={provider.description} query={searchQuery} />
-                  </p>
+                  <span className="text-xl font-bold text-gray-400">
+                    {provider.name?.charAt(0) || 'P'}
+                  </span>
                 )}
-
-                {/* Show matching features if any */}
-                {!provider.isMinimal && searchQuery && provider.features?.some(f =>
-                  f.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                  f.description.toLowerCase().includes(searchQuery.toLowerCase())
-                ) && (
-                    <div className="mb-4">
-                      <h3 className="font-semibold mb-2">Matching Features:</h3>
-                      <ul className="list-disc list-inside space-y-1">
-                        {provider.features
-                          .filter(f =>
-                            f.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            f.description.toLowerCase().includes(searchQuery.toLowerCase())
-                          )
-                          .map((f, i) => (
-                            <li key={i} className="text-sm">
-                              <strong><Highlight text={f.title} query={searchQuery} /></strong>: {' '}
-                              <Highlight text={f.description} query={searchQuery} />
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  )}
-
-                {/* Show matching pros if any */}
-                {!provider.isMinimal && searchQuery && provider.pros?.some(pro =>
-                  pro.toLowerCase().includes(searchQuery.toLowerCase())
-                ) && (
-                    <div className="mb-4">
-                      <h3 className="font-semibold mb-2">Matching Pros:</h3>
-                      <ul className="list-disc list-inside space-y-1">
-                        {provider.pros
-                          .filter(pro => pro.toLowerCase().includes(searchQuery.toLowerCase()))
-                          .map((pro, i) => (
-                            <li key={i} className="text-sm">
-                              <Highlight text={pro} query={searchQuery} />
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  )}
-
-                {/* Show matching cons if any */}
-                {!provider.isMinimal && searchQuery && provider.cons?.some(con =>
-                  con.toLowerCase().includes(searchQuery.toLowerCase())
-                ) && (
-                    <div className="mb-4">
-                      <h3 className="font-semibold mb-2">Matching Cons:</h3>
-                      <ul className="list-disc list-inside space-y-1">
-                        {provider.cons
-                          .filter(con => con.toLowerCase().includes(searchQuery.toLowerCase()))
-                          .map((con, i) => (
-                            <li key={i} className="text-sm">
-                              <Highlight text={con} query={searchQuery} />
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  )}
-
-                <div className="mt-auto pt-2 flex items-center justify-end gap-2 text-sm">
-                  <span className="text-base-content/70 transition-all duration-200 group-hover:text-base-content">Learn more</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="h-6 w-6 text-primary transition-transform duration-200 transform group-hover:translate-x-1"
-                  >
-                    <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.19l-3.22-3.22a.75.75 0 111.06-1.06l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H3.75A.75.75 0 013 10z" clipRule="evenodd" />
-                  </svg>
-                </div>
               </div>
+
+              {/* Content */}
+              <div className="flex-grow min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <h2 className="font-semibold text-gray-900 truncate">
+                    {provider.name}
+                  </h2>
+                  <span
+                    className="flex-shrink-0 text-lg"
+                    title={getCountryName(provider.hqCountry)}
+                    aria-label={`Headquartered in ${getCountryName(provider.hqCountry)}`}
+                  >
+                    {getCountryFlag(provider.hqCountry)}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 truncate">
+                  {provider.tagline || provider.description}
+                </p>
+              </div>
+
+              {/* Tags */}
+              {provider.tags && provider.tags.length > 0 && (
+                <div className="hidden sm:flex flex-shrink-0 gap-1.5">
+                  {provider.tags.slice(0, 2).map(tag => (
+                    <span
+                      key={tag}
+                      className={`px-2 py-0.5 text-xs font-medium rounded-full ${tagColors[tag] || 'bg-gray-100 text-gray-600'}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Arrow */}
+              <svg
+                className="flex-shrink-0 w-5 h-5 text-gray-300 group-hover:text-gray-400 transition-colors"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </Link>
           ))}
+
           {!loading && filteredProviders.length === 0 && (
-            <div className="col-span-full text-center py-12">
+            <div className="text-center py-12">
               <p className="text-gray-500">No providers found matching your search.</p>
             </div>
           )}
         </div>
       )}
 
-      {/* Popular Comparisons */}
-      {combinations.length > 0 && (
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold mb-8 text-center">Popular Comparisons</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {combinations.slice(0, 6).map(([provider1, provider2]) => (
-              <div 
-                key={`${provider1.id}-${provider2.id}`}
-                className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow"
-              >
-                <div className="card-body p-6">
-                  <div className="flex justify-center items-center gap-4 mb-4">
-                    {(!provider1.isMinimal && provider1.slug) ? (
-                      <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-                        <Image 
-                          src={`/logos/${provider1.slug}.png`} 
-                          alt={`${provider1.name} logo`}
-                          width={24} 
-                          height={24} 
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
-                        <span className="text-white font-bold">
-                          {provider1.name?.charAt(0) || 'P'}
-                        </span>
-                      </div>
-                    )}
-                    <span className="text-gray-400 font-bold text-lg">VS</span>
-                    {(!provider2.isMinimal && provider2.slug) ? (
-                      <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-                        <Image 
-                          src={`/logos/${provider2.slug}.png`} 
-                          alt={`${provider2.name} logo`}
-                          width={24} 
-                          height={24} 
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
-                        <span className="text-white font-bold">
-                          {provider2.name?.charAt(0) || 'P'}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="card-title text-center justify-center text-base mb-4">
-                    {provider1.name} vs {provider2.name}
-                  </h3>
-                  <div className="card-actions justify-center">
-                    <Link
-                      href={`/compare/${(provider1.slug || provider1.name.toLowerCase().replace(/\s+/g, '-'))}/${(provider2.slug || provider2.name.toLowerCase().replace(/\s+/g, '-'))}`}
-                      className="btn btn-primary btn-sm"
-                    >
-                      Compare Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Help Section */}
+      <section className="mt-16 space-y-8">
+        <h2 className="text-2xl font-semibold text-center">Choosing a Provider</h2>
 
-      {/* Additional Information Section */}
-      <section className="space-y-8 mt-12">
-        <h2 className="text-2xl font-semibold">Choosing a Cloud Provider</h2>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3">For Enterprise Users</h3>
-              <p className="text-gray-600">
-                Enterprise users should consider providers like{' '}
-                <Link href="/providers/aws" className="text-blue-600 hover:text-blue-800 underline">AWS</Link>,{' '}
-                <Link href="/providers/google" className="text-blue-600 hover:text-blue-800 underline">GCP</Link>, or{' '}
-                <Link href="/providers/azure" className="text-blue-600 hover:text-blue-800 underline">Azure</Link>{' '}
-                for their comprehensive service offerings, strong security compliance, and global infrastructure. These providers
-                offer enterprise-grade support, robust SLAs, and deep integration with existing business tools.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-3">For Startups</h3>
-              <p className="text-gray-600">
-                Startups should consider providers like{' '}
-                <Link href="/providers/runpod" className="text-blue-600 hover:text-blue-800 underline">RunPod</Link> or{' '}
-                <Link href="/providers/coreweave" className="text-blue-600 hover:text-blue-800 underline">CoreWeave</Link>{' '}
-                for their flexible pricing, pay-as-you-go models, and lower entry barriers. These providers often offer good
-                documentation and community support for quick deployment.
-              </p>
-            </div>
+        <div className="grid sm:grid-cols-2 gap-6">
+          <div className="p-5 bg-gray-50 rounded-xl">
+            <h3 className="font-semibold mb-2">For Enterprise</h3>
+            <p className="text-sm text-gray-600">
+              Consider{' '}
+              <Link href="/providers/aws" className="text-primary hover:underline">AWS</Link>,{' '}
+              <Link href="/providers/google" className="text-primary hover:underline">GCP</Link>, or{' '}
+              <Link href="/providers/azure" className="text-primary hover:underline">Azure</Link>{' '}
+              for comprehensive services, security compliance, and global infrastructure.
+            </p>
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3">For AI Researchers</h3>
-              <p className="text-gray-600">
-                Researchers might prefer specialized providers like{' '}
-                <Link href="/providers/lambda" className="text-blue-600 hover:text-blue-800 underline">Lambda Labs</Link> or{' '}
-                <Link href="/providers/vast" className="text-blue-600 hover:text-blue-800 underline">Vast.ai</Link>{' '}
-                for their focus on ML workloads, competitive pricing, and access to specific GPU models. These
-                providers often offer simpler interfaces and better price-to-performance ratios.
-              </p>
-            </div>
+          <div className="p-5 bg-gray-50 rounded-xl">
+            <h3 className="font-semibold mb-2">For Startups</h3>
+            <p className="text-sm text-gray-600">
+              Try{' '}
+              <Link href="/providers/runpod" className="text-primary hover:underline">RunPod</Link> or{' '}
+              <Link href="/providers/coreweave" className="text-primary hover:underline">CoreWeave</Link>{' '}
+              for flexible pricing and lower entry barriers with good documentation.
+            </p>
+          </div>
 
-            <div>
-              <h3 className="text-lg font-semibold mb-3">For Cost Optimization</h3>
-              <p className="text-gray-600">
-                For cost-sensitive workloads, consider using spot instances from major providers or
-                specialized services like{' '}
-                <Link href="/providers/vast" className="text-blue-600 hover:text-blue-800 underline">Vast.ai</Link> and{' '}
-                <Link href="/providers/fluidstack" className="text-blue-600 hover:text-blue-800 underline">Fluidstack</Link>.
-                These options can offer significant savings, though they may require more careful workflow management.
-              </p>
-            </div>
+          <div className="p-5 bg-gray-50 rounded-xl">
+            <h3 className="font-semibold mb-2">For Researchers</h3>
+            <p className="text-sm text-gray-600">
+              Check out{' '}
+              <Link href="/providers/lambda" className="text-primary hover:underline">Lambda Labs</Link> or{' '}
+              <Link href="/providers/vast" className="text-primary hover:underline">Vast.ai</Link>{' '}
+              for ML-focused workflows and competitive GPU pricing.
+            </p>
+          </div>
+
+          <div className="p-5 bg-gray-50 rounded-xl">
+            <h3 className="font-semibold mb-2">For Budget</h3>
+            <p className="text-sm text-gray-600">
+              Explore{' '}
+              <Link href="/providers/vast" className="text-primary hover:underline">Vast.ai</Link> or{' '}
+              <Link href="/providers/salad" className="text-primary hover:underline">Salad Cloud</Link>{' '}
+              for cost-effective options with flexible spot pricing.
+            </p>
           </div>
         </div>
       </section>
     </div>
   );
-} 
+}
