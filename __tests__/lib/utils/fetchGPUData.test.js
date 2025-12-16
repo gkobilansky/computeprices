@@ -184,20 +184,83 @@ describe('fetchGPUData - Integration Tests', () => {
   });
 
   describe('getLatestPriceDrops', () => {
-    test('should return price alert structure', async () => {
+    test('should return price alert structure with required fields', async () => {
       const result = await getLatestPriceDrops();
-      
-      expect(result).toMatchObject({
-        hasAlert: expect.any(Boolean),
-        message: expect.any(String),
-        alertType: expect.any(String)
-      });
-      
-      // Since this currently returns mock data, verify the mock structure
-      if (result.hasAlert) {
+
+      // All responses must have these base fields
+      expect(result).toHaveProperty('hasAlert');
+      expect(result).toHaveProperty('message');
+      expect(result).toHaveProperty('alertType');
+      expect(result).toHaveProperty('changes');
+
+      expect(typeof result.hasAlert).toBe('boolean');
+      expect(typeof result.message).toBe('string');
+      expect(typeof result.alertType).toBe('string');
+      expect(Array.isArray(result.changes)).toBe(true);
+
+      // alertType should be one of the valid types
+      expect(['none', 'price_drop', 'price_increase', 'error']).toContain(result.alertType);
+    });
+
+    test('should return detailed data when price drops exist', async () => {
+      const result = await getLatestPriceDrops();
+
+      if (result.hasAlert && result.alertType === 'price_drop') {
         expect(result).toHaveProperty('gpuModel');
+        expect(result).toHaveProperty('gpuSlug');
         expect(result).toHaveProperty('providerCount');
         expect(result).toHaveProperty('percentageChange');
+        expect(result).toHaveProperty('providers');
+
+        expect(typeof result.gpuModel).toBe('string');
+        expect(typeof result.providerCount).toBe('number');
+        expect(typeof result.percentageChange).toBe('number');
+        expect(result.percentageChange).toBeLessThan(0); // Drops are negative
+        expect(Array.isArray(result.providers)).toBe(true);
+
+        // Each provider in the list should have required fields
+        result.providers.forEach(provider => {
+          expect(provider).toHaveProperty('providerName');
+          expect(provider).toHaveProperty('providerId');
+          expect(provider).toHaveProperty('percentChange');
+          expect(provider).toHaveProperty('currentPrice');
+          expect(provider).toHaveProperty('previousPrice');
+        });
+      }
+    });
+
+    test('should return detailed data when price increases exist', async () => {
+      const result = await getLatestPriceDrops();
+
+      if (result.hasAlert && result.alertType === 'price_increase') {
+        expect(result).toHaveProperty('gpuModel');
+        expect(result).toHaveProperty('gpuSlug');
+        expect(result).toHaveProperty('providerName');
+        expect(result).toHaveProperty('percentageChange');
+        expect(result).toHaveProperty('currentPrice');
+        expect(result).toHaveProperty('previousPrice');
+
+        expect(typeof result.percentageChange).toBe('number');
+        expect(result.percentageChange).toBeGreaterThan(0); // Increases are positive
+      }
+    });
+
+    test('should accept custom time window and threshold parameters', async () => {
+      // Test with different parameters - should not throw
+      const result24h = await getLatestPriceDrops(24, 10);
+      const result72h = await getLatestPriceDrops(72, 3);
+
+      expect(result24h).toHaveProperty('hasAlert');
+      expect(result72h).toHaveProperty('hasAlert');
+    });
+
+    test('should return no alert structure when no changes found', async () => {
+      // Use very short window and high threshold to likely get no results
+      const result = await getLatestPriceDrops(1, 99);
+
+      if (!result.hasAlert) {
+        expect(result.alertType).toBe('none');
+        expect(result.changes).toEqual([]);
       }
     });
   });
