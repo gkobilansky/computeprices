@@ -72,6 +72,9 @@ function getFirecrawlClient(): Firecrawl {
 
 /**
  * Scrape a pricing page using Firecrawl and extract GPU pricing data
+ *
+ * Note: The Firecrawl SDK returns the data object directly (not wrapped in a success object).
+ * Errors are thrown as exceptions.
  */
 export async function scrapeProviderPricing(
   url: string,
@@ -82,6 +85,7 @@ export async function scrapeProviderPricing(
 
     console.log(`🔥 Firecrawl: Scraping ${providerName} at ${url}`);
 
+    // SDK returns data directly or throws on error
     const result = await client.scrape(url, {
       formats: [
         {
@@ -94,16 +98,18 @@ export async function scrapeProviderPricing(
       timeout: 60000,
     });
 
-    if (!result.success) {
+    // SDK returns data object directly - check if we got valid data
+    if (!result) {
       return {
         success: false,
         gpus: [],
-        error: 'Firecrawl scrape failed - no success response',
+        error: 'Firecrawl scrape failed - no response',
         sourceUrl: url,
       };
     }
 
     // Extract the JSON data from the result
+    // The SDK returns { json: {...}, markdown: "...", metadata: {...} }
     const jsonData = result.json as { gpus?: ExtractedGPU[] } | undefined;
 
     if (!jsonData || !jsonData.gpus || !Array.isArray(jsonData.gpus)) {
