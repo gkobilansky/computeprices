@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       throw new Error('HYPERBOLIC_API_KEY environment variable is required');
     }
 
-    const providerId = process.env.HYPERBOLIC_PROVIDER_ID;
+    const providerId = 'a768a82e-d664-478d-ace2-df59b0d1bd65';
     if (!providerId) {
       throw new Error('HYPERBOLIC_PROVIDER_ID environment variable is required');
     }
