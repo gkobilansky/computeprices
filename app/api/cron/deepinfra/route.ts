@@ -70,10 +70,10 @@ export async function GET() {
           .trim();
 
       // Try to find pricing tables or cards
-      const tables = document.querySelectorAll('table');
+      const tables = Array.from(document.querySelectorAll('table'));
 
       for (const table of tables) {
-        const rows = table.querySelectorAll('tbody tr, tr');
+        const rows = Array.from(table.querySelectorAll('tbody tr, tr'));
 
         for (const row of rows) {
           const cells = row.querySelectorAll('td, th');
