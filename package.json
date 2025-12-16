@@ -45,7 +45,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "daisyui": "^4.12.22",
     "gray-matter": "^4.0.3",
-    "next": "15.1.9",
+    "next": "15.1.11",
     "puppeteer": "^23.11.1",
     "puppeteer-core": "^21.5.0",
     "react": "^19.2.1",
