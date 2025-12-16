@@ -90,7 +90,7 @@ export default function PriceDropAlertSignup() {
       {status === 'error' && (
         <p className="text-error text-sm mt-1">{message}</p>
       )}
-      <p className="text-xs text-gray-500 mt-2">We'll send you a weekly email with notable price changes.</p>
+      <p className="text-xs text-gray-500 mt-2">We&apos;ll send you a weekly email with notable price changes.</p>
     </div>
   );
 }
