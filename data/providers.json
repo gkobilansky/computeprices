@@ -100,7 +100,7 @@
           },
           {
             "name": "P5 Instances",
-            "description": "Powered by NVIDIA H100 Tensor Core GPUs for next\u2011gen AI and HPC.",
+            "description": "Powered by NVIDIA H100 Tensor Core GPUs for next‑gen AI and HPC.",
             "features": [
               "Up to 8 NVIDIA H100 GPUs per instance",
               "Amazon EC2 UltraClusters scale to tens of thousands of H100 GPUs",
@@ -178,7 +178,7 @@
           {
             "name": "P5 Instances",
             "gpuModel": "NVIDIA H100 Tensor Core",
-            "bestFor": "Frontier\u2011scale training; distributed HPC"
+            "bestFor": "Frontier‑scale training; distributed HPC"
           },
           {
             "name": "G6 Instances",
@@ -188,7 +188,7 @@
           {
             "name": "G6e Instances",
             "gpuModel": "NVIDIA L40S",
-            "bestFor": "High\u2011throughput inference and 3D/digital twin workloads"
+            "bestFor": "High‑throughput inference and 3D/digital twin workloads"
           }
         ]
       },
@@ -221,13 +221,17 @@
       }
     ],
     "regions": "30+ regions and 100+ availability zones worldwide.",
-    "support": "Basic (free), Developer, Business, Enterprise support plans with varying response times and features. Extensive documentation, forums, and training resources."
+    "support": "Basic (free), Developer, Business, Enterprise support plans with varying response times and features. Extensive documentation, forums, and training resources.",
+    "hqCountry": "US",
+    "tagline": "Comprehensive cloud platform with global reach",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "30a69dae-5939-499a-a4f5-5114797dcdb3",
     "name": "RunPod",
     "slug": "runpod",
-    "description": "RunPod offers on\u2011demand GPUs and instant multi\u2011node clusters across 30+ regions, with H100/H200 alongside A100, L40S, and RTX classes.",
+    "description": "RunPod offers on‑demand GPUs and instant multi‑node clusters across 30+ regions, with H100/H200 alongside A100, L40S, and RTX classes.",
     "link": "https://runpod.io",
     "docsLink": "https://docs.runpod.io",
     "features": [
@@ -282,14 +286,14 @@
     "computeServices": [
       {
         "name": "Pods",
-        "description": "On\u2011demand single\u2011node GPU instances with flexible templates and storage.",
+        "description": "On‑demand single‑node GPU instances with flexible templates and storage.",
         "instanceTypes": [
           {
             "name": "H100 (SXM & PCIe)",
             "description": "80 GB HBM; options for SXM/NVLink or PCIe; popular for LLM training/inference.",
             "features": [
               "Minute billing",
-              "Templates for fine\u2011tune/inference",
+              "Templates for fine‑tune/inference",
               "Marketplace images"
             ]
           },
@@ -297,22 +301,22 @@
             "name": "H200",
             "description": "141 GB HBM3e; higher bandwidth for larger context windows.",
             "features": [
-              "On\u2011demand where available",
-              "Great for high\u2011throughput serving"
+              "On‑demand where available",
+              "Great for high‑throughput serving"
             ]
           }
         ]
       },
       {
         "name": "Instant Clusters",
-        "description": "Spin up multi\u2011node GPU clusters in minutes with auto networking.",
+        "description": "Spin up multi‑node GPU clusters in minutes with auto networking.",
         "instanceTypes": [
           {
             "name": "H100 Clusters",
             "description": "Scale from a few to hundreds of H100 GPUs.",
             "features": [
               "Preset topologies",
-              "EFA\u2011like low\u2011latency fabrics (provider managed)",
+              "EFA‑like low‑latency fabrics (provider managed)",
               "K8s ready images"
             ]
           }
@@ -346,7 +350,13 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Affordable GPU cloud for AI and ML workloads",
+    "tags": [
+      "Budget"
+    ],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "d122f315-b060-4924-8726-788c28ed3905",
@@ -498,7 +508,7 @@
           },
           {
             "name": "A3 High",
-            "description": "H100 SXM\u2011based VMs for training and serving.",
+            "description": "H100 SXM‑based VMs for training and serving.",
             "features": [
               "8x NVIDIA H100 80GB SXM",
               "NVIDIA NVSwitch fabric",
@@ -507,11 +517,11 @@
           },
           {
             "name": "A3 Mega",
-            "description": "H100 SXM\u2011based VMs optimized for the largest training jobs.",
+            "description": "H100 SXM‑based VMs optimized for the largest training jobs.",
             "features": [
               "8x NVIDIA H100 80GB Mega GPUs",
-              "High\u2011bandwidth NVLink/NVSwitch",
-              "Designed for large\u2011scale LLM training"
+              "High‑bandwidth NVLink/NVSwitch",
+              "Designed for large‑scale LLM training"
             ]
           }
         ]
@@ -592,7 +602,7 @@
           {
             "name": "A3 Mega",
             "gpuModel": "NVIDIA H100",
-            "bestFor": "Frontier\u2011scale training"
+            "bestFor": "Frontier‑scale training"
           }
         ]
       },
@@ -631,7 +641,11 @@
       "Cutting-edge AI and machine learning services (Vertex AI)",
       "Innovative networking infrastructure",
       "Competitive pricing, especially with sustained use discounts"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Enterprise cloud with advanced AI/ML services",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "11f663cd-d914-4863-9094-f293ee6421e0",
@@ -730,28 +744,28 @@
           },
           {
             "name": "ND H100 v5",
-            "description": "Flagship H100 SXM\u2011based training VMs for scale\u2011out GenAI.",
+            "description": "Flagship H100 SXM‑based training VMs for scale‑out GenAI.",
             "features": [
-              "8\u00d7 NVIDIA H100 GPUs per VM",
+              "8× NVIDIA H100 GPUs per VM",
               "3.2 Tbps interconnect per VM",
               "Dedicated 400 Gb/s CX7 per GPU"
             ]
           },
           {
             "name": "ND MI300X v5",
-            "description": "AMD Instinct MI300X\u2011based VMs for AI training/inference.",
+            "description": "AMD Instinct MI300X‑based VMs for AI training/inference.",
             "features": [
-              "8\u00d7 AMD Instinct MI300X (192 GB each)",
-              "4th\u2011Gen AMD Infinity Fabric links",
+              "8× AMD Instinct MI300X (192 GB each)",
+              "4th‑Gen AMD Infinity Fabric links",
               "1850 GiB memory"
             ]
           },
           {
             "name": "NCads H100 v5",
-            "description": "H100 NVL\u2011based VMs for training and batch inference.",
+            "description": "H100 NVL‑based VMs for training and batch inference.",
             "features": [
-              "Up to 2\u00d7 NVIDIA H100 NVL (94 GB each)",
-              "4th\u2011gen AMD EPYC Genoa CPUs",
+              "Up to 2× NVIDIA H100 NVL (94 GB each)",
+              "4th‑gen AMD EPYC Genoa CPUs",
               "Up to 640 GiB RAM"
             ]
           }
@@ -833,12 +847,16 @@
       }
     ],
     "regions": "60+ regions worldwide with multiple availability zones",
-    "support": "Basic, Developer, Standard, and Professional Direct support plans with 24/7 options. Extensive documentation and community resources."
+    "support": "Basic, Developer, Standard, and Professional Direct support plans with 24/7 options. Extensive documentation and community resources.",
+    "hqCountry": "US",
+    "tagline": "Enterprise cloud integrated with Microsoft ecosystem",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "8b627aa8-dfbb-40c2-9291-a23eab57b098",
     "name": "IBM Cloud",
-    "description": "IBM Cloud provides NVIDIA GPU instances (including H200 and L40S) for training, fine\u2011tuning, and inference, with enterprise networking and support.",
+    "description": "IBM Cloud provides NVIDIA GPU instances (including H200 and L40S) for training, fine‑tuning, and inference, with enterprise networking and support.",
     "pros": [
       "Strong focus on AI and data workloads",
       "Enterprise-grade support",
@@ -854,7 +872,7 @@
     "computeServices": [
       {
         "name": "IBM Virtual Servers for VPC",
-        "description": "GPU\u2011accelerated virtual servers on IBM Cloud VPC.",
+        "description": "GPU‑accelerated virtual servers on IBM Cloud VPC.",
         "instanceTypes": [
           {
             "name": "H200",
@@ -867,9 +885,9 @@
           },
           {
             "name": "L40S",
-            "description": "48 GB for graphics and high\u2011throughput inference.",
+            "description": "48 GB for graphics and high‑throughput inference.",
             "features": [
-              "Cost\u2011effective inference",
+              "Cost‑effective inference",
               "Supported frameworks"
             ]
           }
@@ -893,12 +911,16 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Enterprise-grade hybrid cloud solutions",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "c53a1b15-f227-4ca5-be92-68e24a7643d9",
     "name": "Oracle Cloud",
-    "description": "Oracle Cloud Infrastructure (OCI) offers bare\u2011metal and VM GPU shapes including H100, H200, L40S and A10, with Supercluster networking and large local NVMe.",
+    "description": "Oracle Cloud Infrastructure (OCI) offers bare‑metal and VM GPU shapes including H100, H200, L40S and A10, with Supercluster networking and large local NVMe.",
     "pros": [
       "Competitive pricing",
       "Strong performance for enterprise applications",
@@ -914,20 +936,20 @@
     "computeServices": [
       {
         "name": "OCI GPU Shapes",
-        "description": "Bare\u2011metal and VM shapes for AI/HPC.",
+        "description": "Bare‑metal and VM shapes for AI/HPC.",
         "instanceTypes": [
           {
             "name": "BM.GPU.H100",
-            "description": "Bare\u2011metal H100 with up to 61.4 TB local NVMe per node.",
+            "description": "Bare‑metal H100 with up to 61.4 TB local NVMe per node.",
             "features": [
               "OCI Supercluster fabric",
-              "Bare\u2011metal performance",
-              "Checkpoint\u2011friendly storage"
+              "Bare‑metal performance",
+              "Checkpoint‑friendly storage"
             ]
           },
           {
             "name": "BM.GPU.H200",
-            "description": "Bare\u2011metal H200 with HBM3e for large\u2011context workloads.",
+            "description": "Bare‑metal H200 with HBM3e for large‑context workloads.",
             "features": [
               "RoCE/Supercluster networking",
               "High bandwidth"
@@ -937,7 +959,7 @@
             "name": "VM.GPU.L40S",
             "description": "VM shapes with NVIDIA L40S.",
             "features": [
-              "Cost\u2011optimized inference",
+              "Cost‑optimized inference",
               "Graphics/video"
             ]
           }
@@ -952,7 +974,7 @@
           {
             "name": "BM.GPU.H100",
             "gpuModel": "NVIDIA H100",
-            "bestFor": "Scale\u2011out training"
+            "bestFor": "Scale‑out training"
           },
           {
             "name": "BM.GPU.H200",
@@ -962,16 +984,20 @@
           {
             "name": "VM.GPU.L40S",
             "gpuModel": "NVIDIA L40S",
-            "bestFor": "High\u2011throughput inference"
+            "bestFor": "High‑throughput inference"
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "High-performance cloud for enterprise workloads",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
     "name": "CoreWeave",
-    "description": "CoreWeave is a specialized cloud provider offering GPU\u2011accelerated infrastructure (H100, H200 and more) for AI/ML, VFX, and batch compute, with Kubernetes\u2011native orchestration and rapid scale.",
+    "description": "CoreWeave is a specialized cloud provider offering GPU‑accelerated infrastructure (H100, H200 and more) for AI/ML, VFX, and batch compute, with Kubernetes‑native orchestration and rapid scale.",
     "pros": [
       "Extensive selection of NVIDIA GPUs, including latest models",
       "Up to 35x faster and 80% less expensive than legacy cloud providers",
@@ -996,25 +1022,29 @@
         "instanceTypes": [
           {
             "name": "HGX H100",
-            "description": "8\u00d7 H100 SXM nodes for training and inference.",
+            "description": "8× H100 SXM nodes for training and inference.",
             "features": [
               "Available at supercomputer scale",
-              "Quantum\u20112 InfiniBand fabric",
+              "Quantum‑2 InfiniBand fabric",
               "Pricing from ~$2.23/hr per GPU (varies)"
             ]
           },
           {
             "name": "HGX H200",
-            "description": "8\u00d7 H200 SXM nodes with HBM3e for fast LLM training/serving.",
+            "description": "8× H200 SXM nodes with HBM3e for fast LLM training/serving.",
             "features": [
               "HBM3e memory (141 GB/GPU)",
               "Designed for GenAI and HPC",
-              "Reserve capacity or on\u2011demand where available"
+              "Reserve capacity or on‑demand where available"
             ]
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "GPU-specialized cloud built for AI inference",
+    "tags": [],
+    "category": "Massive neocloud"
   },
   {
     "id": "4a4fdeae-7d4f-4d75-9967-54bbd498e4bf",
@@ -1041,7 +1071,7 @@
     "computeServices": [
       {
         "name": "Marketplace Instances",
-        "description": "On\u2011demand GPU rentals with live bidding and filters.",
+        "description": "On‑demand GPU rentals with live bidding and filters.",
         "instanceTypes": [
           {
             "name": "H200",
@@ -1056,7 +1086,7 @@
             "description": "80 GB SXM5 nodes via verified providers.",
             "features": [
               "NVLink/NVSwitch",
-              "Multi\u2011GPU nodes"
+              "Multi‑GPU nodes"
             ]
           }
         ]
@@ -1075,16 +1105,22 @@
           {
             "name": "H100 SXM",
             "gpuModel": "NVIDIA H100 SXM5",
-            "bestFor": "Frontier\u2011class training"
+            "bestFor": "Frontier‑class training"
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "GPU marketplace with competitive pricing",
+    "tags": [
+      "Budget"
+    ],
+    "category": "DC aggregator"
   },
   {
     "id": "825cef3b-54f5-426e-aa29-c05fe3070833",
     "name": "Lambda Labs",
-    "description": "Lambda is an AI compute platform offering on\u2011demand NVIDIA GPUs, including H100 and Blackwell B200, plus private clusters with Quantum\u20112 InfiniBand.",
+    "description": "Lambda is an AI compute platform offering on‑demand NVIDIA GPUs, including H100 and Blackwell B200, plus private clusters with Quantum‑2 InfiniBand.",
     "pros": [
       "Early access to latest NVIDIA GPUs (H100, H200, Blackwell)",
       "Specialized for AI workloads",
@@ -1102,12 +1138,16 @@
       "May have higher costs for non-AI workloads"
     ],
     "link": "https://lambdalabs.com/",
-    "slug": "lambda"
+    "slug": "lambda",
+    "hqCountry": "US",
+    "tagline": "Cloud GPUs purpose-built for deep learning",
+    "tags": [],
+    "category": "Massive neocloud"
   },
   {
     "id": "a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182",
     "name": "Fluidstack",
-    "description": "Fluidstack provides on\u2011demand GPUs from H200/H100 to A100 and L40S, plus private clusters on request.",
+    "description": "Fluidstack provides on‑demand GPUs from H200/H100 to A100 and L40S, plus private clusters on request.",
     "pros": [
       "Highly cost-effective (30-80% lower costs compared to major cloud providers)",
       "Large-scale GPU availability (10,000+ NVIDIA H100 GPUs deployed)",
@@ -1129,13 +1169,13 @@
     "computeServices": [
       {
         "name": "GPU Instances",
-        "description": "On\u2011demand dedicated GPUs for AI workloads.",
+        "description": "On‑demand dedicated GPUs for AI workloads.",
         "instanceTypes": [
           {
             "name": "H200 SXM",
             "description": "141 GB HBM3e.",
             "features": [
-              "From around $2.30/GPU\u2011hr (public list)",
+              "From around $2.30/GPU‑hr (public list)",
               "Regions by request"
             ]
           },
@@ -1143,7 +1183,7 @@
             "name": "H100 SXM",
             "description": "80 GB HBM.",
             "features": [
-              "From around $2.10/GPU\u2011hr (public list)",
+              "From around $2.10/GPU‑hr (public list)",
               "Cluster options"
             ]
           }
@@ -1177,13 +1217,19 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "GB",
+    "tagline": "Distributed GPU cloud with flexible pricing",
+    "tags": [
+      "Budget"
+    ],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
     "name": "Genesis Cloud",
     "slug": "genesis",
-    "description": "Genesis Cloud offers HGX H100/H200 and B200 clusters with 3.2 Tbps InfiniBand, plus RTX options for cost\u2011sensitive workloads.",
+    "description": "Genesis Cloud offers HGX H100/H200 and B200 clusters with 3.2 Tbps InfiniBand, plus RTX options for cost‑sensitive workloads.",
     "link": "https://www.genesiscloud.com/",
     "docsLink": "https://docs.genesiscloud.com/",
     "features": [
@@ -1247,29 +1293,29 @@
       },
       {
         "name": "GPU Nodes",
-        "description": "HGX nodes for AI training, plus single\u2011GPU options.",
+        "description": "HGX nodes for AI training, plus single‑GPU options.",
         "instanceTypes": [
           {
             "name": "HGX H100",
-            "description": "8\u00d7 H100 SXM5 per node.",
+            "description": "8× H100 SXM5 per node.",
             "features": [
               "3.2 Tbps InfiniBand",
               "2 TB DDR5 system RAM",
-              "Multi\u2011NVMe"
+              "Multi‑NVMe"
             ]
           },
           {
             "name": "HGX H200",
-            "description": "8\u00d7 H200 SXM per node.",
+            "description": "8× H200 SXM per node.",
             "features": [
               "HBM3e 141 GB",
               "High bandwidth",
-              "Node\u2011level NVMe"
+              "Node‑level NVMe"
             ]
           },
           {
             "name": "HGX B200",
-            "description": "8\u00d7 B200 per node.",
+            "description": "8× B200 per node.",
             "features": "[180 GB HBM3e,Request/limited availability]"
           }
         ]
@@ -1301,17 +1347,21 @@
           {
             "name": "HGX B200",
             "gpuModel": "NVIDIA B200",
-            "bestFor": "Next\u2011gen performance"
+            "bestFor": "Next‑gen performance"
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "DE",
+    "tagline": "European GPU cloud for AI workloads",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
     "name": "Datacrunch",
     "slug": "datacrunch",
-    "description": "DataCrunch provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on\u2011demand and H200 nodes.",
+    "description": "DataCrunch provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on‑demand and H200 nodes.",
     "pros": [
       "Wide range of GPU models, including latest NVIDIA H200",
       "Cost-effective compared to major cloud providers",
@@ -1337,16 +1387,16 @@
             "name": "H100 SXM5",
             "description": "80 GB HBM; dynamic or fixed pricing.",
             "features": [
-              "On\u2011demand launch",
+              "On‑demand launch",
               "3200 Gbps RDMA fabrics"
             ]
           },
           {
             "name": "H200",
-            "description": "8\u00d7 H200 nodes available in select regions.",
+            "description": "8× H200 nodes available in select regions.",
             "features": [
               "HBM3e 141 GB",
-              "Reserved and on\u2011demand options"
+              "Reserved and on‑demand options"
             ]
           }
         ]
@@ -1369,13 +1419,17 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "FI",
+    "tagline": "Nordic GPU cloud with competitive rates",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "54cc0c05-b0e6-49b3-95fb-831b36dd7efd",
     "name": "Hyperstack",
     "slug": "hyperstack",
-    "description": "Hyperstack offers on\u2011demand H200/H100/A100/L40 with clear per\u2011GPU hourly pricing and reservation discounts.",
+    "description": "Hyperstack offers on‑demand H200/H100/A100/L40 with clear per‑GPU hourly pricing and reservation discounts.",
     "link": "https://www.hyperstack.cloud/",
     "docsLink": "https://www.hyperstack.cloud/documentation",
     "features": [
@@ -1445,14 +1499,14 @@
         ]
       },
       {
-        "name": "On\u2011Demand GPU",
-        "description": "Configure per\u2011GPU CPU/RAM with transparent pricing.",
+        "name": "On‑Demand GPU",
+        "description": "Configure per‑GPU CPU/RAM with transparent pricing.",
         "instanceTypes": [
           {
             "name": "H200 SXM",
             "description": "141 GB HBM3e.",
             "features": [
-              "~$3.50/GPU\u2011hr public list",
+              "~$3.50/GPU‑hr public list",
               "Reservation discounts"
             ]
           },
@@ -1460,7 +1514,7 @@
             "name": "H100 (PCIe & NVLink)",
             "description": "80 GB HBM.",
             "features": [
-              "From ~$1.90\u2013$1.95/GPU\u2011hr",
+              "From ~$1.90–$1.95/GPU‑hr",
               "NVLink option"
             ]
           },
@@ -1468,7 +1522,7 @@
             "name": "A100 (SXM/NVLink)",
             "description": "80 GB HBM.",
             "features": [
-              "From ~$1.35\u2013$1.60/GPU\u2011hr",
+              "From ~$1.35–$1.60/GPU‑hr",
               "NVLink option"
             ]
           }
@@ -1511,7 +1565,11 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "GB",
+    "tagline": "Global cloud GPUs with AI and HPC focus",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "6f6f477e-c195-4403-a07a-4cf9faa65a08",
@@ -1644,7 +1702,7 @@
         "instanceTypes": [
           {
             "name": "H200 Clusters",
-            "description": "8\u00d7 H200 nodes for training and inference.",
+            "description": "8× H200 nodes for training and inference.",
             "features": [
               "Priority access",
               "Custom networking"
@@ -1652,10 +1710,10 @@
           },
           {
             "name": "H100 Clusters",
-            "description": "8\u00d7 H100 nodes.",
+            "description": "8× H100 nodes.",
             "features": [
               "Custom topologies",
-              "Bare\u2011metal options"
+              "Bare‑metal options"
             ]
           }
         ]
@@ -1673,7 +1731,7 @@
     "gpuServices": [
       {
         "name": "GPU Options",
-        "description": "High\u2011end NVIDIA accelerators.",
+        "description": "High‑end NVIDIA accelerators.",
         "types": [
           {
             "name": "H200",
@@ -1687,7 +1745,11 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Scalable GPU computing for AI training",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "c58cd5f6-4bbc-454a-abbf-fad2b94180c6",
@@ -1825,21 +1887,21 @@
       },
       {
         "name": "Dedicated GPUs",
-        "description": "On\u2011demand GPU VMs and notebooks.",
+        "description": "On‑demand GPU VMs and notebooks.",
         "instanceTypes": [
           {
             "name": "HGX H100",
-            "description": "80 GB HBM; multi\u2011GPU configurations up to 8x.",
+            "description": "80 GB HBM; multi‑GPU configurations up to 8x.",
             "features": [
-              "Docs list from ~$2.24/GPU\u2011hr depending on plan",
+              "Docs list from ~$2.24/GPU‑hr depending on plan",
               "Managed workflows"
             ]
           },
           {
             "name": "H100 (PCIe)",
-            "description": "80 GB HBM; single\u2011GPU option.",
+            "description": "80 GB HBM; single‑GPU option.",
             "features": [
-              "Docs show from ~$3.09/GPU\u2011hr",
+              "Docs show from ~$3.09/GPU‑hr",
               "Pause/resume to save idle cost"
             ]
           },
@@ -1885,19 +1947,23 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Developer-friendly GPU cloud platform",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "ee80fbec-5f7f-4f44-b6bb-d70042b0a799",
     "name": "TensorWave",
     "slug": "tensorwave",
-    "description": "TensorWave is an AMD\u2011first AI cloud with bare\u2011metal and managed clusters built on Instinct MI300X/MI325X/MI355X accelerators with large VRAM and ROCm.",
+    "description": "TensorWave is an AMD‑first AI cloud with bare‑metal and managed clusters built on Instinct MI300X/MI325X/MI355X accelerators with large VRAM and ROCm.",
     "link": "https://tensorwave.com/",
     "docsLink": "https://docs.tensorwave.com/",
     "features": [
       {
         "title": "AMD Instinct Accelerators",
-        "description": "Powered by AMD Instinct\u2122 Series GPUs for high-performance AI workloads."
+        "description": "Powered by AMD Instinct™ Series GPUs for high-performance AI workloads."
       },
       {
         "title": "High VRAM GPUs",
@@ -1968,10 +2034,10 @@
           },
           {
             "name": "AMD Instinct MI325X",
-            "description": "Next\u2011generation accelerator with expanded memory architecture for AI/HPC.",
+            "description": "Next‑generation accelerator with expanded memory architecture for AI/HPC.",
             "features": [
               "256 GB HBM3 per GPU",
-              "Optimized for large\u2011scale model training",
+              "Optimized for large‑scale model training",
               "Improved bandwidth over MI300X"
             ]
           },
@@ -2011,13 +2077,17 @@
       "Building the largest AMD-specific AI training cluster in North America",
       "Emphasis on an open-source software stack (ROCm) to prevent vendor lock-in",
       "High-memory GPUs (192GB) as a standard offering"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "AMD-powered cloud challenging Nvidia dominance",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434",
     "name": "Crusoe",
     "slug": "crusoe",
-    "description": "Crusoe Cloud offers sustainable, high\u2011performance GPU compute (A100, L40S, H200 and emerging Blackwell) powered by stranded energy and Tier III facilities.",
+    "description": "Crusoe Cloud offers sustainable, high‑performance GPU compute (A100, L40S, H200 and emerging Blackwell) powered by stranded energy and Tier III facilities.",
     "link": "https://www.crusoe.com/",
     "docsLink": "https://docs.crusoecloud.com/",
     "features": [
@@ -2108,9 +2178,9 @@
           },
           {
             "name": "H200",
-            "description": "NVIDIA H200 141GB SXM5 instances for cutting\u2011edge AI workloads.",
+            "description": "NVIDIA H200 141GB SXM5 instances for cutting‑edge AI workloads.",
             "features": [
-              "On\u2011demand availability in select regions",
+              "On‑demand availability in select regions",
               "HBM3e for higher memory bandwidth",
               "Suited for LLM training/serving"
             ]
@@ -2119,9 +2189,9 @@
             "name": "B200",
             "description": "Blackwell B200 instances (availability by request).",
             "features": [
-              "Next\u2011gen performance for training/inference",
+              "Next‑gen performance for training/inference",
               "Contact sales for capacity",
-              "Quantum\u20112 networking on clusters"
+              "Quantum‑2 networking on clusters"
             ]
           }
         ]
@@ -2144,7 +2214,13 @@
       "Founded in 2018 with $350M Series C funding",
       "Integration with Shadeform for console and API access",
       "Focuses on balancing performance, availability, and environmental impact"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Climate-friendly cloud using stranded energy",
+    "tags": [
+      "Green"
+    ],
+    "category": "Massive neocloud"
   },
   {
     "id": "b046d087-96e5-4bd0-9c96-060164cf9a04",
@@ -2218,10 +2294,10 @@
         "instanceTypes": [
           {
             "name": "NVIDIA GH200 Grace Hopper",
-            "description": "Grace Hopper Superchip for memory\u2011bound inference workloads.",
+            "description": "Grace Hopper Superchip for memory‑bound inference workloads.",
             "features": [
               "Grace CPU + H100 GPU memory coherence",
-              "Strong for large\u2011context inference",
+              "Strong for large‑context inference",
               "Datasheets and resources available"
             ]
           },
@@ -2274,7 +2350,7 @@
             "name": "NVIDIA H200",
             "description": "Tensor Core GPU with HBM3e memory for advanced AI.",
             "features": [
-              "High\u2011throughput LLM inference/training",
+              "High‑throughput LLM inference/training",
               "Available across select regions",
               "Part of Vultr Cloud GPU lineup"
             ]
@@ -2326,13 +2402,19 @@
       "Simplified GPU infrastructure setup",
       "Flexible deployment options (VM or bare metal)",
       "Integration with Vultr's broader cloud ecosystem"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Simple cloud infrastructure worldwide",
+    "tags": [
+      "Budget"
+    ],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "5cf897be-8662-4404-9c3b-d4938fb8fa71",
     "name": "Voltage Park",
     "slug": "voltage",
-    "description": "Voltage Park provides on\u2011demand and reserved bare\u2011metal clusters with NVIDIA HGX H100 today, expanding to H200 and Blackwell (B200/B300, GB200/GB300) on term contracts.",
+    "description": "Voltage Park provides on‑demand and reserved bare‑metal clusters with NVIDIA HGX H100 today, expanding to H200 and Blackwell (B200/B300, GB200/GB300) on term contracts.",
     "link": "https://www.voltagepark.com/",
     "docsLink": null,
     "features": [
@@ -2410,18 +2492,18 @@
           },
           {
             "name": "NVIDIA H200",
-            "description": "H200 HGX nodes available on\u2011demand where capacity allows.",
+            "description": "H200 HGX nodes available on‑demand where capacity allows.",
             "features": [
               "HBM3e memory for faster inference",
               "Limited capacity; inquire for regions",
-              "Same 15\u2011minute spin\u2011up target"
+              "Same 15‑minute spin‑up target"
             ]
           }
         ]
       },
       {
         "name": "Reserved GPU Clusters",
-        "description": "Long\u2011term GPU reservations with favorable payment terms; H100, H200, and Blackwell options.",
+        "description": "Long‑term GPU reservations with favorable payment terms; H100, H200, and Blackwell options.",
         "features": [
           "12+ month contracts",
           "Friendly payment terms",
@@ -2438,13 +2520,17 @@
       "3200 Gbps of aggregate bandwidth with NVIDIA Quantum-2 InfiniBand",
       "SOC II certified infrastructure",
       "Founded by Jed McCaleb with $500M in funding"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Accessible and affordable cloud AI infrastructure",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "d3a46a10-53b1-4778-8995-1971f554f342",
     "name": "Massed Compute",
     "slug": "massedcompute",
-    "description": "Massed Compute provides affordable on\u2011demand GPUs including H100 (SXM/NVL/PCIe) with owned hardware and transparent specs.",
+    "description": "Massed Compute provides affordable on‑demand GPUs including H100 (SXM/NVL/PCIe) with owned hardware and transparent specs.",
     "link": "https://massedcompute.com/",
     "docsLink": "https://vm-docs.massedcompute.com/docs/intro",
     "features": [
@@ -2458,7 +2544,7 @@
       },
       {
         "title": "On-Demand & Bare-Metal Options",
-        "description": "Hourly VMs or single-tenant servers\u2014no long-term contracts"
+        "description": "Hourly VMs or single-tenant servers—no long-term contracts"
       },
       {
         "title": "Inventory API",
@@ -2470,7 +2556,7 @@
       },
       {
         "title": "Virtual Desktop Interface",
-        "description": "Launch pre-configured AI/ML or VFX desktops in a browser\u2014no CLI needed"
+        "description": "Launch pre-configured AI/ML or VFX desktops in a browser—no CLI needed"
       },
       {
         "title": "Pre-installed Drivers & Frameworks",
@@ -2480,7 +2566,7 @@
     "pros": [
       "Broad catalog of NVIDIA GPUs from RTX A5000 up to H100 SXM5",
       "Very competitive hourly pricing with no hidden bandwidth fees",
-      "Owned hardware\u2014no \u2018middle-man\u2019 latency or support hand-offs",
+      "Owned hardware—no ‘middle-man’ latency or support hand-offs",
       "Direct access to engineers for GPU & driver questions",
       "Inventory API enables white-label and SaaS integrations"
     ],
@@ -2529,7 +2615,7 @@
             "features": [
               "2, 4, or 8 GPUs per node",
               "Up to 752 GB vRAM",
-              "$5.06 hr (2 \u00d7 NVL) to $20.24 hr (8 \u00d7 NVL)"
+              "$5.06 hr (2 × NVL) to $20.24 hr (8 × NVL)"
             ]
           },
           {
@@ -2537,7 +2623,7 @@
             "description": "80 GB A100 GPUs for mainstream training workloads",
             "features": [
               "DGX A100 or PCIe flavours",
-              "From $1.20 hr (single A100 PCIe) to $9.84 hr (8 \u00d7 A100)"
+              "From $1.20 hr (single A100 PCIe) to $9.84 hr (8 × A100)"
             ]
           },
           {
@@ -2552,7 +2638,7 @@
             "name": "RTX 6000 ADA / RTX A6000 / A40 / RTX A5000 / A30",
             "description": "Cost-effective options for smaller fine-tunes, VFX and rendering",
             "features": [
-              "24 \u2013 48 GB vRAM",
+              "24 – 48 GB vRAM",
               "Hourly rates as low as $0.25 hr"
             ]
           }
@@ -2586,14 +2672,14 @@
         ]
       },
       {
-        "name": "On\u2011Demand GPU Pricing",
-        "description": "Preconfigured VM sizes and bare\u2011metal on request.",
+        "name": "On‑Demand GPU Pricing",
+        "description": "Preconfigured VM sizes and bare‑metal on request.",
         "instanceTypes": [
           {
             "name": "H100 SXM5",
-            "description": "8\u00d7 H100 SXM nodes.",
+            "description": "8× H100 SXM nodes.",
             "features": [
-              "Quantum\u20112 style high\u2011speed fabrics",
+              "Quantum‑2 style high‑speed fabrics",
               "Contact for reserved clusters"
             ]
           },
@@ -2609,7 +2695,7 @@
             "name": "H100 PCIe",
             "description": "80 GB PCIe.",
             "features": [
-              "Cost\u2011efficient single\u2011GPU options"
+              "Cost‑efficient single‑GPU options"
             ]
           }
         ]
@@ -2618,7 +2704,7 @@
     "regions": "Tier III U.S. data centers (multiple sites in low-cost power markets)",
     "support": "Documentation portal, Discord community, email ticketing, and direct engineer chat ('Ask AI Expert')",
     "uniqueSellingPoints": [
-      "Owned-and-operated NVIDIA GPU fleet\u2014no middlemen",
+      "Owned-and-operated NVIDIA GPU fleet—no middlemen",
       "Extensive on-demand catalog ranging from A30 to H100 SXM5",
       "White-label-ready Inventory API for platform providers",
       "Browser-based virtual desktop for no-CLI launches",
@@ -2632,12 +2718,12 @@
           {
             "name": "H100 SXM5",
             "gpuModel": "NVIDIA H100",
-            "bestFor": "Scale\u2011out training"
+            "bestFor": "Scale‑out training"
           },
           {
             "name": "H100 NVL",
             "gpuModel": "NVIDIA H100 NVL",
-            "bestFor": "High\u2011VRAM workloads"
+            "bestFor": "High‑VRAM workloads"
           },
           {
             "name": "H100 PCIe",
@@ -2646,13 +2732,17 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "High-density GPU clusters for AI",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "973ad9bb-3d03-4c5f-b407-d90911f786bf",
     "name": "Jarvis Labs",
     "slug": "jarvis",
-    "description": "JarvisLabs offers managed Jupyter/VMs with per\u2011minute billing on H200/H100/A100; strong India presence and pause/resume.",
+    "description": "JarvisLabs offers managed Jupyter/VMs with per‑minute billing on H200/H100/A100; strong India presence and pause/resume.",
     "link": "https://jarvislabs.ai/",
     "docsLink": "https://docs.jarvislabs.ai/",
     "features": [
@@ -2717,7 +2807,7 @@
       },
       {
         "title": "Manage Your Instances",
-        "description": "Easily pause \u23f8\ufe0f, resume \u25b6\ufe0f, and delete \ud83d\uddd1\ufe0f your instances with just a few clicks"
+        "description": "Easily pause ⏸️, resume ▶️, and delete 🗑️ your instances with just a few clicks"
       }
     ],
     "computeServices": [
@@ -2737,17 +2827,17 @@
         "instanceTypes": [
           {
             "name": "H200",
-            "description": "On\u2011demand H200 for large models.",
+            "description": "On‑demand H200 for large models.",
             "features": [
               "Minute billing",
-              "Fast spin\u2011up"
+              "Fast spin‑up"
             ]
           },
           {
             "name": "H100",
-            "description": "On\u2011demand H100.",
+            "description": "On‑demand H100.",
             "features": [
-              "Starting near ~$2.99/GPU\u2011hr in public materials",
+              "Starting near ~$2.99/GPU‑hr in public materials",
               "Pause/resume to cut idle"
             ]
           }
@@ -2770,7 +2860,7 @@
           {
             "name": "H200",
             "gpuModel": "NVIDIA H200",
-            "bestFor": "Large\u2011context serving"
+            "bestFor": "Large‑context serving"
           },
           {
             "name": "H100",
@@ -2784,7 +2874,13 @@
           }
         ]
       }
-    ]
+    ],
+    "hqCountry": "IN",
+    "tagline": "Cost-effective GPU cloud for ML practitioners",
+    "tags": [
+      "Budget"
+    ],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "94678cad-14ab-4bd7-9fcb-72d15ee11ce7",
@@ -2913,7 +3009,7 @@
             "name": "H100 PCIe",
             "description": "Marketplace H100 PCIe offers.",
             "features": [
-              "Explorer lists around ~$0.89\u2013$1.70/GPU\u2011hr tiers",
+              "Explorer lists around ~$0.89–$1.70/GPU‑hr tiers",
               "Varies by supplier and staking tier"
             ]
           },
@@ -2921,7 +3017,7 @@
             "name": "H100 SXM5",
             "description": "Marketplace H100 SXM offers.",
             "features": [
-              "Explorer shows around ~$1.19\u2013$1.99/GPU\u2011hr",
+              "Explorer shows around ~$1.19–$1.99/GPU‑hr",
               "Varies by region"
             ]
           }
@@ -3006,7 +3102,13 @@
       "No waitlists, approvals, or long-term contracts required",
       "Native $IO token economy with staking and rewards",
       "Proof of Time-Lock verification system for guaranteed compute availability"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Decentralized GPU network for AI development",
+    "tags": [
+      "Decentralized"
+    ],
+    "category": "Cloud marketplace"
   },
   {
     "id": "c9c2d2ee-002b-4549-a94d-61514bf93ab9",
@@ -3176,7 +3278,11 @@
       }
     ],
     "regions": "Public regions in London (LON1), Frankfurt (FRA1), and New York (NYC1); private cloud available globally via CivoStack/FlexCore.",
-    "support": "Documentation, community Slack, and ticketed/email support with account team options for enterprise customers."
+    "support": "Documentation, community Slack, and ticketed/email support with account team options for enterprise customers.",
+    "hqCountry": "GB",
+    "tagline": "Developer-first cloud with fast provisioning",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "cdc63645-2c62-46d7-8e2a-5e1a77ff4d86",
@@ -3327,7 +3433,14 @@
       "NVIDIA Preferred Partner with an enterprise GPU catalog",
       "Sovereignty-focused regional choice and renewable energy indicators in the data center catalog",
       "Flexible deployment types spanning VMs, bare metal, and multi-node GPU clusters"
-    ]
+    ],
+    "hqCountry": "GB",
+    "tagline": "Sustainable distributed cloud computing",
+    "tags": [
+      "Green",
+      "Decentralized"
+    ],
+    "category": "Cloud marketplace"
   },
   {
     "id": "0075753d-ed17-4904-b7e4-4e61849b252c",
@@ -3485,7 +3598,11 @@
       "Combines OpenAI-compatible serverless APIs with controllable GPU rentals that boot in about 10 seconds",
       "Competitive flagship NVIDIA pricing including published A100/H100/H200/B200 hourly rates",
       "SSH-accessible B200 rentals plus custom model deployments on dedicated GPUs"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Optimized inference for open-source models",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "6e62d7f4-b22d-44fe-8ff8-412f4045074f",
@@ -3648,7 +3765,11 @@
       "3200 Gbps RoCEv2 plus 100G internet and unlimited bandwidth included",
       "Hosted in the Switch Pyramid Tier 5 data center powered by 100% renewable energy",
       "Hands-on support with ROCm-ready images, API automation, and optional K8s/Slurm/Ray installs"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Large-scale compute for AI workloads",
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "e2d056a3-139e-4a9b-9651-d6677bf6932c",
@@ -3796,7 +3917,11 @@
       "Strong Latin America footprint alongside North America, Europe, and APAC sites",
       "Dedicated GPU boxes ship with dual 100 Gbps networking and large memory footprints",
       "Transparent published pricing for GPU, metal, and VM plans"
-    ]
+    ],
+    "hqCountry": "BR",
+    "tagline": "Global bare metal cloud infrastructure",
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "1d03e458-c92b-42fc-bcc1-0093f4c62b58",
@@ -3974,7 +4099,11 @@
       "Vertically integrated AI cloud with transparent flagship GPU pricing",
       "Commitment discounts up to 35% plus HGX B200/H200/H100 cluster options",
       "Blackwell pre-orders alongside on-demand H100/H200/L40S availability"
-    ]
+    ],
+    "hqCountry": "NL",
+    "tagline": "Full-stack AI infrastructure platform",
+    "tags": [],
+    "category": "Massive neocloud"
   },
   {
     "id": "46f0b708-7a4b-453b-8c0e-d57f9f304265",
@@ -4163,6 +4292,13 @@
       "Combines a community GPU pool with secure data center clusters under one container engine",
       "Publishes very low hourly rates, including sub-$1/hr H100 NVL and $0.02/hr community options",
       "Fully managed container orchestration so users deploy images without handling node management"
-    ]
+    ],
+    "hqCountry": "US",
+    "tagline": "Distributed cloud powered by consumer GPUs",
+    "tags": [
+      "Budget",
+      "Decentralized"
+    ],
+    "category": "DC aggregator"
   }
 ]
