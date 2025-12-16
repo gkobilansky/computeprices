@@ -188,11 +188,7 @@ html {
 }
 
 .animate-scroll {
-  animation: scroll 30s linear infinite;
-}
-
-.animate-scroll:hover {
-  animation-play-state: paused;
+  animation: scroll 15s linear infinite;
 }
 
 /* Staggered fade-in animation for hero elements */
