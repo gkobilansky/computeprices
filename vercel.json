@@ -51,6 +51,10 @@
       {
         "path": "/api/cron/tensordock",
         "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/hyperbolic",
+        "schedule": "0 5 * * *"
       }
     ]
   }
