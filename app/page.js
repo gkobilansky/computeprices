@@ -6,6 +6,7 @@ import GPUInfoCard from '@/components/GPUInfoCard';
 import ProviderInfoCard from '@/components/ProviderInfoCard';
 import FeedbackLauncher from '@/components/FeedbackLauncher';
 import TopPicksSection from '@/components/TopPicksSection';
+import HeroSection from '@/components/HeroSection';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
 import { generateMetadata } from './metadata';
@@ -32,53 +33,7 @@ export default async function Home() {
       <FilterProvider>
         <div className="space-y-8">
           {/* Enhanced Hero Section */}
-          <section className="max-w-4xl">
-            <h1 className="text-5xl font-bold mb-4 leading-tight">
-              <span className="gradient-text-1">Save on GPU Costs</span>
-              <span className="block text-3xl mt-2 text-gray-700 font-medium">
-                Compare {stats.gpuCount} GPUs across {stats.providerCount} providers instantly
-              </span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-6">
-              Find the cheapest{' '}
-              <Link href="/gpus/h100" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
-                H100
-              </Link>,{' '}
-              <Link href="/gpus/a100pcie" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
-                A100
-              </Link>, and{' '}
-              <Link href="/gpus/rtx4090" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">
-                RTX 4090
-              </Link>{' '}
-              rates in seconds.
-              <strong className="text-gray-800 ml-1">Daily pricing from Lambda, Runpod, CoreWeave, AWS & <Link href="/providers" className="text-primary hover:underline underline-offset-2 decoration-1 decoration-dotted">more</Link>.</strong>
-            </p>
-
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center gap-6 mb-8 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                Updated daily
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                {stats.providerCount} providers monitored
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                </svg>
-                {stats.pricePointsChecked}+ price points checked
-              </div>
-              <div className="flex items-center gap-2">
-                <Link href="/gpus" className="text-primary gradient-text-1 hover:underline font-medium">
-                  Need help choosing? →
-                </Link>
-              </div>
-            </div>
-          </section>
+          <HeroSection stats={stats} />
 
           {/* Enhanced Superlatives Section */}
           <section className="bg-gradient-to-r from-blue-50 via-purple-50 to-blue-50 rounded-xl p-4 lg:p-5 mb-8" aria-label="Top GPU Picks">
