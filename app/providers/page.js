@@ -7,17 +7,60 @@ import { fetchProviders } from '@/lib/utils/fetchGPUData';
 import providersData from '@/data/providers.json';
 import { getCountryFlag, getCountryName } from '@/lib/utils/countryFlags';
 
-// Tag colors for visual distinction
+// Category styling - primary classification
+const categoryStyles = {
+  'Classical hyperscaler': {
+    color: 'text-blue-700',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    description: 'General-purpose clouds with GPU SKUs',
+  },
+  'Massive neocloud': {
+    color: 'text-purple-700',
+    bg: 'bg-purple-50',
+    border: 'border-purple-200',
+    description: 'GPU-first operators with dense clusters',
+  },
+  'Rapidly-catching neocloud': {
+    color: 'text-indigo-700',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-200',
+    description: 'Growing GPU-first players',
+  },
+  'Cloud marketplace': {
+    color: 'text-amber-700',
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
+    description: 'Orchestration over multiple backends',
+  },
+  'DC aggregator': {
+    color: 'text-rose-700',
+    bg: 'bg-rose-50',
+    border: 'border-rose-200',
+    description: 'Aggregated third-party capacity',
+  },
+};
+
+// Secondary tag colors
 const tagColors = {
-  'Enterprise': 'bg-blue-100 text-blue-700',
-  'ML-Focused': 'bg-purple-100 text-purple-700',
   'Budget': 'bg-green-100 text-green-700',
   'Green': 'bg-emerald-100 text-emerald-700',
   'Decentralized': 'bg-orange-100 text-orange-700',
 };
 
+// All category options for filter
+const categories = [
+  'All',
+  'Classical hyperscaler',
+  'Massive neocloud',
+  'Rapidly-catching neocloud',
+  'Cloud marketplace',
+  'DC aggregator',
+];
+
 export default function ProvidersPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,6 +90,7 @@ export default function ProvidersPage() {
               ...dbProvider,
               description: "We're still gathering detailed info on this provider.",
               tagline: "GPU cloud provider",
+              category: "Rapidly-catching neocloud",
               hqCountry: 'US',
               tags: [],
               features: [],
@@ -70,9 +114,18 @@ export default function ProvidersPage() {
   const filteredProviders = useMemo(() => {
     const query = searchQuery.toLowerCase();
     return providers.filter(provider => {
+      // Category filter
+      if (selectedCategory !== 'All' && provider.category !== selectedCategory) {
+        return false;
+      }
+
+      // Text search
+      if (!query) return true;
+
       const nameMatch = provider.name.toLowerCase().includes(query);
       const descMatch = provider.description?.toLowerCase().includes(query);
       const taglineMatch = provider.tagline?.toLowerCase().includes(query);
+      const categoryMatch = provider.category?.toLowerCase().includes(query);
       const tagMatch = provider.tags?.some(tag => tag.toLowerCase().includes(query));
       const featureMatch = provider.features?.some(
         feature =>
@@ -86,14 +139,14 @@ export default function ProvidersPage() {
         con.toLowerCase().includes(query)
       );
 
-      return nameMatch || descMatch || taglineMatch || tagMatch || featureMatch || prosMatch || consMatch;
+      return nameMatch || descMatch || taglineMatch || categoryMatch || tagMatch || featureMatch || prosMatch || consMatch;
     });
-  }, [searchQuery, providers]);
+  }, [searchQuery, selectedCategory, providers]);
 
-  // Reset selected index when search query changes
+  // Reset selected index when filters change
   useEffect(() => {
     setSelectedIndex(-1);
-  }, [searchQuery]);
+  }, [searchQuery, selectedCategory]);
 
   // Handle keyboard navigation
   const handleKeyDown = (e) => {
@@ -135,6 +188,15 @@ export default function ProvidersPage() {
     }
   }, [selectedIndex]);
 
+  // Count providers per category
+  const categoryCounts = useMemo(() => {
+    const counts = { 'All': providers.length };
+    categories.slice(1).forEach(cat => {
+      counts[cat] = providers.filter(p => p.category === cat).length;
+    });
+    return counts;
+  }, [providers]);
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Header */}
@@ -146,7 +208,7 @@ export default function ProvidersPage() {
       </section>
 
       {/* Search */}
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
             <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -182,11 +244,28 @@ export default function ProvidersPage() {
             </button>
           )}
         </div>
-        {searchQuery && (
-          <p className="text-sm text-gray-500 mt-2 text-center">
-            Use <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">↑↓</kbd> to navigate, <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">Enter</kbd> to select
-          </p>
-        )}
+      </div>
+
+      {/* Category Filter Tabs */}
+      <div className="mb-6 overflow-x-auto">
+        <div className="flex gap-2 min-w-max pb-2">
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all whitespace-nowrap ${
+                selectedCategory === category
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {category === 'All' ? 'All' : category.replace(' neocloud', '').replace(' hyperscaler', '')}
+              <span className="ml-1.5 text-xs opacity-70">
+                {categoryCounts[category] || 0}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Provider List */}
@@ -196,134 +275,122 @@ export default function ProvidersPage() {
         </div>
       ) : (
         <div id="search-results" className="space-y-3">
-          {filteredProviders.map((provider, index) => (
-            <Link
-              key={provider.id}
-              href={`/providers/${provider.slug || provider.name.toLowerCase().replace(/\s+/g, '-')}`}
-              ref={el => (resultsRef.current[index] = el)}
-              id={`provider-${index}`}
-              role="option"
-              aria-selected={index === selectedIndex}
-              className={`group flex items-center gap-4 p-4 bg-white rounded-xl border transition-all duration-200 hover:border-gray-300 hover:shadow-sm ${
-                index === selectedIndex ? 'border-primary ring-2 ring-primary/20' : 'border-gray-100'
-              }`}
-            >
-              {/* Logo */}
-              <div className="flex-shrink-0 w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-                {!provider.isMinimal && provider.slug ? (
-                  <Image
-                    src={`/logos/${provider.slug}.png`}
-                    alt={provider.name}
-                    width={32}
-                    height={32}
-                    className="object-contain"
-                  />
-                ) : (
-                  <span className="text-xl font-bold text-gray-400">
-                    {provider.name?.charAt(0) || 'P'}
-                  </span>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="flex-grow min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h2 className="font-semibold text-gray-900 truncate">
-                    {provider.name}
-                  </h2>
-                  <span
-                    className="flex-shrink-0 text-lg"
-                    title={getCountryName(provider.hqCountry)}
-                    aria-label={`Headquartered in ${getCountryName(provider.hqCountry)}`}
-                  >
-                    {getCountryFlag(provider.hqCountry)}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 truncate">
-                  {provider.tagline || provider.description}
-                </p>
-              </div>
-
-              {/* Tags */}
-              {provider.tags && provider.tags.length > 0 && (
-                <div className="hidden sm:flex flex-shrink-0 gap-1.5">
-                  {provider.tags.slice(0, 2).map(tag => (
-                    <span
-                      key={tag}
-                      className={`px-2 py-0.5 text-xs font-medium rounded-full ${tagColors[tag] || 'bg-gray-100 text-gray-600'}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Arrow */}
-              <svg
-                className="flex-shrink-0 w-5 h-5 text-gray-300 group-hover:text-gray-400 transition-colors"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          {filteredProviders.map((provider, index) => {
+            const catStyle = categoryStyles[provider.category] || categoryStyles['Rapidly-catching neocloud'];
+            return (
+              <Link
+                key={provider.id}
+                href={`/providers/${provider.slug || provider.name.toLowerCase().replace(/\s+/g, '-')}`}
+                ref={el => (resultsRef.current[index] = el)}
+                id={`provider-${index}`}
+                role="option"
+                aria-selected={index === selectedIndex}
+                className={`group flex items-center gap-4 p-4 bg-white rounded-xl border transition-all duration-200 hover:border-gray-300 hover:shadow-sm ${
+                  index === selectedIndex ? 'border-primary ring-2 ring-primary/20' : 'border-gray-100'
+                }`}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          ))}
+                {/* Logo */}
+                <div className="flex-shrink-0 w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
+                  {!provider.isMinimal && provider.slug ? (
+                    <Image
+                      src={`/logos/${provider.slug}.png`}
+                      alt={provider.name}
+                      width={32}
+                      height={32}
+                      className="object-contain"
+                    />
+                  ) : (
+                    <span className="text-xl font-bold text-gray-400">
+                      {provider.name?.charAt(0) || 'P'}
+                    </span>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className="font-semibold text-gray-900 truncate">
+                      {provider.name}
+                    </h2>
+                    <span
+                      className="flex-shrink-0 text-lg"
+                      title={getCountryName(provider.hqCountry)}
+                      aria-label={`Headquartered in ${getCountryName(provider.hqCountry)}`}
+                    >
+                      {getCountryFlag(provider.hqCountry)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500 truncate">
+                    {provider.tagline || provider.description}
+                  </p>
+                </div>
+
+                {/* Category & Tags */}
+                <div className="hidden sm:flex flex-shrink-0 items-center gap-2">
+                  {/* Secondary tags */}
+                  {provider.tags && provider.tags.length > 0 && (
+                    <div className="flex gap-1">
+                      {provider.tags.map(tag => (
+                        <span
+                          key={tag}
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full ${tagColors[tag] || 'bg-gray-100 text-gray-600'}`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Arrow */}
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-300 group-hover:text-gray-400 transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            );
+          })}
 
           {!loading && filteredProviders.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500">No providers found matching your search.</p>
+              <p className="text-gray-500">No providers found matching your criteria.</p>
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedCategory('All');
+                }}
+                className="mt-2 text-primary hover:underline"
+              >
+                Clear filters
+              </button>
             </div>
           )}
         </div>
       )}
 
-      {/* Help Section */}
-      <section className="mt-16 space-y-8">
-        <h2 className="text-2xl font-semibold text-center">Choosing a Provider</h2>
+      {/* Category Guide */}
+      <section className="mt-16 space-y-6">
+        <h2 className="text-2xl font-semibold text-center">Understanding Provider Categories</h2>
 
-        <div className="grid sm:grid-cols-2 gap-6">
-          <div className="p-5 bg-gray-50 rounded-xl">
-            <h3 className="font-semibold mb-2">For Enterprise</h3>
-            <p className="text-sm text-gray-600">
-              Consider{' '}
-              <Link href="/providers/aws" className="text-primary hover:underline">AWS</Link>,{' '}
-              <Link href="/providers/google" className="text-primary hover:underline">GCP</Link>, or{' '}
-              <Link href="/providers/azure" className="text-primary hover:underline">Azure</Link>{' '}
-              for comprehensive services, security compliance, and global infrastructure.
-            </p>
-          </div>
-
-          <div className="p-5 bg-gray-50 rounded-xl">
-            <h3 className="font-semibold mb-2">For Startups</h3>
-            <p className="text-sm text-gray-600">
-              Try{' '}
-              <Link href="/providers/runpod" className="text-primary hover:underline">RunPod</Link> or{' '}
-              <Link href="/providers/coreweave" className="text-primary hover:underline">CoreWeave</Link>{' '}
-              for flexible pricing and lower entry barriers with good documentation.
-            </p>
-          </div>
-
-          <div className="p-5 bg-gray-50 rounded-xl">
-            <h3 className="font-semibold mb-2">For Researchers</h3>
-            <p className="text-sm text-gray-600">
-              Check out{' '}
-              <Link href="/providers/lambda" className="text-primary hover:underline">Lambda Labs</Link> or{' '}
-              <Link href="/providers/vast" className="text-primary hover:underline">Vast.ai</Link>{' '}
-              for ML-focused workflows and competitive GPU pricing.
-            </p>
-          </div>
-
-          <div className="p-5 bg-gray-50 rounded-xl">
-            <h3 className="font-semibold mb-2">For Budget</h3>
-            <p className="text-sm text-gray-600">
-              Explore{' '}
-              <Link href="/providers/vast" className="text-primary hover:underline">Vast.ai</Link> or{' '}
-              <Link href="/providers/salad" className="text-primary hover:underline">Salad Cloud</Link>{' '}
-              for cost-effective options with flexible spot pricing.
-            </p>
-          </div>
+        <div className="space-y-4">
+          {Object.entries(categoryStyles).map(([category, style]) => (
+            <div key={category} className={`p-4 rounded-xl border ${style.bg} ${style.border}`}>
+              <h3 className={`font-semibold ${style.color}`}>{category}</h3>
+              <p className="text-sm text-gray-600 mt-1">{style.description}</p>
+              <p className="text-xs text-gray-500 mt-2">
+                {providers.filter(p => p.category === category).map(p => p.name).join(', ') || 'None'}
+              </p>
+            </div>
+          ))}
         </div>
+
+        <p className="text-sm text-gray-500 text-center italic">
+          Massive neoclouds lead at extreme GPU scales. Hyperscalers may procure GPU capacity from these GPU-first operators.
+        </p>
       </section>
     </div>
   );

@@ -224,9 +224,8 @@
     "support": "Basic (free), Developer, Business, Enterprise support plans with varying response times and features. Extensive documentation, forums, and training resources.",
     "hqCountry": "US",
     "tagline": "Comprehensive cloud platform with global reach",
-    "tags": [
-      "Enterprise"
-    ]
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "30a69dae-5939-499a-a4f5-5114797dcdb3",
@@ -355,9 +354,9 @@
     "hqCountry": "US",
     "tagline": "Affordable GPU cloud for AI and ML workloads",
     "tags": [
-      "ML-Focused",
       "Budget"
-    ]
+    ],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "d122f315-b060-4924-8726-788c28ed3905",
@@ -645,9 +644,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Enterprise cloud with advanced AI/ML services",
-    "tags": [
-      "Enterprise"
-    ]
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "11f663cd-d914-4863-9094-f293ee6421e0",
@@ -852,9 +850,8 @@
     "support": "Basic, Developer, Standard, and Professional Direct support plans with 24/7 options. Extensive documentation and community resources.",
     "hqCountry": "US",
     "tagline": "Enterprise cloud integrated with Microsoft ecosystem",
-    "tags": [
-      "Enterprise"
-    ]
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "8b627aa8-dfbb-40c2-9291-a23eab57b098",
@@ -917,9 +914,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Enterprise-grade hybrid cloud solutions",
-    "tags": [
-      "Enterprise"
-    ]
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "c53a1b15-f227-4ca5-be92-68e24a7643d9",
@@ -995,9 +991,8 @@
     ],
     "hqCountry": "US",
     "tagline": "High-performance cloud for enterprise workloads",
-    "tags": [
-      "Enterprise"
-    ]
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
@@ -1048,9 +1043,8 @@
     ],
     "hqCountry": "US",
     "tagline": "GPU-specialized cloud built for AI inference",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Massive neocloud"
   },
   {
     "id": "4a4fdeae-7d4f-4d75-9967-54bbd498e4bf",
@@ -1119,9 +1113,9 @@
     "hqCountry": "US",
     "tagline": "GPU marketplace with competitive pricing",
     "tags": [
-      "ML-Focused",
       "Budget"
-    ]
+    ],
+    "category": "DC aggregator"
   },
   {
     "id": "825cef3b-54f5-426e-aa29-c05fe3070833",
@@ -1147,9 +1141,8 @@
     "slug": "lambda",
     "hqCountry": "US",
     "tagline": "Cloud GPUs purpose-built for deep learning",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Massive neocloud"
   },
   {
     "id": "a4c4b4ea-4de7-4e04-8d40-d4c4fc1d8182",
@@ -1229,7 +1222,8 @@
     "tagline": "Distributed GPU cloud with flexible pricing",
     "tags": [
       "Budget"
-    ]
+    ],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
@@ -1360,7 +1354,8 @@
     ],
     "hqCountry": "DE",
     "tagline": "European GPU cloud for AI workloads",
-    "tags": []
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
@@ -1427,9 +1422,8 @@
     ],
     "hqCountry": "FI",
     "tagline": "Nordic GPU cloud with competitive rates",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "54cc0c05-b0e6-49b3-95fb-831b36dd7efd",
@@ -1574,7 +1568,8 @@
     ],
     "hqCountry": "GB",
     "tagline": "Global cloud GPUs with AI and HPC focus",
-    "tags": []
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "6f6f477e-c195-4403-a07a-4cf9faa65a08",
@@ -1753,9 +1748,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Scalable GPU computing for AI training",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "c58cd5f6-4bbc-454a-abbf-fad2b94180c6",
@@ -1956,9 +1950,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Developer-friendly GPU cloud platform",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "ee80fbec-5f7f-4f44-b6bb-d70042b0a799",
@@ -2087,9 +2080,8 @@
     ],
     "hqCountry": "US",
     "tagline": "AMD-powered cloud challenging Nvidia dominance",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434",
@@ -2227,7 +2219,8 @@
     "tagline": "Climate-friendly cloud using stranded energy",
     "tags": [
       "Green"
-    ]
+    ],
+    "category": "Massive neocloud"
   },
   {
     "id": "b046d087-96e5-4bd0-9c96-060164cf9a04",
@@ -2414,7 +2407,8 @@
     "tagline": "Simple cloud infrastructure worldwide",
     "tags": [
       "Budget"
-    ]
+    ],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "5cf897be-8662-4404-9c3b-d4938fb8fa71",
@@ -2529,9 +2523,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Accessible and affordable cloud AI infrastructure",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "d3a46a10-53b1-4778-8995-1971f554f342",
@@ -2742,9 +2735,8 @@
     ],
     "hqCountry": "US",
     "tagline": "High-density GPU clusters for AI",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "973ad9bb-3d03-4c5f-b407-d90911f786bf",
@@ -2886,9 +2878,9 @@
     "hqCountry": "IN",
     "tagline": "Cost-effective GPU cloud for ML practitioners",
     "tags": [
-      "ML-Focused",
       "Budget"
-    ]
+    ],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "94678cad-14ab-4bd7-9fcb-72d15ee11ce7",
@@ -3115,7 +3107,8 @@
     "tagline": "Decentralized GPU network for AI development",
     "tags": [
       "Decentralized"
-    ]
+    ],
+    "category": "Cloud marketplace"
   },
   {
     "id": "c9c2d2ee-002b-4549-a94d-61514bf93ab9",
@@ -3288,7 +3281,8 @@
     "support": "Documentation, community Slack, and ticketed/email support with account team options for enterprise customers.",
     "hqCountry": "GB",
     "tagline": "Developer-first cloud with fast provisioning",
-    "tags": []
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "cdc63645-2c62-46d7-8e2a-5e1a77ff4d86",
@@ -3443,9 +3437,10 @@
     "hqCountry": "GB",
     "tagline": "Sustainable distributed cloud computing",
     "tags": [
-      "Decentralized",
-      "Green"
-    ]
+      "Green",
+      "Decentralized"
+    ],
+    "category": "Cloud marketplace"
   },
   {
     "id": "0075753d-ed17-4904-b7e4-4e61849b252c",
@@ -3606,9 +3601,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Optimized inference for open-source models",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "6e62d7f4-b22d-44fe-8ff8-412f4045074f",
@@ -3774,9 +3768,8 @@
     ],
     "hqCountry": "US",
     "tagline": "Large-scale compute for AI workloads",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Rapidly-catching neocloud"
   },
   {
     "id": "e2d056a3-139e-4a9b-9651-d6677bf6932c",
@@ -3927,7 +3920,8 @@
     ],
     "hqCountry": "BR",
     "tagline": "Global bare metal cloud infrastructure",
-    "tags": []
+    "tags": [],
+    "category": "Classical hyperscaler"
   },
   {
     "id": "1d03e458-c92b-42fc-bcc1-0093f4c62b58",
@@ -4108,9 +4102,8 @@
     ],
     "hqCountry": "NL",
     "tagline": "Full-stack AI infrastructure platform",
-    "tags": [
-      "ML-Focused"
-    ]
+    "tags": [],
+    "category": "Massive neocloud"
   },
   {
     "id": "46f0b708-7a4b-453b-8c0e-d57f9f304265",
@@ -4303,8 +4296,9 @@
     "hqCountry": "US",
     "tagline": "Distributed cloud powered by consumer GPUs",
     "tags": [
-      "Decentralized",
-      "Budget"
-    ]
+      "Budget",
+      "Decentralized"
+    ],
+    "category": "DC aggregator"
   }
 ]
