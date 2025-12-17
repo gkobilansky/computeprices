@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { findMatchingGPUModel, findMatchingGPUModelWithVRAM } from '@/lib/utils/gpu-scraping';
 import { scrapeProviderPricing, isFirecrawlConfigured, ExtractedGPU } from '@/lib/utils/firecrawl';
-import { notifyFirecrawlFailure, notifyScraperFallbackFailure } from '@/lib/utils/slack';
+import { notifyFirecrawlFailure, notifyScraperFallbackFailure } from '@/lib/utils/discord';
 
 // Providers that have dedicated API integrations (skip Firecrawl for these)
 const API_PROVIDERS = ['lambda', 'shadeform', 'runpod'];

@@ -1,23 +1,23 @@
 /**
- * Slack notification utility for scraping alerts
+ * Discord notification utility for scraping alerts
  */
 
-interface SlackMessage {
-  text: string;
-  blocks?: SlackBlock[];
+interface DiscordEmbed {
+  title: string;
+  color: number;
+  fields?: Array<{
+    name: string;
+    value: string;
+    inline?: boolean;
+  }>;
+  footer?: {
+    text: string;
+  };
 }
 
-interface SlackBlock {
-  type: string;
-  text?: {
-    type: string;
-    text: string;
-    emoji?: boolean;
-  };
-  elements?: Array<{
-    type: string;
-    text: string;
-  }>;
+interface DiscordMessage {
+  content?: string;
+  embeds?: DiscordEmbed[];
 }
 
 export type AlertType = 'firecrawl_failure' | 'scraper_fallback_failure' | 'scraper_success' | 'info';
@@ -30,97 +30,75 @@ interface AlertOptions {
   details?: Record<string, unknown>;
 }
 
-function getEmoji(type: AlertType): string {
+function getEmojiAndColor(type: AlertType): { emoji: string; color: number } {
   switch (type) {
     case 'firecrawl_failure':
-      return '🔥';
+      return { emoji: '🔥', color: 0xff6b35 }; // Orange
     case 'scraper_fallback_failure':
-      return '❌';
+      return { emoji: '❌', color: 0xff0000 }; // Red
     case 'scraper_success':
-      return '✅';
+      return { emoji: '✅', color: 0x00ff00 }; // Green
     case 'info':
-      return 'ℹ️';
+      return { emoji: 'ℹ️', color: 0x0099ff }; // Blue
     default:
-      return '📢';
+      return { emoji: '📢', color: 0x808080 }; // Gray
   }
 }
 
-function formatSlackMessage(options: AlertOptions): SlackMessage {
+function formatDiscordMessage(options: AlertOptions): DiscordMessage {
   const { type, provider, url, error, details } = options;
-  const emoji = getEmoji(type);
+  const { emoji, color } = getEmojiAndColor(type);
 
-  let headerText: string;
+  let title: string;
   switch (type) {
     case 'firecrawl_failure':
-      headerText = `${emoji} Firecrawl Scrape Failed`;
+      title = `${emoji} Firecrawl Scrape Failed`;
       break;
     case 'scraper_fallback_failure':
-      headerText = `${emoji} Fallback Scraper Not Found (404)`;
+      title = `${emoji} Fallback Scraper Not Found (404)`;
       break;
     case 'scraper_success':
-      headerText = `${emoji} Scraping Completed`;
+      title = `${emoji} Scraping Completed`;
       break;
     default:
-      headerText = `${emoji} Scraper Alert`;
+      title = `${emoji} Scraper Alert`;
   }
 
-  const blocks: SlackBlock[] = [
-    {
-      type: 'header',
-      text: {
-        type: 'plain_text',
-        text: headerText,
-        emoji: true,
-      },
-    },
-  ];
-
-  const fields: string[] = [];
-  if (provider) fields.push(`*Provider:* ${provider}`);
-  if (url) fields.push(`*URL:* ${url}`);
-  if (error) fields.push(`*Error:* ${error}`);
+  const fields: Array<{ name: string; value: string; inline?: boolean }> = [];
+  if (provider) fields.push({ name: 'Provider', value: provider, inline: true });
+  if (url) fields.push({ name: 'URL', value: url, inline: false });
+  if (error) fields.push({ name: 'Error', value: error, inline: false });
 
   if (details) {
     for (const [key, value] of Object.entries(details)) {
-      fields.push(`*${key}:* ${JSON.stringify(value)}`);
+      fields.push({ name: key, value: String(value), inline: false });
     }
   }
 
+  const embed: DiscordEmbed = {
+    title,
+    color,
+    footer: {
+      text: `Timestamp: ${new Date().toISOString()}`,
+    },
+  };
+
   if (fields.length > 0) {
-    blocks.push({
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: fields.join('\n'),
-      },
-    });
+    embed.fields = fields;
   }
 
-  blocks.push({
-    type: 'context',
-    elements: [
-      {
-        type: 'mrkdwn',
-        text: `Timestamp: ${new Date().toISOString()}`,
-      },
-    ],
-  });
-
-  return {
-    text: `${headerText}${provider ? ` - ${provider}` : ''}`,
-    blocks,
-  };
+  return { embeds: [embed] };
 }
 
-export async function sendSlackAlert(options: AlertOptions): Promise<boolean> {
-  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+export async function sendDiscordAlert(options: AlertOptions): Promise<boolean> {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
   if (!webhookUrl) {
-    console.warn('SLACK_WEBHOOK_URL not configured, skipping Slack notification');
+    console.warn('DISCORD_WEBHOOK_URL not configured, skipping Discord notification');
     return false;
   }
 
-  const message = formatSlackMessage(options);
+  const message = formatDiscordMessage(options);
 
   try {
     const response = await fetch(webhookUrl, {
@@ -132,13 +110,13 @@ export async function sendSlackAlert(options: AlertOptions): Promise<boolean> {
     });
 
     if (!response.ok) {
-      console.error(`Slack webhook failed: ${response.status} ${response.statusText}`);
+      console.error(`Discord webhook failed: ${response.status} ${response.statusText}`);
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('Failed to send Slack notification:', error);
+    console.error('Failed to send Discord notification:', error);
     return false;
   }
 }
@@ -148,7 +126,7 @@ export async function notifyFirecrawlFailure(
   url: string,
   error: string
 ): Promise<boolean> {
-  return sendSlackAlert({
+  return sendDiscordAlert({
     type: 'firecrawl_failure',
     provider,
     url,
@@ -160,7 +138,7 @@ export async function notifyScraperFallbackFailure(
   provider: string,
   slug: string
 ): Promise<boolean> {
-  return sendSlackAlert({
+  return sendDiscordAlert({
     type: 'scraper_fallback_failure',
     provider,
     error: `No scraper route found at /api/cron/${slug}`,
@@ -180,7 +158,7 @@ export async function notifyScrapingSuccess(
     .map((r) => `• ${r.provider}: ${r.matched} matched, ${r.unmatched} unmatched (${r.method})`)
     .join('\n');
 
-  return sendSlackAlert({
+  return sendDiscordAlert({
     type: 'scraper_success',
     details: {
       summary,
