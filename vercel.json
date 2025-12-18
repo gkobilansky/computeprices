@@ -62,7 +62,7 @@
       },
       {
         "path": "/api/cron/firecrawl",
-        "schedule": "0 11 * * *"
+        "schedule": "0 */2 * * *"
       }
     ]
   }
