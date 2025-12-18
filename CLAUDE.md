@@ -207,6 +207,34 @@ Master endpoint that triggers all individual provider scrapers concurrently:
 - **Auth**: Requires `SHADEFORM_API_KEY` environment variable
 - **Features**: Groups instances by cloud provider, maps to provider IDs via `shadeformProviders.json`
 
+**9. `/api/cron/firecrawl`**
+- **Method**: Firecrawl AI-powered web scraping with auto-rotation
+- **Source**: Provider pricing pages (from `pricing_page` column in providers table)
+- **Auth**: Requires `FIRECRAWL_API_KEY` environment variable
+- **Schedule**: Runs every 2 hours (`0 */2 * * *`)
+- **Features**:
+  - **Auto-rotation**: When called without parameters, automatically selects the next provider in alphabetical order
+  - **Progress tracking**: Uses `scrape_logs` table to track last processed provider
+  - **New provider detection**: Automatically picks up new providers added to the database with a `pricing_page`
+  - **Fallback support**: If Firecrawl fails, attempts dedicated scraper at `/api/cron/{provider-slug}`
+  - **Skips API providers**: Excludes `lambda`, `shadeform`, `runpod` (have dedicated API integrations)
+- **Usage**:
+  - `GET /api/cron/firecrawl` - Auto-rotate to next provider
+  - `GET /api/cron/firecrawl?provider=<slug>` - Scrape specific provider
+- **Response** (auto-rotation):
+  ```json
+  {
+    "success": true,
+    "duration_ms": 12345,
+    "rotation": {
+      "current": 3,
+      "total": 12,
+      "nextRunWillProcess": "Fluidstack"
+    },
+    "result": { ... }
+  }
+  ```
+
 ### Common Scraper Features
 
 All scrapers share these common patterns:
@@ -219,8 +247,9 @@ All scrapers share these common patterns:
 
 ### Environment Variables Required
 
-- `LAMBDA_LABS_API_KEY`: API key for Lambda Labs integration  
+- `LAMBDA_LABS_API_KEY`: API key for Lambda Labs integration
 - `SHADEFORM_API_KEY`: API key for Shadeform integration
+- `FIRECRAWL_API_KEY`: API key for Firecrawl AI-powered scraping
 - `BLESS_KEY`: Browserless.io API key for production Puppeteer automation (optional for local development)
 
 ---

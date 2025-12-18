@@ -55,6 +55,14 @@
       {
         "path": "/api/cron/deepinfra",
         "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/hyperbolic",
+        "schedule": "0 5 * * *"
+      },
+      {
+        "path": "/api/cron/firecrawl",
+        "schedule": "0 */2 * * *"
       }
     ]
   }

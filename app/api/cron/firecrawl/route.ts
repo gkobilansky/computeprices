@@ -183,6 +183,226 @@ async function tryFallbackScraper(
   }
 }
 
+async function processProvider(
+  provider: Provider,
+  existingModels: GPUModel[],
+  baseUrl: string
+): Promise<ProviderResult> {
+  // Skip providers with dedicated API integrations
+  if (API_PROVIDERS.includes(provider.slug)) {
+    console.log(`⏭️ Skipping ${provider.name} (has dedicated API integration)`);
+    return {
+      provider: provider.name,
+      slug: provider.slug,
+      method: 'skipped',
+      success: true,
+      matched: 0,
+      unmatched: 0,
+      pricesInserted: 0,
+    };
+  }
+
+  if (!provider.pricing_page) {
+    console.log(`⏭️ Skipping ${provider.name} (no pricing page URL)`);
+    return {
+      provider: provider.name,
+      slug: provider.slug,
+      method: 'skipped',
+      success: true,
+      matched: 0,
+      unmatched: 0,
+      error: 'No pricing page URL configured',
+      pricesInserted: 0,
+    };
+  }
+
+  console.log(`\n📊 Processing ${provider.name}...`);
+
+  // Try Firecrawl first
+  const firecrawlResult = await scrapeProviderPricing(
+    provider.pricing_page,
+    provider.name
+  );
+
+  if (firecrawlResult.success && firecrawlResult.gpus.length > 0) {
+    // Firecrawl succeeded - process results
+    const { matched, unmatched, inserted } = await processFirecrawlResults(
+      provider.id,
+      provider.name,
+      firecrawlResult.gpus,
+      existingModels,
+      provider.pricing_page
+    );
+
+    await logScrapeResult({
+      provider_id: provider.id,
+      provider_name: provider.name,
+      method: 'firecrawl',
+      success: true,
+      matched_count: matched,
+      unmatched_count: unmatched,
+      error_message: null,
+      source_url: provider.pricing_page,
+    });
+
+    return {
+      provider: provider.name,
+      slug: provider.slug,
+      method: 'firecrawl',
+      success: true,
+      matched,
+      unmatched,
+      pricesInserted: inserted,
+    };
+  }
+
+  // Firecrawl failed - notify and try fallback
+  console.log(`  ⚠️ Firecrawl failed for ${provider.name}: ${firecrawlResult.error}`);
+
+  await notifyFirecrawlFailure(
+    provider.name,
+    provider.pricing_page,
+    firecrawlResult.error || 'Unknown error'
+  );
+
+  await logScrapeResult({
+    provider_id: provider.id,
+    provider_name: provider.name,
+    method: 'firecrawl',
+    success: false,
+    matched_count: 0,
+    unmatched_count: 0,
+    error_message: firecrawlResult.error || 'Unknown error',
+    source_url: provider.pricing_page,
+  });
+
+  // Try fallback scraper
+  const fallbackResult = await tryFallbackScraper(provider, baseUrl);
+
+  if (fallbackResult.status === 404) {
+    // No fallback scraper exists - notify
+    console.log(`  ❌ No fallback scraper found for ${provider.slug}`);
+
+    await notifyScraperFallbackFailure(provider.name, provider.slug);
+
+    await logScrapeResult({
+      provider_id: provider.id,
+      provider_name: provider.name,
+      method: 'fallback',
+      success: false,
+      matched_count: 0,
+      unmatched_count: 0,
+      error_message: `No scraper route found at /api/cron/${provider.slug}`,
+      source_url: null,
+    });
+
+    return {
+      provider: provider.name,
+      slug: provider.slug,
+      method: 'fallback',
+      success: false,
+      matched: 0,
+      unmatched: 0,
+      error: `Firecrawl failed and no fallback scraper at /api/cron/${provider.slug}`,
+      pricesInserted: 0,
+    };
+  }
+
+  if (fallbackResult.success) {
+    // Fallback succeeded
+    console.log(`  ✅ Fallback scraper succeeded for ${provider.name}`);
+
+    const data = fallbackResult.data as {
+      matched?: number;
+      unmatched?: number;
+    } | undefined;
+
+    await logScrapeResult({
+      provider_id: provider.id,
+      provider_name: provider.name,
+      method: 'fallback',
+      success: true,
+      matched_count: data?.matched || 0,
+      unmatched_count: data?.unmatched || 0,
+      error_message: null,
+      source_url: provider.pricing_page,
+    });
+
+    return {
+      provider: provider.name,
+      slug: provider.slug,
+      method: 'fallback',
+      success: true,
+      matched: data?.matched || 0,
+      unmatched: data?.unmatched || 0,
+      pricesInserted: data?.matched || 0,
+    };
+  }
+
+  // Fallback also failed
+  console.log(`  ❌ Fallback scraper failed for ${provider.name}`);
+
+  await logScrapeResult({
+    provider_id: provider.id,
+    provider_name: provider.name,
+    method: 'fallback',
+    success: false,
+    matched_count: 0,
+    unmatched_count: 0,
+    error_message: `Fallback scraper returned status ${fallbackResult.status}`,
+    source_url: null,
+  });
+
+  return {
+    provider: provider.name,
+    slug: provider.slug,
+    method: 'fallback',
+    success: false,
+    matched: 0,
+    unmatched: 0,
+    error: 'Both Firecrawl and fallback scraper failed',
+    pricesInserted: 0,
+  };
+}
+
+async function getNextProviderInRotation(
+  eligibleProviders: Provider[]
+): Promise<{ provider: Provider; index: number; total: number }> {
+  // Sort providers by slug for consistent ordering
+  const sortedProviders = [...eligibleProviders].sort((a, b) =>
+    a.slug.localeCompare(b.slug)
+  );
+
+  // Get the most recent firecrawl scrape log
+  const { data: lastScrape } = await supabaseAdmin
+    .from('scrape_logs')
+    .select('provider_id, provider_name')
+    .eq('method', 'firecrawl')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  let nextIndex = 0;
+
+  if (lastScrape) {
+    // Find the last scraped provider in our sorted list
+    const lastIndex = sortedProviders.findIndex(
+      (p) => p.id === lastScrape.provider_id
+    );
+
+    if (lastIndex !== -1) {
+      // Move to next provider, wrap around if at end
+      nextIndex = (lastIndex + 1) % sortedProviders.length;
+    }
+  }
+
+  return {
+    provider: sortedProviders[nextIndex],
+    index: nextIndex,
+    total: sortedProviders.length,
+  };
+}
+
 export async function GET(request: Request) {
   const startTime = Date.now();
 
@@ -197,12 +417,11 @@ export async function GET(request: Request) {
   // Get base URL for fallback scraper calls
   const url = new URL(request.url);
   const baseUrl = `${url.protocol}//${url.host}`;
+  const providerSlug = url.searchParams.get('provider');
 
   try {
-    console.log('🔥 Starting Firecrawl pricing scrape...');
-
     // Fetch all providers with pricing pages
-    const { data: providers, error: providersError } = await supabaseAdmin
+    const { data: allProviders, error: providersError } = await supabaseAdmin
       .from('providers')
       .select('id, name, slug, pricing_page')
       .not('pricing_page', 'is', null);
@@ -211,13 +430,49 @@ export async function GET(request: Request) {
       throw new Error(`Error fetching providers: ${providersError.message}`);
     }
 
-    if (!providers || providers.length === 0) {
+    // Filter to eligible providers (have pricing page, not API-based)
+    const eligibleProviders = (allProviders || []).filter(
+      (p: Provider) => !API_PROVIDERS.includes(p.slug) && p.pricing_page
+    ) as Provider[];
+
+    if (eligibleProviders.length === 0) {
       return NextResponse.json({
         success: true,
-        message: 'No providers with pricing pages found',
-        results: [],
+        message: 'No eligible providers found for Firecrawl scraping',
       });
     }
+
+    let provider: Provider;
+    let rotationInfo: { index: number; total: number } | null = null;
+
+    if (providerSlug) {
+      // Specific provider requested
+      const found = eligibleProviders.find((p) => p.slug === providerSlug);
+
+      if (!found) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Provider '${providerSlug}' not found or not eligible`,
+            availableProviders: eligibleProviders.map((p) => p.slug),
+          },
+          { status: 404 }
+        );
+      }
+
+      provider = found;
+    } else {
+      // Auto-rotate: pick the next provider in sequence
+      const rotation = await getNextProviderInRotation(eligibleProviders);
+      provider = rotation.provider;
+      rotationInfo = { index: rotation.index, total: rotation.total };
+
+      console.log(
+        `🔄 Auto-rotation: selected ${provider.name} (${rotation.index + 1}/${rotation.total})`
+      );
+    }
+
+    console.log(`🔥 Starting Firecrawl pricing scrape for ${provider.name}...`);
 
     // Fetch existing GPU models
     const { data: existingModels, error: modelsError } = await supabaseAdmin
@@ -228,196 +483,33 @@ export async function GET(request: Request) {
       throw new Error(`Error fetching GPU models: ${modelsError.message}`);
     }
 
-    const results: ProviderResult[] = [];
-
-    // Process each provider
-    for (const provider of providers as Provider[]) {
-      // Skip providers with dedicated API integrations
-      if (API_PROVIDERS.includes(provider.slug)) {
-        console.log(`⏭️ Skipping ${provider.name} (has dedicated API integration)`);
-        results.push({
-          provider: provider.name,
-          slug: provider.slug,
-          method: 'skipped',
-          success: true,
-          matched: 0,
-          unmatched: 0,
-          pricesInserted: 0,
-        });
-        continue;
-      }
-
-      if (!provider.pricing_page) {
-        console.log(`⏭️ Skipping ${provider.name} (no pricing page URL)`);
-        continue;
-      }
-
-      console.log(`\n📊 Processing ${provider.name}...`);
-
-      // Try Firecrawl first
-      const firecrawlResult = await scrapeProviderPricing(
-        provider.pricing_page,
-        provider.name
-      );
-
-      if (firecrawlResult.success && firecrawlResult.gpus.length > 0) {
-        // Firecrawl succeeded - process results
-        const { matched, unmatched, inserted } = await processFirecrawlResults(
-          provider.id,
-          provider.name,
-          firecrawlResult.gpus,
-          existingModels as GPUModel[],
-          provider.pricing_page
-        );
-
-        await logScrapeResult({
-          provider_id: provider.id,
-          provider_name: provider.name,
-          method: 'firecrawl',
-          success: true,
-          matched_count: matched,
-          unmatched_count: unmatched,
-          error_message: null,
-          source_url: provider.pricing_page,
-        });
-
-        results.push({
-          provider: provider.name,
-          slug: provider.slug,
-          method: 'firecrawl',
-          success: true,
-          matched,
-          unmatched,
-          pricesInserted: inserted,
-        });
-      } else {
-        // Firecrawl failed - notify and try fallback
-        console.log(`  ⚠️ Firecrawl failed for ${provider.name}: ${firecrawlResult.error}`);
-
-        await notifyFirecrawlFailure(
-          provider.name,
-          provider.pricing_page,
-          firecrawlResult.error || 'Unknown error'
-        );
-
-        await logScrapeResult({
-          provider_id: provider.id,
-          provider_name: provider.name,
-          method: 'firecrawl',
-          success: false,
-          matched_count: 0,
-          unmatched_count: 0,
-          error_message: firecrawlResult.error || 'Unknown error',
-          source_url: provider.pricing_page,
-        });
-
-        // Try fallback scraper
-        const fallbackResult = await tryFallbackScraper(provider, baseUrl);
-
-        if (fallbackResult.status === 404) {
-          // No fallback scraper exists - notify
-          console.log(`  ❌ No fallback scraper found for ${provider.slug}`);
-
-          await notifyScraperFallbackFailure(provider.name, provider.slug);
-
-          await logScrapeResult({
-            provider_id: provider.id,
-            provider_name: provider.name,
-            method: 'fallback',
-            success: false,
-            matched_count: 0,
-            unmatched_count: 0,
-            error_message: `No scraper route found at /api/cron/${provider.slug}`,
-            source_url: null,
-          });
-
-          results.push({
-            provider: provider.name,
-            slug: provider.slug,
-            method: 'fallback',
-            success: false,
-            matched: 0,
-            unmatched: 0,
-            error: `Firecrawl failed and no fallback scraper at /api/cron/${provider.slug}`,
-            pricesInserted: 0,
-          });
-        } else if (fallbackResult.success) {
-          // Fallback succeeded
-          console.log(`  ✅ Fallback scraper succeeded for ${provider.name}`);
-
-          const data = fallbackResult.data as {
-            matched?: number;
-            unmatched?: number;
-          } | undefined;
-
-          await logScrapeResult({
-            provider_id: provider.id,
-            provider_name: provider.name,
-            method: 'fallback',
-            success: true,
-            matched_count: data?.matched || 0,
-            unmatched_count: data?.unmatched || 0,
-            error_message: null,
-            source_url: provider.pricing_page,
-          });
-
-          results.push({
-            provider: provider.name,
-            slug: provider.slug,
-            method: 'fallback',
-            success: true,
-            matched: data?.matched || 0,
-            unmatched: data?.unmatched || 0,
-            pricesInserted: data?.matched || 0,
-          });
-        } else {
-          // Fallback also failed
-          console.log(`  ❌ Fallback scraper failed for ${provider.name}`);
-
-          await logScrapeResult({
-            provider_id: provider.id,
-            provider_name: provider.name,
-            method: 'fallback',
-            success: false,
-            matched_count: 0,
-            unmatched_count: 0,
-            error_message: `Fallback scraper returned status ${fallbackResult.status}`,
-            source_url: null,
-          });
-
-          results.push({
-            provider: provider.name,
-            slug: provider.slug,
-            method: 'fallback',
-            success: false,
-            matched: 0,
-            unmatched: 0,
-            error: `Both Firecrawl and fallback scraper failed`,
-            pricesInserted: 0,
-          });
-        }
-      }
-    }
+    // Process the provider
+    const result = await processProvider(
+      provider,
+      existingModels as GPUModel[],
+      baseUrl
+    );
 
     const duration = Date.now() - startTime;
-    const successCount = results.filter((r) => r.success).length;
-    const failureCount = results.filter((r) => !r.success).length;
 
-    console.log(`\n🏁 Firecrawl scrape completed in ${duration}ms`);
-    console.log(`   Success: ${successCount}, Failures: ${failureCount}`);
+    console.log(
+      `\n🏁 Firecrawl scrape for ${provider.name} completed in ${duration}ms`
+    );
 
     return NextResponse.json({
-      success: failureCount === 0,
+      success: result.success,
       duration_ms: duration,
-      summary: {
-        total: results.length,
-        successful: successCount,
-        failed: failureCount,
-        totalMatched: results.reduce((sum, r) => sum + r.matched, 0),
-        totalUnmatched: results.reduce((sum, r) => sum + r.unmatched, 0),
-        totalPricesInserted: results.reduce((sum, r) => sum + r.pricesInserted, 0),
-      },
-      results,
+      ...(rotationInfo && {
+        rotation: {
+          current: rotationInfo.index + 1,
+          total: rotationInfo.total,
+          nextRunWillProcess:
+            eligibleProviders.sort((a, b) => a.slug.localeCompare(b.slug))[
+              (rotationInfo.index + 1) % rotationInfo.total
+            ]?.name,
+        },
+      }),
+      result,
     });
   } catch (error) {
     console.error('Firecrawl cron error:', error);
