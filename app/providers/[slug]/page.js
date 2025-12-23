@@ -2,7 +2,9 @@ import { notFound } from 'next/navigation';
 import { unstable_cache } from 'next/cache';
 import { getProviderBySlug, generateProviderMetadata, getAllProviderSlugs, generateProviderSchema } from '@/lib/utils/provider';
 import { fetchGPUPrices, getProviderSuggestions } from '@/lib/utils/fetchGPUData';
+import { fetchLLMPrices } from '@/lib/utils/fetchLLMData';
 import ProviderGPUTable from '@/components/ProviderGPUTable';
+import LLMPricingTable from '@/components/LLMPricingTable';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
 import CompareProviders from '@/components/CompareProviders';
 import Image from 'next/image';
@@ -11,15 +13,20 @@ import DataTransparency from '@/components/DataTransparency';
 export const revalidate = 3600;
 
 const getCachedProviderData = unstable_cache(
-  async (providerId) => {
-    const [gpuPrices, providerSuggestions] = await Promise.all([
-      fetchGPUPrices({ selectedProvider: providerId }),
-      getProviderSuggestions(providerId),
+  async (providerId, providerType) => {
+    const showInference = ['inference_api', 'both'].includes(providerType);
+    const showGPU = ['gpu_compute', 'both'].includes(providerType) || !providerType;
+
+    const [gpuPrices, providerSuggestions, llmPrices] = await Promise.all([
+      showGPU ? fetchGPUPrices({ selectedProvider: providerId }) : [],
+      showGPU ? getProviderSuggestions(providerId) : [],
+      showInference ? fetchLLMPrices({ selectedProvider: providerId }) : [],
     ]);
 
     return {
       gpuPrices: gpuPrices ?? [],
       providerSuggestions: providerSuggestions ?? [],
+      llmPrices: llmPrices ?? [],
     };
   },
   ['provider-page-data'],
@@ -41,12 +48,16 @@ export async function generateStaticParams() {
 export default async function ProviderPage({ params }) {
   const { slug } = await params;
   const provider = await getProviderBySlug(slug);
-  
+
   if (!provider) {
     notFound();
   }
 
-  const { gpuPrices, providerSuggestions } = await getCachedProviderData(provider.id);
+  const providerType = provider.type || 'gpu_compute';
+  const showInference = ['inference_api', 'both'].includes(providerType);
+  const showGPU = ['gpu_compute', 'both'].includes(providerType) || !providerType;
+
+  const { gpuPrices, providerSuggestions, llmPrices } = await getCachedProviderData(provider.id, providerType);
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -159,11 +170,22 @@ export default async function ProviderPage({ params }) {
         </section>
       )}
 
-      {/* GPU Pricing */}
-      <section className="mb-16" aria-labelledby="pricing-heading">
-        <h2 id="pricing-heading" className="text-2xl font-bold mb-6">Available GPUs</h2>
-        <ProviderGPUTable prices={gpuPrices} />
-      </section>
+      {/* LLM Pricing - for inference providers */}
+      {showInference && llmPrices.length > 0 && (
+        <section className="mb-16" aria-labelledby="llm-pricing-heading">
+          <h2 id="llm-pricing-heading" className="text-2xl font-bold mb-6">LLM API Pricing</h2>
+          <p className="text-gray-600 mb-4">Pay-per-token pricing for LLM models. Prices shown per 1M tokens.</p>
+          <LLMPricingTable prices={llmPrices} />
+        </section>
+      )}
+
+      {/* GPU Pricing - for GPU compute providers */}
+      {showGPU && gpuPrices.length > 0 && (
+        <section className="mb-16" aria-labelledby="pricing-heading">
+          <h2 id="pricing-heading" className="text-2xl font-bold mb-6">Available GPUs</h2>
+          <ProviderGPUTable prices={gpuPrices} />
+        </section>
+      )}
 
       {/* Compute Services */}
       {!provider.isMinimal && provider.computeServices && (

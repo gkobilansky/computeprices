@@ -4300,5 +4300,285 @@
       "Decentralized"
     ],
     "category": "DC aggregator"
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "OpenAI",
+    "slug": "openai",
+    "description": "OpenAI provides API access to GPT-4o, GPT-4, and other frontier models with pay-per-token pricing.",
+    "link": "https://openai.com",
+    "docsLink": "https://platform.openai.com/docs",
+    "features": [
+      {
+        "title": "GPT-4o and GPT-4 Models",
+        "description": "Access to frontier language models including GPT-4o, GPT-4o mini, and reasoning models"
+      },
+      {
+        "title": "OpenAI-Compatible API",
+        "description": "Industry-standard API format used by many inference providers"
+      },
+      {
+        "title": "Batch API",
+        "description": "50% discount for asynchronous batch processing workloads"
+      },
+      {
+        "title": "Fine-tuning Support",
+        "description": "Customize models with your own training data"
+      }
+    ],
+    "pros": [
+      "Industry-leading model capabilities",
+      "Comprehensive documentation and SDKs",
+      "Batch API offers 50% discount for async workloads",
+      "Wide ecosystem of tools and integrations"
+    ],
+    "cons": [
+      "Premium pricing compared to open-source alternatives",
+      "No open-source model weights",
+      "Rate limits on free tier"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an OpenAI account",
+        "description": "Sign up at platform.openai.com to get started"
+      },
+      {
+        "title": "Generate an API key",
+        "description": "Create an API key in the dashboard for authentication"
+      },
+      {
+        "title": "Install the SDK",
+        "description": "pip install openai or npm install openai to get started"
+      },
+      {
+        "title": "Make your first API call",
+        "description": "Use the Chat Completions API to interact with GPT models"
+      }
+    ],
+    "pricingOptions": [
+      {
+        "name": "Pay-per-token",
+        "description": "Pay only for the tokens you use with no minimum commitment"
+      },
+      {
+        "name": "Batch API",
+        "description": "50% discount on standard pricing for async batch requests"
+      }
+    ],
+    "hqCountry": "US",
+    "tagline": "Leading AI research lab with frontier models",
+    "tags": [],
+    "category": "Inference API"
+  },
+  {
+    "id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+    "name": "Anthropic",
+    "slug": "anthropic",
+    "description": "Anthropic provides API access to Claude models including Claude 3.5 Sonnet, Claude 3 Opus, and Claude 3 Haiku with pay-per-token pricing.",
+    "link": "https://www.anthropic.com",
+    "docsLink": "https://docs.anthropic.com",
+    "features": [
+      {
+        "title": "Claude Model Family",
+        "description": "Access to Claude 3.5 Sonnet, Claude 3 Opus, and Claude 3 Haiku for different use cases"
+      },
+      {
+        "title": "200K Context Window",
+        "description": "Process large documents with up to 200,000 tokens of context"
+      },
+      {
+        "title": "Message Batches API",
+        "description": "50% discount for asynchronous batch processing workloads"
+      },
+      {
+        "title": "Prompt Caching",
+        "description": "Cache repeated prompts for up to 90% cost savings on cached tokens"
+      }
+    ],
+    "pros": [
+      "Strong reasoning and instruction-following capabilities",
+      "Large 200K context window across all models",
+      "Message Batches API and Prompt Caching for cost optimization",
+      "Focus on AI safety and reliability"
+    ],
+    "cons": [
+      "Premium pricing compared to open-source alternatives",
+      "No open-source model weights",
+      "Fewer model variants than some competitors"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create an Anthropic account",
+        "description": "Sign up at console.anthropic.com to get started"
+      },
+      {
+        "title": "Generate an API key",
+        "description": "Create an API key in the console for authentication"
+      },
+      {
+        "title": "Install the SDK",
+        "description": "pip install anthropic or npm install @anthropic-ai/sdk"
+      },
+      {
+        "title": "Make your first API call",
+        "description": "Use the Messages API to interact with Claude models"
+      }
+    ],
+    "pricingOptions": [
+      {
+        "name": "Pay-per-token",
+        "description": "Pay only for the tokens you use with no minimum commitment"
+      },
+      {
+        "name": "Message Batches",
+        "description": "50% discount on standard pricing for async batch requests"
+      },
+      {
+        "name": "Prompt Caching",
+        "description": "Up to 90% savings when reusing cached prompt prefixes"
+      }
+    ],
+    "hqCountry": "US",
+    "tagline": "AI safety company building reliable, interpretable AI",
+    "tags": [],
+    "category": "Inference API"
+  },
+  {
+    "id": "c3d4e5f6-a7b8-9012-cdef-345678901234",
+    "name": "Together AI",
+    "slug": "together-ai",
+    "description": "Together AI provides serverless inference APIs for open-source models including Llama, Mistral, and DeepSeek with competitive per-token pricing.",
+    "link": "https://www.together.ai",
+    "docsLink": "https://docs.together.ai",
+    "features": [
+      {
+        "title": "Open-Source Models",
+        "description": "Access to Llama 3, Mistral, DeepSeek, and other leading open-source models"
+      },
+      {
+        "title": "OpenAI-Compatible API",
+        "description": "Drop-in replacement for OpenAI API with minimal code changes"
+      },
+      {
+        "title": "Fine-tuning Platform",
+        "description": "Train custom models on your data with serverless infrastructure"
+      },
+      {
+        "title": "Dedicated Endpoints",
+        "description": "Reserved capacity for production workloads with guaranteed availability"
+      }
+    ],
+    "pros": [
+      "Competitive pricing on open-source models",
+      "Wide selection of model architectures and sizes",
+      "OpenAI-compatible API for easy migration",
+      "Fine-tuning and custom model deployment options"
+    ],
+    "cons": [
+      "No proprietary frontier models",
+      "Some models may have limited availability",
+      "Pricing varies significantly by model"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create a Together AI account",
+        "description": "Sign up at api.together.ai to get started"
+      },
+      {
+        "title": "Generate an API key",
+        "description": "Create an API key in the dashboard for authentication"
+      },
+      {
+        "title": "Choose a model",
+        "description": "Browse the model catalog to find the right model for your use case"
+      },
+      {
+        "title": "Make your first API call",
+        "description": "Use the OpenAI-compatible Chat Completions API"
+      }
+    ],
+    "pricingOptions": [
+      {
+        "name": "Pay-per-token",
+        "description": "Pay only for the tokens you use with no minimum commitment"
+      },
+      {
+        "name": "Dedicated Endpoints",
+        "description": "Reserved capacity with committed pricing for production workloads"
+      }
+    ],
+    "hqCountry": "US",
+    "tagline": "Open-source AI inference and fine-tuning platform",
+    "tags": [],
+    "category": "Inference API"
+  },
+  {
+    "id": "d4e5f6a7-b8c9-0123-defa-456789012345",
+    "name": "Fireworks AI",
+    "slug": "fireworks-ai",
+    "description": "Fireworks AI provides low-latency serverless inference APIs optimized for production workloads, featuring open-source models with competitive pricing.",
+    "link": "https://fireworks.ai",
+    "docsLink": "https://docs.fireworks.ai",
+    "features": [
+      {
+        "title": "Low-Latency Inference",
+        "description": "Optimized infrastructure for fast response times on production workloads"
+      },
+      {
+        "title": "Open-Source Models",
+        "description": "Access to Llama 3, Mistral, DeepSeek, and other popular open-source models"
+      },
+      {
+        "title": "OpenAI-Compatible API",
+        "description": "Drop-in replacement for OpenAI API with minimal code changes"
+      },
+      {
+        "title": "Custom Model Deployment",
+        "description": "Deploy your own fine-tuned models on Fireworks infrastructure"
+      }
+    ],
+    "pros": [
+      "Optimized for low-latency production workloads",
+      "Competitive pricing especially for DeepSeek models",
+      "OpenAI-compatible API for easy integration",
+      "Support for custom model deployment"
+    ],
+    "cons": [
+      "No proprietary frontier models",
+      "Smaller model catalog than some competitors",
+      "Enterprise features may require sales engagement"
+    ],
+    "gettingStarted": [
+      {
+        "title": "Create a Fireworks AI account",
+        "description": "Sign up at fireworks.ai to get started"
+      },
+      {
+        "title": "Generate an API key",
+        "description": "Create an API key in the dashboard for authentication"
+      },
+      {
+        "title": "Choose a model",
+        "description": "Browse the model catalog to find the right model for your use case"
+      },
+      {
+        "title": "Make your first API call",
+        "description": "Use the OpenAI-compatible Chat Completions API"
+      }
+    ],
+    "pricingOptions": [
+      {
+        "name": "Pay-per-token",
+        "description": "Pay only for the tokens you use with no minimum commitment"
+      },
+      {
+        "name": "Enterprise",
+        "description": "Custom pricing and SLAs for high-volume production workloads"
+      }
+    ],
+    "hqCountry": "US",
+    "tagline": "Fast, reliable inference for production AI",
+    "tags": [],
+    "category": "Inference API"
   }
 ]

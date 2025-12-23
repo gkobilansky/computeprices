@@ -35,7 +35,10 @@
     "validate:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --validate-only dotenv_config_path=.env.local",
     "dry-run:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --dry-run dotenv_config_path=.env.local",
     "add-manual-price": "node -r dotenv/config scripts/add-manual-price.js dotenv_config_path=.env.local",
-    "blog:sync": "node -r dotenv/config scripts/sync-seobot-blog.js dotenv_config_path=.env.local"
+    "blog:sync": "node -r dotenv/config scripts/sync-seobot-blog.js dotenv_config_path=.env.local",
+    "seed:llm-models": "node scripts/seed-llm-models.js",
+    "seed:llm-prices": "node scripts/seed-llm-prices.js",
+    "add-llm-price": "node scripts/add-llm-price.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
