@@ -7,6 +7,7 @@ import ProviderInfoCard from '@/components/ProviderInfoCard';
 import FeedbackLauncher from '@/components/FeedbackLauncher';
 import TopPicksSection from '@/components/TopPicksSection';
 import HeroSection from '@/components/HeroSection';
+import FAQ, { getFAQSchema } from '@/components/FAQ';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
 import { generateMetadata as generateBaseMetadata } from './metadata';
@@ -99,6 +100,17 @@ export default async function Home() {
 
         </div>
       </FilterProvider>
+
+      {/* FAQ Section */}
+      <FAQ />
+
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getFAQSchema())
+        }}
+      />
 
       {/* WebSite Schema */}
       <script
