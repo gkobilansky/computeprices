@@ -44,7 +44,7 @@ interface ScrapeLogEntry {
 
 async function logScrapeResult(entry: ScrapeLogEntry): Promise<void> {
   try {
-    await supabaseAdmin.from('scrape_logs').insert({
+    const { error } = await supabaseAdmin.from('scrape_logs').insert({
       provider_id: entry.provider_id,
       provider_name: entry.provider_name,
       method: entry.method,
@@ -54,6 +54,12 @@ async function logScrapeResult(entry: ScrapeLogEntry): Promise<void> {
       error_message: entry.error_message,
       source_url: entry.source_url,
     });
+
+    if (error) {
+      console.error('Failed to log scrape result to database:', error.message, error.details);
+    } else {
+      console.log(`  📝 Logged scrape result for ${entry.provider_name} (${entry.method}, success: ${entry.success})`);
+    }
   } catch (error) {
     console.error('Failed to log scrape result:', error);
   }
@@ -374,7 +380,7 @@ async function getNextProviderInRotation(
   );
 
   // Get the most recent firecrawl scrape log
-  const { data: lastScrape } = await supabaseAdmin
+  const { data: lastScrape, error: queryError } = await supabaseAdmin
     .from('scrape_logs')
     .select('provider_id, provider_name')
     .eq('method', 'firecrawl')
@@ -384,7 +390,14 @@ async function getNextProviderInRotation(
 
   let nextIndex = 0;
 
+  if (queryError && queryError.code !== 'PGRST116') {
+    // PGRST116 is "no rows returned" which is expected for empty table
+    console.error('Error querying scrape_logs for rotation:', queryError.message);
+  }
+
   if (lastScrape) {
+    console.log(`  📋 Last firecrawl scrape was for: ${lastScrape.provider_name}`);
+
     // Find the last scraped provider in our sorted list
     const lastIndex = sortedProviders.findIndex(
       (p) => p.id === lastScrape.provider_id
@@ -393,7 +406,11 @@ async function getNextProviderInRotation(
     if (lastIndex !== -1) {
       // Move to next provider, wrap around if at end
       nextIndex = (lastIndex + 1) % sortedProviders.length;
+    } else {
+      console.log(`  ⚠️ Last provider ${lastScrape.provider_name} not found in eligible list, starting from beginning`);
     }
+  } else {
+    console.log('  📋 No previous firecrawl scrape found, starting from beginning');
   }
 
   return {
