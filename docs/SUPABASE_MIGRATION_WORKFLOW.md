@@ -82,7 +82,27 @@ supabase db reset
 
 ## Production Migration Workflow
 
-### Option A: GitHub Integration (Recommended)
+### Option A: GitHub Actions (Recommended)
+
+The repository includes a GitHub Actions workflow that automatically applies migrations when changes to `supabase/migrations/` are merged to `main`.
+
+**Setup required secrets in GitHub:**
+1. Go to Repository Settings > Secrets and variables > Actions
+2. Add the following secrets:
+   - `SUPABASE_PROJECT_REF` - Your project ID (found in Dashboard URL or Settings)
+   - `SUPABASE_ACCESS_TOKEN` - Personal access token from [supabase.com/dashboard/account/tokens](https://supabase.com/dashboard/account/tokens)
+   - `SUPABASE_DB_PASSWORD` - Database password from Dashboard > Settings > Database
+
+**How it works:**
+1. Create a PR with migration files in `supabase/migrations/`
+2. PR is reviewed and merged to `main`
+3. GitHub Actions automatically runs `supabase db push`
+4. Check Actions tab for migration logs and status
+
+**Manual trigger:**
+You can also manually trigger the workflow from the Actions tab using "workflow_dispatch".
+
+### Option B: Supabase GitHub Integration
 
 1. **Enable Supabase GitHub Integration**
    - Go to Supabase Dashboard > Settings > Integrations
@@ -100,7 +120,7 @@ supabase db reset
    - Merge to `main`
    - Supabase automatically applies the migration
 
-### Option B: Manual via Supabase Dashboard
+### Option C: Manual via Supabase Dashboard
 
 1. **Prepare Your Migration**
    - Test thoroughly on local database
@@ -116,7 +136,7 @@ supabase db reset
    - Check Table Editor for expected changes
    - Test application functionality
 
-### Option C: Supabase CLI (Use with Caution)
+### Option D: Supabase CLI (Use with Caution)
 
 ```bash
 # Link to production project (one-time setup)

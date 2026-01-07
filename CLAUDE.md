@@ -307,8 +307,8 @@ npm run upsert:gpu-models -- --production --force
 ### Migration Safety
 
 **Production migrations should ONLY happen through:**
-1. Merged PRs to `main` branch
-2. Supabase GitHub integration (recommended)
+1. Merged PRs to `main` branch via GitHub Actions (recommended)
+2. Supabase GitHub integration
 3. Supabase Dashboard SQL Editor (manual review)
 4. `supabase db push` with explicit production project linking and review
 
