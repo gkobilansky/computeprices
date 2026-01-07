@@ -1,0 +1,206 @@
+{
+  "id": "11f663cd-d914-4863-9094-f293ee6421e0",
+  "name": "Microsoft Azure",
+  "slug": "azure",
+  "description": "Azure provides comprehensive cloud computing services with strong enterprise integration, advanced AI capabilities, and a wide range of GPU options for machine learning, visualization, and high-performance computing workloads.",
+  "link": "https://azure.microsoft.com/en-us/solutions/ai/",
+  "docsLink": "https://learn.microsoft.com/en-us/azure/",
+  "features": [
+    {
+      "title": "Azure AI",
+      "description": "Comprehensive suite of AI services and tools for building intelligent applications"
+    },
+    {
+      "title": "Enterprise Integration",
+      "description": "Seamless integration with Microsoft ecosystem and enterprise tools"
+    },
+    {
+      "title": "Hybrid Capabilities",
+      "description": "Strong hybrid and multi-cloud support with Azure Arc"
+    },
+    {
+      "title": "Advanced Security",
+      "description": "Industry-leading security features and compliance certifications"
+    },
+    {
+      "title": "Global Scale",
+      "description": "Extensive worldwide network of data centers and edge locations"
+    }
+  ],
+  "pros": [
+    "Strong enterprise integration and support",
+    "Comprehensive AI and machine learning services",
+    "Advanced security and compliance features",
+    "Extensive hybrid cloud capabilities",
+    "Wide range of GPU options",
+    "Strong .NET and Windows workload support",
+    "Integrated development tools and DevOps services"
+  ],
+  "cons": [
+    "Complex pricing and billing structure",
+    "Can be expensive for certain workloads",
+    "Steeper learning curve for new users",
+    "Some services have limited regional availability",
+    "Documentation can be fragmented"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an Azure account",
+      "description": "Sign up for Azure and get started with free credits"
+    },
+    {
+      "title": "Set up your environment",
+      "description": "Configure your subscription, resource groups, and access controls"
+    },
+    {
+      "title": "Choose compute services",
+      "description": "Select from VMs, containers, or serverless based on your needs"
+    },
+    {
+      "title": "Deploy resources",
+      "description": "Launch your first GPU-enabled instance or AI service"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Azure Virtual Machines",
+      "description": "GPU-enabled VMs for various workloads",
+      "instanceTypes": [
+        {
+          "name": "NDm A100 v4",
+          "description": "Powered by NVIDIA A100 Tensor Core GPUs for AI and HPC",
+          "features": [
+            "Up to 8 NVIDIA A100 80GB GPUs",
+            "NVIDIA NVLink interconnect",
+            "400 Gb/s NVIDIA Mellanox NDR InfiniBand"
+          ]
+        },
+        {
+          "name": "NC A100 v4",
+          "description": "Optimized for deep learning and HPC",
+          "features": [
+            "NVIDIA A100 GPUs",
+            "High-performance computing and AI training",
+            "PCIe-based GPU connectivity"
+          ]
+        },
+        {
+          "name": "ND A100 v4",
+          "description": "For large-scale AI training and inference",
+          "features": [
+            "NVIDIA A100 GPUs",
+            "Optimized for distributed AI workloads",
+            "High-bandwidth GPU interconnect"
+          ]
+        },
+        {
+          "name": "ND H100 v5",
+          "description": "Flagship H100 SXM‑based training VMs for scale‑out GenAI.",
+          "features": [
+            "8× NVIDIA H100 GPUs per VM",
+            "3.2 Tbps interconnect per VM",
+            "Dedicated 400 Gb/s CX7 per GPU"
+          ]
+        },
+        {
+          "name": "ND MI300X v5",
+          "description": "AMD Instinct MI300X‑based VMs for AI training/inference.",
+          "features": [
+            "8× AMD Instinct MI300X (192 GB each)",
+            "4th‑Gen AMD Infinity Fabric links",
+            "1850 GiB memory"
+          ]
+        },
+        {
+          "name": "NCads H100 v5",
+          "description": "H100 NVL‑based VMs for training and batch inference.",
+          "features": [
+            "Up to 2× NVIDIA H100 NVL (94 GB each)",
+            "4th‑gen AMD EPYC Genoa CPUs",
+            "Up to 640 GiB RAM"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Azure Kubernetes Service (AKS)",
+      "description": "Managed Kubernetes service with GPU support",
+      "features": [
+        "Integrated GPU node pools",
+        "Automated scaling and updates",
+        "DevOps integration"
+      ]
+    },
+    {
+      "name": "Azure Machine Learning",
+      "description": "End-to-end ML platform with GPU acceleration",
+      "features": [
+        "Automated ML capabilities",
+        "Integrated MLOps",
+        "Distributed training support"
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU-Optimized Virtual Machines",
+      "description": "Range of GPU-enabled VM sizes for different workloads",
+      "types": [
+        {
+          "name": "NDm A100 v4",
+          "gpuModel": "NVIDIA A100 80GB",
+          "bestFor": "Large-scale AI training, HPC"
+        },
+        {
+          "name": "NC A100 v4",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "Deep learning, HPC workloads"
+        },
+        {
+          "name": "NV-series",
+          "gpuModel": "NVIDIA Tesla M60",
+          "bestFor": "Visualization, remote workstations"
+        },
+        {
+          "name": "ND H100 v5",
+          "gpuModel": "NVIDIA H100 SXM",
+          "bestFor": "Scale-out training for GenAI and HPC"
+        },
+        {
+          "name": "ND MI300X v5",
+          "gpuModel": "AMD Instinct MI300X",
+          "bestFor": "Training/inference with large VRAM per GPU"
+        },
+        {
+          "name": "NCads H100 v5",
+          "gpuModel": "NVIDIA H100 NVL",
+          "bestFor": "High-throughput inference & training"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "Pay-as-you-go",
+      "description": "Flexible pricing with no upfront commitment"
+    },
+    {
+      "name": "Reserved VM Instances",
+      "description": "Save up to 72% with 1 or 3-year commitments"
+    },
+    {
+      "name": "Spot VMs",
+      "description": "Up to 90% savings for interruptible workloads"
+    },
+    {
+      "name": "Azure Hybrid Benefit",
+      "description": "Cost savings for existing Windows Server and SQL Server licenses"
+    }
+  ],
+  "regions": "60+ regions worldwide with multiple availability zones",
+  "support": "Basic, Developer, Standard, and Professional Direct support plans with 24/7 options. Extensive documentation and community resources.",
+  "hqCountry": "US",
+  "tagline": "Enterprise cloud integrated with Microsoft ecosystem",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}

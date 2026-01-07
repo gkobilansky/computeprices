@@ -1,0 +1,202 @@
+{
+  "id": "c58cd5f6-4bbc-454a-abbf-fad2b94180c6",
+  "name": "Paperspace",
+  "slug": "paperspace",
+  "description": "Paperspace (by DigitalOcean) offers dedicated GPUs including H100/HGX H100 and A100 with managed notebooks and workflows.",
+  "link": "https://www.paperspace.com/",
+  "docsLink": "https://docs.digitalocean.com/products/paperspace/",
+  "features": [
+    {
+      "title": "Gradient Notebooks",
+      "description": "Interactive Jupyter notebooks with a free tier, pre-configured templates, and access to powerful GPUs."
+    },
+    {
+      "title": "Gradient Deployments",
+      "description": "Serve machine learning models as scalable API endpoints."
+    },
+    {
+      "title": "Core Machines",
+      "description": "High-performance virtual machines with a wide variety of NVIDIA GPUs for demanding workloads."
+    },
+    {
+      "title": "Team Collaboration",
+      "description": "Features for teams to collaborate on projects, including shared drives and SSO."
+    },
+    {
+      "title": "Persistent Storage",
+      "description": "Offers persistent storage that can be shared across different machines and notebooks."
+    },
+    {
+      "title": "API and CLI",
+      "description": "Programmatic access to the Paperspace platform to automate workflows."
+    }
+  ],
+  "pros": [
+    "User-friendly interface and easy to get started",
+    "Wide range of NVIDIA GPU options",
+    "Free GPU and CPU plans for notebooks",
+    "Pay-per-second billing model",
+    "Comprehensive MLOps platform (Gradient)",
+    "Strong community forum and extensive documentation"
+  ],
+  "cons": [
+    "Limited data center regions (US and Europe)",
+    "Some user reports of inconsistent customer support",
+    "Availability of high-end multi-GPU instances can be limited",
+    "The platform is undergoing changes after being acquired by DigitalOcean"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an Account",
+      "description": "Sign up for a Paperspace account. You can start with a free plan."
+    },
+    {
+      "title": "Choose a Product",
+      "description": "Select the product that best fits your needs, such as Gradient Notebooks for interactive development or Core Machines for more control."
+    },
+    {
+      "title": "Select a Template and Machine",
+      "description": "Choose a pre-configured template for your desired framework and select a GPU or CPU instance."
+    },
+    {
+      "title": "Start Working",
+      "description": "Launch your machine or notebook and begin building, training, or deploying your AI applications."
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Core GPU Instances",
+      "description": "Virtual machines with a wide range of NVIDIA GPUs for various workloads.",
+      "instanceTypes": [
+        {
+          "name": "NVIDIA H100",
+          "description": "Top-tier GPU for large-scale AI model training and inference.",
+          "features": [
+            "80GB of VRAM",
+            "PCIe interface",
+            "Available in single and multi-GPU configurations"
+          ]
+        },
+        {
+          "name": "NVIDIA A100",
+          "description": "Powerful GPU for AI, data analytics, and HPC.",
+          "features": [
+            "40GB and 80GB VRAM options",
+            "SXM4 and PCIe interconnects",
+            "Available in multi-GPU configurations"
+          ]
+        },
+        {
+          "name": "NVIDIA A6000",
+          "description": "Professional GPU for graphics-intensive workloads, rendering, and AI.",
+          "features": [
+            "48GB of VRAM",
+            "Suitable for professional visualization and AI",
+            "Available in multi-GPU configurations"
+          ]
+        },
+        {
+          "name": "NVIDIA A5000 / A4000",
+          "description": "Cost-effective GPUs for a variety of AI and graphics workloads.",
+          "features": [
+            "24GB (A5000) and 16GB (A4000) of VRAM",
+            "Balanced performance for development and smaller-scale training"
+          ]
+        },
+        {
+          "name": "NVIDIA RTX 5000 / RTX 4000",
+          "description": "Quadro GPUs suitable for professional graphics and some ML tasks.",
+          "features": [
+            "16GB (RTX 5000) and 8GB (RTX 4000) of VRAM",
+            "Real-time ray tracing capabilities"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gradient Notebooks",
+      "description": "Managed Jupyter notebooks for interactive development and experimentation.",
+      "features": [
+        "Free CPU and GPU tiers",
+        "1-click launch with pre-configured templates",
+        "Persistent storage for your projects",
+        "Collaboration features for teams"
+      ]
+    },
+    {
+      "name": "Gradient Deployments",
+      "description": "A serverless product for deploying trained models as REST APIs.",
+      "features": [
+        "Scalable and managed infrastructure",
+        "Integration with Gradient Notebooks and Workflows",
+        "Real-time monitoring of deployed models"
+      ]
+    },
+    {
+      "name": "Dedicated GPUs",
+      "description": "On‑demand GPU VMs and notebooks.",
+      "instanceTypes": [
+        {
+          "name": "HGX H100",
+          "description": "80 GB HBM; multi‑GPU configurations up to 8x.",
+          "features": [
+            "Docs list from ~$2.24/GPU‑hr depending on plan",
+            "Managed workflows"
+          ]
+        },
+        {
+          "name": "H100 (PCIe)",
+          "description": "80 GB HBM; single‑GPU option.",
+          "features": [
+            "Docs show from ~$3.09/GPU‑hr",
+            "Pause/resume to save idle cost"
+          ]
+        },
+        {
+          "name": "A100 80GB",
+          "description": "80 GB HBM.",
+          "features": [
+            "Multiple regions",
+            "Gradient integrations"
+          ]
+        }
+      ]
+    }
+  ],
+  "regions": "Data centers are located in the US (Secaucus, NJ and Santa Clara, CA) and Europe (Amsterdam, NL).",
+  "support": "Support is available through a community forum, extensive documentation, and a support ticket system.",
+  "uniqueSellingPoints": [
+    "Simplicity and developer-focused user experience",
+    "A comprehensive MLOps platform (Gradient) for the entire ML lifecycle",
+    "Offers a free tier with GPU access for notebooks",
+    "Strong community and a showcase of public projects",
+    "Now part of the DigitalOcean ecosystem"
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Types",
+      "description": "Available NVIDIA accelerators.",
+      "types": [
+        {
+          "name": "HGX H100",
+          "gpuModel": "NVIDIA H100 SXM5",
+          "bestFor": "Training at scale"
+        },
+        {
+          "name": "H100 PCIe",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Training/inference"
+        },
+        {
+          "name": "A100 80GB",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "Balanced workloads"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "Developer-friendly GPU cloud platform",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}

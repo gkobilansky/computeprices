@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/aggregate-providers.cjs",
+    "predev": "node scripts/aggregate-providers.cjs",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -35,7 +37,10 @@
     "validate:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --validate-only dotenv_config_path=.env.local",
     "dry-run:gpu-models": "node -r dotenv/config scripts/upsert-gpu-models.js --dry-run dotenv_config_path=.env.local",
     "add-manual-price": "node -r dotenv/config scripts/add-manual-price.js dotenv_config_path=.env.local",
-    "blog:sync": "node -r dotenv/config scripts/sync-seobot-blog.js dotenv_config_path=.env.local"
+    "blog:sync": "node -r dotenv/config scripts/sync-seobot-blog.js dotenv_config_path=.env.local",
+    "providers:aggregate": "node scripts/aggregate-providers.cjs",
+    "providers:sync": "node -r dotenv/config scripts/sync-providers-to-db.js dotenv_config_path=.env.local",
+    "providers:sync:dry": "node -r dotenv/config scripts/sync-providers-to-db.js --dry-run dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",

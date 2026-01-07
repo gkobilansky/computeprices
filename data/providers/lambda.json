@@ -1,0 +1,27 @@
+{
+  "id": "825cef3b-54f5-426e-aa29-c05fe3070833",
+  "name": "Lambda Labs",
+  "description": "Lambda is an AI compute platform offering on‑demand NVIDIA GPUs, including H100 and Blackwell B200, plus private clusters with Quantum‑2 InfiniBand.",
+  "pros": [
+    "Early access to latest NVIDIA GPUs (H100, H200, Blackwell)",
+    "Specialized for AI workloads",
+    "One-click Jupyter access",
+    "Pre-installed popular ML frameworks",
+    "Multi-GPU instances available (up to 8x GPUs)",
+    "Developer-friendly API",
+    "Offers both on-demand and reserved GPU clusters",
+    "High-speed NVIDIA Quantum-2 InfiniBand networking"
+  ],
+  "cons": [
+    "Primarily focused on AI and ML workloads",
+    "Limited global data center presence compared to major cloud providers",
+    "Newer player in the cloud GPU market",
+    "May have higher costs for non-AI workloads"
+  ],
+  "link": "https://lambdalabs.com/",
+  "slug": "lambda",
+  "hqCountry": "US",
+  "tagline": "Cloud GPUs purpose-built for deep learning",
+  "tags": [],
+  "category": "Massive neocloud"
+}

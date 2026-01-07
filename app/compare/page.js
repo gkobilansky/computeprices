@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/BreadcrumbNav';
 import ProviderSelector from '@/components/ProviderSelector';
 import Image from 'next/image';
 import Link from 'next/link';
-import providersData from '@/data/providers.json';
+import providersData from '@/data/providers.generated';
 
 export const metadata = {
   title: 'Compare Cloud GPU Providers | ComputePrices.com',

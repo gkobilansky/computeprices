@@ -1,0 +1,228 @@
+{
+  "id": "3bb5a379-472f-4c84-9ba4-3337f3922582",
+  "name": "Amazon AWS",
+  "slug": "aws",
+  "description": "AWS provides a comprehensive suite of cloud computing services, including compute, storage, and GPU solutions for diverse workloads.",
+  "link": "https://aws.amazon.com",
+  "docsLink": "https://docs.aws.amazon.com",
+  "features": [
+    {
+      "title": "Global Infrastructure",
+      "description": "Extensive network of data centers across multiple regions worldwide"
+    },
+    {
+      "title": "Pay-as-you-go Pricing",
+      "description": "Flexible pricing model with no upfront commitments required"
+    },
+    {
+      "title": "Advanced Security",
+      "description": "Comprehensive security tools and compliance certifications"
+    },
+    {
+      "title": "Auto Scaling",
+      "description": "Automatically adjust resources based on demand"
+    },
+    {
+      "title": "Integrated Services",
+      "description": "Extensive ecosystem of services that work seamlessly together"
+    },
+    {
+      "title": "Developer Tools",
+      "description": "Comprehensive suite of tools for development, deployment, and management"
+    }
+  ],
+  "pros": [
+    "Broad range of compute options including GPUs",
+    "Highly scalable and reliable infrastructure",
+    "Pay-as-you-go pricing with cost optimization tools",
+    "Extensive global network of data centers",
+    "Rich ecosystem of integrated services and tools"
+  ],
+  "cons": [
+    "Complex pricing structure",
+    "Steep learning curve for new users",
+    "Potential for unexpected costs without proper management"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Sign up for AWS",
+      "description": "Create an AWS account to access the cloud platform."
+    },
+    {
+      "title": "Choose a compute service",
+      "description": "Select from EC2, Lambda, or container services based on your workload needs."
+    },
+    {
+      "title": "Launch an instance",
+      "description": "Configure and launch your first compute instance or container."
+    },
+    {
+      "title": "Set up security",
+      "description": "Configure security groups and access controls for your resources."
+    },
+    {
+      "title": "Monitor and optimize",
+      "description": "Use AWS CloudWatch and Compute Optimizer to monitor performance and reduce costs."
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Amazon EC2",
+      "description": "Virtual servers in the cloud with a wide range of instance types.",
+      "instanceTypes": [
+        {
+          "name": "P4 Instances",
+          "description": "Powered by NVIDIA A100 Tensor Core GPUs, optimized for AI and HPC workloads.",
+          "features": [
+            "Up to 8 NVIDIA A100 GPUs per instance",
+            "600 GB/s GPU-to-GPU bandwidth with NVSwitch",
+            "Elastic Fabric Adapter (EFA) for low-latency, multi-node GPU training",
+            "Network throughput of up to 400 Gbps"
+          ]
+        },
+        {
+          "name": "P3 Instances",
+          "description": "Equipped with NVIDIA V100 Tensor Core GPUs for deep learning and HPC.",
+          "features": [
+            "Up to 8 NVIDIA V100 GPUs per instance",
+            "300 GB/s GPU-to-GPU bandwidth with NVLink",
+            "Suitable for FP16 and FP32 precision workloads"
+          ]
+        },
+        {
+          "name": "G5 Instances",
+          "description": "Powered by NVIDIA A10G GPUs for graphics-intensive applications.",
+          "features": [
+            "Optimized for real-time ray tracing and AI-driven graphics",
+            "Suitable for game streaming and content creation"
+          ]
+        },
+        {
+          "name": "P5 Instances",
+          "description": "Powered by NVIDIA H100 Tensor Core GPUs for next‑gen AI and HPC.",
+          "features": [
+            "Up to 8 NVIDIA H100 GPUs per instance",
+            "Amazon EC2 UltraClusters scale to tens of thousands of H100 GPUs",
+            "Up to 3,200 Gbps aggregate networking with EFA and GPUDirect RDMA"
+          ]
+        },
+        {
+          "name": "G6 Instances",
+          "description": "Powered by NVIDIA L4 Tensor Core GPUs for graphics, video, and inference.",
+          "features": [
+            "Up to 8 NVIDIA L4 GPUs per instance (24 GB per GPU)",
+            "Fractional GPU sizes down to 1/8 of an L4",
+            "Up to 192 vCPUs and 7.5 TB local NVMe"
+          ]
+        },
+        {
+          "name": "G6e Instances",
+          "description": "Powered by NVIDIA L40S GPUs for advanced AI inference and 3D workloads.",
+          "features": [
+            "Up to 8 NVIDIA L40S GPUs per instance (48 GB per GPU)",
+            "Up to 400 Gbps networking and 1.5 TB system memory",
+            "Ideal for LLM serving, diffusion, and digital twins"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Amazon ECS",
+      "description": "Fully managed container orchestration service.",
+      "features": [
+        "Support for Docker containers",
+        "Integration with other AWS services",
+        "Automated cluster management and scheduling"
+      ]
+    },
+    {
+      "name": "Amazon EKS",
+      "description": "Managed Kubernetes service for container orchestration.",
+      "features": [
+        "Certified Kubernetes conformant",
+        "Integrates with AWS networking and security services",
+        "Supports both EC2 and Fargate launch types"
+      ]
+    },
+    {
+      "name": "AWS Lambda",
+      "description": "Serverless compute service for running code without managing servers.",
+      "features": [
+        "Automatic scaling and high availability",
+        "Pay only for compute time consumed",
+        "Supports multiple programming languages"
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "EC2 GPU Instances",
+      "description": "EC2 instances equipped with powerful GPUs for compute-intensive workloads.",
+      "types": [
+        {
+          "name": "P4 Instances",
+          "gpuModel": "NVIDIA A100 Tensor Core",
+          "bestFor": "Large-scale AI training, HPC simulations"
+        },
+        {
+          "name": "P3 Instances",
+          "gpuModel": "NVIDIA V100 Tensor Core",
+          "bestFor": "Deep learning training and inference, scientific simulations"
+        },
+        {
+          "name": "G5 Instances",
+          "gpuModel": "NVIDIA A10G",
+          "bestFor": "Graphics rendering, game streaming, machine learning inference"
+        },
+        {
+          "name": "P5 Instances",
+          "gpuModel": "NVIDIA H100 Tensor Core",
+          "bestFor": "Frontier‑scale training; distributed HPC"
+        },
+        {
+          "name": "G6 Instances",
+          "gpuModel": "NVIDIA L4",
+          "bestFor": "Video, graphics, and economical inference"
+        },
+        {
+          "name": "G6e Instances",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "High‑throughput inference and 3D/digital twin workloads"
+        }
+      ]
+    },
+    {
+      "name": "Amazon SageMaker",
+      "description": "Fully managed machine learning platform with GPU support.",
+      "features": [
+        "Integrated Jupyter notebooks with GPU acceleration",
+        "Automated model tuning and deployment",
+        "Built-in algorithms optimized for GPU execution"
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "On-Demand Instances",
+      "description": "Pay for compute capacity by the second with no long-term commitments."
+    },
+    {
+      "name": "Spot Instances",
+      "description": "Use spare EC2 capacity at up to 90% off the On-Demand price."
+    },
+    {
+      "name": "Reserved Instances",
+      "description": "Save up to 72% compared to On-Demand pricing with a 1 or 3-year commitment."
+    },
+    {
+      "name": "Savings Plans",
+      "description": "Save up to 72% on compute usage with a 1 or 3-year commitment to a consistent amount of usage."
+    }
+  ],
+  "regions": "30+ regions and 100+ availability zones worldwide.",
+  "support": "Basic (free), Developer, Business, Enterprise support plans with varying response times and features. Extensive documentation, forums, and training resources.",
+  "hqCountry": "US",
+  "tagline": "Comprehensive cloud platform with global reach",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}
