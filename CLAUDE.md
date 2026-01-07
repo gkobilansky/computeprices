@@ -254,6 +254,75 @@ All scrapers share these common patterns:
 
 ---
 
+# Database Safety Rules
+
+## CRITICAL: Preventing Accidental Production Database Modifications
+
+### Environment Detection
+
+The application uses `lib/db-safety.js` to detect which database environment is being targeted:
+
+- **Local**: URL contains `127.0.0.1`, `localhost`, or port `54321`
+- **Production**: URL contains `.supabase.co`
+
+### For Claude Code / AI Assistants
+
+**NEVER** perform these actions without explicit user confirmation:
+1. Run migration scripts directly against production
+2. Execute any script that modifies the database without checking which environment is targeted
+3. Run `supabase db push` against production
+4. Execute upsert, insert, update, or delete operations against production data
+
+**ALWAYS**:
+1. Verify `NEXT_PUBLIC_SUPABASE_URL` points to local/staging before running scripts
+2. Use `--dry-run` flag first to preview changes
+3. For production operations, require explicit `--production` flag
+4. Ask the user for confirmation before any production database modification
+
+### Script Safety Features
+
+All database-modifying scripts now include safety checks:
+
+1. **Environment logging**: Scripts log which database they're targeting
+2. **Production flag requirement**: Production operations require `--production` flag
+3. **Confirmation prompts**: Production operations ask for explicit user confirmation
+4. **Dry-run support**: Use `--dry-run` to preview changes without modifying data
+
+### Running Scripts Safely
+
+```bash
+# Local development - runs directly
+npm run upsert:gpu-models
+
+# Dry run - see what would change without modifying
+npm run upsert:gpu-models -- --dry-run
+
+# Production - requires explicit flag and confirmation
+npm run upsert:gpu-models -- --production
+
+# Skip confirmation (use with caution)
+npm run upsert:gpu-models -- --production --force
+```
+
+### Migration Safety
+
+**Production migrations should ONLY happen through:**
+1. Merged PRs to `main` branch
+2. Supabase GitHub integration (recommended)
+3. Supabase Dashboard SQL Editor (manual review)
+4. `supabase db push` with explicit production project linking and review
+
+**Local development migrations:**
+```bash
+# Apply migrations to local Supabase
+supabase db push
+
+# Reset local database (destructive - local only!)
+supabase db reset
+```
+
+---
+
 # Development Guidelines
 
 > Think carefully and implement the most concise solution that changes as little code as possible.

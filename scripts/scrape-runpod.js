@@ -1,11 +1,22 @@
 import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
 import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
+import { runSafetyChecks } from '../lib/db-safety.js';
 
-async function scrapeRunPodGPUs(dryRun = false) {
+async function scrapeRunPodGPUs(dryRun = false, skipSafetyChecks = false) {
+  // Run safety checks unless explicitly skipped (e.g., when called from cron)
+  if (!skipSafetyChecks && !dryRun) {
+    await runSafetyChecks({
+      operation: 'RunPod GPU Price Scraping',
+      requiredEnvVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+      allowProduction: true,
+      args: process.argv
+    });
+  }
+
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
-  
+
   try {
     console.log('🔍 Starting RunPod GPU scraper...');
     await page.goto('https://www.runpod.io/pricing');

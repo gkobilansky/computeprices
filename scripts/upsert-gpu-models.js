@@ -22,6 +22,7 @@ import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
 import csvParser from 'csv-parser';
 import chalk from 'chalk';
+import { runSafetyChecks, logDatabaseTarget, detectEnvironment } from '../lib/db-safety.js';
 
 // Get the directory name using ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -386,6 +387,24 @@ async function upsertData(data) {
 // Main execution function
 async function main() {
   try {
+    // Run database safety checks (skip for validate-only mode)
+    if (!validateOnly) {
+      const safetyResult = await runSafetyChecks({
+        operation: 'GPU Models Upsert',
+        requiredEnvVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+        allowProduction: true, // Allow with --production flag
+        args: process.argv
+      });
+
+      // If dry-run was set via safety flags, respect it
+      if (safetyResult.isDryRun && !dryRun) {
+        console.log(chalk.yellow('Note: --dry-run flag detected, switching to dry run mode'));
+      }
+    } else {
+      // Still log the target for validate-only mode
+      logDatabaseTarget('GPU Models Validation (Read-Only)');
+    }
+
     console.log(chalk.green('Starting GPU models data upsert...'));
     console.log(chalk.blue(`Using CSV file: ${csvFilePath}`));
     console.log(chalk.blue(`Mode: ${validateOnly ? 'Validate Only' : dryRun ? 'Dry Run' : 'Upsert'}`));

@@ -1,11 +1,22 @@
 import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
 import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
+import { runSafetyChecks } from '../lib/db-safety.js';
 
-async function scrapeRunPodGPUs(dryRun = false) {
+async function scrapeHyperstackGPUs(dryRun = false, skipSafetyChecks = false) {
+  // Run safety checks unless explicitly skipped (e.g., when called from cron)
+  if (!skipSafetyChecks && !dryRun) {
+    await runSafetyChecks({
+      operation: 'Hyperstack GPU Price Scraping',
+      requiredEnvVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+      allowProduction: true,
+      args: process.argv
+    });
+  }
+
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
-  
+
   try {
     console.log('🔍 Starting Hyperstack GPU scraper...');
     await page.goto('https://www.hyperstack.cloud/gpu-pricing', {
@@ -145,6 +156,8 @@ async function scrapeRunPodGPUs(dryRun = false) {
   }
 }
 
+export default scrapeHyperstackGPUs;
+
 // Check for --dry-run flag
 const dryRun = process.argv.includes('--dry-run');
-scrapeRunPodGPUs(dryRun);
+scrapeHyperstackGPUs(dryRun);
