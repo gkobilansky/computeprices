@@ -1,5 +1,6 @@
 import readline from 'readline';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
+import { runSafetyChecks, logDatabaseTarget } from '../lib/db-safety.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -16,6 +17,20 @@ function askQuestion(query, defaultValue = undefined) {
 }
 
 async function addManualPrice() {
+    // Run safety checks before any database operations
+    try {
+        await runSafetyChecks({
+            operation: 'Manual Price Entry',
+            requiredEnvVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+            allowProduction: true,
+            args: process.argv
+        });
+    } catch (error) {
+        console.error(error.message);
+        rl.close();
+        process.exit(1);
+    }
+
     console.log('ℹ️ Please provide the following details to add new price records.');
 
     const provider_id = await askQuestion('Enter Provider ID');
