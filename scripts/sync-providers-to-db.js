@@ -75,10 +75,19 @@ function readProviderFiles() {
   return files.map(filename => {
     const filepath = path.join(providersDir, filename);
     const content = fs.readFileSync(filepath, 'utf8');
+    let data;
+    try {
+      data = JSON.parse(content);
+    } catch (error) {
+      console.error(`Error parsing JSON in file: ${filename}`);
+      console.error(`  Path: ${filepath}`);
+      console.error(`  ${error.message}`);
+      process.exit(1);
+    }
     return {
       filename,
       slug: filename.replace('.json', ''),
-      data: JSON.parse(content)
+      data
     };
   });
 }

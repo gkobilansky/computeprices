@@ -24,7 +24,14 @@ if (files.length === 0) {
 const providers = files.map(filename => {
   const filepath = path.join(providersDir, filename);
   const content = fs.readFileSync(filepath, 'utf8');
-  return JSON.parse(content);
+  try {
+    return JSON.parse(content);
+  } catch (error) {
+    console.error(`Error parsing JSON in file: ${filename}`);
+    console.error(`  Path: ${filepath}`);
+    console.error(`  ${error.message}`);
+    process.exit(1);
+  }
 });
 
 // Generate TypeScript module
