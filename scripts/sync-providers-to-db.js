@@ -7,7 +7,7 @@
  * to the Supabase providers table. It updates metadata columns and JSONB fields.
  *
  * Usage:
- * npm run sync:providers [-- --dry-run] [--provider=slug]
+ * npm run providers:sync [-- --dry-run] [--provider=slug]
  *
  * Options:
  * --dry-run          Don't actually update data, just show what would be done
@@ -40,7 +40,7 @@ This script reads provider JSON files from data/providers/*.json and syncs them
 to the Supabase providers table. It updates metadata columns and JSONB fields.
 
 Usage:
-  npm run sync:providers [-- --dry-run] [--provider=slug]
+  npm run providers:sync [-- --dry-run] [--provider=slug]
 
 Options:
   --dry-run          Don't actually update data, just show what would be done

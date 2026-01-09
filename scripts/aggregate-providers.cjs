@@ -34,7 +34,7 @@ const output = `// AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
 
 import type { Provider } from '@/types/comparison'
 
-const providers: Provider[] = ${JSON.stringify(providers, null, 2)} as const
+const providers: Provider[] = ${JSON.stringify(providers, null, 2)}
 
 export default providers
 `;
