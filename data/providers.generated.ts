@@ -1543,7 +1543,10 @@ const providers: Provider[] = [
           {
             "name": "HGX B200",
             "description": "8× B200 per node.",
-            "features": "[180 GB HBM3e,Request/limited availability]"
+            "features": [
+              "180 GB HBM3e",
+              "Request/limited availability"
+            ]
           }
         ]
       }
