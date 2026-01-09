@@ -1,0 +1,131 @@
+{
+  "id": "30a69dae-5939-499a-a4f5-5114797dcdb3",
+  "name": "RunPod",
+  "slug": "runpod",
+  "description": "RunPod offers on‑demand GPUs and instant multi‑node clusters across 30+ regions, with H100/H200 alongside A100, L40S, and RTX classes.",
+  "link": "https://runpod.io",
+  "docsLink": "https://docs.runpod.io",
+  "features": [
+    {
+      "title": "Secure Cloud GPUs",
+      "description": "Access to a wide range of GPU types with enterprise-grade security"
+    },
+    {
+      "title": "Pay-as-you-go",
+      "description": "Only pay for the compute time you actually use"
+    },
+    {
+      "title": "API Access",
+      "description": "Programmatically manage your GPU instances via REST API"
+    },
+    {
+      "title": "Fast cold-starts",
+      "description": "Pods typically ready in 20-30 s"
+    },
+    {
+      "title": "Hot-reload dev loop",
+      "description": "SSH & VS Code tunnels built-in"
+    },
+    {
+      "title": "Spot-to-on-demand fallback",
+      "description": "Automatic migration on pre-empt"
+    }
+  ],
+  "pros": [
+    "Competitive pricing with pay-per-second billing",
+    "Wide variety of GPU options",
+    "Simple and intuitive interface"
+  ],
+  "cons": [
+    "GPU availability can vary by region",
+    "Some features require technical knowledge"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up for RunPod using your email or GitHub account"
+    },
+    {
+      "title": "Add payment method",
+      "description": "Add a credit card or cryptocurrency payment method"
+    },
+    {
+      "title": "Launch your first pod",
+      "description": "Select a template and GPU type to launch your first instance"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Pods",
+      "description": "On‑demand single‑node GPU instances with flexible templates and storage.",
+      "instanceTypes": [
+        {
+          "name": "H100 (SXM & PCIe)",
+          "description": "80 GB HBM; options for SXM/NVLink or PCIe; popular for LLM training/inference.",
+          "features": [
+            "Minute billing",
+            "Templates for fine‑tune/inference",
+            "Marketplace images"
+          ]
+        },
+        {
+          "name": "H200",
+          "description": "141 GB HBM3e; higher bandwidth for larger context windows.",
+          "features": [
+            "On‑demand where available",
+            "Great for high‑throughput serving"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Instant Clusters",
+      "description": "Spin up multi‑node GPU clusters in minutes with auto networking.",
+      "instanceTypes": [
+        {
+          "name": "H100 Clusters",
+          "description": "Scale from a few to hundreds of H100 GPUs.",
+          "features": [
+            "Preset topologies",
+            "EFA‑like low‑latency fabrics (provider managed)",
+            "K8s ready images"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Catalog",
+      "description": "Catalog of available GPU types and VRAM classes.",
+      "types": [
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Training & inference; SXM or PCIe"
+        },
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Larger tokens/context; faster inference"
+        },
+        {
+          "name": "A100",
+          "gpuModel": "NVIDIA A100 80GB",
+          "bestFor": "Balanced price/perf"
+        },
+        {
+          "name": "L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Vision/video & fast inference"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "Affordable GPU cloud for AI and ML workloads",
+  "tags": [
+    "Budget"
+  ],
+  "category": "Rapidly-catching neocloud"
+}

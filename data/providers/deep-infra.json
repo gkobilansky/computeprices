@@ -1,0 +1,162 @@
+{
+  "id": "0075753d-ed17-4904-b7e4-4e61849b252c",
+  "name": "Deep Infra",
+  "slug": "deep-infra",
+  "description": "Deep Infra offers serverless AI APIs and dedicated GPU rentals with fast SSH access and low hourly pricing across flagship NVIDIA accelerators.",
+  "link": "https://deepinfra.com",
+  "docsLink": "https://deepinfra.com/docs",
+  "features": [
+    {
+      "title": "Serverless Model APIs",
+      "description": "OpenAI-compatible endpoints for 100+ models with autoscaling and pay-per-token billing"
+    },
+    {
+      "title": "Dedicated GPU Rentals",
+      "description": "B200 instances with SSH access spin up in about 10 seconds and bill hourly"
+    },
+    {
+      "title": "Custom LLM Deployments",
+      "description": "Deploy your own Hugging Face models onto dedicated A100, H100, H200, or B200 GPUs"
+    },
+    {
+      "title": "Transparent GPU Pricing",
+      "description": "Published per-GPU rates: A100 $0.89/hr, H100 $1.69/hr, H200 $1.99/hr, B200 $2.49/hr promo"
+    },
+    {
+      "title": "Inference-Optimized Hardware",
+      "description": "All hosted models run on H100 or A100 hardware tuned for low latency"
+    }
+  ],
+  "pros": [
+    "Simple OpenAI-compatible API alongside controllable GPU rentals",
+    "Competitive hourly rates for flagship NVIDIA GPUs including B200 promo pricing",
+    "Fast provisioning with SSH access for dedicated instances",
+    "Supports custom deployments in addition to hosted public models"
+  ],
+  "cons": [
+    "Region list is not clearly published in the public marketing pages",
+    "Primarily focused on inference and GPU rentals rather than broader cloud services",
+    "B200 promo pricing is time-limited per site note"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up (GitHub-supported) and open the Deep Infra dashboard"
+    },
+    {
+      "title": "Enable billing",
+      "description": "Add a payment method to unlock GPU rentals and API usage"
+    },
+    {
+      "title": "Pick a GPU option",
+      "description": "Choose serverless APIs or dedicated A100, H100, H200, or B200 instances"
+    },
+    {
+      "title": "Launch and connect",
+      "description": "Start instances with SSH access or call the OpenAI-compatible API endpoints"
+    },
+    {
+      "title": "Monitor usage",
+      "description": "Track spend and instance status from the dashboard and shut down when idle"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Serverless Inference",
+      "description": "Hosted model APIs with autoscaling on H100/A100 hardware.",
+      "features": [
+        "OpenAI-compatible REST API surface",
+        "Runs 100+ public models with pay-per-token pricing",
+        "Autoscaling for low latency without manual instance management"
+      ]
+    },
+    {
+      "name": "Dedicated GPU Instances",
+      "description": "On-demand GPU nodes with SSH access for custom workloads.",
+      "instanceTypes": [
+        {
+          "name": "B200",
+          "description": "180 GB HBM and promo rate for premium training and inference.",
+          "features": [
+            "SSH access ready in about 10 seconds",
+            "Promo pricing $2.49 per GPU-hour (returns to $4.49 after promo)"
+          ]
+        },
+        {
+          "name": "H200",
+          "description": "141 GB HBM GPUs tuned for memory-heavy LLMs and serve workloads.",
+          "features": [
+            "$1.99 per GPU-hour published dedicated rate"
+          ]
+        },
+        {
+          "name": "H100",
+          "description": "80 GB Hopper GPUs for high-performance training and inference.",
+          "features": [
+            "$1.69 per GPU-hour published dedicated rate"
+          ]
+        },
+        {
+          "name": "A100",
+          "description": "80 GB A100 GPUs for cost-effective training and fine-tuning.",
+          "features": [
+            "$0.89 per GPU-hour published dedicated rate"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Lineup",
+      "description": "Dedicated GPUs for custom deployments and rentals.",
+      "types": [
+        {
+          "name": "B200",
+          "gpuModel": "NVIDIA B200",
+          "bestFor": "Frontier-scale training or high-throughput inference with large memory headroom"
+        },
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Long-context LLM serving and memory-bound workloads"
+        },
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "High-performance training and low-latency inference"
+        },
+        {
+          "name": "A100",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "Cost-effective training, fine-tuning, and inference"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "Serverless pay-per-token",
+      "description": "OpenAI-compatible inference APIs with pay-per-request billing on H100/A100 hardware"
+    },
+    {
+      "name": "Dedicated GPU hourly rates",
+      "description": "Published pricing: A100 $0.89/hr, H100 $1.69/hr, H200 $1.99/hr, B200 $2.49/hr promo (then $4.49/hr)"
+    },
+    {
+      "name": "B200 GPU rentals",
+      "description": "SSH-accessible B200 nodes with flexible hourly billing and promo pricing noted on the site"
+    }
+  ],
+  "regions": "Region list not published on the GPU Instances page; promo mentions Nebraska availability alongside multi-region autoscaling messaging.",
+  "support": "Documentation site, dashboard guidance, Discord community link, and contact-sales options.",
+  "uniqueSellingPoints": [
+    "Combines OpenAI-compatible serverless APIs with controllable GPU rentals that boot in about 10 seconds",
+    "Competitive flagship NVIDIA pricing including published A100/H100/H200/B200 hourly rates",
+    "SSH-accessible B200 rentals plus custom model deployments on dedicated GPUs"
+  ],
+  "hqCountry": "US",
+  "tagline": "Optimized inference for open-source models",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fetchProviders } from '@/lib/utils/fetchGPUData';
-import providersData from '@/data/providers.json';
+import providersData from '@/data/providers.generated';
 import { getCountryFlag, getCountryName } from '@/lib/utils/countryFlags';
 
 // Category styling - primary classification

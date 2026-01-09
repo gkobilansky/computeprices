@@ -1,0 +1,116 @@
+{
+  "id": "5cf897be-8662-4404-9c3b-d4938fb8fa71",
+  "name": "Voltage Park",
+  "slug": "voltage",
+  "description": "Voltage Park provides on‑demand and reserved bare‑metal clusters with NVIDIA HGX H100 today, expanding to H200 and Blackwell (B200/B300, GB200/GB300) on term contracts.",
+  "link": "https://www.voltagepark.com/",
+  "docsLink": null,
+  "features": [
+    {
+      "title": "High-Performance Hardware",
+      "description": "NVIDIA HGX H100 GPUs in Dell PowerEdge XE9680 servers with 1TB RAM and v52 CPUs"
+    },
+    {
+      "title": "Tier 3+ Data Centers",
+      "description": "Six U.S.-based data centers with redundancy, availability, and reliability across power, cooling, network, and security"
+    },
+    {
+      "title": "Blazing-Fast Network",
+      "description": "NVIDIA Quantum-2 InfiniBand network with up to 3,200Gbps of aggregate bandwidth for high-speed communication"
+    },
+    {
+      "title": "Bare Metal Access",
+      "description": "Direct hardware access for maximum performance without virtualization overhead"
+    },
+    {
+      "title": "Shadeform Integration",
+      "description": "Integrated with Shadeform for console and API access"
+    },
+    {
+      "title": "Advanced Security",
+      "description": "Top-tier firewalls and comprehensive security protocols including encryption, access controls, and regular audits"
+    }
+  ],
+  "pros": [
+    "Great GPU availability for on-demand use",
+    "Transparent pricing with no hidden costs",
+    "Fast deployment (spin up nodes in 15 minutes)",
+    "Bare metal access for maximum performance",
+    "Exceptional customer service and support",
+    "NVIDIA Cloud Partner status",
+    "Scalable clusters from 64 to 8,176 GPUs"
+  ],
+  "cons": [
+    "U.S.-only regions (limited global presence)",
+    "Low GPU variety (primarily H100s)",
+    "No persistent storage support",
+    "Relatively new provider (founded 2023)"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up for Voltage Park services through their website"
+    },
+    {
+      "title": "Choose deployment option",
+      "description": "Select between on-demand access or long-term reservation"
+    },
+    {
+      "title": "Configure your cluster",
+      "description": "Specify the number of GPUs and networking requirements"
+    },
+    {
+      "title": "Deploy and access",
+      "description": "Launch your cluster and access via SSH or preferred tools"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "On-Demand GPU Access",
+      "description": "Self-serve GPU instances available in minutes with no long-term contracts",
+      "instanceTypes": [
+        {
+          "name": "NVIDIA HGX H100",
+          "description": "High-performance GPU instances for AI and ML workloads",
+          "features": [
+            "Spin up in 15 minutes",
+            "No long-term commitment required",
+            "Ideal for bursts and experimentation"
+          ]
+        },
+        {
+          "name": "NVIDIA H200",
+          "description": "H200 HGX nodes available on‑demand where capacity allows.",
+          "features": [
+            "HBM3e memory for faster inference",
+            "Limited capacity; inquire for regions",
+            "Same 15‑minute spin‑up target"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reserved GPU Clusters",
+      "description": "Long‑term GPU reservations with favorable payment terms; H100, H200, and Blackwell options.",
+      "features": [
+        "12+ month contracts",
+        "Friendly payment terms",
+        "Priority access to resources",
+        "Ideal for sustained, high-priority projects"
+      ]
+    }
+  ],
+  "regions": "Six Tier 3+ designed data centers across the United States",
+  "support": "Top-tier support in partnership with Penguin, helping customers set up, optimize, and scale resources effectively",
+  "uniqueSellingPoints": [
+    "24,000 NVIDIA H100 Tensor Core GPUs in their fleet",
+    "InfiniBand clusters supporting up to 8,176 GPUs",
+    "3200 Gbps of aggregate bandwidth with NVIDIA Quantum-2 InfiniBand",
+    "SOC II certified infrastructure",
+    "Founded by Jed McCaleb with $500M in funding"
+  ],
+  "hqCountry": "US",
+  "tagline": "Accessible and affordable cloud AI infrastructure",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}
