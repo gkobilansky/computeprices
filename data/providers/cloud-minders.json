@@ -4,7 +4,6 @@
   "slug": "cloud-minders",
   "description": "The Cloud Minders (now merging into QumulusAI) provides dedicated H100/H200 clusters; site transition announced for Oct 31, 2025.",
   "link": "https://www.thecloudminders.com",
-  "docsLink": null,
   "features": [
     {
       "title": "Purpose-Built AI Clouds",

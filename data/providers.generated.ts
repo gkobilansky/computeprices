@@ -619,7 +619,6 @@ const providers: Provider[] = [
     "slug": "cloud-minders",
     "description": "The Cloud Minders (now merging into QumulusAI) provides dedicated H100/H200 clusters; site transition announced for Oct 31, 2025.",
     "link": "https://www.thecloudminders.com",
-    "docsLink": null,
     "features": [
       {
         "title": "Purpose-Built AI Clouds",
@@ -4009,7 +4008,6 @@ const providers: Provider[] = [
     "slug": "voltage",
     "description": "Voltage Park provides on‑demand and reserved bare‑metal clusters with NVIDIA HGX H100 today, expanding to H200 and Blackwell (B200/B300, GB200/GB300) on term contracts.",
     "link": "https://www.voltagepark.com/",
-    "docsLink": null,
     "features": [
       {
         "title": "High-Performance Hardware",
