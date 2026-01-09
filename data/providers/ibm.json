@@ -1,0 +1,64 @@
+{
+  "id": "8b627aa8-dfbb-40c2-9291-a23eab57b098",
+  "name": "IBM Cloud",
+  "description": "IBM Cloud provides NVIDIA GPU instances (including H200 and L40S) for training, fine‑tuning, and inference, with enterprise networking and support.",
+  "pros": [
+    "Strong focus on AI and data workloads",
+    "Enterprise-grade support",
+    "Integration with IBM's AI tools"
+  ],
+  "cons": [
+    "Limited global presence compared to competitors",
+    "Higher cost for some services",
+    "Less community support"
+  ],
+  "link": "https://www.ibm.com/cloud/gpu",
+  "slug": "ibm",
+  "computeServices": [
+    {
+      "name": "IBM Virtual Servers for VPC",
+      "description": "GPU‑accelerated virtual servers on IBM Cloud VPC.",
+      "instanceTypes": [
+        {
+          "name": "H200",
+          "description": "141 GB HBM3e for advanced AI workloads.",
+          "features": [
+            "Enterprise VPC networking",
+            "GenAI tuned images",
+            "Hourly pricing"
+          ]
+        },
+        {
+          "name": "L40S",
+          "description": "48 GB for graphics and high‑throughput inference.",
+          "features": [
+            "Cost‑effective inference",
+            "Supported frameworks"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Portfolio",
+      "description": "Range of NVIDIA GPUs for AI workloads.",
+      "types": [
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Training & inference"
+        },
+        {
+          "name": "L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Inference & graphics"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "Enterprise-grade hybrid cloud solutions",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}

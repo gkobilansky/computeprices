@@ -1,0 +1,289 @@
+{
+  "id": "d122f315-b060-4924-8726-788c28ed3905",
+  "name": "Google Cloud",
+  "slug": "google",
+  "description": "GCP provides powerful GPU instances with flexible pricing and integration with Google's AI and machine learning tools. It's a major cloud provider known for its innovation in Kubernetes, AI/ML, and data analytics.",
+  "link": "https://cloud.google.com/gpu",
+  "docsLink": "https://cloud.google.com/compute/docs",
+  "features": [
+    {
+      "title": "Compute Engine",
+      "description": "Scalable virtual machines with a wide range of machine types, including GPUs."
+    },
+    {
+      "title": "Google Kubernetes Engine (GKE)",
+      "description": "Managed Kubernetes service for deploying and managing containerized applications."
+    },
+    {
+      "title": "Cloud Functions",
+      "description": "Event-driven serverless compute platform."
+    },
+    {
+      "title": "Cloud Run",
+      "description": "Fully managed serverless platform for containerized applications."
+    },
+    {
+      "title": "Vertex AI",
+      "description": "Unified ML platform for building, deploying, and managing ML models."
+    },
+    {
+      "title": "Preemptible VMs",
+      "description": "Short-lived compute instances at a significant discount, suitable for fault-tolerant workloads."
+    },
+    {
+      "title": "Cloud Storage",
+      "description": "Scalable and durable object storage."
+    },
+    {
+      "title": "Persistent Disk",
+      "description": "Block storage for Compute Engine instances."
+    },
+    {
+      "title": "Cloud Load Balancing",
+      "description": "High-performance, scalable load balancing."
+    },
+    {
+      "title": "Virtual Private Cloud (VPC)",
+      "description": "Software-defined networking for your cloud resources."
+    }
+  ],
+  "pros": [
+    "Flexible pricing options, including sustained use discounts",
+    "Strong AI and machine learning tools (Vertex AI)",
+    "Good integration with other Google services",
+    "Cutting-edge Kubernetes implementation (GKE)",
+    "Competitive pricing, especially for sustained use",
+    "Strong global network infrastructure",
+    "Innovative AI/ML and data analytics services"
+  ],
+  "cons": [
+    "Limited availability in some regions compared to AWS",
+    "Complexity in managing resources",
+    "Support can be costly",
+    "Steeper learning curve for some services"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create a Google Cloud project",
+      "description": "Set up a project in the Google Cloud Console."
+    },
+    {
+      "title": "Enable billing",
+      "description": "Set up a billing account to pay for resource usage."
+    },
+    {
+      "title": "Choose a compute service",
+      "description": "Select Compute Engine, GKE, Cloud Functions, or Cloud Run based on your needs."
+    },
+    {
+      "title": "Create and configure an instance",
+      "description": "Launch a VM instance, configure a Kubernetes cluster, or deploy a function/application."
+    },
+    {
+      "title": "Manage resources",
+      "description": "Use the Cloud Console, command-line tools, or APIs to manage your resources."
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Compute Engine",
+      "description": "Offers customizable virtual machines running in Google's data centers.",
+      "instanceTypes": [
+        {
+          "name": "A2",
+          "description": "Based on NVIDIA A100 Tensor Core GPUs, ideal for demanding AI/ML and HPC workloads.",
+          "features": [
+            "Up to 16 NVIDIA A100 GPUs per instance",
+            "High-speed NVLink interconnect between GPUs",
+            "Suitable for large-scale model training and inference"
+          ]
+        },
+        {
+          "name": "G2",
+          "description": "Powered by NVIDIA L4 GPUs, optimized for graphics-intensive applications and inference.",
+          "features": [
+            "Uses the NVIDIA Ada Lovelace architecture",
+            "Good for graphics rendering, game streaming, and machine learning inference"
+          ]
+        },
+        {
+          "name": "T4",
+          "description": "Based on NVIDIA T4 Tensor Core GPUs, suitable for a wide range of workloads, including machine learning inference and video transcoding",
+          "features": [
+            "Versatile performance for various applications",
+            "Cost-effective for inference workloads"
+          ]
+        },
+        {
+          "name": "V100",
+          "description": "Powered by NVIDIA V100 Tensor Core GPUs, designed for high-performance deep learning training and HPC.",
+          "features": [
+            "High performance for FP32 and FP16 workloads",
+            "Suitable for complex simulations and model training"
+          ]
+        },
+        {
+          "name": "P4",
+          "description": "Equipped with NVIDIA P4 GPUs, optimized for inference workloads.",
+          "features": [
+            "Energy-efficient for inference",
+            "Good for real-time processing and video analysis"
+          ]
+        },
+        {
+          "name": "P100",
+          "description": "Based on NVIDIA P100 GPUs, suitable for a variety of HPC and deep learning applications.",
+          "features": [
+            "Good balance of performance and cost",
+            "Suitable for scientific computing and machine learning training"
+          ]
+        },
+        {
+          "name": "K80",
+          "description": "Powered by NVIDIA K80 GPUs, a cost-effective option for less demanding GPU computing tasks.",
+          "features": [
+            "Entry-level GPU for basic deep learning and HPC workloads",
+            "Lower cost compared to newer generation GPUs"
+          ]
+        },
+        {
+          "name": "A3 High",
+          "description": "H100 SXM‑based VMs for training and serving.",
+          "features": [
+            "8x NVIDIA H100 80GB SXM",
+            "NVIDIA NVSwitch fabric",
+            "Multiple machine sizes (1,2,4,8 GPUs)"
+          ]
+        },
+        {
+          "name": "A3 Mega",
+          "description": "H100 SXM‑based VMs optimized for the largest training jobs.",
+          "features": [
+            "8x NVIDIA H100 80GB Mega GPUs",
+            "High‑bandwidth NVLink/NVSwitch",
+            "Designed for large‑scale LLM training"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Google Kubernetes Engine (GKE)",
+      "description": "Managed Kubernetes service for running containerized applications.",
+      "features": [
+        "Automated Kubernetes operations",
+        "Integration with Google Cloud services",
+        "Advanced cluster management features"
+      ]
+    },
+    {
+      "name": "Cloud Functions",
+      "description": "Serverless compute platform for running code in response to events.",
+      "features": [
+        "Automatic scaling and high availability",
+        "Pay only for the compute time consumed",
+        "Supports multiple programming languages"
+      ]
+    },
+    {
+      "name": "Cloud Run",
+      "description": "Fully managed serverless platform for deploying and scaling containerized applications.",
+      "features": [
+        "Runs stateless containers on a fully managed environment",
+        "Automatic scaling and high availability",
+        "Pay only for the resources used"
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "Compute Engine GPU Instances",
+      "description": "Virtual machines with attached GPUs for accelerated computing.",
+      "types": [
+        {
+          "name": "A2",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "Large-scale AI training, HPC"
+        },
+        {
+          "name": "G2",
+          "gpuModel": "NVIDIA L4",
+          "bestFor": "Graphics rendering, machine learning inference"
+        },
+        {
+          "name": "T4",
+          "gpuModel": "NVIDIA T4",
+          "bestFor": "Machine learning inference, video transcoding"
+        },
+        {
+          "name": "V100",
+          "gpuModel": "NVIDIA V100",
+          "bestFor": "Deep learning training, HPC"
+        },
+        {
+          "name": "P4",
+          "gpuModel": "NVIDIA P4",
+          "bestFor": "Inference workloads, real-time processing"
+        },
+        {
+          "name": "P100",
+          "gpuModel": "NVIDIA P100",
+          "bestFor": "HPC, deep learning training"
+        },
+        {
+          "name": "K80",
+          "gpuModel": "NVIDIA K80",
+          "bestFor": "Entry-level deep learning, HPC"
+        },
+        {
+          "name": "A3 High",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Training & serving of large models"
+        },
+        {
+          "name": "A3 Mega",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Frontier‑scale training"
+        }
+      ]
+    },
+    {
+      "name": "Vertex AI",
+      "description": "Unified machine learning platform for building, deploying, and managing ML models.",
+      "features": [
+        "Support for various ML frameworks",
+        "Automated machine learning (AutoML)",
+        "Tools for data preparation, model training, and deployment"
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "On-Demand",
+      "description": "Pay for compute capacity per hour or per second, with no long-term commitments."
+    },
+    {
+      "name": "Sustained Use Discounts",
+      "description": "Automatic discounts for running instances for a significant portion of the month."
+    },
+    {
+      "name": "Committed Use Discounts",
+      "description": "Save up to 57% with a 1-year or 3-year commitment to a minimum level of resource usage."
+    },
+    {
+      "name": "Preemptible VMs",
+      "description": "Save up to 80% for fault-tolerant workloads that can be interrupted."
+    }
+  ],
+  "regions": "40+ regions and 120+ zones worldwide.",
+  "support": "Role-based (free), Standard, Enhanced and Premium support plans. Comprehensive documentation, community forums, and training resources.",
+  "uniqueSellingPoints": [
+    "Strong focus on Kubernetes and containerization (GKE)",
+    "Cutting-edge AI and machine learning services (Vertex AI)",
+    "Innovative networking infrastructure",
+    "Competitive pricing, especially with sustained use discounts"
+  ],
+  "hqCountry": "US",
+  "tagline": "Enterprise cloud with advanced AI/ML services",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}

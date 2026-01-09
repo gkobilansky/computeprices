@@ -1,0 +1,71 @@
+{
+  "id": "4a4fdeae-7d4f-4d75-9967-54bbd498e4bf",
+  "name": "Vast.ai",
+  "description": "Vast.ai is a GPU marketplace with live, transparent pricing (including H200/H100) across thousands of community and datacenter hosts.",
+  "pros": [
+    "Cost-effective (5-6X cheaper than traditional cloud services)",
+    "Flexible pricing with on-demand and interruptible options",
+    "Real-time bidding system for cost optimization",
+    "Docker ecosystem for quick software deployment",
+    "Enterprise-grade security and compliance",
+    "Supports various AI and deep learning workloads",
+    "CLI support for automated deployment"
+  ],
+  "cons": [
+    "Primarily focused on Linux-based Docker instances",
+    "No Windows support",
+    "Limited GUI options (SSH, Jupyter, or command-only)",
+    "No remote desktop functionality",
+    "Performance may vary across different providers"
+  ],
+  "link": "https://vast.ai/",
+  "slug": "vast",
+  "computeServices": [
+    {
+      "name": "Marketplace Instances",
+      "description": "On‑demand GPU rentals with live bidding and filters.",
+      "instanceTypes": [
+        {
+          "name": "H200",
+          "description": "HBM3e 141 GB with high bandwidth.",
+          "features": [
+            "Live pricing & reputation scores",
+            "Wide region coverage"
+          ]
+        },
+        {
+          "name": "H100 SXM",
+          "description": "80 GB SXM5 nodes via verified providers.",
+          "features": [
+            "NVLink/NVSwitch",
+            "Multi‑GPU nodes"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "Available GPUs",
+      "description": "Catalog of supported GPUs and filters.",
+      "types": [
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Training & inference at high BW"
+        },
+        {
+          "name": "H100 SXM",
+          "gpuModel": "NVIDIA H100 SXM5",
+          "bestFor": "Frontier‑class training"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "GPU marketplace with competitive pricing",
+  "tags": [
+    "Budget"
+  ],
+  "category": "DC aggregator"
+}

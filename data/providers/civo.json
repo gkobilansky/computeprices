@@ -1,0 +1,174 @@
+{
+  "id": "c9c2d2ee-002b-4549-a94d-61514bf93ab9",
+  "name": "Civo",
+  "slug": "civo",
+  "description": "Civo is a developer-first cloud and AI platform built on managed Kubernetes, with sub-90-second cluster launches, transparent pricing, and a growing NVIDIA GPU lineup for AI workloads.",
+  "link": "https://civo.com",
+  "docsLink": "https://www.civo.com/docs",
+  "features": [
+    {
+      "title": "Fast Kubernetes",
+      "description": "K3s-based managed clusters that typically launch in under 90 seconds"
+    },
+    {
+      "title": "GPU Cloud",
+      "description": "NVIDIA B200, H200, H100 (PCIe/SXM), L40S, and A100 options for AI training and inference"
+    },
+    {
+      "title": "Public and Private Cloud",
+      "description": "Public regions plus private cloud with CivoStack and FlexCore appliances for sovereignty needs"
+    },
+    {
+      "title": "Predictable Pricing",
+      "description": "Transparent hourly rates with no control-plane fees and straightforward egress costs"
+    },
+    {
+      "title": "Developer Tooling",
+      "description": "CLI, API, Terraform provider, and Helm-ready clusters out of the box"
+    }
+  ],
+  "pros": [
+    "Very fast cluster provisioning and simple developer UX",
+    "Clear pricing with no managed control-plane charges",
+    "Range of modern NVIDIA GPUs including B200/H200",
+    "Supports both Kubernetes clusters and standalone GPU compute",
+    "Data-sovereign private cloud option via CivoStack/FlexCore"
+  ],
+  "cons": [
+    "Smaller global region footprint than hyperscalers",
+    "GPU capacity can be limited depending on region",
+    "Fewer managed services compared to larger clouds"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up and claim the trial credit to explore the platform"
+    },
+    {
+      "title": "Pick a region",
+      "description": "Choose London, Frankfurt, or New York for public cloud deployments"
+    },
+    {
+      "title": "Launch a cluster or GPU node",
+      "description": "Create a Kubernetes cluster or start GPU compute with your preferred accelerator"
+    },
+    {
+      "title": "Deploy your workload",
+      "description": "Use kubectl, Helm, or Civo CLI to ship apps or ML stacks"
+    },
+    {
+      "title": "Monitor and scale",
+      "description": "Scale node pools, add GPU nodes, and watch usage from the dashboard or API"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "Managed Kubernetes",
+      "description": "K3s-based managed Kubernetes with fast launch times and built-in load balancers, ingress, and CNI.",
+      "features": [
+        "Clusters typically ready in under 90 seconds",
+        "Built-in CNI and ingress with no control-plane fee",
+        "Autoscaling node pools including GPU nodes"
+      ]
+    },
+    {
+      "name": "GPU Compute",
+      "description": "On-demand NVIDIA GPU instances for AI training, inference, and 3D workloads.",
+      "instanceTypes": [
+        {
+          "name": "B200 Blackwell",
+          "description": "Latest-generation NVIDIA Blackwell GPUs for high-end AI training and inference.",
+          "features": [
+            "Designed for large-scale AI",
+            "Available via Civo AI GPU catalog"
+          ]
+        },
+        {
+          "name": "H200",
+          "description": "HBM3e-equipped GPUs for memory-intensive LLM serving and training.",
+          "features": [
+            "High bandwidth for long-context models",
+            "Optimized for inference throughput"
+          ]
+        },
+        {
+          "name": "H100 (PCIe & SXM)",
+          "description": "Flagship Hopper GPUs for frontier-scale AI workloads.",
+          "features": [
+            "PCIe and SXM variants",
+            "Strong for distributed training and high-throughput serving"
+          ]
+        },
+        {
+          "name": "L40S",
+          "description": "Ada Lovelace GPUs for vision, video, and fast inference.",
+          "features": [
+            "48 GB GPU memory",
+            "Balanced price/performance for inference and graphics"
+          ]
+        },
+        {
+          "name": "A100 40/80 GB",
+          "description": "Proven datacenter GPUs for mainstream training workloads.",
+          "features": [
+            "40 GB and 80 GB VRAM options",
+            "Good performance-per-dollar for training and fine-tuning"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Lineup",
+      "description": "NVIDIA accelerators available for clusters or standalone compute.",
+      "types": [
+        {
+          "name": "B200 Blackwell",
+          "gpuModel": "NVIDIA B200",
+          "bestFor": "Top-end training and inference with Blackwell architecture"
+        },
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Memory-bound LLMs and high-throughput serving"
+        },
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Distributed training and latency-sensitive inference"
+        },
+        {
+          "name": "L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Vision, video, and cost-effective inference"
+        },
+        {
+          "name": "A100 40/80",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "General-purpose AI training and fine-tuning"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "On-Demand GPU Instances",
+      "description": "Hourly pricing for GPU compute with simple, per-accelerator rates"
+    },
+    {
+      "name": "Pay-as-you-go Kubernetes",
+      "description": "Node-based billing with free control plane and straightforward bandwidth pricing"
+    },
+    {
+      "name": "Private Cloud Reservations",
+      "description": "Dedicated CivoStack or FlexCore deployments for sovereignty and predictable spend"
+    }
+  ],
+  "regions": "Public regions in London (LON1), Frankfurt (FRA1), and New York (NYC1); private cloud available globally via CivoStack/FlexCore.",
+  "support": "Documentation, community Slack, and ticketed/email support with account team options for enterprise customers.",
+  "hqCountry": "GB",
+  "tagline": "Developer-first cloud with fast provisioning",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}

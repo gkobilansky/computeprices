@@ -1,6 +1,6 @@
 import { Provider } from '@/types/comparison'
 import { getAllProviderSlugs, normalizeProviderSlug } from '@/lib/providers'
-import providersData from '@/data/providers.json'
+import providersData from '@/data/providers.generated'
 
 interface RelatedComparisonsProps {
   currentProvider1: Provider

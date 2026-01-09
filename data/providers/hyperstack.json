@@ -1,0 +1,146 @@
+{
+  "id": "54cc0c05-b0e6-49b3-95fb-831b36dd7efd",
+  "name": "Hyperstack",
+  "slug": "hyperstack",
+  "description": "Hyperstack offers on‑demand H200/H100/A100/L40 with clear per‑GPU hourly pricing and reservation discounts.",
+  "link": "https://www.hyperstack.cloud/",
+  "docsLink": "https://www.hyperstack.cloud/documentation",
+  "features": [
+    {
+      "title": "Managed Kubernetes",
+      "description": "Automated software deployment, scaling and management"
+    },
+    {
+      "title": "Pre-Configured Flavours",
+      "description": "Optimized templates for GPU-accelerated workloads with custom flavor options"
+    },
+    {
+      "title": "First Class API",
+      "description": "Purpose-built API designed specifically for GPU cloud operations"
+    },
+    {
+      "title": "Optimised Networking",
+      "description": "Network architecture optimized for maximum GPU efficiency"
+    },
+    {
+      "title": "Premium Storage",
+      "description": "Multiple storage options including NVMe, HDD block, and HDD Shared storage"
+    }
+  ],
+  "pros": [
+    "Up to 75% more cost-effective than major cloud providers",
+    "GPU-optimized ecosystem for maximum performance efficiency",
+    "Easy-to-use platform with 1-click deployments",
+    "100% renewable energy powered infrastructure",
+    "NVIDIA Preferred NCP Partner",
+    "Enterprise-grade features and support",
+    "Role-based access control"
+  ],
+  "cons": [
+    "Limited global presence (primarily Europe and North America)",
+    "Niche market focus on GPU workloads",
+    "Less established compared to major cloud providers"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Register Account",
+      "description": "Sign up for Hyperstack cloud services"
+    },
+    {
+      "title": "Choose Configuration",
+      "description": "Select from pre-configured flavors or create custom ones"
+    },
+    {
+      "title": "Deploy Resources",
+      "description": "Launch GPU instances with 1-click deployment"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "GPU Instances",
+      "description": "Range of NVIDIA GPU options for various workloads",
+      "instanceTypes": [
+        {
+          "name": "NVIDIA H100 SXM",
+          "description": "High-performance GPU instances for AI and ML workloads",
+          "features": [
+            "On-demand pricing from $3.00/hour",
+            "Reserved pricing from $2.10/hour",
+            "Scalable from 8 to 16,384 GPUs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "On‑Demand GPU",
+      "description": "Configure per‑GPU CPU/RAM with transparent pricing.",
+      "instanceTypes": [
+        {
+          "name": "H200 SXM",
+          "description": "141 GB HBM3e.",
+          "features": [
+            "~$3.50/GPU‑hr public list",
+            "Reservation discounts"
+          ]
+        },
+        {
+          "name": "H100 (PCIe & NVLink)",
+          "description": "80 GB HBM.",
+          "features": [
+            "From ~$1.90–$1.95/GPU‑hr",
+            "NVLink option"
+          ]
+        },
+        {
+          "name": "A100 (SXM/NVLink)",
+          "description": "80 GB HBM.",
+          "features": [
+            "From ~$1.35–$1.60/GPU‑hr",
+            "NVLink option"
+          ]
+        }
+      ]
+    }
+  ],
+  "regions": "Data centers in Europe and North America",
+  "support": "Human support team, documentation, and developer resources",
+  "uniqueSellingPoints": [
+    "100% renewably powered by hydro-energy",
+    "20x more energy-efficient than traditional computing",
+    "99.982% uptime guarantee",
+    "Free air cooling in data centers",
+    "Multi-region support"
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Models",
+      "description": "NVIDIA lineup for AI workloads.",
+      "types": [
+        {
+          "name": "H200 SXM",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Large models; high BW"
+        },
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Training & inference"
+        },
+        {
+          "name": "A100 80GB",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "Balanced"
+        },
+        {
+          "name": "L40",
+          "gpuModel": "NVIDIA L40",
+          "bestFor": "Vision/media"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "GB",
+  "tagline": "Global cloud GPUs with AI and HPC focus",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}

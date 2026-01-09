@@ -1,0 +1,130 @@
+{
+  "id": "ee80fbec-5f7f-4f44-b6bb-d70042b0a799",
+  "name": "TensorWave",
+  "slug": "tensorwave",
+  "description": "TensorWave is an AMD‑first AI cloud with bare‑metal and managed clusters built on Instinct MI300X/MI325X/MI355X accelerators with large VRAM and ROCm.",
+  "link": "https://tensorwave.com/",
+  "docsLink": "https://docs.tensorwave.com/",
+  "features": [
+    {
+      "title": "AMD Instinct Accelerators",
+      "description": "Powered by AMD Instinct™ Series GPUs for high-performance AI workloads."
+    },
+    {
+      "title": "High VRAM GPUs",
+      "description": "Offers instances with 192GB of VRAM per GPU, ideal for large models."
+    },
+    {
+      "title": "Bare Metal & Kubernetes",
+      "description": "Provides both bare metal servers for maximum control and managed Kubernetes for orchestration."
+    },
+    {
+      "title": "Direct Liquid Cooling",
+      "description": "Utilizes direct liquid cooling to reduce data center energy costs and improve efficiency."
+    },
+    {
+      "title": "High-Speed Network Storage",
+      "description": "Features high-speed network storage to support demanding AI pipelines."
+    },
+    {
+      "title": "ROCm Software Ecosystem",
+      "description": "Leverages the AMD ROCm open software ecosystem to avoid vendor lock-in."
+    }
+  ],
+  "pros": [
+    "Specialized in high-performance AMD GPUs",
+    "Offers GPUs with large VRAM (192GB)",
+    "Claims better price-to-performance than competitors",
+    "Provides 'white-glove' onboarding and support",
+    "Utilizes an open-source software stack (ROCm)",
+    "Offers bare metal access for greater control"
+  ],
+  "cons": [
+    "A newer and less established company (founded in 2023)",
+    "Exclusively focused on AMD, which may be a limitation for some users",
+    "Limited publicly available information on pricing",
+    "A smaller ecosystem when compared to major cloud providers"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Request Access",
+      "description": "Sign up on the TensorWave website to get access to their platform."
+    },
+    {
+      "title": "Choose a Service",
+      "description": "Select between Bare Metal servers or a managed Kubernetes cluster."
+    },
+    {
+      "title": "Follow Quickstarts",
+      "description": "Utilize the documentation and quick-start guides for PyTorch, Docker, Kubernetes, and other tools."
+    },
+    {
+      "title": "Deploy Your Model",
+      "description": "Deploy your AI model for training, fine-tuning, or inference."
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "AMD GPU Instances",
+      "description": "Bare metal servers and managed Kubernetes clusters with AMD Instinct GPUs.",
+      "instanceTypes": [
+        {
+          "name": "AMD Instinct MI300X",
+          "description": "High-performance GPU with 192GB of HBM3 memory, suitable for large language models and generative AI.",
+          "features": [
+            "192GB of HBM3 memory",
+            "Ideal for large-scale AI model training and inference",
+            "High-speed interconnects"
+          ]
+        },
+        {
+          "name": "AMD Instinct MI325X",
+          "description": "Next‑generation accelerator with expanded memory architecture for AI/HPC.",
+          "features": [
+            "256 GB HBM3 per GPU",
+            "Optimized for large‑scale model training",
+            "Improved bandwidth over MI300X"
+          ]
+        },
+        {
+          "name": "AMD Instinct MI355X",
+          "description": "2025 flagship with 288 GB HBM3e and ~8 TB/s bandwidth.",
+          "features": [
+            "288 GB HBM3e per GPU",
+            "Designed for very large context windows and multimodal",
+            "Offered as dedicated bare metal"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Managed Kubernetes",
+      "description": "Kubernetes clusters for orchestrated AI workloads.",
+      "features": [
+        "Scalable from 8 to 1024 GPUs",
+        "Interconnected with 3.2TB/s RoCE v2 networking"
+      ]
+    },
+    {
+      "name": "Inference Platform (Manifest)",
+      "description": "An enterprise inference platform designed for larger context windows and reduced latency.",
+      "features": [
+        "Accelerated reasoning",
+        "Secure and private data storage"
+      ]
+    }
+  ],
+  "regions": "Primary data center and headquarters are located in Las Vegas, Nevada. The company is building the largest AMD-specific AI training cluster in North America.",
+  "support": "Offers 'white-glove' onboarding and support, extensive documentation, and a company blog.",
+  "uniqueSellingPoints": [
+    "Exclusive focus on AMD Instinct GPUs",
+    "First-to-market with the latest AMD Instinct models",
+    "Building the largest AMD-specific AI training cluster in North America",
+    "Emphasis on an open-source software stack (ROCm) to prevent vendor lock-in",
+    "High-memory GPUs (192GB) as a standard offering"
+  ],
+  "hqCountry": "US",
+  "tagline": "AMD-powered cloud challenging Nvidia dominance",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}

@@ -1,0 +1,77 @@
+{
+  "id": "c53a1b15-f227-4ca5-be92-68e24a7643d9",
+  "name": "Oracle Cloud",
+  "description": "Oracle Cloud Infrastructure (OCI) offers bare‑metal and VM GPU shapes including H100, H200, L40S and A10, with Supercluster networking and large local NVMe.",
+  "pros": [
+    "Competitive pricing",
+    "Strong performance for enterprise applications",
+    "Good integration with Oracle products"
+  ],
+  "cons": [
+    "Smaller ecosystem compared to AWS and GCP",
+    "Limited documentation and community support",
+    "Complexity in setup and management"
+  ],
+  "link": "https://www.oracle.com/cloud/compute/gpu.html",
+  "slug": "oracle",
+  "computeServices": [
+    {
+      "name": "OCI GPU Shapes",
+      "description": "Bare‑metal and VM shapes for AI/HPC.",
+      "instanceTypes": [
+        {
+          "name": "BM.GPU.H100",
+          "description": "Bare‑metal H100 with up to 61.4 TB local NVMe per node.",
+          "features": [
+            "OCI Supercluster fabric",
+            "Bare‑metal performance",
+            "Checkpoint‑friendly storage"
+          ]
+        },
+        {
+          "name": "BM.GPU.H200",
+          "description": "Bare‑metal H200 with HBM3e for large‑context workloads.",
+          "features": [
+            "RoCE/Supercluster networking",
+            "High bandwidth"
+          ]
+        },
+        {
+          "name": "VM.GPU.L40S",
+          "description": "VM shapes with NVIDIA L40S.",
+          "features": [
+            "Cost‑optimized inference",
+            "Graphics/video"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Instances",
+      "description": "NVIDIA and AMD GPU shapes (BM & VM).",
+      "types": [
+        {
+          "name": "BM.GPU.H100",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Scale‑out training"
+        },
+        {
+          "name": "BM.GPU.H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Training with larger memory/bandwidth"
+        },
+        {
+          "name": "VM.GPU.L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "High‑throughput inference"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "High-performance cloud for enterprise workloads",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}

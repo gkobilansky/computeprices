@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import providers from '@/data/providers.json';
+import providers from '@/data/providers.generated';
 import { useFilter } from '@/lib/context/FilterContext';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -1,0 +1,158 @@
+{
+  "id": "cdc63645-2c62-46d7-8e2a-5e1a77ff4d86",
+  "name": "Cudo Compute",
+  "slug": "cudo-compute",
+  "description": "Cudo Compute is a sovereign-friendly GPU cloud that offers on-demand and reserved access to enterprise GPUs, VMs, bare metal, and clusters across multiple global data centers.",
+  "link": "https://www.cudocompute.com",
+  "docsLink": "https://www.cudocompute.com/docs",
+  "features": [
+    {
+      "title": "GPU-first cloud",
+      "description": "On-demand and reserved GPU capacity with models ranging from V100 and A40 to L40S, A800, A100 80 GB, and H100 SXM"
+    },
+    {
+      "title": "Cluster and bare metal options",
+      "description": "Deploy VMs, dedicated bare metal, or multi-node GPU clusters for training and inference"
+    },
+    {
+      "title": "Global data center catalog",
+      "description": "Marketplace view with locations in the UK, US, Nordics, and Africa plus renewable energy indicators"
+    },
+    {
+      "title": "API and automation",
+      "description": "REST API and documented workflows for provisioning, scaling, and lifecycle automation"
+    },
+    {
+      "title": "Enterprise focus",
+      "description": "Supports sovereignty requirements with regional choice, private networking, and support for reserved capacity"
+    }
+  ],
+  "pros": [
+    "Wide GPU lineup including flagship H100 and A100 alongside cost-effective V100/A40/L40S options",
+    "Data center coverage across UK, US, Nordics, and Africa for latency and sovereignty needs",
+    "Transparent per-GPU pricing with visible commit-term discounts in the catalog",
+    "Choice of VMs, bare metal, and clusters for different performance and tenancy needs"
+  ],
+  "cons": [
+    "Smaller managed service ecosystem than hyperscalers",
+    "GPU availability varies by data center and model",
+    "Account approval may be required for larger reservations"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up and log into the Cudo Compute console."
+    },
+    {
+      "title": "Choose a data center",
+      "description": "Pick a location such as Manchester, Stockholm, Kristiansand, Lagos, or US regions to meet latency and sovereignty needs."
+    },
+    {
+      "title": "Select hardware",
+      "description": "Pick your GPU model (e.g., H100, A100 80 GB, L40S, A800, V100) and configure vCPUs, RAM, and storage."
+    },
+    {
+      "title": "Launch a VM or cluster",
+      "description": "Deploy a single VM, bare-metal server, or scale out with clusters from the console or API."
+    },
+    {
+      "title": "Secure and monitor",
+      "description": "Attach networking, reserve IPv4, and monitor usage through the dashboard or API endpoints."
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "GPU Cloud",
+      "description": "On-demand and reserved GPU VMs with configurable vCPU, memory, and storage.",
+      "features": [
+        "Supports NVIDIA GPUs from V100 through H100 with per-GPU pricing",
+        "Elastic storage and IPv4 reservation per instance",
+        "Provisioning from the console or REST API"
+      ]
+    },
+    {
+      "name": "Virtual Machines",
+      "description": "CPU and GPU-backed VMs for general workloads and AI inference.",
+      "features": [
+        "Multiple CPU families and memory/vCPU ratios",
+        "Attach GPUs as needed for acceleration",
+        "Region-aware placement for latency targets"
+      ]
+    },
+    {
+      "name": "Bare Metal and Clusters",
+      "description": "Dedicated servers and multi-node GPU clusters for high-performance training and rendering.",
+      "features": [
+        "Supports H100, A100 80 GB, L40S, and A800 cluster builds",
+        "Commitment options for capacity guarantees and better rates",
+        "Private networking for inter-node traffic"
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Portfolio",
+      "description": "NVIDIA accelerators available on-demand and for reservations.",
+      "types": [
+        {
+          "name": "H100 SXM",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Frontier-scale training and high-throughput inference"
+        },
+        {
+          "name": "A100 80 GB PCIe",
+          "gpuModel": "NVIDIA A100 80 GB",
+          "bestFor": "Large-scale training and mixed-precision workloads"
+        },
+        {
+          "name": "L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Vision, video, and fast inference at balanced cost"
+        },
+        {
+          "name": "A800 PCIe",
+          "gpuModel": "NVIDIA A800",
+          "bestFor": "Export-friendly alternative for training and inference"
+        },
+        {
+          "name": "RTX A6000 / A40",
+          "gpuModel": "NVIDIA RTX A6000 or A40",
+          "bestFor": "Rendering, graphics workloads, and midrange AI training"
+        },
+        {
+          "name": "V100",
+          "gpuModel": "NVIDIA V100",
+          "bestFor": "Established training and inference workloads with legacy compatibility"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "On-demand GPU VMs",
+      "description": "Hourly per-GPU pricing with published rates by data center and GPU model"
+    },
+    {
+      "name": "Reserved Capacity",
+      "description": "Commitment-based discounts across multiple term lengths for predictable spend and guaranteed supply"
+    },
+    {
+      "name": "Bare Metal and Cluster Quotes",
+      "description": "Dedicated hardware and multi-node clusters priced per reservation with private networking options"
+    }
+  ],
+  "regions": "Data centers listed across Manchester (UK), Stockholm and Kristiansand (Nordics), Lagos (Nigeria), and US sites including Carlsbad, Dallas, and New York, with additional locations in the catalog.",
+  "support": "Documentation, tutorials, and API reference; sales and support contacts with phone booking plus community channels like Discord.",
+  "uniqueSellingPoints": [
+    "NVIDIA Preferred Partner with an enterprise GPU catalog",
+    "Sovereignty-focused regional choice and renewable energy indicators in the data center catalog",
+    "Flexible deployment types spanning VMs, bare metal, and multi-node GPU clusters"
+  ],
+  "hqCountry": "GB",
+  "tagline": "Sustainable distributed cloud computing",
+  "tags": [
+    "Green",
+    "Decentralized"
+  ],
+  "category": "Cloud marketplace"
+}

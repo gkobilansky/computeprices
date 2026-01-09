@@ -1,4 +1,4 @@
-import providersData from '@/data/providers.json'
+import providersData from '@/data/providers.generated'
 import { fetchProviders } from '@/lib/utils/fetchGPUData'
 import {
   Provider,

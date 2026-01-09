@@ -1,0 +1,144 @@
+{
+  "id": "973ad9bb-3d03-4c5f-b407-d90911f786bf",
+  "name": "Jarvis Labs",
+  "slug": "jarvis",
+  "description": "JarvisLabs offers managed Jupyter/VMs with per‑minute billing on H200/H100/A100; strong India presence and pause/resume.",
+  "link": "https://jarvislabs.ai/",
+  "docsLink": "https://docs.jarvislabs.ai/",
+  "features": [
+    {
+      "title": "Instant GPU Access",
+      "description": "Get access to powerful GPUs instantly with zero setup complexity"
+    },
+    {
+      "title": "Customizable Environments",
+      "description": "Wide range of pre-configured templates for various AI/ML frameworks"
+    },
+    {
+      "title": "Pay-as-you-go",
+      "description": "Flexible pricing model with no upfront commitments"
+    },
+    {
+      "title": "Enterprise-grade Infrastructure",
+      "description": "Reliable and scalable infrastructure for production workloads"
+    },
+    {
+      "title": "Instance Management",
+      "description": "Easy pause, resume, and delete functionality for cost optimization"
+    },
+    {
+      "title": "SSH Access",
+      "description": "Full SSH access to instances for complete control"
+    },
+    {
+      "title": "GPU Switching",
+      "description": "Switch GPU types when resuming paused instances"
+    },
+    {
+      "title": "Regional Flexibility",
+      "description": "Resume instances within the same region for seamless operation"
+    }
+  ],
+  "pros": [
+    "Quick setup - get started in less than 5 minutes",
+    "Easy instance lifecycle management (pause, resume, delete)",
+    "Ability to switch GPU types when resuming instances",
+    "Wide range of pre-configured templates",
+    "Cost optimization through pause/resume functionality",
+    "Enterprise-grade infrastructure with pay-as-you-go pricing"
+  ],
+  "cons": [
+    "Limited information available about specific GPU types",
+    "Regional availability details not clearly specified",
+    "Newer player compared to established cloud providers"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create a New Account",
+      "description": "Sign up for a new account on the Jarvis Labs platform"
+    },
+    {
+      "title": "Recharge Your Wallet",
+      "description": "Add funds to your account in the Recharge section"
+    },
+    {
+      "title": "Choose and Launch a Template",
+      "description": "Explore the wide range of templates, configure your desired setup, and click Launch"
+    },
+    {
+      "title": "Manage Your Instances",
+      "description": "Easily pause ⏸️, resume ▶️, and delete 🗑️ your instances with just a few clicks"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "GPU Instances",
+      "description": "On-demand GPU instances with various configuration options",
+      "features": [
+        "Pre-configured templates for popular ML frameworks",
+        "Scalable GPU resources",
+        "Instance pause and resume capabilities",
+        "SSH access for full control"
+      ]
+    },
+    {
+      "name": "Managed Workbenches",
+      "description": "Spin up notebooks or VMs with NVIDIA GPUs.",
+      "instanceTypes": [
+        {
+          "name": "H200",
+          "description": "On‑demand H200 for large models.",
+          "features": [
+            "Minute billing",
+            "Fast spin‑up"
+          ]
+        },
+        {
+          "name": "H100",
+          "description": "On‑demand H100.",
+          "features": [
+            "Starting near ~$2.99/GPU‑hr in public materials",
+            "Pause/resume to cut idle"
+          ]
+        }
+      ]
+    }
+  ],
+  "regions": "Multiple regions available with flexibility to resume instances within the same region",
+  "support": "Documentation, tutorials, and getting started guides available",
+  "uniqueSellingPoints": [
+    "5-minute setup process for immediate productivity",
+    "Flexible instance management with pause/resume functionality",
+    "GPU type switching capability when resuming instances",
+    "Wide selection of pre-configured AI/ML templates"
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Options",
+      "description": "NVIDIA lineup for AI/ML.",
+      "types": [
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Large‑context serving"
+        },
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Training & inference"
+        },
+        {
+          "name": "A100 40/80",
+          "gpuModel": "NVIDIA A100",
+          "bestFor": "Training"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "IN",
+  "tagline": "Cost-effective GPU cloud for ML practitioners",
+  "tags": [
+    "Budget"
+  ],
+  "category": "Rapidly-catching neocloud"
+}
