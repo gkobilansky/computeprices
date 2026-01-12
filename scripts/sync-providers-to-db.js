@@ -104,41 +104,22 @@ function transformProviderData(provider) {
   };
 
   // Store flexible attributes in metadata JSONB
+  // Include arrays only if non-empty, include strings/objects if truthy
+  const metadataFields = [
+    'features', 'pros', 'cons', 'gettingStarted',
+    'computeServices', 'gpuServices', 'pricingOptions', 'uniqueSellingPoints',
+    'regions', 'support'
+  ];
+
   const metadata = {};
-
-  if (data.features && data.features.length > 0) {
-    metadata.features = data.features;
-  }
-  if (data.pros && data.pros.length > 0) {
-    metadata.pros = data.pros;
-  }
-  if (data.cons && data.cons.length > 0) {
-    metadata.cons = data.cons;
-  }
-  if (data.gettingStarted && data.gettingStarted.length > 0) {
-    metadata.gettingStarted = data.gettingStarted;
-  }
-  if (data.computeServices && data.computeServices.length > 0) {
-    metadata.computeServices = data.computeServices;
-  }
-  if (data.gpuServices && data.gpuServices.length > 0) {
-    metadata.gpuServices = data.gpuServices;
-  }
-  if (data.pricingOptions && data.pricingOptions.length > 0) {
-    metadata.pricingOptions = data.pricingOptions;
-  }
-  if (data.regions) {
-    metadata.regions = data.regions;
-  }
-  if (data.support) {
-    metadata.support = data.support;
-  }
-  if (data.uniqueSellingPoints && data.uniqueSellingPoints.length > 0) {
-    metadata.uniqueSellingPoints = data.uniqueSellingPoints;
+  for (const field of metadataFields) {
+    const value = data[field];
+    if (Array.isArray(value) ? value.length > 0 : value) {
+      metadata[field] = value;
+    }
   }
 
-  dbRecord.metadata = Object.keys(metadata).length > 0 ? metadata : {};
-
+  dbRecord.metadata = metadata;
   return dbRecord;
 }
 

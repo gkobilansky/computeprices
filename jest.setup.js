@@ -1,21 +1,17 @@
 import '@testing-library/jest-dom'
 import fetch, { Headers, Request, Response } from 'cross-fetch'
 
-// Polyfill fetch for Node.js test environment
-if (typeof globalThis.fetch === 'undefined') {
-  globalThis.fetch = fetch
-  globalThis.Headers = Headers
-  globalThis.Request = Request
-  globalThis.Response = Response
-}
+// Polyfill fetch globals for Node.js test environment (required by Supabase client)
+globalThis.fetch ??= fetch
+globalThis.Headers ??= Headers
+globalThis.Request ??= Request
+globalThis.Response ??= Response
 
-// Add Response.json static method if not available (needed for NextResponse)
-if (typeof Response.json === 'undefined') {
-  Response.json = function(data, init) {
-    const response = new Response(JSON.stringify(data), init)
-    response.headers.set('Content-Type', 'application/json')
-    return response
-  }
+// Polyfill Response.json static method (required for NextResponse)
+Response.json ??= function(data, init) {
+  const response = new Response(JSON.stringify(data), init)
+  response.headers.set('Content-Type', 'application/json')
+  return response
 }
 
 // Mock Next.js router
