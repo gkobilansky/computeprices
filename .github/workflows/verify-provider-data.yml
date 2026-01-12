@@ -123,14 +123,6 @@ jobs:
             git diff "data/providers/${PROVIDER_SLUG}.json"
           fi
 
-      - name: Sync updated provider to database
-        if: steps.changes.outputs.has_changes == 'true'
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
-        run: npm run providers:sync -- --provider="${PROVIDER_SLUG}" --yes
-
       - name: Create Pull Request
         if: steps.changes.outputs.has_changes == 'true'
         env:
@@ -153,13 +145,13 @@ jobs:
 
             Please review the changes to `data/providers/${{ env.PROVIDER_SLUG }}.json` below.
 
-            The updated provider data has been automatically synced to the database.
-
             ### Verification Summary
 
             ${{ env.CLAUDE_CONCLUSION || 'See workflow logs for details.' }}
 
             ---
+
+            **Note:** The database will be automatically synced when this PR is merged to main via the `sync-providers.yml` workflow.
 
             *This PR was created automatically by Claude Code. Please review the changes carefully before merging.*
           branch: update-provider-${{ env.PROVIDER_SLUG }}
