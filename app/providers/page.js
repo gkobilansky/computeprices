@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fetchProviders } from '@/lib/utils/fetchGPUData';
-import providersData from '@/data/providers.generated';
 import { getCountryFlag, getCountryName } from '@/lib/utils/countryFlags';
 
 // Category styling - primary classification
@@ -72,36 +71,35 @@ export default function ProvidersPage() {
       try {
         const dbProviders = await fetchProviders();
 
-        // Merge DB providers with JSON data
-        const mergedProviders = dbProviders.map(dbProvider => {
-          const jsonProvider = providersData.find(jp =>
-            jp.id === dbProvider.id ||
-            jp.name.toLowerCase() === dbProvider.name.toLowerCase()
-          );
+        // Transform DB data to include metadata from JSONB column
+        const transformedProviders = dbProviders.map(dbProvider => {
+          const metadata = dbProvider.metadata || {};
 
-          if (jsonProvider) {
-            return {
-              ...jsonProvider,
-              id: dbProvider.id,
-              name: dbProvider.name
-            };
-          } else {
-            return {
-              ...dbProvider,
-              description: "We're still gathering detailed info on this provider.",
-              tagline: "GPU cloud provider",
-              category: "Rapidly-catching neocloud",
-              hqCountry: 'US',
-              tags: [],
-              features: [],
-              pros: [],
-              cons: [],
-              isMinimal: true
-            };
-          }
+          return {
+            id: dbProvider.id,
+            name: dbProvider.name,
+            slug: dbProvider.slug,
+            link: dbProvider.website,
+            description: dbProvider.description || "We're still gathering detailed info on this provider.",
+            docsLink: dbProvider.docs_link,
+            category: dbProvider.category || "Rapidly-catching neocloud",
+            tagline: dbProvider.tagline || "GPU cloud provider",
+            hqCountry: dbProvider.hq_country || 'US',
+            tags: dbProvider.tags || [],
+            features: metadata.features || [],
+            pros: metadata.pros || [],
+            cons: metadata.cons || [],
+            gettingStarted: metadata.gettingStarted || [],
+            computeServices: metadata.computeServices || [],
+            gpuServices: metadata.gpuServices || [],
+            pricingOptions: metadata.pricingOptions || [],
+            uniqueSellingPoints: metadata.uniqueSellingPoints || [],
+            regions: metadata.regions,
+            support: metadata.support
+          };
         });
 
-        setProviders(mergedProviders);
+        setProviders(transformedProviders);
       } catch (error) {
         console.error('Failed to load providers:', error);
       } finally {

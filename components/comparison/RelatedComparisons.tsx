@@ -1,6 +1,36 @@
 import { Provider } from '@/types/comparison'
 import { getAllProviderSlugs, normalizeProviderSlug } from '@/lib/providers'
-import providersData from '@/data/providers.generated'
+import { fetchProviders } from '@/lib/utils/fetchGPUData'
+
+/**
+ * Transform database row to Provider object
+ */
+function transformDBRowToProvider(dbRow: any): any {
+  const metadata = dbRow.metadata || {}
+
+  return {
+    id: dbRow.id,
+    name: dbRow.name,
+    slug: dbRow.slug,
+    link: dbRow.website,
+    description: dbRow.description,
+    docsLink: dbRow.docs_link,
+    category: dbRow.category,
+    tagline: dbRow.tagline,
+    hqCountry: dbRow.hq_country,
+    tags: dbRow.tags || [],
+    features: metadata.features || [],
+    pros: metadata.pros || [],
+    cons: metadata.cons || [],
+    gettingStarted: metadata.gettingStarted || [],
+    computeServices: metadata.computeServices || [],
+    gpuServices: metadata.gpuServices || [],
+    pricingOptions: metadata.pricingOptions || [],
+    uniqueSellingPoints: metadata.uniqueSellingPoints || [],
+    regions: metadata.regions,
+    support: metadata.support
+  }
+}
 
 interface RelatedComparisonsProps {
   currentProvider1: Provider
@@ -132,12 +162,11 @@ async function generateRelatedComparisons(
   const currentSlugs = [currentProvider1.slug, currentProvider2.slug]
 
   try {
-    // Get all available providers
-    const allProviderSlugs = await getAllProviderSlugs()
-    const availableProviders = providersData.filter(p => 
-      allProviderSlugs.includes(p.slug) && 
-      !currentSlugs.includes(p.slug)
-    )
+    // Get all available providers from database
+    const dbProviders = await fetchProviders()
+    const availableProviders = dbProviders
+      .filter(p => p.slug && !currentSlugs.includes(p.slug))
+      .map(p => transformDBRowToProvider(p))
 
     // Priority providers for high-quality suggestions
     const priorityProviders = ['aws', 'google', 'azure', 'coreweave', 'runpod', 'lambda', 'vast']

@@ -1,13 +1,47 @@
 'use client';
 
-import React from 'react';
-import providers from '@/data/providers.generated';
+import React, { useState, useEffect } from 'react';
+import { getProviderBySlug } from '@/lib/providers';
 import { useFilter } from '@/lib/context/FilterContext';
 import Image from 'next/image';
 import Link from 'next/link';
 
 function ProviderInfoCard() {
   const { selectedProvider } = useFilter();
+  const [providerDetails, setProviderDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function loadProviderDetails() {
+      if (!selectedProvider) {
+        setProviderDetails(null);
+        return;
+      }
+
+      // If selectedProvider already has full details (slug, description, etc.), use it
+      if (selectedProvider.slug && selectedProvider.description) {
+        setProviderDetails(selectedProvider);
+        return;
+      }
+
+      // Otherwise fetch from database
+      setLoading(true);
+      try {
+        // Try to get slug from name
+        const slug = selectedProvider.slug || selectedProvider.name?.toLowerCase().replace(/\s+/g, '-');
+        if (slug) {
+          const details = await getProviderBySlug(slug);
+          setProviderDetails(details);
+        }
+      } catch (error) {
+        console.error('Error loading provider details:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProviderDetails();
+  }, [selectedProvider]);
 
   if (!selectedProvider) {
     return (
@@ -27,7 +61,18 @@ function ProviderInfoCard() {
     );
   }
 
-  const providerDetails = providers.find(p => p.name === selectedProvider.name);
+  if (loading) {
+    return (
+      <div className="card bg-white border shadow-sm rounded-xl overflow-hidden h-full max-h-[500px] pt-6">
+        <div className="card-body p-6">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+            <p className="text-gray-500 text-sm">Loading provider details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!providerDetails) {
     return (
