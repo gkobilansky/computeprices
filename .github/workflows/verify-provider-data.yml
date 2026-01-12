@@ -1,0 +1,169 @@
+name: Verify Provider Data
+
+on:
+  schedule:
+    # Run weekly on Mondays at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: 'Specific provider slug to verify (leave empty for auto-rotation)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  verify-provider:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine provider to verify
+        id: provider
+        env:
+          PROVIDER_INPUT: ${{ github.event.inputs.provider }}
+        run: |
+          if [ -n "$PROVIDER_INPUT" ]; then
+            # Validate provider slug format (lowercase alphanumeric with hyphens only)
+            if ! echo "$PROVIDER_INPUT" | grep -qE '^[a-z0-9-]+$'; then
+              echo "Error: Invalid provider slug format. Must be lowercase alphanumeric with hyphens only."
+              exit 1
+            fi
+            echo "slug=$PROVIDER_INPUT" >> $GITHUB_OUTPUT
+          else
+            # Auto-rotate: pick provider based on week number
+            WEEK=$(date +%V)
+            PROVIDERS=$(ls data/providers/*.json | xargs -n1 basename | sed 's/.json//' | sort)
+            PROVIDER_COUNT=$(echo "$PROVIDERS" | wc -l)
+            INDEX=$((WEEK % PROVIDER_COUNT))
+            PROVIDER=$(echo "$PROVIDERS" | sed -n "$((INDEX + 1))p")
+            echo "slug=$PROVIDER" >> $GITHUB_OUTPUT
+            echo "Auto-selected provider for week $WEEK: $PROVIDER"
+          fi
+
+      - name: Verify provider file exists
+        env:
+          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
+        run: |
+          if [ ! -f "data/providers/${PROVIDER_SLUG}.json" ]; then
+            echo "Error: Provider file not found: data/providers/${PROVIDER_SLUG}.json"
+            exit 1
+          fi
+
+      - name: Run Claude Code verification
+        id: claude
+        env:
+          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          direct_prompt: |
+            Verify and update provider data for: ${{ env.PROVIDER_SLUG }}
+
+            ## Instructions
+
+            1. Read the provider file at: data/providers/${{ env.PROVIDER_SLUG }}.json
+
+            2. Research the provider's current information by visiting their website and documentation.
+               Focus on verifying:
+               - Provider name and description accuracy
+               - Website URL (link) and docs URL (docsLink)
+               - Features list - are they current and accurate?
+               - Pros and cons - do they reflect current state?
+               - Getting started steps - are they still valid?
+               - GPU/compute services offered - any new offerings?
+               - Category classification - is it still appropriate?
+
+            3. If you find ANY outdated, incorrect, or missing information:
+               - Edit the provider JSON file with corrections
+               - Be conservative - only change what's clearly wrong or outdated
+               - Preserve the existing structure and formatting
+
+            4. If the data is accurate and up-to-date, make no changes.
+
+            5. After verification, output a summary of:
+               - What you checked
+               - What changes you made (if any)
+               - Confidence level in your verification
+
+            ## Important Notes
+            - Do NOT change the provider's UUID (id field)
+            - Do NOT change the slug
+            - Preserve JSON formatting (2-space indent)
+            - Only make factual corrections, not stylistic changes
+
+      - name: Check for changes
+        id: changes
+        env:
+          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
+        run: |
+          if git diff --quiet "data/providers/${PROVIDER_SLUG}.json"; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected for ${PROVIDER_SLUG}"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected for ${PROVIDER_SLUG}"
+            git diff "data/providers/${PROVIDER_SLUG}.json"
+          fi
+
+      - name: Sync updated provider to database
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
+        run: npm run providers:sync -- --provider="${PROVIDER_SLUG}" --yes
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
+          CLAUDE_CONCLUSION: ${{ steps.claude.outputs.conclusion }}
+        # Pinned to v6 SHA for supply chain security
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update provider data for ${{ env.PROVIDER_SLUG }}"
+          title: "Update provider data: ${{ env.PROVIDER_SLUG }}"
+          body: |
+            ## Provider Data Update
+
+            This PR was automatically generated by the weekly provider verification workflow.
+
+            **Provider:** ${{ env.PROVIDER_SLUG }}
+
+            ### Changes
+
+            Please review the changes to `data/providers/${{ env.PROVIDER_SLUG }}.json` below.
+
+            The updated provider data has been automatically synced to the database.
+
+            ### Verification Summary
+
+            ${{ env.CLAUDE_CONCLUSION || 'See workflow logs for details.' }}
+
+            ---
+
+            *This PR was created automatically by Claude Code. Please review the changes carefully before merging.*
+          branch: update-provider-${{ env.PROVIDER_SLUG }}
+          delete-branch: true
+          labels: |
+            automated
+            provider-data
