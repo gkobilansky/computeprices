@@ -1,0 +1,182 @@
+{
+  "id": "1d03e458-c92b-42fc-bcc1-0093f4c62b58",
+  "name": "Nebius",
+  "slug": "nebius",
+  "description": "Nebius AI Cloud is a vertically integrated GPU cloud with published H100/H200/L40S rates, HGX cluster SKUs, and commitment discounts up to 35%.",
+  "link": "https://www.nebius.com",
+  "docsLink": "https://docs.nebius.com",
+  "features": [
+    {
+      "title": "Transparent GPU pricing",
+      "description": "Published on-demand rates for H100 ($2.00/hr) and H200 ($2.30/hr) plus L40S options"
+    },
+    {
+      "title": "Commitment discounts",
+      "description": "Long-term commitments can cut on-demand rates by up to 35%"
+    },
+    {
+      "title": "HGX clusters",
+      "description": "Multi-GPU HGX B200/H200/H100 nodes with per-GPU table pricing"
+    },
+    {
+      "title": "Self-service console",
+      "description": "Launch and manage AI Cloud resources directly from the Nebius console"
+    },
+    {
+      "title": "Docs-first platform",
+      "description": "Comprehensive documentation across compute, networking, and data services"
+    }
+  ],
+  "pros": [
+    "Published hourly GPU pricing for H100/H200/L40S with discounts available",
+    "HGX B200/H200/H100 options for dense multi-GPU training",
+    "Self-service console plus contact-sales for larger commitments",
+    "Vertical integration aimed at predictable pricing and performance"
+  ],
+  "cons": [
+    "Regional availability is not fully enumerated on public pages",
+    "Blackwell pre-orders and large HGX capacity require sales engagement",
+    "Pricing for ancillary services (storage/network) is less visible than GPU rates"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up and log in to the Nebius AI Cloud console."
+    },
+    {
+      "title": "Add billing or credits",
+      "description": "Attach a payment method to unlock on-demand GPU access."
+    },
+    {
+      "title": "Pick a GPU SKU",
+      "description": "Choose H100, H200, L40S, or an HGX cluster size from the pricing catalog."
+    },
+    {
+      "title": "Launch and connect",
+      "description": "Provision a VM or cluster and connect via SSH or your preferred tooling."
+    },
+    {
+      "title": "Optimize costs",
+      "description": "Apply commitment discounts or talk to sales for large reservations."
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "AI Cloud GPU Instances",
+      "description": "On-demand GPU VMs with published hourly rates and commitment discounts.",
+      "instanceTypes": [
+        {
+          "name": "NVIDIA H200 GPU",
+          "description": "141 GB HBM H200 GPUs for memory-intensive training and inference.",
+          "features": [
+            "$2.30/hour published on-demand rate",
+            "Up to 35% savings with long-term commitments"
+          ]
+        },
+        {
+          "name": "NVIDIA H100 GPU",
+          "description": "80 GB HBM H100 GPUs for general-purpose training and low-latency inference.",
+          "features": [
+            "$2.00/hour published on-demand rate",
+            "Self-service provisioning via Nebius console"
+          ]
+        },
+        {
+          "name": "NVIDIA L40S GPU",
+          "description": "Ada Lovelace GPUs suited for inference, graphics, and media.",
+          "features": [
+            "Published pricing from $1.55–$1.82 per GPU-hour depending on host platform",
+            "Intel (8–40 GPUs) and AMD (16–192 GPUs) host options listed in the catalog"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HGX Clusters",
+      "description": "Dense multi-GPU HGX nodes for large-scale training.",
+      "instanceTypes": [
+        {
+          "name": "HGX B200",
+          "description": "16x NVIDIA B200 (200 GB) nodes for next-gen training.",
+          "features": [
+            "$5.50 per GPU-hour table rate on the pricing page",
+            "Positioned for Blackwell-era workloads with contact-sales flow"
+          ]
+        },
+        {
+          "name": "HGX H200",
+          "description": "16x NVIDIA H200 HGX nodes with high-bandwidth memory.",
+          "features": [
+            "$3.50 per GPU-hour published rate",
+            "Suited for long-context LLMs and memory-bound training"
+          ]
+        },
+        {
+          "name": "HGX H100",
+          "description": "16x NVIDIA H100 HGX nodes for Hopper-scale training.",
+          "features": [
+            "$2.95 per GPU-hour published rate",
+            "NVLink/NVSwitch interconnect for multi-GPU scaling"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Catalog",
+      "description": "Flagship NVIDIA accelerators available on-demand and via reservations.",
+      "types": [
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200 141 GB",
+          "bestFor": "High-memory training and inference with large context windows"
+        },
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100 80 GB",
+          "bestFor": "General training and latency-sensitive inference"
+        },
+        {
+          "name": "L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Cost-efficient inference, graphics, and video workloads"
+        },
+        {
+          "name": "HGX B200 (pre-order)",
+          "gpuModel": "NVIDIA B200",
+          "bestFor": "Next-generation Blackwell training on multi-GPU nodes"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "On-demand GPU pricing",
+      "description": "Published hourly rates: H200 $2.30/hr, H100 $2.00/hr, L40S from $1.55–$1.82/hr."
+    },
+    {
+      "name": "HGX cluster rates",
+      "description": "Table pricing per GPU-hour: HGX B200 $5.50, HGX H200 $3.50, HGX H100 $2.95."
+    },
+    {
+      "name": "Commitment discounts",
+      "description": "Save up to 35% versus on-demand with long-term commitments and larger GPU quantities."
+    },
+    {
+      "name": "Blackwell pre-order",
+      "description": "Pre-order NVIDIA Blackwell platforms through the sales contact form."
+    }
+  ],
+  "regions": "GPU clusters deployed across Europe and the US; headquarters in Amsterdam with engineering hubs in Finland, Serbia, and Israel (per About page).",
+  "support": "Documentation at docs.nebius.com, self-service AI Cloud console, and contact-sales for capacity or commitments.",
+  "uniqueSellingPoints": [
+    "Vertically integrated AI cloud with transparent flagship GPU pricing",
+    "Commitment discounts up to 35% plus HGX B200/H200/H100 cluster options",
+    "Blackwell pre-orders alongside on-demand H100/H200/L40S availability"
+  ],
+  "hqCountry": "NL",
+  "tagline": "Full-stack AI infrastructure platform",
+  "tags": [],
+  "category": "Massive neocloud"
+}

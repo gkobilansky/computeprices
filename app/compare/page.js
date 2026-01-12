@@ -4,7 +4,6 @@ import BreadcrumbNav from '@/components/BreadcrumbNav';
 import ProviderSelector from '@/components/ProviderSelector';
 import Image from 'next/image';
 import Link from 'next/link';
-import providersData from '@/data/providers.json';
 
 export const metadata = {
   title: 'Compare Cloud GPU Providers | ComputePrices.com',
@@ -17,25 +16,37 @@ export const metadata = {
 };
 
 async function getAllProviders() {
-  // Get providers from both JSON data and database
+  // Get all providers from database
   const dbProviders = await fetchProviders();
-  
-  // Combine and deduplicate providers
-  const allProviders = [...providersData];
-  
-  // Add database-only providers
-  dbProviders.forEach(dbProvider => {
-    if (!allProviders.find(p => p.id === dbProvider.id)) {
-      allProviders.push({
-        id: dbProvider.id,
-        name: dbProvider.name,
-        slug: dbProvider.name.toLowerCase().replace(/\s+/g, '-'),
-        description: "We're still gathering detailed info on this provider.",
-        isMinimal: true
-      });
-    }
+
+  // Transform DB data to include metadata from JSONB column
+  const allProviders = dbProviders.map(dbProvider => {
+    const metadata = dbProvider.metadata || {};
+
+    return {
+      id: dbProvider.id,
+      name: dbProvider.name,
+      slug: dbProvider.slug,
+      link: dbProvider.website,
+      description: dbProvider.description || "We're still gathering detailed info on this provider.",
+      docsLink: dbProvider.docs_link,
+      category: dbProvider.category,
+      tagline: dbProvider.tagline,
+      hqCountry: dbProvider.hq_country,
+      tags: dbProvider.tags || [],
+      features: metadata.features || [],
+      pros: metadata.pros || [],
+      cons: metadata.cons || [],
+      gettingStarted: metadata.gettingStarted || [],
+      computeServices: metadata.computeServices || [],
+      gpuServices: metadata.gpuServices || [],
+      pricingOptions: metadata.pricingOptions || [],
+      uniqueSellingPoints: metadata.uniqueSellingPoints || [],
+      regions: metadata.regions,
+      support: metadata.support
+    };
   });
-  
+
   return allProviders.sort((a, b) => a.name.localeCompare(b.name));
 }
 

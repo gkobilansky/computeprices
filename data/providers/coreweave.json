@@ -1,0 +1,52 @@
+{
+  "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
+  "name": "CoreWeave",
+  "description": "CoreWeave is a specialized cloud provider offering GPU‑accelerated infrastructure (H100, H200 and more) for AI/ML, VFX, and batch compute, with Kubernetes‑native orchestration and rapid scale.",
+  "pros": [
+    "Extensive selection of NVIDIA GPUs, including latest models",
+    "Up to 35x faster and 80% less expensive than legacy cloud providers",
+    "Kubernetes-native infrastructure for easy scaling and deployment",
+    "Rapid deployment with ability to access thousands of GPUs in seconds",
+    "Specialized support for AI, machine learning, and rendering workloads",
+    "NVIDIA Elite Cloud Solutions Provider for both Compute and Visualization",
+    "Fully-managed, bare metal serverless Kubernetes infrastructure"
+  ],
+  "cons": [
+    "Primary focus on North American data centers",
+    "Specialized nature may not suit all general computing needs",
+    "Newer player compared to established cloud giants",
+    "Learning curve for users unfamiliar with Kubernetes"
+  ],
+  "link": "https://www.coreweave.com/",
+  "slug": "coreweave",
+  "computeServices": [
+    {
+      "name": "GPU Instances",
+      "description": "NVIDIA HGX H100/H200 nodes and other SKUs at supercomputer scale.",
+      "instanceTypes": [
+        {
+          "name": "HGX H100",
+          "description": "8× H100 SXM nodes for training and inference.",
+          "features": [
+            "Available at supercomputer scale",
+            "Quantum‑2 InfiniBand fabric",
+            "Pricing from ~$2.23/hr per GPU (varies)"
+          ]
+        },
+        {
+          "name": "HGX H200",
+          "description": "8× H200 SXM nodes with HBM3e for fast LLM training/serving.",
+          "features": [
+            "HBM3e memory (141 GB/GPU)",
+            "Designed for GenAI and HPC",
+            "Reserve capacity or on‑demand where available"
+          ]
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "GPU-specialized cloud built for AI inference",
+  "tags": [],
+  "category": "Massive neocloud"
+}

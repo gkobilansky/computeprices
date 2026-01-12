@@ -82,6 +82,30 @@ Contains cloud provider information:
 |--------|------|-------------|
 | id | UUID | Primary key |
 | name | String | Provider name |
+| slug | String | URL-friendly identifier (unique) |
+| website | String | Provider website URL |
+| description | Text | Brief description of the provider |
+| docs_link | String | Link to provider documentation |
+| category | String | Provider category (e.g., 'Classical hyperscaler', 'GPU-focused') |
+| tagline | String | Short marketing tagline |
+| hq_country | String | Provider headquarters country code |
+| tags | String[] | Array of tags for categorization |
+| metadata | JSONB | Flexible metadata storage for features, pros, cons, etc. |
+| created_at | Timestamp | When record was created |
+| updated_at | Timestamp | When record was last updated |
+| pricing_page | String | URL to provider's pricing page (used by Firecrawl scraper) |
+
+**Metadata JSONB structure** (optional fields):
+- `features`: Array of feature objects with title and description
+- `pros`: Array of strings listing advantages
+- `cons`: Array of strings listing disadvantages
+- `gettingStarted`: Array of step objects for onboarding
+- `computeServices`: Array of service objects with instance types
+- `gpuServices`: Array of GPU-specific service offerings
+- `pricingOptions`: Array of pricing model descriptions
+- `uniqueSellingPoints`: Array of differentiating features
+- `regions`: String or object describing regional availability
+- `support`: String or object describing support options
 
 #### 5. users
 Stores user information for newsletter subscribers and future user data:
@@ -124,6 +148,41 @@ Stores user information for newsletter subscribers and future user data:
 - Scrapers run on a schedule and update the prices table
 - Newsletter signups are captured in the users table via the `/api/newsletter/signup` endpoint
 - GPU model data can be updated via the `scripts/upsert-gpu-models.js` script (supports validation, data type conversion, and performance tier inference)
+
+### Provider Data Management
+Provider information is stored in individual JSON files under `data/providers/*.json` and synced to the database:
+
+1. **Individual Provider Files** (`data/providers/*.json`):
+   - Each provider has its own JSON file (e.g., `aws.json`, `lambda.json`)
+   - Files contain comprehensive provider metadata (features, pros, cons, services, etc.)
+   - Easier to maintain and review than a monolithic file
+
+2. **Build-Time Aggregation** (`scripts/aggregate-providers.cjs`):
+   - Runs automatically during `npm run build` and `npm run dev` via prebuild/predev hooks
+   - Aggregates individual JSON files into `data/providers.generated.ts`
+   - Validates JSON structure and fails build if malformed
+   - Generated file is used by the application at runtime
+
+3. **Database Synchronization** (`scripts/sync-providers-to-db.js`):
+   - Syncs provider JSON files to the Supabase `providers` table
+   - **Usage**: `npm run providers:sync` (production) or `providers:sync:dry` (dry-run)
+   - **Safety Features**:
+     * Environment detection (local/staging/production)
+     * Confirmation prompt for production changes (unless `--yes` flag used)
+     * Database connection test before syncing
+     * UUID and slug format validation
+     * Required field validation (id, name, slug)
+     * Comprehensive error handling with context
+   - **Options**:
+     * `--dry-run`: Preview changes without modifying database
+     * `--provider=slug`: Sync only a specific provider
+     * `--yes` or `-y`: Skip confirmation prompt (use with caution)
+
+4. **Data Validation**:
+   - Provider files must have valid UUID for `id` field
+   - Slug must be lowercase alphanumeric with hyphens only
+   - Required fields: `id`, `name`, `slug`
+   - JSON parsing errors are caught and reported with file context
 
 ### Data Retrieval Functions
 - `fetchGPUModels()`: Gets GPU information, optionally filtered by ID

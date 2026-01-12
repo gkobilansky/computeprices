@@ -1,0 +1,139 @@
+{
+  "id": "c45c33ad-24c9-4ad7-ac37-ca0e30e63434",
+  "name": "Crusoe",
+  "slug": "crusoe",
+  "description": "Crusoe Cloud offers sustainable, high‑performance GPU compute (A100, L40S, H200 and emerging Blackwell) powered by stranded energy and Tier III facilities.",
+  "link": "https://www.crusoe.com/",
+  "docsLink": "https://docs.crusoecloud.com/",
+  "features": [
+    {
+      "title": "Sustainable Computing",
+      "description": "Powered by stranded and wasted energy sources to reduce carbon emissions"
+    },
+    {
+      "title": "Fast Spin Up",
+      "description": "Machines are deployed quickly when they are launched"
+    },
+    {
+      "title": "Persistent Storage",
+      "description": "Disk storage that can be used across multiple instances"
+    },
+    {
+      "title": "SXM Support",
+      "description": "Provides instances with NVIDIA SXM GPU interconnects"
+    },
+    {
+      "title": "SLA Guarantee",
+      "description": "Provider offers an SLA on uptime and performance"
+    }
+  ],
+  "pros": [
+    "Great GPU availability for on-demand use",
+    "Affordable pricing for GPU instances",
+    "Environmentally sustainable approach using stranded energy",
+    "SLA guarantee on uptime and performance",
+    "Lowest market price for A100_80G GPUs",
+    "Fast instance deployment"
+  ],
+  "cons": [
+    "Limited GPU variety (primarily A100, A100_80G, and L40S)",
+    "Regional focus rather than global presence",
+    "Newer player in the cloud GPU market",
+    "Limited GPU interconnect options compared to some competitors"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up for Crusoe Cloud services through their website"
+    },
+    {
+      "title": "Select GPU instance",
+      "description": "Choose from available GPU types (A100, A100_80G, or L40S)"
+    },
+    {
+      "title": "Configure storage",
+      "description": "Set up persistent storage options for your workloads"
+    },
+    {
+      "title": "Launch instance",
+      "description": "Deploy your instance with fast spin-up times"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "GPU Instances",
+      "description": "High-performance GPU instances powered by NVIDIA GPUs",
+      "instanceTypes": [
+        {
+          "name": "A100",
+          "description": "40GB NVIDIA A100 GPU instances for AI and ML workloads",
+          "features": [
+            "Limited availability",
+            "Cost-effective pricing",
+            "Suitable for deep learning and HPC workloads"
+          ]
+        },
+        {
+          "name": "A100_80G",
+          "description": "80GB NVIDIA A100 GPU instances for memory-intensive AI workloads",
+          "features": [
+            "High availability",
+            "Lowest market price",
+            "Ideal for large model training and inference"
+          ]
+        },
+        {
+          "name": "L40S",
+          "description": "NVIDIA L40S GPU instances for AI and graphics workloads",
+          "features": [
+            "High availability",
+            "Competitive pricing",
+            "Good balance of performance and cost"
+          ]
+        },
+        {
+          "name": "H200",
+          "description": "NVIDIA H200 141GB SXM5 instances for cutting‑edge AI workloads.",
+          "features": [
+            "On‑demand availability in select regions",
+            "HBM3e for higher memory bandwidth",
+            "Suited for LLM training/serving"
+          ]
+        },
+        {
+          "name": "B200",
+          "description": "Blackwell B200 instances (availability by request).",
+          "features": [
+            "Next‑gen performance for training/inference",
+            "Contact sales for capacity",
+            "Quantum‑2 networking on clusters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reserved Clusters",
+      "description": "Large-scale reserved GPU clusters for enterprise and research workloads",
+      "features": [
+        "Custom node configurations",
+        "Flexible interconnect options",
+        "Long-term reservation for consistent availability"
+      ]
+    }
+  ],
+  "regions": "Strategically located data centers in low-cost energy areas of the United States",
+  "support": "Documentation, SOC II certified infrastructure",
+  "uniqueSellingPoints": [
+    "Environmentally sustainable cloud computing using stranded energy sources",
+    "Lowest market price for A100_80G GPUs",
+    "Founded in 2018 with $350M Series C funding",
+    "Integration with Shadeform for console and API access",
+    "Focuses on balancing performance, availability, and environmental impact"
+  ],
+  "hqCountry": "US",
+  "tagline": "Climate-friendly cloud using stranded energy",
+  "tags": [
+    "Green"
+  ],
+  "category": "Massive neocloud"
+}
