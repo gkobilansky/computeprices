@@ -4308,6 +4308,6 @@ const providers: Provider[] = [
     ],
     "category": "Classical hyperscaler"
   }
-] as const
+]
 
 export default providers

@@ -20,11 +20,16 @@ if (files.length === 0) {
   process.exit(1);
 }
 
-// Read all provider files
+// Read all provider files with error handling
 const providers = files.map(filename => {
   const filepath = path.join(providersDir, filename);
-  const content = fs.readFileSync(filepath, 'utf8');
-  return JSON.parse(content);
+  try {
+    const content = fs.readFileSync(filepath, 'utf8');
+    return JSON.parse(content);
+  } catch (error) {
+    console.error(`Failed to parse ${filename}:`, error.message);
+    process.exit(1);
+  }
 });
 
 // Generate TypeScript module

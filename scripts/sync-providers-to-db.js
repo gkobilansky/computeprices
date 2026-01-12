@@ -19,6 +19,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
+import readline from 'readline';
 
 // Get the directory name using ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -28,6 +29,7 @@ const __dirname = path.dirname(__filename);
 const args = process.argv.slice(2);
 const helpArg = args.find(arg => arg === '--help' || arg === '-h');
 const dryRun = args.includes('--dry-run');
+const skipConfirm = args.includes('--yes') || args.includes('-y');
 const providerArg = args.find(arg => arg.startsWith('--provider='));
 const targetProvider = providerArg ? providerArg.split('=')[1] : null;
 
@@ -40,11 +42,12 @@ This script reads provider JSON files from data/providers/*.json and syncs them
 to the Supabase providers table. It updates metadata columns and JSONB fields.
 
 Usage:
-  npm run providers:sync [-- --dry-run] [--provider=slug]
+  npm run providers:sync [-- --dry-run] [--provider=slug] [--yes]
 
 Options:
   --dry-run          Don't actually update data, just show what would be done
   --provider=SLUG    Only sync a specific provider by slug
+  --yes, -y          Skip confirmation prompt (use with caution)
   --help             Show this help message
   `);
   process.exit(0);
@@ -64,6 +67,84 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const providersDir = path.join(__dirname, '..', 'data', 'providers');
 
+// UUID validation regex
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Detect environment based on Supabase URL
+ */
+function detectEnvironment() {
+  if (supabaseUrl.includes('localhost') || supabaseUrl.includes('127.0.0.1')) {
+    return 'local';
+  }
+  if (supabaseUrl.includes('staging')) {
+    return 'staging';
+  }
+  return 'production';
+}
+
+/**
+ * Prompt user for confirmation
+ */
+function promptConfirmation(message) {
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    rl.question(message, (answer) => {
+      rl.close();
+      resolve(answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y');
+    });
+  });
+}
+
+/**
+ * Test database connection
+ */
+async function testConnection() {
+  try {
+    const { data, error } = await supabase
+      .from('providers')
+      .select('count')
+      .limit(1);
+
+    if (error) throw error;
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Validate provider data structure
+ */
+function validateProviderData(data, filename) {
+  const errors = [];
+
+  // Check required fields
+  if (!data.id) errors.push('Missing required field: id');
+  if (!data.name) errors.push('Missing required field: name');
+  if (!data.slug) errors.push('Missing required field: slug');
+
+  // Validate UUID format
+  if (data.id && !UUID_REGEX.test(data.id)) {
+    errors.push(`Invalid UUID format for id: ${data.id}`);
+  }
+
+  // Validate slug format (lowercase, alphanumeric, hyphens only)
+  if (data.slug && !/^[a-z0-9-]+$/.test(data.slug)) {
+    errors.push(`Invalid slug format: ${data.slug} (must be lowercase alphanumeric with hyphens)`);
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Validation failed for ${filename}:\n  - ${errors.join('\n  - ')}`);
+  }
+
+  return true;
+}
+
 /**
  * Read all provider JSON files from the providers directory
  */
@@ -74,12 +155,23 @@ function readProviderFiles() {
 
   return files.map(filename => {
     const filepath = path.join(providersDir, filename);
-    const content = fs.readFileSync(filepath, 'utf8');
-    return {
-      filename,
-      slug: filename.replace('.json', ''),
-      data: JSON.parse(content)
-    };
+
+    try {
+      const content = fs.readFileSync(filepath, 'utf8');
+      const data = JSON.parse(content);
+
+      // Validate provider data structure
+      validateProviderData(data, filename);
+
+      return {
+        filename,
+        slug: filename.replace('.json', ''),
+        data
+      };
+    } catch (error) {
+      console.error(`Failed to process ${filename}:`, error.message);
+      process.exit(1);
+    }
   });
 }
 
@@ -132,26 +224,34 @@ async function syncProvider(provider, dryRun) {
   console.log(`\n${dryRun ? '[DRY RUN] ' : ''}Syncing: ${dbRecord.name} (${dbRecord.slug})`);
 
   if (dryRun) {
-    console.log('  Would update with:', JSON.stringify(dbRecord, null, 2).substring(0, 500) + '...');
+    const DRY_RUN_OUTPUT_LIMIT = 500;
+    console.log('  Would update with:', JSON.stringify(dbRecord, null, 2).substring(0, DRY_RUN_OUTPUT_LIMIT) + '...');
     return { success: true, dryRun: true };
   }
 
-  // Upsert the provider (update if exists by id, insert if not)
-  const { data, error } = await supabase
-    .from('providers')
-    .upsert(dbRecord, {
-      onConflict: 'id',
-      ignoreDuplicates: false
-    })
-    .select();
+  try {
+    // Upsert the provider (update if exists by id, insert if not)
+    const { data, error } = await supabase
+      .from('providers')
+      .upsert(dbRecord, {
+        onConflict: 'id',
+        ignoreDuplicates: false
+      })
+      .select();
 
-  if (error) {
-    console.error(`  Error: ${error.message}`);
-    return { success: false, error: error.message };
+    if (error) {
+      throw error;
+    }
+
+    console.log(`  ✓ Synced successfully`);
+    return { success: true, data };
+  } catch (error) {
+    console.error(`  Error syncing ${dbRecord.slug}: ${error.message}`);
+    if (error.stack) {
+      console.error(`  Stack: ${error.stack}`);
+    }
+    return { success: false, error: error.message, slug: dbRecord.slug };
   }
-
-  console.log(`  ✓ Synced successfully`);
-  return { success: true, data };
 }
 
 /**
@@ -160,8 +260,34 @@ async function syncProvider(provider, dryRun) {
 async function main() {
   console.log('=== Provider Sync to Supabase ===\n');
 
+  // Detect environment
+  const environment = detectEnvironment();
+  console.log(`Environment: ${environment.toUpperCase()}`);
+  console.log(`Database: ${supabaseUrl}\n`);
+
   if (dryRun) {
     console.log('🔍 DRY RUN MODE - No changes will be made\n');
+  }
+
+  // Test database connection
+  console.log('Testing database connection...');
+  const connectionTest = await testConnection();
+  if (!connectionTest.success) {
+    console.error(`❌ Database connection failed: ${connectionTest.error}`);
+    console.error('Please check your Supabase credentials and network connection.');
+    process.exit(1);
+  }
+  console.log('✓ Database connection successful\n');
+
+  // Confirmation prompt for production (unless dry-run or skip-confirm)
+  if (!dryRun && environment === 'production' && !skipConfirm) {
+    console.log('⚠️  WARNING: You are about to modify PRODUCTION data!');
+    const confirmed = await promptConfirmation('Type "yes" to continue: ');
+    if (!confirmed) {
+      console.log('Aborted.');
+      process.exit(0);
+    }
+    console.log('');
   }
 
   // Read provider files
