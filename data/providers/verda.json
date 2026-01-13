@@ -1,8 +1,29 @@
 {
-  "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
+  "id": "8f9e7d6c-5b4a-3210-fedc-ba9876543210",
   "name": "Verda",
   "slug": "verda",
-  "description": "Verda provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on‑demand and H200 nodes.",
+  "description": "Verda provides premium GPU instances with transparent pricing in Northern Europe, specializing in sustainable high-performance computing.",
+  "link": "https://verda.com",
+  "docsLink": "https://docs.verda.com",
+  "pricing_page": "https://verda.com/pricing",
+  "features": [
+    {
+      "title": "Sustainable Computing",
+      "description": "Renewable energy-powered data centers in Northern Europe"
+    },
+    {
+      "title": "Premium GPU Fleet",
+      "description": "Latest NVIDIA H100 SXM5 and H200 GPUs with high-speed RDMA networking"
+    },
+    {
+      "title": "Transparent Pricing",
+      "description": "Clear, competitive pricing with both fixed and dynamic pricing models"
+    },
+    {
+      "title": "GDPR Compliance",
+      "description": "EU-based operations ensuring data protection compliance"
+    }
+  ],
   "pros": [
     "Wide range of GPU models, including latest NVIDIA H200",
     "Cost-effective compared to major cloud providers",
@@ -18,26 +39,41 @@
     "Specialized focus may not suit all computing needs",
     "Fewer data center locations than larger competitors"
   ],
-  "link": "https://verda.com",
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up on the Verda platform with your email address"
+    },
+    {
+      "title": "Configure billing",
+      "description": "Add payment method and set up billing preferences"
+    },
+    {
+      "title": "Launch GPU instance",
+      "description": "Select your GPU configuration and deploy your workload"
+    }
+  ],
   "computeServices": [
     {
       "name": "Premium GPU Instances",
-      "description": "Dedicated GPU VMs with transparent pricing.",
+      "description": "Dedicated GPU VMs with transparent pricing and high-performance networking",
       "instanceTypes": [
         {
           "name": "H100 SXM5",
-          "description": "80 GB HBM; dynamic or fixed pricing.",
+          "description": "80 GB HBM memory with dynamic or fixed pricing options",
           "features": [
             "On‑demand launch",
-            "3200 Gbps RDMA fabrics"
+            "3200 Gbps RDMA fabrics",
+            "Self-service provisioning"
           ]
         },
         {
           "name": "H200",
-          "description": "8× H200 nodes available in select regions.",
+          "description": "8× H200 nodes available in select Northern European regions",
           "features": [
-            "HBM3e 141 GB",
-            "Reserved and on‑demand options"
+            "HBM3e 141 GB memory",
+            "Reserved and on‑demand options",
+            "High-bandwidth interconnect"
           ]
         }
       ]
@@ -46,23 +82,45 @@
   "gpuServices": [
     {
       "name": "GPU Catalog",
-      "description": "Range of NVIDIA GPUs and pricing modes.",
+      "description": "Range of NVIDIA GPUs optimized for AI/ML workloads with flexible pricing",
       "types": [
         {
           "name": "H100 SXM5",
           "gpuModel": "NVIDIA H100",
-          "bestFor": "Training & inference"
+          "bestFor": "Large-scale AI training and high-performance inference"
         },
         {
           "name": "H200",
           "gpuModel": "NVIDIA H200",
-          "bestFor": "Larger context & bandwidth"
+          "bestFor": "Memory-intensive workloads requiring larger context windows"
         }
       ]
     }
   ],
+  "pricingOptions": [
+    {
+      "name": "On-Demand Pricing",
+      "description": "Pay-as-you-go model with per-minute billing and no long-term commitments"
+    },
+    {
+      "name": "Fixed Pricing",
+      "description": "Predictable pricing with guaranteed availability and performance"
+    },
+    {
+      "name": "Dynamic Pricing",
+      "description": "Market-based pricing that adjusts based on demand and availability"
+    }
+  ],
+  "uniqueSellingPoints": [
+    "100% renewable energy-powered infrastructure",
+    "Nordic data center locations for optimal European connectivity",
+    "Competitive pricing with transparent cost structure",
+    "High-performance RDMA networking for distributed workloads"
+  ],
+  "regions": "Northern Europe with primary data centers in Finland and Nordic countries",
+  "support": "Documentation, API guides, and technical support for enterprise customers",
   "hqCountry": "FI",
   "tagline": "Nordic GPU cloud with competitive rates",
-  "tags": [],
+  "tags": ["Sustainable", "Europe"],
   "category": "Rapidly-catching neocloud"
 }
