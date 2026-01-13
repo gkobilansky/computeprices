@@ -1,0 +1,1001 @@
+{
+  "provider": {
+    "slug": "coreweave",
+    "name": "CoreWeave",
+    "currentData": {
+      "link": "https://www.coreweave.com/",
+      "description": "CoreWeave is a specialized cloud provider offering GPU‑accelerated infrastructure (H100, H200 and more) for AI/ML, VFX, and batch compute, with Kubernetes‑native orchestration and rapid scale.",
+      "tagline": "GPU-specialized cloud built for AI inference",
+      "category": "Massive neocloud",
+      "hqCountry": "US"
+    }
+  },
+  "scrapedAt": "2026-01-13T23:41:38.537Z",
+  "pages": {
+    "home": {
+      "url": "https://www.coreweave.com/",
+      "success": true,
+      "scrapedAt": "2026-01-13T23:41:44.036Z",
+      "content": {
+        "title": "The Essential Cloud for AI | CoreWeave",
+        "headings": [
+          {
+            "level": "h1",
+            "text": "CoreWeave Cloud: The Essential Cloud for AI"
+          },
+          {
+            "level": "h2",
+            "text": "CoreWeave Mission Control™"
+          },
+          {
+            "level": "h2",
+            "text": "Built for AI velocity"
+          },
+          {
+            "level": "h2",
+            "text": "Stream telemetry, boost observability"
+          },
+          {
+            "level": "h1",
+            "text": "Heading 1"
+          },
+          {
+            "level": "h2",
+            "text": "Heading 2"
+          },
+          {
+            "level": "h3",
+            "text": "Heading 3"
+          },
+          {
+            "level": "h4",
+            "text": "Heading 4"
+          },
+          {
+            "level": "h2",
+            "text": "Reimagining performance, redefining limits"
+          },
+          {
+            "level": "h2",
+            "text": "The world’s #1 AI cloud platform, purpose-built for what’s next"
+          },
+          {
+            "level": "h2",
+            "text": "Explore our GPU cloud services"
+          },
+          {
+            "level": "h3",
+            "text": "Compute"
+          },
+          {
+            "level": "h3",
+            "text": "Storage"
+          },
+          {
+            "level": "h3",
+            "text": "Networking"
+          },
+          {
+            "level": "h3",
+            "text": "Managed Software Services"
+          },
+          {
+            "level": "h3",
+            "text": "Cluster Health Management"
+          },
+          {
+            "level": "h3",
+            "text": "Platform"
+          },
+          {
+            "level": "h2",
+            "text": "Designed for AI workloads"
+          },
+          {
+            "level": "h2",
+            "text": "AI Innovator Spotlight Series"
+          },
+          {
+            "level": "h3",
+            "text": "OpenAI Delivers AI Innovation at Scale"
+          },
+          {
+            "level": "h3",
+            "text": "Mistral AI Unlocks 2.5x Faster Training Speeds"
+          },
+          {
+            "level": "h3",
+            "text": "IBM Accelerates AI Workloads by up to 80%"
+          },
+          {
+            "level": "h2",
+            "text": "Accelerating AI Innovation Virtual Summit"
+          },
+          {
+            "level": "h2",
+            "text": "The Latest CoreWeave News"
+          },
+          {
+            "level": "h2",
+            "text": "Leading AI innovators rely on CoreWeave"
+          },
+          {
+            "level": "h3",
+            "text": "Pioneering the possible"
+          },
+          {
+            "level": "h2",
+            "text": "Visionary insights for those building what’s next"
+          },
+          {
+            "level": "h3",
+            "text": "Products"
+          },
+          {
+            "level": "h3",
+            "text": "Solutions"
+          },
+          {
+            "level": "h3",
+            "text": "AI Infrastructure"
+          },
+          {
+            "level": "h3",
+            "text": "Why CoreWeave"
+          },
+          {
+            "level": "h3",
+            "text": "Resources"
+          },
+          {
+            "level": "h3",
+            "text": "About"
+          },
+          {
+            "level": "h2",
+            "text": "Do Not Sell or Share My Personal Data"
+          },
+          {
+            "level": "h3",
+            "text": "Manage Consent Preferences"
+          },
+          {
+            "level": "h4",
+            "text": "Strictly Necessary Cookies"
+          },
+          {
+            "level": "h4",
+            "text": "Share Or Sale of Personal Data"
+          },
+          {
+            "level": "h3",
+            "text": "Cookie List"
+          }
+        ],
+        "mainText": "CoreWeave Cloud: The Essential Cloud for AI The force multiplier for AI. Trusted by the world’s leading AI pioneers. Why CoreWeave Read the blog CoreWeave Mission Control™ Discover new Mission Control features—Telemetry Relay, GPU Straggler Detection, and the Mission Control Agent—that improve visibility and control for large-scale AI. Learn more Built for AI velocity CoreWeave Mission Control unifies security, talent services, and observability, setting the first operating standard for AI. ‍ Get the full story Stream telemetry, boost observability See how Telemetry Relay forwards logs, metrics, and audit telemetry from CoreWeave Observe™ into your observability tools, improving security and SRE workflows. Watch the webinar Reimagining performance, redefining limits Experience how CoreWeave and AMF1 are shaping what’s possible through the power of AI in our new brand film, fueled by the Essential Cloud for AI. Learn more The world’s #1 AI cloud platform, purpose-built for what’s next CoreWeave Cloud is an AI-native platform purpose-built for AI. It combines next-generation infrastructure, intelligent tools, and expert support to power the world’s most complex AI workloads—faster, more efficiently, and with complete transparency. Get your next big breakthrough to market faster with CoreWeave. Explore the platform TRUSTED BY LEADING AI LABS, PLATFORMS, AND ENTERPRISES. Explore our GPU cloud services Maximize your potential with CoreWeave and get to market faster, focusing on what you do best: building, training, and serving AI models that are transforming the world. Compute Get the GPU compute you need for your AI workloads though a Kubernetes-native environment Storage Flexible, purpose-built storage solutions tailored for AI Networking High-performance networking for optimal cluster scale-out and connectivity Managed Software Services Lift the management burden with our suite of managed software services Cluster Health Management Integrated suite of services for cluster health management and performance monitoring Platform From observability to security to ML tools, our robust platform can help you take on whatever challenges you come across Designed for AI workloads We bridge the gap between AI ambition and execution by delivering high-value performance, scale, and expertise with the infrastructure AI needs today and in the future. Get to market faster 10x Faster inference spin-up times ‍ Accelerate AI development cycles and bring your solutions to market faster with early access to NVIDIA GPUs delivered through a full stack AI-native cloud platform at industry-leading speed and scale. Our Kubernetes-native developer experience features bleeding-edge bare-metal infrastructure, automated provisioning, and support for leading workload orchestration frameworks. Gain industry leading performance and efficiency 96% Cluster goodput ‍ Speed up training and inference with high-performance clusters that are ready for production workloads on Day 1 — designed for maximum reliability, and optimal TCO. Get cutting-edge compute, storage and networking cloud services, rigorous health checks, and automated lifecycle management that allows your AI workloads to run in hours instead of weeks. Deliver real time reliability and resiliency 50% Fewer interruptions per day ‍ Experience fewer interruptions, higher cluster utilization and resolve any issues in near real-time, getting jobs and workloads back on track to keep teams productive and focused on innovation. Achieve up to 96% goodput with resilient infrastructure, rigorous node lifecycle management, deep observability, all backed by 24/7 support from dedicated engineering teams. AI Innovator Spotlight Series From leading AI labs like OpenAI and Mistral AI to global giants like IBM, the world’s most ambitious AI innovators build on CoreWeave. Explore how they’re all pushing boundaries and bringing the future to life with CoreWeave’s high-performance AI Cloud platform. OpenAI Delivers AI Innovation at Scale CEO Sam Altman shares why OpenAI trusts CoreWeave to deliver the reliable performance and valuable expertise they need to rapidly bring game-changing AI models to the world. Mistral AI Unlocks 2.5x Faster Training Speeds For AI labs, speed is paramount. CoreWeave enabled Mistral to cut training time in half for open-source reasoning models, helping them get into production at record speeds. IBM Accelerates AI Workloads by up to 80% When IBM needed an AI infrastructure partner for their Granite™ models, they knew only CoreWeave could deliver on the scale, speed, and reliability they required. Accelerating AI Innovation Virtual Summit Watch on-demand sessions from CoreWeave and NVIDIA’s inaugural virtual summit, featuring leading AI luminaries, top CoreWeave and NVIDIA experts, and stories from industry-leading customers like OpenAI, Mistral AI, and IBM. Register now The Latest CoreWeave News See All CoreWeave Extends Its Cloud Platform with NVIDIA Rubin Platform CoreWeave ",
+        "links": [
+          {
+            "text": "GPU Compute",
+            "href": "https://www.coreweave.com/products/gpu-compute"
+          },
+          {
+            "text": "NVIDIA GB200 NVL72/HGX B200",
+            "href": "https://www.coreweave.com/products/nvidia-blackwell"
+          },
+          {
+            "text": "NVIDIA HGX H100/H200",
+            "href": "https://www.coreweave.com/products/hgx-h100-h200"
+          },
+          {
+            "text": "NVIDIA HGX A100",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA PCIE A100",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA L40, L40S",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA A40",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA RTX GPUs",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "CPU Compute",
+            "href": "https://www.coreweave.com/products/cpu-compute"
+          },
+          {
+            "text": "Bare Metal Servers",
+            "href": "https://www.coreweave.com/products/bare-metal"
+          },
+          {
+            "text": "Storage Services",
+            "href": "https://www.coreweave.com/products/storage"
+          },
+          {
+            "text": "Local Storage",
+            "href": "https://www.coreweave.com/products/storage#local-storage"
+          },
+          {
+            "text": "Object Storage",
+            "href": "https://www.coreweave.com/products/storage#object-storage"
+          },
+          {
+            "text": "Distributed File Storage",
+            "href": "https://www.coreweave.com/products/storage#distributed-file-storage"
+          },
+          {
+            "text": "Networking Services",
+            "href": "https://www.coreweave.com/products/networking"
+          },
+          {
+            "text": "Virtual Private Cloud",
+            "href": "https://www.coreweave.com/products/networking#vpc"
+          },
+          {
+            "text": "InfiniBand Networking",
+            "href": "https://www.coreweave.com/products/networking#infiniband"
+          },
+          {
+            "text": "Direct Connect",
+            "href": "https://www.coreweave.com/products/networking#direct-connect"
+          },
+          {
+            "text": "Managed Kubernetes",
+            "href": "https://www.coreweave.com/products/coreweave-kubernetes-service"
+          },
+          {
+            "text": "Slurm on Kubernetes",
+            "href": "https://www.coreweave.com/products/sunk"
+          },
+          {
+            "text": "Platform",
+            "href": "https://www.coreweave.com/platform"
+          },
+          {
+            "text": "Fleet LifeCycle Controller",
+            "href": "https://www.coreweave.com/mission-control#flc"
+          },
+          {
+            "text": "Node LifeCycle Controller",
+            "href": "https://www.coreweave.com/mission-control#nlc"
+          },
+          {
+            "text": "Tensorizer",
+            "href": "https://www.coreweave.com/solutions/ai-inference#tensorizer"
+          },
+          {
+            "text": "Observability",
+            "href": "https://www.coreweave.com/observability"
+          },
+          {
+            "text": "Security",
+            "href": "https://www.coreweave.com/security"
+          },
+          {
+            "text": "Weights & Biases AI Developer Platform",
+            "href": "https://wandb.ai/site/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Models",
+            "href": "https://wandb.ai/site/models/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Inference",
+            "href": "https://wandb.ai/site/inference?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Training",
+            "href": "https://wandb.ai/site/wb-training/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Weave",
+            "href": "https://wandb.ai/site/weave/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "AI Model Training",
+            "href": "https://www.coreweave.com/solutions/ai-model-training"
+          },
+          {
+            "text": "AI Inference",
+            "href": "https://www.coreweave.com/solutions/ai-inference"
+          },
+          {
+            "text": "VFX & Rendering",
+            "href": "https://www.conductortech.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Pricing",
+            "href": "https://www.coreweave.com/pricing"
+          },
+          {
+            "text": "AI Infrastructure",
+            "href": "https://www.coreweave.com/#"
+          },
+          {
+            "text": "AI Infrastructure",
+            "href": "https://www.coreweave.com/ai-infrastructure"
+          },
+          {
+            "text": "Mission Control",
+            "href": "https://www.coreweave.com/mission-control"
+          },
+          {
+            "text": "Why CoreWeave",
+            "href": "https://www.coreweave.com/why-coreweave"
+          },
+          {
+            "text": "Customer Stories",
+            "href": "https://www.coreweave.com/case-studies"
+          },
+          {
+            "text": "Documentation",
+            "href": "https://docs.coreweave.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Status",
+            "href": "https://status.coreweave.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Resource Center",
+            "href": "https://www.coreweave.com/resource-center"
+          },
+          {
+            "text": "Events & Webinars",
+            "href": "https://www.coreweave.com/events"
+          },
+          {
+            "text": "About Us",
+            "href": "https://www.coreweave.com/about-us"
+          },
+          {
+            "text": "Careers",
+            "href": "https://www.coreweave.com/careers"
+          },
+          {
+            "text": "Life at CoreWeave",
+            "href": "https://www.coreweave.com/coreweave-company-culture"
+          },
+          {
+            "text": "Newsroom",
+            "href": "https://www.coreweave.com/newsroom"
+          },
+          {
+            "text": "Investor Relations",
+            "href": "https://investors.coreweave.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Login",
+            "href": "https://console.coreweave.com/login?utm_source=coreweave.com&utm_medium=site"
+          }
+        ],
+        "features": [
+          "Accelerating AI Innovation Virtual Summit Watch on-demand sessions from CoreWeave and NVIDIA’s inaugural virtual summit, featuring leading AI luminaries, top CoreWeave and NVIDIA experts, and stories from industry-leading customers like OpenAI, Mistral AI, and IBM. Register now"
+        ],
+        "gpuMentions": [
+          "GPU",
+          "GPUs",
+          "NVIDIA",
+          "NVIDIA’s"
+        ],
+        "pricingInfo": []
+      }
+    },
+    "features": {
+      "url": "https://www.coreweave.com/platform",
+      "success": false,
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://www.coreweave.com/platform\", waiting until \"networkidle\"\n",
+      "scrapedAt": "2026-01-13T23:42:14.040Z"
+    },
+    "pricing": {
+      "url": "https://www.coreweave.com/pricing",
+      "success": true,
+      "scrapedAt": "2026-01-13T23:42:18.217Z",
+      "content": {
+        "title": "GPU Cloud Pricing | CoreWeave",
+        "headings": [
+          {
+            "level": "h1",
+            "text": "GPU Cloud Pricing"
+          },
+          {
+            "level": "h2",
+            "text": "Compute"
+          },
+          {
+            "level": "h2",
+            "text": "On-demand GPU instances"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA GB300 NVL72"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA GB300 NVL72"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA GB200 NVL72"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA GB200 NVL72"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA B200"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA B200"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA HGX H100"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA HGX H100"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA HGX H200"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA HGX H200"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA GH200"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA GH200"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA L40"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA L40"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA L40S"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA L40S"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA A100"
+          },
+          {
+            "level": "h3",
+            "text": "NVIDIA A100"
+          },
+          {
+            "level": "h2",
+            "text": "On-demand CPU instances"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9274F)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9274F)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9454)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9454)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9454)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9454)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9654)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Genoa (9654)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Turin (9655P)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Turin (9655P)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Turin (9655P)"
+          },
+          {
+            "level": "h3",
+            "text": "AMD Turin (9655P)"
+          },
+          {
+            "level": "h3",
+            "text": "Intel Emerald Rapids (8562Y+)"
+          },
+          {
+            "level": "h3",
+            "text": "Intel Emerald Rapids (8562Y+)"
+          },
+          {
+            "level": "h3",
+            "text": "Intel Ice Lake (6342)"
+          },
+          {
+            "level": "h3",
+            "text": "Intel Ice Lake (6342)"
+          },
+          {
+            "level": "h2",
+            "text": "Reserved capacity"
+          },
+          {
+            "level": "h2",
+            "text": "Storage"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave AI Object Storage"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave AI Object Storage"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave AI Object Storage"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave AI Object Storage"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave AI Object Storage"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave AI Object Storage"
+          },
+          {
+            "level": "h3",
+            "text": "Distributed File Storage"
+          },
+          {
+            "level": "h3",
+            "text": "Distributed File Storage"
+          },
+          {
+            "level": "h3",
+            "text": "Egress and Input Output Operations per Second"
+          },
+          {
+            "level": "h3",
+            "text": "Egress and Input Output Operations per Second"
+          },
+          {
+            "level": "h2",
+            "text": "Networking"
+          },
+          {
+            "level": "h3",
+            "text": "Networking Pricing"
+          },
+          {
+            "level": "h3",
+            "text": "NAT Gateway"
+          },
+          {
+            "level": "h3",
+            "text": "NAT Gateway"
+          },
+          {
+            "level": "h3",
+            "text": "Data transfer between CoreWeave and internet"
+          },
+          {
+            "level": "h3",
+            "text": "Data transfer between CoreWeave and internet"
+          },
+          {
+            "level": "h3",
+            "text": "Data transfer within CoreWeave"
+          },
+          {
+            "level": "h3",
+            "text": "Data transfer within CoreWeave"
+          },
+          {
+            "level": "h3",
+            "text": "VPC"
+          },
+          {
+            "level": "h3",
+            "text": "VPC"
+          },
+          {
+            "level": "h3",
+            "text": "Public IP Address"
+          },
+          {
+            "level": "h3",
+            "text": "Public IP Address"
+          },
+          {
+            "level": "h3",
+            "text": "Bring Your Own IP"
+          },
+          {
+            "level": "h3",
+            "text": "Bring Your Own IP"
+          },
+          {
+            "level": "h3",
+            "text": "Direct Connect (DX) monthly billing rates"
+          },
+          {
+            "level": "h3",
+            "text": "400G"
+          },
+          {
+            "level": "h3",
+            "text": "400G"
+          },
+          {
+            "level": "h3",
+            "text": "100G"
+          },
+          {
+            "level": "h3",
+            "text": "100G"
+          },
+          {
+            "level": "h3",
+            "text": "10G"
+          },
+          {
+            "level": "h3",
+            "text": "10G"
+          },
+          {
+            "level": "h2",
+            "text": "Managed Kubernetes"
+          },
+          {
+            "level": "h3",
+            "text": "Slurm on Kubernetes (SUNK)"
+          },
+          {
+            "level": "h3",
+            "text": "Slurm on Kubernetes (SUNK)"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave Kubernetes Service Control Plane"
+          },
+          {
+            "level": "h3",
+            "text": "CoreWeave Kubernetes Service Control Plane"
+          },
+          {
+            "level": "h2",
+            "text": "Looking for CoreWeave Classic pricing?"
+          },
+          {
+            "level": "h1",
+            "text": "Start building today."
+          },
+          {
+            "level": "h3",
+            "text": "Products"
+          },
+          {
+            "level": "h3",
+            "text": "Solutions"
+          },
+          {
+            "level": "h3",
+            "text": "AI Infrastructure"
+          },
+          {
+            "level": "h3",
+            "text": "Why CoreWeave"
+          },
+          {
+            "level": "h3",
+            "text": "Resources"
+          },
+          {
+            "level": "h3",
+            "text": "About"
+          },
+          {
+            "level": "h2",
+            "text": "Do Not Sell or Share My Personal Data"
+          },
+          {
+            "level": "h3",
+            "text": "Manage Consent Preferences"
+          },
+          {
+            "level": "h4",
+            "text": "Strictly Necessary Cookies"
+          },
+          {
+            "level": "h4",
+            "text": "Share Or Sale of Personal Data"
+          },
+          {
+            "level": "h3",
+            "text": "Cookie List"
+          }
+        ],
+        "mainText": "GPU Cloud Pricing Get access to world-class cloud resources and the best GPUs on the market. Our infrastructure is built from the ground up to give AI teams the powerful compute they need to build and deploy cutting-edge GenAI applications. We aim to provide first-to-market access to the latest and greatest NVIDIA GPUs—accelerating and streamlining your workloads for superior price-to-performance ratios. Superpower your GenAI workloads today and build on CKS. Compute Get models to market faster with the latest and greatest NVIDIA chips. On-demand GPU instances Utilize on-demand GPU instances for additional workloads when you’re not looking for long-term capacity commitments. Quickly spin-up burst capacity on-demand—with the flexibility of great on-demand pricing. GPU Model GPU Count VRAM (GB) vCPUs System RAM (GB) Local Storage (TB) Instance Price (Per Hour) NVIDIA GB300 NVL72 41 279 144 960 61.44 Contact sales NVIDIA GB200 NVL72 41 186 144 960 30.72 $42.00 NVIDIA B200 8 180 128 2,048 61.44 $68.80 NVIDIA RTX PRO 6000 Blackwell Server Edition 8 96 128 1,024 7.68 $20.00 NVIDIA HGX H100 8 80 128 2,048 61.44 $49.24 NVIDIA HGX H200 8 141 128 2,048 61.44 $50.44 NVIDIA GH200 1 96 72 480 7.68 $6.50 NVIDIA L40 8 48 128 1,024 7.68 $10.00 NVIDIA L40S 8 48 128 1,024 7.68 $18.00 NVIDIA A100 8 80 128 2,048 7.68 $21.60 1 Each instance is comprised of 2 GB200 or GB300 Superchips, where each Superchip has 1 Grace CPU and 2 Blackwell GPUs. CoreWeave Cloud storage usage is calculated in binary gigabytes (GB), where 1 GB is 230 bytes. This unit of measurement is also known as a gibibyte (GiB), defined by the International Electrotechnical Commission (IEC). Similarly, 1 TB is 240 bytes, i.e. 1024 GBs. On-demand CPU instances We know AI training and serving workloads don’t exist in a vacuum. Get CPUs on-demand to support GPUs during the overall lifecycle of model training jobs. CPU Model CPU Type vCPUs System Ram (GB) Local Storage (TB) Instance Price (Per Hour) AMD Genoa (9274F) High Performance 96 768 7.68 $6.42 AMD Genoa (9454) General Purpose 192 1,536 7.68 $7.78 AMD Genoa (9454) General Purpose - High Storage 192 1,536 61.44 $8.86 AMD Genoa (9654) High Core 384 1,536 7.68 $7.54 AMD Turin (9655P) General Purpose 192 1,536 7.68 $8.18 AMD Turin (9655P) General Purpose - High Storage 192 1,536 61.44 $9.31 Intel Emerald Rapids (8562Y+) General Purpose 64 512 7.68 $5.31 Intel Ice Lake (6342) General Purpose 96 384 19.2 $3.36 Reserved capacity CoreWeave offers up to 60% discounts over our On-Demand prices for committed usage. To learn more about these options, please reach out to us today. Storage At CoreWeave, our storage pricing is built to remove barriers to innovation. With no ingress, egress, or transfer fees, customers gain the freedom to move data as their workloads demand, without worrying about hidden costs or vendor lock-in. This transparency empowers teams to scale quickly, experiment boldly, and adapt their strategies with confidence, knowing their infrastructure won’t hold them back from pushing the limits of what’s possible. Product Tier Price CoreWeave AI Object Storage Hot $0.06/GB/mo* CoreWeave AI Object Storage Warm $0.03/GB/mo CoreWeave AI Object Storage Cold $0.015/GB/mo Distributed File Storage - $0.070/GB/mo* Egress and Input Output Operations per Second - Free *Discounts are available for reserved storage capacity for AI Object Storage and Distributed File Storage. CoreWeave Cloud storage usage is calculated in binary gigabytes (GB), where 1 GB is 2³⁰ bytes. This unit of measurement is also known as a gibibyte (GiB), defined by the International Electrotechnical Commission (IEC). Similarly, 1 TB is 2⁴⁰ bytes, i.e. 1024 GBs. Networking Networking on CoreWeave is built to empower scaling computational workloads. Plus, if your workload requires significant throughput, we will work with our partners to structure IP transit or peering agreements that work for your business. Networking Pricing Product Price NAT Gateway Free Data transfer between CoreWeave and internet Free Data transfer within CoreWeave Free VPC Free Public IP Address $4.00 per IP / month Bring Your Own IP $4.00 one-time setup fee per IP Direct Connect (DX) monthly billing rates DX Speed Dedicated DX1 Price Virtual DX2 Price 400G $50,000 Not Available 100G $12,500 $15,000 10G $1,250 $1,500 1 Dedicated DX has no setup fee, and does not include the cost of cross connect. If you need us to order and manage the cross connect with the colocation provider for you, those costs are added to the Direct Connect price shown above. 2 Virtual DX has no setup fee, and does not include the cost of your ports at Equinix Fabric or Megaport. You will order ports from them and pay their charges separately. It also does not include the cost of virtual connections. If you need us to order and manage the virtual connections for you, those costs are added to the Direct Connect price shown above. Managed Kubernetes Our managed Kubernetes environment is purpose-built for ",
+        "links": [
+          {
+            "text": "GPU Compute",
+            "href": "https://www.coreweave.com/products/gpu-compute"
+          },
+          {
+            "text": "NVIDIA GB200 NVL72/HGX B200",
+            "href": "https://www.coreweave.com/products/nvidia-blackwell"
+          },
+          {
+            "text": "NVIDIA HGX H100/H200",
+            "href": "https://www.coreweave.com/products/hgx-h100-h200"
+          },
+          {
+            "text": "NVIDIA HGX A100",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA PCIE A100",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA L40, L40S",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA A40",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "NVIDIA RTX GPUs",
+            "href": "https://www.coreweave.com/products/gpu-compute#additional-gpu-skus"
+          },
+          {
+            "text": "CPU Compute",
+            "href": "https://www.coreweave.com/products/cpu-compute"
+          },
+          {
+            "text": "Bare Metal Servers",
+            "href": "https://www.coreweave.com/products/bare-metal"
+          },
+          {
+            "text": "Storage Services",
+            "href": "https://www.coreweave.com/products/storage"
+          },
+          {
+            "text": "Local Storage",
+            "href": "https://www.coreweave.com/products/storage#local-storage"
+          },
+          {
+            "text": "Object Storage",
+            "href": "https://www.coreweave.com/products/storage#object-storage"
+          },
+          {
+            "text": "Distributed File Storage",
+            "href": "https://www.coreweave.com/products/storage#distributed-file-storage"
+          },
+          {
+            "text": "Networking Services",
+            "href": "https://www.coreweave.com/products/networking"
+          },
+          {
+            "text": "Virtual Private Cloud",
+            "href": "https://www.coreweave.com/products/networking#vpc"
+          },
+          {
+            "text": "InfiniBand Networking",
+            "href": "https://www.coreweave.com/products/networking#infiniband"
+          },
+          {
+            "text": "Direct Connect",
+            "href": "https://www.coreweave.com/products/networking#direct-connect"
+          },
+          {
+            "text": "Managed Kubernetes",
+            "href": "https://www.coreweave.com/products/coreweave-kubernetes-service"
+          },
+          {
+            "text": "Slurm on Kubernetes",
+            "href": "https://www.coreweave.com/products/sunk"
+          },
+          {
+            "text": "Platform",
+            "href": "https://www.coreweave.com/platform"
+          },
+          {
+            "text": "Fleet LifeCycle Controller",
+            "href": "https://www.coreweave.com/mission-control#flc"
+          },
+          {
+            "text": "Node LifeCycle Controller",
+            "href": "https://www.coreweave.com/mission-control#nlc"
+          },
+          {
+            "text": "Tensorizer",
+            "href": "https://www.coreweave.com/solutions/ai-inference#tensorizer"
+          },
+          {
+            "text": "Observability",
+            "href": "https://www.coreweave.com/observability"
+          },
+          {
+            "text": "Security",
+            "href": "https://www.coreweave.com/security"
+          },
+          {
+            "text": "Weights & Biases AI Developer Platform",
+            "href": "https://wandb.ai/site/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Models",
+            "href": "https://wandb.ai/site/models/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Inference",
+            "href": "https://wandb.ai/site/inference?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Training",
+            "href": "https://wandb.ai/site/wb-training/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "W&B Weave",
+            "href": "https://wandb.ai/site/weave/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "AI Model Training",
+            "href": "https://www.coreweave.com/solutions/ai-model-training"
+          },
+          {
+            "text": "AI Inference",
+            "href": "https://www.coreweave.com/solutions/ai-inference"
+          },
+          {
+            "text": "VFX & Rendering",
+            "href": "https://www.conductortech.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Pricing",
+            "href": "https://www.coreweave.com/pricing"
+          },
+          {
+            "text": "AI Infrastructure",
+            "href": "https://www.coreweave.com/pricing#"
+          },
+          {
+            "text": "AI Infrastructure",
+            "href": "https://www.coreweave.com/ai-infrastructure"
+          },
+          {
+            "text": "Mission Control",
+            "href": "https://www.coreweave.com/mission-control"
+          },
+          {
+            "text": "Why CoreWeave",
+            "href": "https://www.coreweave.com/why-coreweave"
+          },
+          {
+            "text": "Customer Stories",
+            "href": "https://www.coreweave.com/case-studies"
+          },
+          {
+            "text": "Documentation",
+            "href": "https://docs.coreweave.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Status",
+            "href": "https://status.coreweave.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Resource Center",
+            "href": "https://www.coreweave.com/resource-center"
+          },
+          {
+            "text": "Events & Webinars",
+            "href": "https://www.coreweave.com/events"
+          },
+          {
+            "text": "About Us",
+            "href": "https://www.coreweave.com/about-us"
+          },
+          {
+            "text": "Careers",
+            "href": "https://www.coreweave.com/careers"
+          },
+          {
+            "text": "Life at CoreWeave",
+            "href": "https://www.coreweave.com/coreweave-company-culture"
+          },
+          {
+            "text": "Newsroom",
+            "href": "https://www.coreweave.com/newsroom"
+          },
+          {
+            "text": "Investor Relations",
+            "href": "https://investors.coreweave.com/?utm_source=coreweave.com&utm_medium=site"
+          },
+          {
+            "text": "Login",
+            "href": "https://console.coreweave.com/login?utm_source=coreweave.com&utm_medium=site"
+          }
+        ],
+        "features": [],
+        "gpuMentions": [
+          "H100",
+          "H200",
+          "H200First",
+          "A100",
+          "L40",
+          "L40S",
+          "RTX",
+          "GPU",
+          "GPUs",
+          "GPUs—accelerating",
+          "NVIDIA",
+          "AMD"
+        ],
+        "pricingInfo": [
+          "GPU Model GPU Count VRAM (GB) vCPUs System RAM (GB) Local Storage (TB) Instance Price (Per Hour) NVIDIA GB300 NVL72 41 279 144 960 61.44 Contact sales NVIDIA GB200 NVL72 41 186 144 960 30.72 $42.00 NVIDIA B200 8 180 128 2,048 61.44 $68.80 NVIDIA RTX PRO 6000 Blackwell Server Edition 8 96 128 1,024 7.68 $20.00 NVIDIA HGX H100 8 80 128 2,048 61.44 $49.24 NVIDIA HGX H200 8 141 128 2,048 61.44 $50.44 NVIDIA GH200 1 96 72 480 7.68 $6.50 NVIDIA L40 8 48 128 1,024 7.68 $10.00 NVIDIA L40S 8 48 128 1,024 7.68 $18.00 NVIDIA A100 8 80 128 2,048 7.68 $21.60 1 Each instance is comprised of 2 GB200 or GB300 Superchips, where each Superchip has 1 Grace CPU and 2 Blackwell GPUs. CoreWeave Cloud storage usage is calculated in binary gigabytes (GB), where 1 GB is 230 bytes. This unit of measurement is also known as a gibibyte (GiB), defined by the International Electrotechnical Commission (IEC). Similarly, 1 TB is 240 bytes, i.e. 1024 GBs.",
+          "NVIDIA GB200 NVL72 41 186 144 960 30.72 $42.00",
+          "NVIDIA B200 8 180 128 2,048 61.44 $68.80",
+          "NVIDIA RTX PRO 6000 Blackwell Server Edition 8 96 128 1,024 7.68 $20.00",
+          "NVIDIA HGX H100 8 80 128 2,048 61.44 $49.24",
+          "NVIDIA HGX H200 8 141 128 2,048 61.44 $50.44",
+          "NVIDIA GH200 1 96 72 480 7.68 $6.50",
+          "NVIDIA L40 8 48 128 1,024 7.68 $10.00",
+          "NVIDIA L40S 8 48 128 1,024 7.68 $18.00",
+          "NVIDIA A100 8 80 128 2,048 7.68 $21.60"
+        ]
+      }
+    }
+  }
+}
