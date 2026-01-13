@@ -1,8 +1,8 @@
 {
   "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
-  "name": "Datacrunch",
-  "slug": "datacrunch",
-  "description": "DataCrunch provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on‑demand and H200 nodes.",
+  "name": "Verda",
+  "slug": "Verda",
+  "description": "Verda provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on‑demand and H200 nodes.",
   "pros": [
     "Wide range of GPU models, including latest NVIDIA H200",
     "Cost-effective compared to major cloud providers",
@@ -18,7 +18,7 @@
     "Specialized focus may not suit all computing needs",
     "Fewer data center locations than larger competitors"
   ],
-  "link": "https://datacrunch.io/",
+  "link": "https://verda.com",
   "computeServices": [
     {
       "name": "Premium GPU Instances",
