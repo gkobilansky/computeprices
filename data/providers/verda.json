@@ -1,7 +1,7 @@
 {
   "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
   "name": "Verda",
-  "slug": "Verda",
+  "slug": "verda",
   "description": "Verda provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on‑demand and H200 nodes.",
   "pros": [
     "Wide range of GPU models, including latest NVIDIA H200",
