@@ -38,14 +38,14 @@ jobs:
         if: github.event.inputs.provider == ''
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://${{ secrets.SUPABASE_PROJECT_REF }}.supabase.co
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: npm run providers:sync -- --yes
 
       - name: Sync specific provider to database
         if: github.event.inputs.provider != ''
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://${{ secrets.SUPABASE_PROJECT_REF }}.supabase.co
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           PROVIDER_SLUG: ${{ github.event.inputs.provider }}
         run: |
           # Validate provider slug format
