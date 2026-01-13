@@ -178,5 +178,6 @@
   "hqCountry": "NL",
   "tagline": "Full-stack AI infrastructure platform",
   "tags": [],
-  "category": "Massive neocloud"
+  "category": "Massive neocloud",
+  "pricing_page": "https://nebius.com/pricing"
 }
