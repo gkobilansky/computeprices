@@ -68,7 +68,26 @@ jobs:
             exit 1
           fi
 
-      - name: Run Claude Code verification
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Scrape provider website
+        id: scrape
+        env:
+          PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
+        run: |
+          echo "🔍 Scraping provider: ${PROVIDER_SLUG}"
+          node scripts/scrape-provider-with-playwright.js ${PROVIDER_SLUG}
+
+          # Check if scraping succeeded
+          if [ ! -f "scraped-data.json" ]; then
+            echo "❌ Error: Scraping failed - no output file generated"
+            exit 1
+          fi
+
+          echo "✅ Scraping completed successfully"
+
+      - name: Analyze scraped data with Claude
         id: claude
         env:
           PROVIDER_SLUG: ${{ steps.provider.outputs.slug }}
@@ -76,101 +95,82 @@ jobs:
         with:
           mode: agent
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          allowed_tools: Read,Edit,Glob,Grep,WebSearch,WebFetch
+          allowed_tools: Read,Edit,Glob,Grep
           direct_prompt: |
             Verify and update provider data for: ${{ env.PROVIDER_SLUG }}
 
-            ## CRITICAL: This is a WEB RESEARCH Task
+            ## Your Task
 
-            Your PRIMARY objective is to research the provider's current state using web sources.
-            You MUST use WebSearch and WebFetch tools extensively.
-            DO NOT use bash, curl, or codebase analysis as a substitute for web research.
+            We've scraped the provider's website and saved the results to `scraped-data.json`.
+            Your job is to compare this fresh web data with our current provider file and update it if needed.
 
-            ## Step 1: WEB RESEARCH FIRST (Required)
+            ## Step 1: Read the Scraped Data
 
-            Before reading any files, perform comprehensive web research:
-
-            1. **Use WebSearch to find:**
-               - "${{ env.PROVIDER_SLUG }} GPU cloud 2025 2026"
-               - "${{ env.PROVIDER_SLUG }} pricing changes"
-               - "${{ env.PROVIDER_SLUG }} new features announcement"
-               - "${{ env.PROVIDER_SLUG }} company news"
-               - "${{ env.PROVIDER_SLUG }} data centers regions"
-
-            2. **Use WebFetch to visit and analyze these pages:**
-               - Provider's main website homepage
-               - Pricing page (look for /pricing, /plans)
-               - Documentation site (look for /docs, /documentation)
-               - Features/products page
-               - About/company page (for HQ location, company info)
-               - Blog or news section (for recent updates)
-
-            3. **Gather specific information:**
-               - Current GPU models offered (H100, H200, A100, etc.)
-               - Geographic regions and data center locations
-               - Pricing models (on-demand, reserved, spot, etc.)
-               - Key features and differentiators
-               - Recent product launches or changes
-               - Company positioning and tagline
-               - Support options
+            First, read `scraped-data.json` to see what we found on their website.
+            This file contains:
+            - Content from their home page
+            - Content from their pricing page (if found)
+            - Content from their docs page (if found)
+            - Content from their features page (if found)
+            - GPU mentions, features, pricing info extracted from each page
 
             ## Step 2: Read Current Provider Data
 
-            After completing web research, read these files:
-            1. Read: data/providers/PROVIDER_DATA_GUIDELINES.md
-            2. Read: data/providers/${{ env.PROVIDER_SLUG }}.json
+            Read these files:
+            1. `data/providers/PROVIDER_DATA_GUIDELINES.md` - Our standards for provider data
+            2. `data/providers/${{ env.PROVIDER_SLUG }}.json` - Current provider data
 
-            ## Step 3: Compare and Identify Discrepancies
+            ## Step 3: Compare and Identify Issues
 
-            Compare what you found in web research (Step 1) with the current JSON data (Step 2).
+            Compare the scraped data with the current JSON file. Look for:
 
-            Look for:
-            - Outdated GPU model listings
-            - Incorrect or broken URLs
-            - Missing new features or services
-            - Changed company information (name, tagline, location)
-            - Inaccurate descriptions
-            - Missing fields recommended by guidelines
-            - Outdated pros/cons that no longer apply
+            **Company Information:**
+            - Is the company name still correct?
+            - Is the tagline accurate or outdated?
+            - Is the description accurate?
+            - Is the category classification still appropriate?
+
+            **URLs:**
+            - Are the website URLs correct?
+            - Should we add missing `docsLink` or `pricing_page` if we found them?
+
+            **Features & Services:**
+            - Are there new features mentioned on the website that aren't in our data?
+            - Are the pros/cons still accurate?
+            - Are GPU model offerings up to date?
+
+            **Missing Fields:**
+            - According to PROVIDER_DATA_GUIDELINES.md, what recommended fields are missing?
+            - Can we populate them from the scraped data?
 
             ## Step 4: Update Provider File (If Needed)
 
-            If you found discrepancies:
-            - Use Edit tool to update data/providers/${{ env.PROVIDER_SLUG }}.json
-            - Be conservative - only change what's clearly wrong or outdated
-            - Add missing recommended fields from guidelines
+            If you found discrepancies or missing information:
+            - Use Edit tool to update `data/providers/${{ env.PROVIDER_SLUG }}.json`
+            - Be conservative - only change what's clearly wrong or add missing information
+            - Follow PROVIDER_DATA_GUIDELINES.md for structure and content standards
             - Preserve JSON formatting (2-space indent)
-            - Follow PROVIDER_DATA_GUIDELINES.md content standards
+            - **Do NOT change the UUID (id field)**
+            - **Do NOT change the slug**
 
-            If data is accurate: Make no changes
+            If the current data is accurate and complete: Make no changes
 
             ## Step 5: Provide Detailed Summary
 
             Output a comprehensive summary including:
-            - **Web sources checked:** List all URLs you visited with WebFetch
-            - **Web searches performed:** List all search queries you used
-            - **What you verified as accurate:** Specific claims you confirmed
-            - **What you changed and why:** Each change with supporting web source
+            - **Pages scraped:** List the URLs that were successfully scraped (from scraped-data.json)
+            - **What you verified as accurate:** Specific claims from our JSON that match the scraped data
+            - **What you changed and why:** Each change with supporting evidence from the scraped data
+            - **Missing information:** Anything we should add but couldn't determine from scraped data
             - **Confidence level:** High/Medium/Low with justification
-
-            ## FORBIDDEN ACTIONS
-
-            DO NOT:
-            - Use bash commands to fetch web content (curl, wget, etc.)
-            - Use grep/git to analyze the codebase instead of web research
-            - Skip web research and only look at existing data
-            - Use Task tool or sub-agents (do the research yourself)
-            - Guess or infer information without web sources
-
-            You MUST perform actual web research using WebSearch and WebFetch.
-            Your summary MUST include the web sources you checked.
 
             ## Important Constraints
             - Do NOT change the provider's UUID (id field)
             - Do NOT change the slug
             - Preserve JSON formatting (2-space indent)
-            - Only make factual corrections backed by web sources
+            - Only make factual corrections backed by scraped data
             - Follow PROVIDER_DATA_GUIDELINES.md for content standards
+            - Do NOT invent information not present in the scraped data
 
       - name: Check for changes
         id: changes
