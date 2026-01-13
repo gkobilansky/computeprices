@@ -76,45 +76,100 @@ jobs:
         with:
           mode: agent
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          allowed_tools: WebSearch,WebFetch
+          allowed_tools: Read,Edit,Glob,Grep,WebSearch,WebFetch
           direct_prompt: |
             Verify and update provider data for: ${{ env.PROVIDER_SLUG }}
 
-            ## Instructions
+            ## CRITICAL: This is a WEB RESEARCH Task
 
-            1. **Read the provider data guidelines first:**
-               - Read data/providers/PROVIDER_DATA_GUIDELINES.md
-               - Follow these guidelines when verifying and updating provider data
+            Your PRIMARY objective is to research the provider's current state using web sources.
+            You MUST use WebSearch and WebFetch tools extensively.
+            DO NOT use bash, curl, or codebase analysis as a substitute for web research.
 
-            2. Read the provider file at: data/providers/${{ env.PROVIDER_SLUG }}.json
+            ## Step 1: WEB RESEARCH FIRST (Required)
 
-            3. Research the provider's current information by visiting their website and documentation.
-               Focus on verifying:
-               - Provider name and description accuracy
-               - Website URL (link) and docs URL (docsLink)
-               - Features list - are they current and accurate?
-               - Pros and cons - do they reflect current state?
-               - Getting started steps - are they still valid?
-               - GPU/compute services offered - any new offerings?
-               - Category classification - is it still appropriate?
+            Before reading any files, perform comprehensive web research:
 
-            4. If you find ANY outdated, incorrect, or missing information:
-               - Edit the provider JSON file with corrections
-               - Be conservative - only change what's clearly wrong or outdated
-               - Preserve the existing structure and formatting
+            1. **Use WebSearch to find:**
+               - "${{ env.PROVIDER_SLUG }} GPU cloud 2025 2026"
+               - "${{ env.PROVIDER_SLUG }} pricing changes"
+               - "${{ env.PROVIDER_SLUG }} new features announcement"
+               - "${{ env.PROVIDER_SLUG }} company news"
+               - "${{ env.PROVIDER_SLUG }} data centers regions"
 
-            5. If the data is accurate and up-to-date, make no changes.
+            2. **Use WebFetch to visit and analyze these pages:**
+               - Provider's main website homepage
+               - Pricing page (look for /pricing, /plans)
+               - Documentation site (look for /docs, /documentation)
+               - Features/products page
+               - About/company page (for HQ location, company info)
+               - Blog or news section (for recent updates)
 
-            6. After verification, output a summary of:
-               - What you checked
-               - What changes you made (if any)
-               - Confidence level in your verification
+            3. **Gather specific information:**
+               - Current GPU models offered (H100, H200, A100, etc.)
+               - Geographic regions and data center locations
+               - Pricing models (on-demand, reserved, spot, etc.)
+               - Key features and differentiators
+               - Recent product launches or changes
+               - Company positioning and tagline
+               - Support options
 
-            ## Important Notes
+            ## Step 2: Read Current Provider Data
+
+            After completing web research, read these files:
+            1. Read: data/providers/PROVIDER_DATA_GUIDELINES.md
+            2. Read: data/providers/${{ env.PROVIDER_SLUG }}.json
+
+            ## Step 3: Compare and Identify Discrepancies
+
+            Compare what you found in web research (Step 1) with the current JSON data (Step 2).
+
+            Look for:
+            - Outdated GPU model listings
+            - Incorrect or broken URLs
+            - Missing new features or services
+            - Changed company information (name, tagline, location)
+            - Inaccurate descriptions
+            - Missing fields recommended by guidelines
+            - Outdated pros/cons that no longer apply
+
+            ## Step 4: Update Provider File (If Needed)
+
+            If you found discrepancies:
+            - Use Edit tool to update data/providers/${{ env.PROVIDER_SLUG }}.json
+            - Be conservative - only change what's clearly wrong or outdated
+            - Add missing recommended fields from guidelines
+            - Preserve JSON formatting (2-space indent)
+            - Follow PROVIDER_DATA_GUIDELINES.md content standards
+
+            If data is accurate: Make no changes
+
+            ## Step 5: Provide Detailed Summary
+
+            Output a comprehensive summary including:
+            - **Web sources checked:** List all URLs you visited with WebFetch
+            - **Web searches performed:** List all search queries you used
+            - **What you verified as accurate:** Specific claims you confirmed
+            - **What you changed and why:** Each change with supporting web source
+            - **Confidence level:** High/Medium/Low with justification
+
+            ## FORBIDDEN ACTIONS
+
+            DO NOT:
+            - Use bash commands to fetch web content (curl, wget, etc.)
+            - Use grep/git to analyze the codebase instead of web research
+            - Skip web research and only look at existing data
+            - Use Task tool or sub-agents (do the research yourself)
+            - Guess or infer information without web sources
+
+            You MUST perform actual web research using WebSearch and WebFetch.
+            Your summary MUST include the web sources you checked.
+
+            ## Important Constraints
             - Do NOT change the provider's UUID (id field)
             - Do NOT change the slug
             - Preserve JSON formatting (2-space indent)
-            - Only make factual corrections, not stylistic changes
+            - Only make factual corrections backed by web sources
             - Follow PROVIDER_DATA_GUIDELINES.md for content standards
 
       - name: Check for changes
