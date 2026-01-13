@@ -29,8 +29,8 @@
           "description": "8× H100 SXM nodes for training and inference.",
           "features": [
             "Available at supercomputer scale",
-            "Quantum‑2 InfiniBand fabric",
-            "Pricing from ~$2.23/hr per GPU (varies)"
+            "Quantum‑2 InfiniBand fabric for high-speed interconnect",
+            "Competitive transparent pricing"
           ]
         },
         {

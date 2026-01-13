@@ -67,9 +67,9 @@
           "name": "Nvidia H200 SXM",
           "description": "High-performance GPU for large AI models.",
           "features": [
-            "141GB vRAM",
+            "141GB vRAM for memory-intensive workloads",
             "4.8TB/s memory bandwidth",
-            "On-demand pricing starting at $4.85/GPU/Hr"
+            "Latest Hopper architecture with HBM3e"
           ]
         },
         {
@@ -77,15 +77,16 @@
           "description": "High-performance GPU for advanced AI and vision tasks",
           "features": [
             "80GB vRAM",
-            "On-demand pricing starting at $4.52/Hr"
+            "NVLink interconnect for multi-GPU scaling",
+            "Proven Hopper architecture"
           ]
         },
         {
           "name": "Nvidia H100 NVL",
           "description": "Optimized for high-throughput inference and complex NLP tasks.",
           "features": [
-            "94GB vRAM",
-            "On-demand pricing starting at $4.05/Hr"
+            "94GB vRAM for long-context models",
+            "PCIe form factor with high memory capacity"
           ]
         },
         {
@@ -93,7 +94,7 @@
           "description": "Suitable for object detection, creative AI tasks, and text-to-image generation.",
           "features": [
             "24GB vRAM",
-            "On-demand pricing starting at $0.55/Hr"
+            "Cost-effective for inference and creative workloads"
           ]
         },
         {
@@ -101,7 +102,7 @@
           "description": "Good for Image segmentation, facial recognition, medical imaging",
           "features": [
             "20GB vRAM",
-            "On-demand pricing starting at $0.55/Hr"
+            "Ada Lovelace architecture for efficient inference"
           ]
         },
         {
@@ -109,7 +110,7 @@
           "description": "Compact inference, real-time audio processing, mobile AI",
           "features": [
             "16GB vRAM",
-            "On-demand pricing starting at $0.40/Hr"
+            "Compact form factor with balanced performance"
           ]
         },
         {
@@ -117,7 +118,7 @@
           "description": "Image classification, sequential data analysis, NLP fine-tuning",
           "features": [
             "16GB vRAM",
-            "On-demand pricing starting at $0.24/Hr"
+            "Budget-friendly option for proven workloads"
           ]
         }
       ]

@@ -78,7 +78,7 @@
           "features": [
             "Up to 8 GPUs / 640 GB vRAM",
             "126 vCPUs, 1.5 TB RAM, 10 TB NVMe",
-            "$21.60 hr for 8-GPU configuration"
+            "NVLink interconnect for multi-GPU scaling"
           ]
         },
         {
@@ -87,7 +87,7 @@
           "features": [
             "2, 4, or 8 GPUs per node",
             "Up to 752 GB vRAM",
-            "$5.06 hr (2 × NVL) to $20.24 hr (8 × NVL)"
+            "High memory capacity for long-context models"
           ]
         },
         {
@@ -95,7 +95,8 @@
           "description": "80 GB A100 GPUs for mainstream training workloads",
           "features": [
             "DGX A100 or PCIe flavours",
-            "From $1.20 hr (single A100 PCIe) to $9.84 hr (8 × A100)"
+            "Scalable from single GPU to 8-GPU configurations",
+            "Cost-effective for diverse workloads"
           ]
         },
         {
@@ -103,7 +104,7 @@
           "description": "Balanced AI-and-graphics GPUs with 48 GB vRAM",
           "features": [
             "Up to 8 GPUs per node",
-            "From $0.86 hr to $6.88 hr"
+            "Ada Lovelace architecture for inference and graphics"
           ]
         },
         {
@@ -111,7 +112,7 @@
           "description": "Cost-effective options for smaller fine-tunes, VFX and rendering",
           "features": [
             "24 – 48 GB vRAM",
-            "Hourly rates as low as $0.25 hr"
+            "Very competitive hourly rates for budget-conscious workloads"
           ]
         }
       ]

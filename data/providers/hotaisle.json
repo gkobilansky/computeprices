@@ -12,7 +12,7 @@
     },
     {
       "title": "Minute-Level Pricing",
-      "description": "Published $1.99/GPU/hr MI300X rate with no contracts and billing by the minute."
+      "description": "Transparent published MI300X pricing with no contracts and billing by the minute."
     },
     {
       "title": "High-Speed Fabric",
@@ -76,7 +76,7 @@
             "CPU: 8 or 13 cores",
             "RAM: 224GB",
             "Disk: 12,288GB NVMe",
-            "$1.99/GPU/hr minute-billed pricing"
+            "Minute-billed with transparent pricing"
           ]
         },
         {
@@ -140,7 +140,7 @@
   "pricingOptions": [
     {
       "name": "Minute-billed MI300X",
-      "description": "Published $1.99 per GPU-hour MI300X rate with on-demand, no-contract access billed by the minute."
+      "description": "Transparent published per-GPU hourly MI300X rate with on-demand, no-contract access billed by the minute."
     },
     {
       "name": "VM sizes from 1-8 GPUs",
@@ -155,7 +155,7 @@
   "support": "hello@hotaisle.ai with real-time Slack/Discord access, white-glove onboarding, API docs, and Dell ProSupport-backed hardware.",
   "uniqueSellingPoints": [
     "Focuses on AMD Instinct MI300X with dense 8-GPU XE9680 nodes and RoCEv2 fabric",
-    "Minute-level $1.99/GPU/hr pricing with on-demand VM and bare metal access",
+    "Competitive minute-level pricing with transparent published rates for on-demand VM and bare metal access",
     "3200 Gbps RoCEv2 plus 100G internet and unlimited bandwidth included",
     "Hosted in the Switch Pyramid Tier 5 data center powered by 100% renewable energy",
     "Hands-on support with ROCm-ready images, API automation, and optional K8s/Slurm/Ray installs"

@@ -2,13 +2,13 @@
   "id": "46f0b708-7a4b-453b-8c0e-d57f9f304265",
   "name": "Salad Cloud",
   "slug": "salad",
-  "description": "Salad Cloud is a distributed GPU platform that runs containers across community-powered GPUs and secure data center clusters, advertising pricing as low as $0.02/hr and sub-$1/hr H100 NVL capacity.",
+  "description": "Salad Cloud is a distributed GPU platform that runs containers across community-powered GPUs and secure data center clusters, offering competitive pricing for both consumer and data center GPUs.",
   "link": "https://salad.com",
   "docsLink": "https://docs.salad.com",
   "features": [
     {
       "title": "Community GPU Pool",
-      "description": "Community-powered GPUs for stateless and high-volume workloads with pricing advertised from $0.02/hr per GPU."
+      "description": "Community-powered consumer GPUs for stateless and high-volume workloads with very competitive pricing."
     },
     {
       "title": "Secure GPU Clusters",
@@ -19,8 +19,8 @@
       "description": "Deploy containers without managing nodes; scale replicas across thousands of GPUs via the Salad portal."
     },
     {
-      "title": "Published Hourly Rates",
-      "description": "Pricing calculator lists L40S at $0.32/hr, A100 80 GB at $0.50/hr, A100 40 GB at $0.40/hr, and H100 NVL at $0.99/hr per GPU."
+      "title": "Transparent Pricing Calculator",
+      "description": "Public pricing calculator shows hourly rates for all GPU types across both Community and Secure tiers."
     },
     {
       "title": "Developer Hub & Docs",
@@ -28,10 +28,11 @@
     }
   ],
   "pros": [
-    "Very low published GPU pricing, including sub-$1/hr H100 NVL and $0.02/hr community options",
+    "Very competitive GPU pricing across both community and secure tiers",
     "Mix of community GPUs and secure data center clusters with A100/L40S/H100 options",
     "Managed container engine reduces infrastructure and orchestration overhead",
-    "Developer portal, calculator, and docs make costs and deployment steps clear"
+    "Developer portal, calculator, and docs make costs and deployment steps clear",
+    "Transparent pricing calculator with published rates for all GPU types"
   ],
   "cons": [
     "Community GPU pool is best for stateless or fault-tolerant workloads where node variability is acceptable",
@@ -62,62 +63,62 @@
   "computeServices": [
     {
       "name": "Salad Container Engine - Secure",
-      "description": "Managed container orchestration on data center GPUs such as H100 NVL, A100, and L40S with pricing shown under $1/hr per GPU.",
+      "description": "Managed container orchestration on data center GPUs such as H100 NVL, A100, and L40S with competitive hourly pricing.",
       "instanceTypes": [
         {
           "name": "H100 NVL (94 GB)",
           "description": "Secure clusters of H100 NVL GPUs for high-performance training or inference.",
           "features": [
-            "Published at $0.99/hr per GPU in the pricing calculator",
             "Offered in 8x GPU cluster configurations",
-            "Managed orchestration with autoscaling via the portal"
+            "Managed orchestration with autoscaling via the portal",
+            "Data center-grade reliability and security"
           ]
         },
         {
           "name": "A100 80 GB SXM",
           "description": "A100 80 GB GPUs for dense AI workloads.",
           "features": [
-            "Listed at $0.50/hr per GPU",
             "Suitable for training and large-batch inference",
-            "Runs on secure, data center-grade hosts"
+            "Runs on secure, data center-grade hosts",
+            "NVLink support for multi-GPU communication"
           ]
         },
         {
           "name": "A100 40 GB PCIe",
           "description": "A100 40 GB GPUs with secure cluster orchestration.",
           "features": [
-            "$0.40/hr per GPU published pricing",
-            "Good for balanced training and inference workloads"
+            "Good for balanced training and inference workloads",
+            "Enterprise-grade data center infrastructure"
           ]
         },
         {
           "name": "L40S (48 GB)",
           "description": "Ada Lovelace L40S GPUs for inference and graphics-heavy tasks.",
           "features": [
-            "$0.32/hr per GPU listed pricing",
-            "Managed scaling via the Secure container engine"
+            "Managed scaling via the Secure container engine",
+            "Ideal for AI inference and visual computing"
           ]
         }
       ]
     },
     {
       "name": "Salad Container Engine - Community",
-      "description": "Community-powered GPU pool for flexible, stateless workloads with headline pricing from $0.02/hr per GPU.",
+      "description": "Community-powered GPU pool for flexible, stateless workloads with very competitive pricing.",
       "instanceTypes": [
         {
           "name": "RTX 5090 (32 GB)",
           "description": "High-end consumer GPUs for fast inference or rendering.",
           "features": [
-            "$0.25/hr per GPU on the pricing calculator",
-            "Best for cost-sensitive inference and graphics jobs"
+            "Best for cost-sensitive inference and graphics jobs",
+            "Wide availability across community network"
           ]
         },
         {
           "name": "RTX A5000 (24 GB)",
           "description": "Midrange consumer GPU option for budget-friendly deployment.",
           "features": [
-            "$0.09/hr per GPU published pricing",
-            "Ideal for batch jobs and lower-latency inference at low cost"
+            "Ideal for batch jobs and lower-latency inference",
+            "Extremely cost-effective for fault-tolerant workloads"
           ]
         }
       ]
@@ -163,28 +164,29 @@
   ],
   "pricingOptions": [
     {
-      "name": "Community GPUs from $0.02/hr",
-      "description": "Community tier advertises GPU pricing starting at $0.02/hr for stateless workloads."
+      "name": "Community GPU Pricing",
+      "description": "Extremely cost-effective community tier with consumer GPUs for stateless and fault-tolerant workloads."
     },
     {
-      "name": "Consumer GPU hourly rates",
-      "description": "Pricing calculator lists RTX A5000 at $0.09/hr and RTX 5090 at $0.25/hr per GPU."
-    },
-    {
-      "name": "Secure tier hourly rates",
-      "description": "Published secure pricing includes L40S at $0.32/hr, A100 40 GB at $0.40/hr, A100 80 GB at $0.50/hr, and H100 NVL at $0.99/hr per GPU (8x clusters)."
+      "name": "Secure Tier Pricing",
+      "description": "Competitive hourly rates for data center-grade H100 NVL, A100, and L40S GPUs with managed orchestration."
     },
     {
       "name": "On-demand, no contracts",
-      "description": "Hourly billing via the Salad portal and calculator with no prepayments required."
+      "description": "Hourly billing via the Salad portal and calculator with no prepayments or long-term commitments required."
+    },
+    {
+      "name": "Transparent pricing calculator",
+      "description": "Public pricing calculator available showing all GPU types and hourly rates across both tiers."
     }
   ],
   "regions": "Distributed global community GPU network with secure data center clusters (locations not explicitly listed on public pages).",
   "support": "Documentation and Developer Hub at docs.salad.com, portal dashboards with a status page, community Discord, and sales contact for secure clusters.",
   "uniqueSellingPoints": [
     "Combines a community GPU pool with secure data center clusters under one container engine",
-    "Publishes very low hourly rates, including sub-$1/hr H100 NVL and $0.02/hr community options",
-    "Fully managed container orchestration so users deploy images without handling node management"
+    "Highly competitive pricing across both community consumer GPUs and data center GPUs",
+    "Fully managed container orchestration so users deploy images without handling node management",
+    "Transparent pricing calculator with published rates for all GPU types"
   ],
   "hqCountry": "US",
   "tagline": "Distributed cloud powered by consumer GPUs",

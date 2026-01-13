@@ -49,8 +49,8 @@
           "features": [
             "MLPerf benchmark-dominating GPU",
             "30x AI inference over Ampere generation",
-            "3.2 Tbps InfiniBand connectivity",
-            "Starting from $2.00/h per GPU"
+            "3.2 Tbps InfiniBand connectivity for multi-node scaling",
+            "Competitive transparent pricing"
           ]
         },
         {
