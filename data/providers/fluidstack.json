@@ -23,22 +23,22 @@
   "computeServices": [
     {
       "name": "GPU Instances",
-      "description": "On‑demand dedicated GPUs for AI workloads.",
+      "description": "On‑demand dedicated GPUs for AI workloads with competitive pricing.",
       "instanceTypes": [
         {
           "name": "H200 SXM",
-          "description": "141 GB HBM3e.",
+          "description": "141 GB HBM3e for memory-intensive workloads.",
           "features": [
-            "From around $2.30/GPU‑hr (public list)",
-            "Regions by request"
+            "Latest Hopper architecture with HBM3e",
+            "Available in multiple regions by request"
           ]
         },
         {
           "name": "H100 SXM",
-          "description": "80 GB HBM.",
+          "description": "80 GB HBM for high-performance training.",
           "features": [
-            "From around $2.10/GPU‑hr (public list)",
-            "Cluster options"
+            "Proven Hopper architecture",
+            "Cluster options for multi-node workloads"
           ]
         }
       ]

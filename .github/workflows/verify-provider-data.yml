@@ -81,9 +81,13 @@ jobs:
 
             ## Instructions
 
-            1. Read the provider file at: data/providers/${{ env.PROVIDER_SLUG }}.json
+            1. **Read the provider data guidelines first:**
+               - Read data/providers/PROVIDER_DATA_GUIDELINES.md
+               - Follow these guidelines when verifying and updating provider data
 
-            2. Research the provider's current information by visiting their website and documentation.
+            2. Read the provider file at: data/providers/${{ env.PROVIDER_SLUG }}.json
+
+            3. Research the provider's current information by visiting their website and documentation.
                Focus on verifying:
                - Provider name and description accuracy
                - Website URL (link) and docs URL (docsLink)
@@ -93,14 +97,14 @@ jobs:
                - GPU/compute services offered - any new offerings?
                - Category classification - is it still appropriate?
 
-            3. If you find ANY outdated, incorrect, or missing information:
+            4. If you find ANY outdated, incorrect, or missing information:
                - Edit the provider JSON file with corrections
                - Be conservative - only change what's clearly wrong or outdated
                - Preserve the existing structure and formatting
 
-            4. If the data is accurate and up-to-date, make no changes.
+            5. If the data is accurate and up-to-date, make no changes.
 
-            5. After verification, output a summary of:
+            6. After verification, output a summary of:
                - What you checked
                - What changes you made (if any)
                - Confidence level in your verification
@@ -110,6 +114,7 @@ jobs:
             - Do NOT change the slug
             - Preserve JSON formatting (2-space indent)
             - Only make factual corrections, not stylistic changes
+            - Follow PROVIDER_DATA_GUIDELINES.md for content standards
 
       - name: Check for changes
         id: changes

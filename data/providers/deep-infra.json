@@ -20,7 +20,7 @@
     },
     {
       "title": "Transparent GPU Pricing",
-      "description": "Published per-GPU rates: A100 $0.89/hr, H100 $1.69/hr, H200 $1.99/hr, B200 $2.49/hr promo"
+      "description": "Published per-GPU hourly rates for A100, H100, H200, and B200 with competitive pricing"
     },
     {
       "title": "Inference-Optimized Hardware",
@@ -29,14 +29,14 @@
   ],
   "pros": [
     "Simple OpenAI-compatible API alongside controllable GPU rentals",
-    "Competitive hourly rates for flagship NVIDIA GPUs including B200 promo pricing",
-    "Fast provisioning with SSH access for dedicated instances",
+    "Competitive hourly rates for flagship NVIDIA GPUs including latest B200",
+    "Fast provisioning with SSH access for dedicated instances (ready in ~10 seconds)",
     "Supports custom deployments in addition to hosted public models"
   ],
   "cons": [
     "Region list is not clearly published in the public marketing pages",
     "Primarily focused on inference and GPU rentals rather than broader cloud services",
-    "B200 promo pricing is time-limited per site note"
+    "Newer player compared to established cloud providers"
   ],
   "gettingStarted": [
     {
@@ -76,31 +76,34 @@
       "instanceTypes": [
         {
           "name": "B200",
-          "description": "180 GB HBM and promo rate for premium training and inference.",
+          "description": "180 GB HBM Blackwell GPUs for premium training and inference.",
           "features": [
             "SSH access ready in about 10 seconds",
-            "Promo pricing $2.49 per GPU-hour (returns to $4.49 after promo)"
+            "Latest generation NVIDIA Blackwell architecture"
           ]
         },
         {
           "name": "H200",
           "description": "141 GB HBM GPUs tuned for memory-heavy LLMs and serve workloads.",
           "features": [
-            "$1.99 per GPU-hour published dedicated rate"
+            "Extended memory capacity for long-context models",
+            "Fast provisioning with SSH access"
           ]
         },
         {
           "name": "H100",
           "description": "80 GB Hopper GPUs for high-performance training and inference.",
           "features": [
-            "$1.69 per GPU-hour published dedicated rate"
+            "Optimized for transformer-based models",
+            "Fast provisioning with SSH access"
           ]
         },
         {
           "name": "A100",
           "description": "80 GB A100 GPUs for cost-effective training and fine-tuning.",
           "features": [
-            "$0.89 per GPU-hour published dedicated rate"
+            "Proven architecture for a wide range of workloads",
+            "Competitive pricing for budget-conscious deployments"
           ]
         }
       ]
@@ -141,19 +144,19 @@
     },
     {
       "name": "Dedicated GPU hourly rates",
-      "description": "Published pricing: A100 $0.89/hr, H100 $1.69/hr, H200 $1.99/hr, B200 $2.49/hr promo (then $4.49/hr)"
+      "description": "Published transparent hourly pricing for A100, H100, H200, and B200 GPUs with pay-as-you-go billing"
     },
     {
-      "name": "B200 GPU rentals",
-      "description": "SSH-accessible B200 nodes with flexible hourly billing and promo pricing noted on the site"
+      "name": "No long-term commitments",
+      "description": "Flexible hourly billing for dedicated instances with no prepayments or contracts required"
     }
   ],
   "regions": "Region list not published on the GPU Instances page; promo mentions Nebraska availability alongside multi-region autoscaling messaging.",
   "support": "Documentation site, dashboard guidance, Discord community link, and contact-sales options.",
   "uniqueSellingPoints": [
     "Combines OpenAI-compatible serverless APIs with controllable GPU rentals that boot in about 10 seconds",
-    "Competitive flagship NVIDIA pricing including published A100/H100/H200/B200 hourly rates",
-    "SSH-accessible B200 rentals plus custom model deployments on dedicated GPUs"
+    "Competitive pricing for flagship NVIDIA GPUs including latest B200 Blackwell architecture",
+    "SSH-accessible dedicated instances plus custom model deployments for full control"
   ],
   "hqCountry": "US",
   "tagline": "Optimized inference for open-source models",

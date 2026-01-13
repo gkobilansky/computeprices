@@ -95,10 +95,11 @@
         },
         {
           "name": "H100",
-          "description": "On‑demand H100.",
+          "description": "On‑demand H100 with flexible billing.",
           "features": [
-            "Starting near ~$2.99/GPU‑hr in public materials",
-            "Pause/resume to cut idle"
+            "Competitive per-minute billing",
+            "Pause/resume to eliminate idle costs",
+            "Fast provisioning"
           ]
         }
       ]

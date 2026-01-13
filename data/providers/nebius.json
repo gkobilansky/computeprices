@@ -8,7 +8,7 @@
   "features": [
     {
       "title": "Transparent GPU pricing",
-      "description": "Published on-demand rates for H100 ($2.00/hr) and H200 ($2.30/hr) plus L40S options"
+      "description": "Published on-demand rates for H100 and H200 plus L40S options"
     },
     {
       "title": "Commitment discounts",
@@ -28,7 +28,7 @@
     }
   ],
   "pros": [
-    "Published hourly GPU pricing for H100/H200/L40S with discounts available",
+    "Transparent published hourly GPU pricing for H100/H200/L40S with commitment discounts available",
     "HGX B200/H200/H100 options for dense multi-GPU training",
     "Self-service console plus contact-sales for larger commitments",
     "Vertical integration aimed at predictable pricing and performance"
@@ -69,7 +69,6 @@
           "name": "NVIDIA H200 GPU",
           "description": "141 GB HBM H200 GPUs for memory-intensive training and inference.",
           "features": [
-            "$2.30/hour published on-demand rate",
             "Up to 35% savings with long-term commitments"
           ]
         },
@@ -77,16 +76,7 @@
           "name": "NVIDIA H100 GPU",
           "description": "80 GB HBM H100 GPUs for general-purpose training and low-latency inference.",
           "features": [
-            "$2.00/hour published on-demand rate",
             "Self-service provisioning via Nebius console"
-          ]
-        },
-        {
-          "name": "NVIDIA L40S GPU",
-          "description": "Ada Lovelace GPUs suited for inference, graphics, and media.",
-          "features": [
-            "Published pricing from $1.55–$1.82 per GPU-hour depending on host platform",
-            "Intel (8–40 GPUs) and AMD (16–192 GPUs) host options listed in the catalog"
           ]
         }
       ]
@@ -99,24 +89,24 @@
           "name": "HGX B200",
           "description": "16x NVIDIA B200 (200 GB) nodes for next-gen training.",
           "features": [
-            "$5.50 per GPU-hour table rate on the pricing page",
-            "Positioned for Blackwell-era workloads with contact-sales flow"
+            "Latest Blackwell architecture for frontier-scale workloads",
+            "Available through contact-sales for capacity planning"
           ]
         },
         {
           "name": "HGX H200",
           "description": "16x NVIDIA H200 HGX nodes with high-bandwidth memory.",
           "features": [
-            "$3.50 per GPU-hour published rate",
-            "Suited for long-context LLMs and memory-bound training"
+            "Suited for long-context LLMs and memory-bound training",
+            "HBM3e memory for enhanced performance"
           ]
         },
         {
           "name": "HGX H100",
           "description": "16x NVIDIA H100 HGX nodes for Hopper-scale training.",
           "features": [
-            "$2.95 per GPU-hour published rate",
-            "NVLink/NVSwitch interconnect for multi-GPU scaling"
+            "NVLink/NVSwitch interconnect for multi-GPU scaling",
+            "Published transparent pricing available"
           ]
         }
       ]
@@ -153,11 +143,11 @@
   "pricingOptions": [
     {
       "name": "On-demand GPU pricing",
-      "description": "Published hourly rates: H200 $2.30/hr, H100 $2.00/hr, L40S from $1.55–$1.82/hr."
+      "description": "Published transparent hourly rates for H200, H100, and L40S GPUs with self-service console access."
     },
     {
-      "name": "HGX cluster rates",
-      "description": "Table pricing per GPU-hour: HGX B200 $5.50, HGX H200 $3.50, HGX H100 $2.95."
+      "name": "HGX cluster pricing",
+      "description": "Published per-GPU-hour pricing for HGX B200, HGX H200, and HGX H100 multi-GPU nodes."
     },
     {
       "name": "Commitment discounts",

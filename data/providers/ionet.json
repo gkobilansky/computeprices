@@ -119,22 +119,24 @@
     },
     {
       "name": "Marketplace",
-      "description": "Decentralized pool of GPU providers with unified APIs.",
+      "description": "Decentralized pool of GPU providers with unified APIs and competitive pricing.",
       "instanceTypes": [
         {
           "name": "H100 PCIe",
-          "description": "Marketplace H100 PCIe offers.",
+          "description": "Marketplace H100 PCIe offers from multiple suppliers.",
           "features": [
-            "Explorer lists around ~$0.89–$1.70/GPU‑hr tiers",
-            "Varies by supplier and staking tier"
+            "Transparent marketplace pricing with multiple tiers",
+            "Pricing varies by supplier and staking tier",
+            "Real-time availability explorer"
           ]
         },
         {
           "name": "H100 SXM5",
-          "description": "Marketplace H100 SXM offers.",
+          "description": "Marketplace H100 SXM offers with high-bandwidth interconnect.",
           "features": [
-            "Explorer shows around ~$1.19–$1.99/GPU‑hr",
-            "Varies by region"
+            "Transparent marketplace pricing",
+            "Pricing varies by region and supplier",
+            "NVLink support for multi-GPU workloads"
           ]
         }
       ]

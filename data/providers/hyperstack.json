@@ -58,45 +58,45 @@
   "computeServices": [
     {
       "name": "GPU Instances",
-      "description": "Range of NVIDIA GPU options for various workloads",
+      "description": "Range of NVIDIA GPU options for various workloads with flexible pricing",
       "instanceTypes": [
         {
           "name": "NVIDIA H100 SXM",
           "description": "High-performance GPU instances for AI and ML workloads",
           "features": [
-            "On-demand pricing from $3.00/hour",
-            "Reserved pricing from $2.10/hour",
-            "Scalable from 8 to 16,384 GPUs"
+            "Competitive on-demand and reserved pricing options",
+            "Scalable from 8 to 16,384 GPUs",
+            "Significant savings with reservations"
           ]
         }
       ]
     },
     {
       "name": "On‑Demand GPU",
-      "description": "Configure per‑GPU CPU/RAM with transparent pricing.",
+      "description": "Configure per‑GPU CPU/RAM with transparent published pricing.",
       "instanceTypes": [
         {
           "name": "H200 SXM",
-          "description": "141 GB HBM3e.",
+          "description": "141 GB HBM3e for memory-intensive workloads.",
           "features": [
-            "~$3.50/GPU‑hr public list",
-            "Reservation discounts"
+            "Published transparent pricing",
+            "Reservation discounts available"
           ]
         },
         {
           "name": "H100 (PCIe & NVLink)",
-          "description": "80 GB HBM.",
+          "description": "80 GB HBM with multiple interconnect options.",
           "features": [
-            "From ~$1.90–$1.95/GPU‑hr",
-            "NVLink option"
+            "Published transparent pricing",
+            "NVLink option for multi-GPU scaling"
           ]
         },
         {
           "name": "A100 (SXM/NVLink)",
-          "description": "80 GB HBM.",
+          "description": "80 GB HBM for balanced workloads.",
           "features": [
-            "From ~$1.35–$1.60/GPU‑hr",
-            "NVLink option"
+            "Published transparent pricing",
+            "NVLink option for multi-GPU communication"
           ]
         }
       ]

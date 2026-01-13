@@ -42,23 +42,23 @@
           "name": "g4.rtx6kpro.large",
           "description": "8x NVIDIA RTX 6000 Ada (Server Edition) with dual AMD 9355 CPUs, 1.5 TB RAM, and 4x 3.8 TB NVMe.",
           "features": [
-            "2x 100 Gbps networking",
-            "US regions available; Chicago and Ashburn in stock",
-            "Listed at $19.50/hour (USD) in the US catalog"
+            "2x 100 Gbps networking for fast inter-node communication",
+            "Available in multiple US regions including Chicago and Ashburn",
+            "Optimized for multi-GPU training workloads"
           ]
         }
       ]
     },
     {
       "name": "GPU Virtual Machines",
-      "description": "Virtualized GPU plans for quick starts and lower per-hour cost.",
+      "description": "Virtualized GPU plans for quick starts and cost-effective deployment.",
       "instanceTypes": [
         {
           "name": "vm.h100.small",
           "description": "16 vCPU, 128 GB RAM, 500 GiB local disk with H100-backed acceleration.",
           "features": [
             "Available in Dallas (US)",
-            "$1.66/hour (USD) listed pricing"
+            "Premium H100 GPU for high-performance workloads"
           ]
         },
         {
@@ -66,7 +66,7 @@
           "description": "16 vCPU, 128 GB RAM, 500 GiB local disk with L40S GPU.",
           "features": [
             "Available in Dallas (US)",
-            "$0.74/hour (USD) listed pricing"
+            "Cost-effective L40S for inference and graphics"
           ]
         }
       ]
@@ -79,9 +79,9 @@
           "name": "f4.metal.large",
           "description": "AMD 9275F (24 cores), 768 GB RAM, 4x NVMe (2x 480GB + 2x 3.8TB).",
           "features": [
-            "2x 100 Gbps NIC",
-            "US pricing $2.17/hour; Brazil $3.10/hour",
-            "Available across US and Brazil with regional stock indicators"
+            "2x 100 Gbps NIC for high-bandwidth applications",
+            "Available across US and Brazil regions",
+            "Regional pricing varies by location"
           ]
         },
         {
@@ -89,8 +89,8 @@
           "description": "AMD 4484PX (12 cores), 96 GB RAM, 2x 960GB NVMe.",
           "features": [
             "2x 10 Gbps networking",
-            "US pricing $0.57/hour",
-            "UK and Netherlands availability depends on stock"
+            "Budget-friendly bare metal option",
+            "Available in UK, Netherlands, and US (stock dependent)"
           ]
         }
       ]
@@ -121,20 +121,20 @@
   ],
   "pricingOptions": [
     {
-      "name": "RTX 6000 Ada bare metal",
-      "description": "g4.rtx6kpro.large listed at $19.50/hour (USD) in US regions."
+      "name": "GPU Bare Metal Hourly",
+      "description": "Hourly billing for dedicated GPU servers including RTX 6000 Ada configurations with transparent published pricing."
     },
     {
-      "name": "H100 VM",
-      "description": "vm.h100.small listed at $1.66/hour (USD) in Dallas."
+      "name": "GPU Virtual Machines",
+      "description": "Cost-effective virtualized GPU options with H100 and L40S available in select regions."
     },
     {
-      "name": "L40S VM",
-      "description": "vm.l40s.small listed at $0.74/hour (USD) in Dallas."
+      "name": "CPU Bare Metal Plans",
+      "description": "Hourly and monthly billing options for CPU-focused bare metal servers with regional pricing variations."
     },
     {
-      "name": "Hourly or monthly metal",
-      "description": "CPU-focused metal plans start around $0.57/hour (US f4.metal.small) with monthly equivalents published."
+      "name": "Transparent Regional Pricing",
+      "description": "Published hourly rates for all GPU and CPU plans with pricing that varies by region (US, Brazil, Europe, APAC)."
     }
   ],
   "regions": "20 locations across Dallas, Los Angeles, New York, Chicago, Ashburn, Miami, London (2), Frankfurt (2), Amsterdam, Sao Paulo (2), Mexico City, Buenos Aires, Bogota, Santiago, Singapore, Tokyo (2), and Sydney (2).",

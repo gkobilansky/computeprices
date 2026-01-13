@@ -134,30 +134,33 @@
     },
     {
       "name": "Dedicated GPUs",
-      "description": "On‑demand GPU VMs and notebooks.",
+      "description": "On‑demand GPU VMs and notebooks with flexible pricing.",
       "instanceTypes": [
         {
           "name": "HGX H100",
           "description": "80 GB HBM; multi‑GPU configurations up to 8x.",
           "features": [
-            "Docs list from ~$2.24/GPU‑hr depending on plan",
-            "Managed workflows"
+            "Competitive pricing with plan-based discounts",
+            "Managed workflows and Gradient integration",
+            "Multi-GPU NVLink support"
           ]
         },
         {
           "name": "H100 (PCIe)",
           "description": "80 GB HBM; single‑GPU option.",
           "features": [
-            "Docs show from ~$3.09/GPU‑hr",
-            "Pause/resume to save idle cost"
+            "Competitive pay-per-second billing",
+            "Pause/resume to eliminate idle costs",
+            "Full Gradient platform integration"
           ]
         },
         {
           "name": "A100 80GB",
-          "description": "80 GB HBM.",
+          "description": "80 GB HBM for balanced workloads.",
           "features": [
-            "Multiple regions",
-            "Gradient integrations"
+            "Available in multiple regions",
+            "Gradient integrations for MLOps",
+            "Proven architecture for diverse workloads"
           ]
         }
       ]
