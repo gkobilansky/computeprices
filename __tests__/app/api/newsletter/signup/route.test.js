@@ -86,7 +86,7 @@ describe('/api/newsletter/signup', () => {
       expect(response.status).toBe(500)
     })
 
-    test('should call database with correct email', async () => {
+    test('should call database with correct email and default source', async () => {
       const testEmail = generateTestEmail()
       await POST(createRequest({ email: testEmail }))
 
@@ -100,6 +100,21 @@ describe('/api/newsletter/signup', () => {
       expect(user.source).toBe('newsletter')
       expect(user.subscribed_to_newsletter).toBe(true)
       expect(user.updated_at).toBeTruthy()
+    })
+
+    test('should use custom source when provided', async () => {
+      const testEmail = generateTestEmail()
+      await POST(createRequest({ email: testEmail, source: 'price-alert' }))
+
+      const { data: user } = await supabaseAdmin
+        .from('users')
+        .select('*')
+        .eq('email', testEmail)
+        .single()
+
+      expect(user.email).toBe(testEmail)
+      expect(user.source).toBe('price-alert')
+      expect(user.subscribed_to_newsletter).toBe(true)
     })
 
     test('should handle various valid email formats', async () => {
