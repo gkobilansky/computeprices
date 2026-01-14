@@ -1,52 +1,174 @@
 {
   "id": "1d434a66-bf40-40a8-8e80-d5ab48b6d27f",
   "name": "CoreWeave",
-  "description": "CoreWeave is a specialized cloud provider offering GPU‑accelerated infrastructure (H100, H200 and more) for AI/ML, VFX, and batch compute, with Kubernetes‑native orchestration and rapid scale.",
+  "description": "CoreWeave is a specialized cloud provider offering GPU‑accelerated infrastructure for AI/ML, VFX, and batch compute, with Kubernetes‑native orchestration and rapid scale.",
+  "link": "https://www.coreweave.com/",
+  "docsLink": "https://docs.coreweave.com/",
+  "slug": "coreweave",
+  "tagline": "The Essential Cloud for AI",
+  "category": "GPU-focused",
+  "hqCountry": "US",
+  "tags": [],
+  "features": [
+    {
+      "title": "Kubernetes-Native Platform",
+      "description": "Purpose-built AI-native platform with Kubernetes-native developer experience"
+    },
+    {
+      "title": "Latest NVIDIA GPUs",
+      "description": "First-to-market access to the latest NVIDIA GPUs including H100, H200, and Blackwell architecture"
+    },
+    {
+      "title": "Mission Control",
+      "description": "Unified security, talent services, and observability platform for large-scale AI operations"
+    },
+    {
+      "title": "High Performance Networking",
+      "description": "High-performance clusters with InfiniBand networking for optimal scale-out connectivity"
+    }
+  ],
   "pros": [
-    "Extensive selection of NVIDIA GPUs, including latest models",
-    "Up to 35x faster and 80% less expensive than legacy cloud providers",
+    "Extensive selection of NVIDIA GPUs, including latest Blackwell architecture",
     "Kubernetes-native infrastructure for easy scaling and deployment",
-    "Rapid deployment with ability to access thousands of GPUs in seconds",
+    "Fast deployment with 10x faster inference spin-up times",
+    "High cluster reliability with 96% goodput and 50% fewer interruptions",
     "Specialized support for AI, machine learning, and rendering workloads",
-    "NVIDIA Elite Cloud Solutions Provider for both Compute and Visualization",
-    "Fully-managed, bare metal serverless Kubernetes infrastructure"
+    "Transparent pricing with no egress or transfer fees",
+    "Expert support from dedicated engineering teams"
   ],
   "cons": [
     "Primary focus on North American data centers",
     "Specialized nature may not suit all general computing needs",
-    "Newer player compared to established cloud giants",
-    "Learning curve for users unfamiliar with Kubernetes"
+    "Learning curve for users unfamiliar with Kubernetes",
+    "Newer player compared to established cloud giants"
   ],
-  "link": "https://www.coreweave.com/",
-  "slug": "coreweave",
+  "gettingStarted": [
+    {
+      "title": "Create Account",
+      "description": "Sign up for CoreWeave Cloud platform access"
+    },
+    {
+      "title": "Choose GPU Instance",
+      "description": "Select from latest NVIDIA GPUs including H100, H200, and Blackwell architecture"
+    },
+    {
+      "title": "Deploy via Kubernetes",
+      "description": "Use Kubernetes-native tools for workload deployment and scaling"
+    }
+  ],
   "computeServices": [
     {
       "name": "GPU Instances",
-      "description": "NVIDIA HGX H100/H200 nodes and other SKUs at supercomputer scale.",
+      "description": "On-demand and reserved GPU instances with latest NVIDIA hardware",
       "instanceTypes": [
         {
-          "name": "HGX H100",
-          "description": "8× H100 SXM nodes for training and inference.",
+          "name": "NVIDIA GB300/GB200 NVL72",
+          "description": "Next-generation Blackwell architecture superchips",
           "features": [
-            "Available at supercomputer scale",
-            "Quantum‑2 InfiniBand fabric for high-speed interconnect",
-            "Competitive transparent pricing"
+            "Latest Blackwell GPU architecture",
+            "Support for largest AI models",
+            "Supercomputer-scale deployment"
           ]
         },
         {
-          "name": "HGX H200",
-          "description": "8× H200 SXM nodes with HBM3e for fast LLM training/serving.",
+          "name": "NVIDIA B200",
+          "description": "Blackwell architecture GPUs for training and inference",
           "features": [
-            "HBM3e memory (141 GB/GPU)",
-            "Designed for GenAI and HPC",
-            "Reserve capacity or on‑demand where available"
+            "180GB HBM3e memory per chip",
+            "Advanced AI acceleration",
+            "Multi-GPU configurations"
+          ]
+        },
+        {
+          "name": "NVIDIA HGX H100/H200",
+          "description": "High-performance GPUs for AI training and inference",
+          "features": [
+            "H200 with 141GB HBM3e memory",
+            "8-GPU HGX configurations",
+            "InfiniBand networking"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CPU Instances", 
+      "description": "High-performance CPU instances to complement GPU workloads",
+      "instanceTypes": [
+        {
+          "name": "AMD Genoa/Turin",
+          "description": "Latest AMD processors for AI workload support",
+          "features": [
+            "Up to 384 vCPUs",
+            "High memory configurations",
+            "Optimized for AI pipelines"
           ]
         }
       ]
     }
   ],
-  "hqCountry": "US",
-  "tagline": "GPU-specialized cloud built for AI inference",
-  "tags": [],
-  "category": "Massive neocloud"
+  "gpuServices": [
+    {
+      "name": "GPU Catalog",
+      "description": "Comprehensive selection of NVIDIA GPUs for various AI workloads",
+      "types": [
+        {
+          "name": "GB300/GB200 NVL72",
+          "gpuModel": "NVIDIA Blackwell Superchip",
+          "bestFor": "Largest foundation models and advanced AI research"
+        },
+        {
+          "name": "B200",
+          "gpuModel": "NVIDIA B200",
+          "bestFor": "Training and inference for large models"
+        },
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200 141GB",
+          "bestFor": "Memory-intensive AI training and inference"
+        },
+        {
+          "name": "H100",
+          "gpuModel": "NVIDIA H100 80GB", 
+          "bestFor": "General AI training and latency-sensitive inference"
+        },
+        {
+          "name": "GH200",
+          "gpuModel": "NVIDIA GH200 Grace Hopper",
+          "bestFor": "CPU-GPU unified memory architecture workloads"
+        },
+        {
+          "name": "L40S",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Cost-efficient inference and multi-modal AI"
+        },
+        {
+          "name": "A100",
+          "gpuModel": "NVIDIA A100 80GB",
+          "bestFor": "Established AI training and inference workloads"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "On-Demand Instances",
+      "description": "Pay-per-hour GPU and CPU instances with flexible scaling"
+    },
+    {
+      "name": "Reserved Capacity",
+      "description": "Committed usage discounts up to 60% over on-demand pricing"
+    },
+    {
+      "name": "Transparent Storage",
+      "description": "No ingress, egress, or transfer fees for data movement"
+    }
+  ],
+  "regions": "Deployments across North America with expanding global presence",
+  "support": "24/7 support from dedicated engineering teams, comprehensive documentation, and Kubernetes expertise",
+  "uniqueSellingPoints": [
+    "First-to-market access to latest NVIDIA GPUs including Blackwell architecture",
+    "Kubernetes-native AI platform with 10x faster deployment",
+    "Transparent pricing with no hidden transfer fees",
+    "96% cluster goodput with enterprise-grade reliability"
+  ]
 }
