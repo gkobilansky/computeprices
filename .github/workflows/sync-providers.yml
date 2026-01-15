@@ -1,0 +1,76 @@
+name: Sync Providers to Database
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/providers/*.json'
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: 'Specific provider slug to sync (leave empty to sync all)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  sync-providers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync all providers to database
+        if: github.event.inputs.provider == ''
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://${{ secrets.SUPABASE_PROJECT_REF }}.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: pnpm run providers:sync --yes
+
+      - name: Sync specific provider to database
+        if: github.event.inputs.provider != ''
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://${{ secrets.SUPABASE_PROJECT_REF }}.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          PROVIDER_SLUG: ${{ github.event.inputs.provider }}
+        run: |
+          # Validate provider slug format
+          if ! echo "$PROVIDER_SLUG" | grep -qE '^[a-z0-9-]+$'; then
+            echo "Error: Invalid provider slug format. Must be lowercase alphanumeric with hyphens only."
+            exit 1
+          fi
+          pnpm run providers:sync --provider="${PROVIDER_SLUG}" --yes
+
+      - name: Report sync results
+        if: always()
+        run: echo "Provider sync workflow completed"

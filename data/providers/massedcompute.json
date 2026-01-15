@@ -1,0 +1,213 @@
+{
+  "id": "d3a46a10-53b1-4778-8995-1971f554f342",
+  "name": "Massed Compute",
+  "slug": "massedcompute",
+  "description": "Massed Compute provides affordable on‑demand GPUs including H100 (SXM/NVL/PCIe) with owned hardware and transparent specs.",
+  "link": "https://massedcompute.com/",
+  "docsLink": "https://vm-docs.massedcompute.com/docs/intro",
+  "features": [
+    {
+      "title": "NVIDIA Preferred Partner",
+      "description": "Assurance of fully-supported, high-performance NVIDIA GPU solutions"
+    },
+    {
+      "title": "SOC 2 Type II Compliant",
+      "description": "Independent attestation of security, availability, and confidentiality controls"
+    },
+    {
+      "title": "On-Demand & Bare-Metal Options",
+      "description": "Hourly VMs or single-tenant servers—no long-term contracts"
+    },
+    {
+      "title": "Inventory API",
+      "description": "REST API to list, provision, manage, and retire GPU instances programmatically"
+    },
+    {
+      "title": "Tier III U.S. Data Centers",
+      "description": "Redundant power, cooling, and network for >99.98 % uptime"
+    },
+    {
+      "title": "Virtual Desktop Interface",
+      "description": "Launch pre-configured AI/ML or VFX desktops in a browser—no CLI needed"
+    },
+    {
+      "title": "Pre-installed Drivers & Frameworks",
+      "description": "CUDA, Jupyter, ComfyUI, SD, vLLM, TGI and more ready out of the box"
+    }
+  ],
+  "pros": [
+    "Broad catalog of NVIDIA GPUs from RTX A5000 up to H100 SXM5",
+    "Very competitive hourly pricing with no hidden bandwidth fees",
+    "Owned hardware—no ‘middle-man’ latency or support hand-offs",
+    "Direct access to engineers for GPU & driver questions",
+    "Inventory API enables white-label and SaaS integrations"
+  ],
+  "cons": [
+    "Data-center footprint limited to the United States",
+    "No AMD GPU options at present",
+    "You must maintain a prepaid credit balance to launch VMs",
+    "You need to request capacity for 8-GPU H100 PCIe nodes",
+    "Relatively new player compared with hyperscalers"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up and confirm email to access the console"
+    },
+    {
+      "title": "Add billing credits",
+      "description": "Configure initial, minimum, and recharge amounts"
+    },
+    {
+      "title": "Select a GPU template",
+      "description": "Choose GPU type, quantity, and OS image from the catalog"
+    },
+    {
+      "title": "Launch via VDI or SSH",
+      "description": "Boot the VM, connect in one click, or use the API"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "On-Demand GPU Instances",
+      "description": "Self-service VMs billed hourly; configurable 1-, 2-, 4- or 8-GPU nodes",
+      "instanceTypes": [
+        {
+          "name": "H100 SXM5",
+          "description": "80 GB H100 SXM5 nodes ideal for frontier-scale LLM training",
+          "features": [
+            "Up to 8 GPUs / 640 GB vRAM",
+            "126 vCPUs, 1.5 TB RAM, 10 TB NVMe",
+            "NVLink interconnect for multi-GPU scaling"
+          ]
+        },
+        {
+          "name": "H100 NVL",
+          "description": "94 GB PCIe H100 NVL pairs optimised for inference & fine-tuning",
+          "features": [
+            "2, 4, or 8 GPUs per node",
+            "Up to 752 GB vRAM",
+            "High memory capacity for long-context models"
+          ]
+        },
+        {
+          "name": "A100 SXM4 / PCIe",
+          "description": "80 GB A100 GPUs for mainstream training workloads",
+          "features": [
+            "DGX A100 or PCIe flavours",
+            "Scalable from single GPU to 8-GPU configurations",
+            "Cost-effective for diverse workloads"
+          ]
+        },
+        {
+          "name": "L40S & L40 PCIe",
+          "description": "Balanced AI-and-graphics GPUs with 48 GB vRAM",
+          "features": [
+            "Up to 8 GPUs per node",
+            "Ada Lovelace architecture for inference and graphics"
+          ]
+        },
+        {
+          "name": "RTX 6000 ADA / RTX A6000 / A40 / RTX A5000 / A30",
+          "description": "Cost-effective options for smaller fine-tunes, VFX and rendering",
+          "features": [
+            "24 – 48 GB vRAM",
+            "Very competitive hourly rates for budget-conscious workloads"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bare-Metal GPU Servers",
+      "description": "Single-tenant servers with full hardware control and optional NVLink interconnects",
+      "features": [
+        "No virtualization overhead",
+        "Customisable CPU, RAM, storage & network fabric",
+        "Ideal for latency-sensitive or regulated workloads"
+      ]
+    },
+    {
+      "name": "GPU Clusters",
+      "description": "Reserved multi-node clusters networked for distributed training",
+      "features": [
+        "Flexible interconnect (e.g. InfiniBand, 200 GbE)",
+        "Long-term reservation guarantees capacity",
+        "Expert performance tuning included"
+      ]
+    },
+    {
+      "name": "Inventory API",
+      "description": "Programmatic access to the entire GPU catalog for SaaS or internal tooling",
+      "features": [
+        "List available SKUs & pricing",
+        "Provision / start / stop / terminate instances",
+        "Retrieve usage & billing data"
+      ]
+    },
+    {
+      "name": "On‑Demand GPU Pricing",
+      "description": "Preconfigured VM sizes and bare‑metal on request.",
+      "instanceTypes": [
+        {
+          "name": "H100 SXM5",
+          "description": "8× H100 SXM nodes.",
+          "features": [
+            "Quantum‑2 style high‑speed fabrics",
+            "Contact for reserved clusters"
+          ]
+        },
+        {
+          "name": "H100 NVL",
+          "description": "94 GB NVL configurations.",
+          "features": [
+            "2/4/8 GPU options",
+            "High VRAM per GPU"
+          ]
+        },
+        {
+          "name": "H100 PCIe",
+          "description": "80 GB PCIe.",
+          "features": [
+            "Cost‑efficient single‑GPU options"
+          ]
+        }
+      ]
+    }
+  ],
+  "regions": "Tier III U.S. data centers (multiple sites in low-cost power markets)",
+  "support": "Documentation portal, Discord community, email ticketing, and direct engineer chat ('Ask AI Expert')",
+  "uniqueSellingPoints": [
+    "Owned-and-operated NVIDIA GPU fleet—no middlemen",
+    "Extensive on-demand catalog ranging from A30 to H100 SXM5",
+    "White-label-ready Inventory API for platform providers",
+    "Browser-based virtual desktop for no-CLI launches",
+    "SOC 2 Type II compliance for enterprise workloads"
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Lineup",
+      "description": "NVIDIA accelerators and gaming cards.",
+      "types": [
+        {
+          "name": "H100 SXM5",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Scale‑out training"
+        },
+        {
+          "name": "H100 NVL",
+          "gpuModel": "NVIDIA H100 NVL",
+          "bestFor": "High‑VRAM workloads"
+        },
+        {
+          "name": "H100 PCIe",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "General training/inference"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "US",
+  "tagline": "High-density GPU clusters for AI",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}

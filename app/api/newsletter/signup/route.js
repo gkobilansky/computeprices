@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export async function POST(request) {
   try {
-    const { email } = await request.json();
+    const { email, source = 'newsletter' } = await request.json();
 
     if (!email || !email.includes('@')) {
       return NextResponse.json(
@@ -16,9 +16,9 @@ export async function POST(request) {
     const { data, error } = await supabaseAdmin
       .from('users')
       .upsert(
-        { 
+        {
           email,
-          source: 'newsletter',
+          source,
           subscribed_to_newsletter: true,
           // If the record already exists, only update these fields:
           updated_at: new Date().toISOString()

@@ -86,6 +86,30 @@ Contains cloud provider information:
 |--------|------|-------------|
 | id | UUID | Primary key |
 | name | String | Provider name |
+| slug | String | URL-friendly identifier (unique) |
+| website | String | Provider website URL |
+| description | Text | Brief description of the provider |
+| docs_link | String | Link to provider documentation |
+| category | String | Provider category (e.g., 'Classical hyperscaler', 'GPU-focused') |
+| tagline | String | Short marketing tagline |
+| hq_country | String | Provider headquarters country code |
+| tags | String[] | Array of tags for categorization |
+| metadata | JSONB | Flexible metadata storage for features, pros, cons, etc. |
+| created_at | Timestamp | When record was created |
+| updated_at | Timestamp | When record was last updated |
+| pricing_page | String | URL to provider's pricing page (used by Firecrawl scraper) |
+
+**Metadata JSONB structure** (optional fields):
+- `features`: Array of feature objects with title and description
+- `pros`: Array of strings listing advantages
+- `cons`: Array of strings listing disadvantages
+- `gettingStarted`: Array of step objects for onboarding
+- `computeServices`: Array of service objects with instance types
+- `gpuServices`: Array of GPU-specific service offerings
+- `pricingOptions`: Array of pricing model descriptions
+- `uniqueSellingPoints`: Array of differentiating features
+- `regions`: String or object describing regional availability
+- `support`: String or object describing support options
 
 #### 5. users
 Stores user information for newsletter subscribers and future user data:
@@ -128,6 +152,41 @@ Stores user information for newsletter subscribers and future user data:
 - Scrapers run on a schedule and update the prices table
 - Newsletter signups are captured in the users table via the `/api/newsletter/signup` endpoint
 - GPU model data can be updated via the `scripts/upsert-gpu-models.js` script (supports validation, data type conversion, and performance tier inference)
+
+### Provider Data Management
+Provider information is stored in individual JSON files under `data/providers/*.json` and synced to the database:
+
+1. **Individual Provider Files** (`data/providers/*.json`):
+   - Each provider has its own JSON file (e.g., `aws.json`, `lambda.json`)
+   - Files contain comprehensive provider metadata (features, pros, cons, services, etc.)
+   - Easier to maintain and review than a monolithic file
+
+2. **Build-Time Aggregation** (`scripts/aggregate-providers.cjs`):
+   - Runs automatically during `npm run build` and `npm run dev` via prebuild/predev hooks
+   - Aggregates individual JSON files into `data/providers.generated.ts`
+   - Validates JSON structure and fails build if malformed
+   - Generated file is used by the application at runtime
+
+3. **Database Synchronization** (`scripts/sync-providers-to-db.js`):
+   - Syncs provider JSON files to the Supabase `providers` table
+   - **Usage**: `npm run providers:sync` (production) or `providers:sync:dry` (dry-run)
+   - **Safety Features**:
+     * Environment detection (local/staging/production)
+     * Confirmation prompt for production changes (unless `--yes` flag used)
+     * Database connection test before syncing
+     * UUID and slug format validation
+     * Required field validation (id, name, slug)
+     * Comprehensive error handling with context
+   - **Options**:
+     * `--dry-run`: Preview changes without modifying database
+     * `--provider=slug`: Sync only a specific provider
+     * `--yes` or `-y`: Skip confirmation prompt (use with caution)
+
+4. **Data Validation**:
+   - Provider files must have valid UUID for `id` field
+   - Slug must be lowercase alphanumeric with hyphens only
+   - Required fields: `id`, `name`, `slug`
+   - JSON parsing errors are caught and reported with file context
 
 ### Data Retrieval Functions
 - `fetchGPUModels()`: Gets GPU information, optionally filtered by ID
@@ -255,6 +314,75 @@ All scrapers share these common patterns:
 - `SHADEFORM_API_KEY`: API key for Shadeform integration
 - `FIRECRAWL_API_KEY`: API key for Firecrawl AI-powered scraping
 - `BLESS_KEY`: Browserless.io API key for production Puppeteer automation (optional for local development)
+
+---
+
+# Database Safety Rules
+
+## CRITICAL: Preventing Accidental Production Database Modifications
+
+### Environment Detection
+
+The application uses `lib/db-safety.js` to detect which database environment is being targeted:
+
+- **Local**: URL contains `127.0.0.1`, `localhost`, or port `54321`
+- **Production**: URL contains `.supabase.co`
+
+### For Claude Code / AI Assistants
+
+**NEVER** perform these actions without explicit user confirmation:
+1. Run migration scripts directly against production
+2. Execute any script that modifies the database without checking which environment is targeted
+3. Run `supabase db push` against production
+4. Execute upsert, insert, update, or delete operations against production data
+
+**ALWAYS**:
+1. Verify `NEXT_PUBLIC_SUPABASE_URL` points to local/staging before running scripts
+2. Use `--dry-run` flag first to preview changes
+3. For production operations, require explicit `--production` flag
+4. Ask the user for confirmation before any production database modification
+
+### Script Safety Features
+
+All database-modifying scripts now include safety checks:
+
+1. **Environment logging**: Scripts log which database they're targeting
+2. **Production flag requirement**: Production operations require `--production` flag
+3. **Confirmation prompts**: Production operations ask for explicit user confirmation
+4. **Dry-run support**: Use `--dry-run` to preview changes without modifying data
+
+### Running Scripts Safely
+
+```bash
+# Local development - runs directly
+npm run upsert:gpu-models
+
+# Dry run - see what would change without modifying
+npm run upsert:gpu-models -- --dry-run
+
+# Production - requires explicit flag and confirmation
+npm run upsert:gpu-models -- --production
+
+# Skip confirmation (use with caution)
+npm run upsert:gpu-models -- --production --force
+```
+
+### Migration Safety
+
+**Production migrations should ONLY happen through:**
+1. Merged PRs to `main` branch via GitHub Actions (recommended)
+2. Supabase GitHub integration
+3. Supabase Dashboard SQL Editor (manual review)
+4. `supabase db push` with explicit production project linking and review
+
+**Local development migrations:**
+```bash
+# Apply migrations to local Supabase
+supabase db push
+
+# Reset local database (destructive - local only!)
+supabase db reset
+```
 
 ---
 

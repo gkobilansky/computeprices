@@ -7,19 +7,27 @@ import ProviderInfoCard from '@/components/ProviderInfoCard';
 import FeedbackLauncher from '@/components/FeedbackLauncher';
 import TopPicksSection from '@/components/TopPicksSection';
 import HeroSection from '@/components/HeroSection';
+import FAQ from '@/components/FAQ';
+import { getFAQSchema } from '@/lib/data/faqData';
 import { getAllProviderSlugs } from '@/lib/utils/provider';
 import { FilterProvider } from '@/lib/context/FilterContext';
-import { generateMetadata } from './metadata';
+import { generateMetadata as generateBaseMetadata } from './metadata';
 import { getHomepageStats, getLatestPriceDrops } from '@/lib/utils/fetchGPUData';
+import { getSEOStats } from '@/lib/utils/seoData';
 
-const HOME_TITLE = 'Cloud GPU Price Comparison: Lambda, Runpod, Coreweave, AWS & More | ComputePrices.com';
-const HOME_DESCRIPTION = 'Compare cloud GPU prices across 11+ providers. Find the cheapest H100, A100, and L40S rates for AI training and inference. Save up to 80% on cloud GPU costs.';
+export async function generateMetadata() {
+  const stats = await getSEOStats();
+  const gpuList = stats.popularGPUs.slice(0, 3).join(', ');
 
-export const metadata = generateMetadata({
-  title: HOME_TITLE,
-  description: HOME_DESCRIPTION,
-  path: '/'
-});
+  const title = `Cloud GPU Price Comparison: Compare ${stats.activeProviderCount}+ Providers | ComputePrices.com`;
+  const description = `Compare cloud GPU prices across ${stats.activeProviderCount}+ providers. Find the cheapest ${gpuList} rates from $${stats.lowestPrice}/hr. Save up to 80% on cloud GPU costs.`;
+
+  return generateBaseMetadata({
+    title,
+    description,
+    path: '/'
+  });
+}
 
 export default async function Home() {
   const [providerSlugs, stats, priceAlert] = await Promise.all([
@@ -93,6 +101,17 @@ export default async function Home() {
 
         </div>
       </FilterProvider>
+
+      {/* FAQ Section */}
+      <FAQ />
+
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getFAQSchema())
+        }}
+      />
 
       {/* WebSite Schema */}
       <script

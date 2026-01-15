@@ -19,6 +19,11 @@ export interface Provider {
   support?: string
   uniqueSellingPoints?: string[]
   isMinimal?: boolean
+  // Classification and metadata fields
+  category?: string
+  tagline?: string
+  hqCountry?: string
+  tags?: string[]
 }
 
 export interface ProviderFeature {

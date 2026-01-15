@@ -1,0 +1,68 @@
+{
+  "id": "fd8bfdf8-162d-4a95-954d-ca4279edc46f",
+  "name": "Verda",
+  "slug": "verda",
+  "description": "Verda provides premium GPU instances with fixed and dynamic pricing, including H100 SXM5 on‑demand and H200 nodes.",
+  "pros": [
+    "Wide range of GPU models, including latest NVIDIA H200",
+    "Cost-effective compared to major cloud providers",
+    "Streamlined and user-friendly interface",
+    "Excellent documentation and API",
+    "Flexible pricing with pay-as-you-go model",
+    "Based in EU, potentially easing GDPR compliance",
+    "Renewable energy-powered data centers"
+  ],
+  "cons": [
+    "Limited global presence (primarily Europe-focused)",
+    "Smaller company compared to major cloud providers",
+    "Specialized focus may not suit all computing needs",
+    "Fewer data center locations than larger competitors"
+  ],
+  "link": "https://verda.com",
+  "computeServices": [
+    {
+      "name": "Premium GPU Instances",
+      "description": "Dedicated GPU VMs with transparent pricing.",
+      "instanceTypes": [
+        {
+          "name": "H100 SXM5",
+          "description": "80 GB HBM; dynamic or fixed pricing.",
+          "features": [
+            "On‑demand launch",
+            "3200 Gbps RDMA fabrics"
+          ]
+        },
+        {
+          "name": "H200",
+          "description": "8× H200 nodes available in select regions.",
+          "features": [
+            "HBM3e 141 GB",
+            "Reserved and on‑demand options"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Catalog",
+      "description": "Range of NVIDIA GPUs and pricing modes.",
+      "types": [
+        {
+          "name": "H100 SXM5",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Training & inference"
+        },
+        {
+          "name": "H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Larger context & bandwidth"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "FI",
+  "tagline": "Nordic GPU cloud with competitive rates",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}

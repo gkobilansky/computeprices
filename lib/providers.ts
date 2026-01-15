@@ -1,4 +1,3 @@
-import providersData from '@/data/providers.json'
 import { fetchProviders } from '@/lib/utils/fetchGPUData'
 import {
   Provider,
@@ -21,6 +20,70 @@ let providerSlugsCache: {
   slugs: string[]
   timestamp: number
 } | null = null
+
+// Cache for all providers from database
+let allProvidersCache: {
+  providers: any[]
+  timestamp: number
+} | null = null
+
+/**
+ * Transform database row to Provider object
+ */
+function transformDBRowToProvider(dbRow: any): Provider {
+  const metadata = dbRow.metadata || {}
+
+  return {
+    id: dbRow.id,
+    name: dbRow.name,
+    slug: dbRow.slug,
+    link: dbRow.website,
+    description: dbRow.description || "We're still gathering detailed info on this provider.",
+    docsLink: dbRow.docs_link,
+    category: dbRow.category,
+    tagline: dbRow.tagline,
+    hqCountry: dbRow.hq_country,
+    tags: dbRow.tags || [],
+    features: metadata.features || [],
+    pros: metadata.pros || [],
+    cons: metadata.cons || [],
+    gettingStarted: metadata.gettingStarted || [],
+    computeServices: metadata.computeServices || [],
+    gpuServices: metadata.gpuServices || [],
+    pricingOptions: metadata.pricingOptions || [],
+    uniqueSellingPoints: metadata.uniqueSellingPoints || [],
+    regions: metadata.regions,
+    support: metadata.support
+  }
+}
+
+/**
+ * Get all providers from database with caching
+ */
+async function getAllProvidersFromDB(): Promise<any[]> {
+  const now = Date.now()
+
+  // Check cache first
+  if (allProvidersCache && (now - allProvidersCache.timestamp) < CACHE_TTL) {
+    return allProvidersCache.providers
+  }
+
+  try {
+    const providers = await fetchProviders()
+
+    // Cache the result
+    allProvidersCache = {
+      providers,
+      timestamp: now
+    }
+
+    return providers
+  } catch (error) {
+    console.error('Error fetching providers from database:', error)
+    // Return empty array on error, but don't cache it
+    return []
+  }
+}
 
 /**
  * Normalize a provider slug by converting to lowercase and replacing spaces with hyphens
@@ -109,54 +172,32 @@ export function parseProviderSlugs(providers: string[]): ParsedProviderSlugs {
 }
 
 /**
- * Get provider by slug from JSON data first, then database if needed (with caching)
+ * Get provider by slug from database (with caching)
  */
 export async function getProviderBySlug(slug: string): Promise<Provider | null> {
   const normalizedSlug = normalizeProviderSlug(slug)
-  
+
   // Check cache first
   const cacheKey = `provider:${normalizedSlug}`
   const cached = providerCache.get(cacheKey)
   const now = Date.now()
-  
+
   if (cached && (now - cached.timestamp) < CACHE_TTL) {
     return cached.provider
   }
-  
-  // First try to find in JSON data
-  const jsonProvider = providersData.find(p => p.slug === normalizedSlug)
-  if (jsonProvider) {
-    const provider = jsonProvider as Provider
-    // Cache the result
-    providerCache.set(cacheKey, {
-      provider,
-      timestamp: now
-    })
-    return provider
-  }
-  
-  // If not found in JSON, try to find in database
+
+  // Fetch from database
   try {
-    const dbProviders = await fetchProviders()
-    const dbProvider = dbProviders.find(p => 
-      normalizeProviderSlug(p.name) === normalizedSlug ||
-      p.name.toLowerCase() === normalizedSlug.replace(/-/g, ' ')
+    const dbProviders = await getAllProvidersFromDB()
+    const dbProvider = dbProviders.find(p =>
+      p.slug === normalizedSlug ||
+      normalizeProviderSlug(p.slug || '') === normalizedSlug
     )
-    
+
     if (dbProvider) {
-      // Return a minimal provider object for DB-only providers
-      const provider: Provider = {
-        id: dbProvider.id,
-        name: dbProvider.name,
-        slug: normalizedSlug,
-        description: "We're still gathering detailed info on this provider.",
-        features: [],
-        pros: [],
-        cons: [],
-        gettingStarted: [],
-        isMinimal: true
-      }
-      
+      // Transform DB row to Provider object
+      const provider = transformDBRowToProvider(dbProvider)
+
       // Cache the result
       providerCache.set(cacheKey, {
         provider,
@@ -165,15 +206,15 @@ export async function getProviderBySlug(slug: string): Promise<Provider | null> 
       return provider
     }
   } catch (error) {
-    console.error('Error fetching providers from database:', error)
+    console.error('Error fetching provider from database:', error)
   }
-  
+
   // Cache null result too to avoid repeated DB queries for invalid providers
   providerCache.set(cacheKey, {
     provider: null,
     timestamp: now
   })
-  
+
   return null
 }
 
@@ -345,40 +386,31 @@ export async function validateProviderComparison(
  */
 export async function getAllProviderSlugs(): Promise<string[]> {
   const now = Date.now()
-  
+
   // Check cache first
   if (providerSlugsCache && (now - providerSlugsCache.timestamp) < CACHE_TTL) {
     return providerSlugsCache.slugs
   }
-  
-  const jsonSlugs = providersData.map(provider => provider.slug)
-  
+
   try {
-    // Also get slugs from database providers
-    const dbProviders = await fetchProviders()
-    const dbSlugs = dbProviders
-      .filter(p => !providersData.find(jp => jp.id === p.id)) // Only DB-only providers
-      .map(p => normalizeProviderSlug(p.name))
-    
-    const allSlugs = [...jsonSlugs, ...dbSlugs]
-    
+    // Get all slugs from database
+    const dbProviders = await getAllProvidersFromDB()
+    const slugs = dbProviders
+      .filter(p => p.slug) // Only include providers with slugs
+      .map(p => p.slug)
+
     // Cache the result
     providerSlugsCache = {
-      slugs: allSlugs,
+      slugs,
       timestamp: now
     }
-    
-    return allSlugs
+
+    return slugs
   } catch (error) {
     console.error('Error fetching database provider slugs:', error)
-    
-    // Cache JSON slugs as fallback
-    providerSlugsCache = {
-      slugs: jsonSlugs,
-      timestamp: now
-    }
-    
-    return jsonSlugs
+
+    // Return empty array on error, but don't cache it
+    return []
   }
 }
 
@@ -465,56 +497,36 @@ export async function generateProviderSuggestions(
   }
 
   try {
-    // Get all available providers
-    const allSlugs = await getAllProviderSlugs()
+    // Get all available providers from database
+    const dbProviders = await getAllProvidersFromDB()
     const suggestions: Array<{slug: string, name: string, similarity: number}> = []
-    
-    // Calculate similarity for each provider
-    for (const slug of allSlugs) {
-      const similarity = calculateSimilarity(normalizedInput, slug)
-      
-      // Only include suggestions with reasonable similarity (>= 0.3)
-      if (similarity >= 0.3) {
-        // Get provider details
-        const provider = await getProviderBySlug(slug)
-        if (provider) {
-          suggestions.push({
-            slug,
-            name: provider.name,
-            similarity
-          })
-        }
-      }
-    }
-    
-    // Also check similarity against provider names (not just slugs)
-    for (const provider of providersData) {
-      const nameSlug = normalizeProviderSlug(provider.name)
+
+    // Calculate similarity for each provider (both slug and name)
+    for (const dbProvider of dbProviders) {
+      if (!dbProvider.slug) continue
+
+      const slugSimilarity = calculateSimilarity(normalizedInput, dbProvider.slug)
+      const nameSlug = normalizeProviderSlug(dbProvider.name)
       const nameSimilarity = calculateSimilarity(normalizedInput, nameSlug)
-      
-      if (nameSimilarity >= 0.3) {
-        // Check if we already have this provider in suggestions
-        const existingIndex = suggestions.findIndex(s => s.slug === provider.slug)
-        if (existingIndex >= 0) {
-          // Update similarity if name match is better
-          if (nameSimilarity > suggestions[existingIndex].similarity) {
-            suggestions[existingIndex].similarity = nameSimilarity
-          }
-        } else {
-          suggestions.push({
-            slug: provider.slug,
-            name: provider.name,
-            similarity: nameSimilarity
-          })
-        }
+
+      // Use the best similarity score
+      const bestSimilarity = Math.max(slugSimilarity, nameSimilarity)
+
+      // Only include suggestions with reasonable similarity (>= 0.3)
+      if (bestSimilarity >= 0.3) {
+        suggestions.push({
+          slug: dbProvider.slug,
+          name: dbProvider.name,
+          similarity: bestSimilarity
+        })
       }
     }
-    
+
     // Sort by similarity (highest first) and return top suggestions
     return suggestions
       .sort((a, b) => b.similarity - a.similarity)
       .slice(0, maxSuggestions)
-      
+
   } catch (error) {
     console.error('Error generating provider suggestions:', error)
     return []

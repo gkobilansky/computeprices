@@ -44,7 +44,6 @@
 - Avoid storing scraped raw data in repo; use Supabase and provided upsert scripts (`npm run upsert:gpu-models`).
 
 ## Additional Agent Notes
-- Keep the `Learn` link in the global navigation unless the user explicitly asks for its removal.
 - Avoid destructive changes when handling tasks that are unrelated to the user's current request; check with the user before modifying or deleting existing content beyond the asked scope.
 
 ## Agent Workflow Expectations

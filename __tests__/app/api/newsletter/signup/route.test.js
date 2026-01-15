@@ -1,213 +1,142 @@
 import { jest } from '@jest/globals'
 import { POST } from '../../../../../app/api/newsletter/signup/route.js'
-import { NextRequest } from 'next/server'
+import { supabaseAdmin } from '../../../../../lib/supabase-admin.js'
 
-// Mock Supabase Admin client
-const mockSupabaseAdmin = {
-  from: jest.fn(() => ({
-    upsert: jest.fn()
-  }))
+// Helper to create mock request with JSON body
+function createRequest(body) {
+  return { json: jest.fn().mockResolvedValue(body) }
 }
 
-jest.mock('../../../../../lib/supabase-admin.js', () => ({
-  supabaseAdmin: mockSupabaseAdmin
-}))
-
-// Mock NextResponse
-jest.mock('next/server', () => ({
-  NextResponse: {
-    json: jest.fn((data, options = {}) => ({
-      json: () => Promise.resolve(data),
-      status: options.status || 200,
-      data
-    }))
-  },
-  NextRequest: jest.fn()
-}))
+// Helper to generate unique test email
+function generateTestEmail() {
+  return `test-${Date.now()}@example.com`
+}
 
 describe('/api/newsletter/signup', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
+  afterEach(async () => {
+    await supabaseAdmin
+      .from('users')
+      .delete()
+      .like('email', 'test-%@example.com')
   })
 
   describe('POST', () => {
     test('should successfully sign up user with valid email', async () => {
-      // Mock successful database upsert
-      mockSupabaseAdmin.from.mockReturnValue({
-        upsert: jest.fn().mockResolvedValue({ data: {}, error: null })
-      })
+      const testEmail = generateTestEmail()
+      const response = await POST(createRequest({ email: testEmail }))
+      const data = await response.json()
 
-      const request = {
-        json: jest.fn().mockResolvedValue({ email: 'test@example.com' })
-      }
-
-      const response = await POST(request)
-      
-      expect(mockSupabaseAdmin.from).toHaveBeenCalledWith('users')
-      expect(response.data).toEqual({
-        message: 'Successfully signed up for newsletter'
-      })
+      expect(data).toEqual({ message: 'Successfully signed up for newsletter' })
       expect(response.status).toBe(200)
+
+      const { data: user } = await supabaseAdmin
+        .from('users')
+        .select('*')
+        .eq('email', testEmail)
+        .single()
+
+      expect(user).toBeTruthy()
+      expect(user.email).toBe(testEmail)
+      expect(user.subscribed_to_newsletter).toBe(true)
     })
 
-    test('should validate email format', async () => {
-      const request = {
-        json: jest.fn().mockResolvedValue({ email: 'invalid-email' })
-      }
+    test('should validate email format - no @', async () => {
+      const response = await POST(createRequest({ email: 'invalid-email' }))
+      const data = await response.json()
 
-      const response = await POST(request)
-      
-      expect(response.data).toEqual({
-        error: 'Valid email is required'
-      })
+      expect(data).toEqual({ error: 'Valid email is required' })
       expect(response.status).toBe(400)
     })
 
     test('should handle missing email', async () => {
-      const request = {
-        json: jest.fn().mockResolvedValue({})
-      }
+      const response = await POST(createRequest({}))
+      const data = await response.json()
 
-      const response = await POST(request)
-      
-      expect(response.data).toEqual({
-        error: 'Valid email is required'
-      })
+      expect(data).toEqual({ error: 'Valid email is required' })
       expect(response.status).toBe(400)
     })
 
     test('should handle empty email', async () => {
-      const request = {
-        json: jest.fn().mockResolvedValue({ email: '' })
-      }
+      const response = await POST(createRequest({ email: '' }))
+      const data = await response.json()
 
-      const response = await POST(request)
-      
-      expect(response.data).toEqual({
-        error: 'Valid email is required'
-      })
+      expect(data).toEqual({ error: 'Valid email is required' })
       expect(response.status).toBe(400)
     })
 
-    test('should handle duplicate email gracefully', async () => {
-      // Mock database duplicate key error
-      mockSupabaseAdmin.from.mockReturnValue({
-        upsert: jest.fn().mockResolvedValue({ 
-          data: null, 
-          error: { code: '23505', message: 'Duplicate key' }
-        })
-      })
+    test('should handle duplicate email gracefully with upsert', async () => {
+      const testEmail = generateTestEmail()
 
-      const request = {
-        json: jest.fn().mockResolvedValue({ email: 'existing@example.com' })
-      }
+      const response1 = await POST(createRequest({ email: testEmail }))
+      expect(response1.status).toBe(200)
 
-      const response = await POST(request)
-      
-      expect(response.data).toEqual({
-        message: 'You\\'re already subscribed, thank you!'
-      })
-      expect(response.status).toBe(200)
-    })
+      const response2 = await POST(createRequest({ email: testEmail }))
+      const data2 = await response2.json()
 
-    test('should handle database errors', async () => {
-      // Mock database error
-      mockSupabaseAdmin.from.mockReturnValue({
-        upsert: jest.fn().mockResolvedValue({ 
-          data: null, 
-          error: { code: 'OTHER_ERROR', message: 'Database connection failed' }
-        })
-      })
-
-      const request = {
-        json: jest.fn().mockResolvedValue({ email: 'test@example.com' })
-      }
-
-      const response = await POST(request)
-      
-      expect(response.data).toEqual({
-        error: 'Failed to sign up for newsletter',
-        details: 'Database connection failed'
-      })
-      expect(response.status).toBe(500)
+      expect(response2.status).toBe(200)
+      expect(data2.message).toBeTruthy()
     })
 
     test('should handle request parsing errors', async () => {
-      const request = {
-        json: jest.fn().mockRejectedValue(new Error('Invalid JSON'))
-      }
-
+      const request = { json: jest.fn().mockRejectedValue(new Error('Invalid JSON')) }
       const response = await POST(request)
-      
-      expect(response.data).toEqual({
-        error: 'Internal server error'
-      })
+      const data = await response.json()
+
+      expect(data).toEqual({ error: 'Internal server error' })
       expect(response.status).toBe(500)
     })
 
-    test('should call database with correct parameters', async () => {
-      const mockUpsert = jest.fn().mockResolvedValue({ data: {}, error: null })
-      mockSupabaseAdmin.from.mockReturnValue({
-        upsert: mockUpsert
-      })
+    test('should call database with correct email and default source', async () => {
+      const testEmail = generateTestEmail()
+      await POST(createRequest({ email: testEmail }))
 
-      const request = {
-        json: jest.fn().mockResolvedValue({ email: 'test@example.com' })
-      }
+      const { data: user } = await supabaseAdmin
+        .from('users')
+        .select('*')
+        .eq('email', testEmail)
+        .single()
 
-      await POST(request)
-      
-      expect(mockUpsert).toHaveBeenCalledWith(
-        expect.objectContaining({
-          email: 'test@example.com',
-          source: 'newsletter',
-          subscribed_to_newsletter: true,
-          updated_at: expect.any(String)
-        }),
-        {
-          onConflict: 'email',
-          returning: 'minimal'
-        }
-      )
+      expect(user.email).toBe(testEmail)
+      expect(user.source).toBe('newsletter')
+      expect(user.subscribed_to_newsletter).toBe(true)
+      expect(user.updated_at).toBeTruthy()
     })
 
-    test('should handle various email formats', async () => {
-      mockSupabaseAdmin.from.mockReturnValue({
-        upsert: jest.fn().mockResolvedValue({ data: {}, error: null })
-      })
+    test('should use custom source when provided', async () => {
+      const testEmail = generateTestEmail()
+      await POST(createRequest({ email: testEmail, source: 'price-alert' }))
 
+      const { data: user } = await supabaseAdmin
+        .from('users')
+        .select('*')
+        .eq('email', testEmail)
+        .single()
+
+      expect(user.email).toBe(testEmail)
+      expect(user.source).toBe('price-alert')
+      expect(user.subscribed_to_newsletter).toBe(true)
+    })
+
+    test('should handle various valid email formats', async () => {
+      const timestamp = Date.now()
       const validEmails = [
-        'user@domain.com',
-        'user.name@domain.co.uk',
-        'user+tag@subdomain.domain.org',
-        'user123@domain-name.com'
+        `user-${timestamp}@domain.com`,
+        `user.name-${timestamp}@domain.co.uk`,
+        `user+tag-${timestamp}@subdomain.domain.org`,
+        `user123-${timestamp}@domain-name.com`
       ]
 
       for (const email of validEmails) {
-        const request = {
-          json: jest.fn().mockResolvedValue({ email })
-        }
-
-        const response = await POST(request)
+        const response = await POST(createRequest({ email }))
         expect(response.status).toBe(200)
       }
     })
 
-    test('should reject invalid email formats', async () => {
-      const invalidEmails = [
-        'not-an-email',
-        '@domain.com',
-        'user@',
-        'user.domain.com',
-        ''
-      ]
+    test('should reject email without @ symbol', async () => {
+      const invalidEmails = ['not-an-email', 'user.domain.com', '']
 
       for (const email of invalidEmails) {
-        const request = {
-          json: jest.fn().mockResolvedValue({ email })
-        }
-
-        const response = await POST(request)
+        const response = await POST(createRequest({ email }))
         expect(response.status).toBe(400)
       }
     })

@@ -20,7 +20,7 @@ export default function PriceDropAlertSignup() {
         },
         body: JSON.stringify({
           email,
-          source: 'price-drop-alert'
+          source: 'price-alert'
         }),
       });
 

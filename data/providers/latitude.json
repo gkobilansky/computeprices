@@ -1,0 +1,152 @@
+{
+  "id": "e2d056a3-139e-4a9b-9651-d6677bf6932c",
+  "name": "Latitude.sh",
+  "slug": "latitude",
+  "description": "Latitude.sh provides API-first bare metal and GPU infrastructure across 20 global locations, including strong coverage in the Americas plus Europe and APAC.",
+  "link": "https://www.latitude.sh/",
+  "docsLink": "https://www.latitude.sh/docs/api-reference/summary",
+  "features": [
+    {
+      "title": "Automated bare metal",
+      "description": "Provision servers with user data, RAID, and SSH over a documented REST API."
+    },
+    {
+      "title": "GPU Accelerate fleet",
+      "description": "RTX 6000 Ada, H100, and L40S capacity with dual 100 Gbps networking on multi-GPU nodes."
+    },
+    {
+      "title": "Global footprint",
+      "description": "20 locations spanning the US, Europe, Latin America, and Asia-Pacific."
+    },
+    {
+      "title": "Transparent pricing",
+      "description": "Hourly and monthly rates published for GPU and CPU bare metal."
+    }
+  ],
+  "pros": [
+    "20-region coverage with instant deploy options in the US, EU, LATAM, and APAC",
+    "GPU nodes ship with dual 100 Gbps fabric, large RAM, and NVMe for AI training",
+    "API-first platform with detailed REST documentation for automation",
+    "Published hourly pricing for both metal and GPU catalogs"
+  ],
+  "cons": [
+    "GPU catalog is narrower than hyperscalers",
+    "Some regions show limited or unavailable GPU stock depending on plan"
+  ],
+  "computeServices": [
+    {
+      "name": "Accelerate GPU Bare Metal",
+      "description": "Dedicated GPU servers tuned for AI training and inference.",
+      "instanceTypes": [
+        {
+          "name": "g4.rtx6kpro.large",
+          "description": "8x NVIDIA RTX 6000 Ada (Server Edition) with dual AMD 9355 CPUs, 1.5 TB RAM, and 4x 3.8 TB NVMe.",
+          "features": [
+            "2x 100 Gbps networking for fast inter-node communication",
+            "Available in multiple US regions including Chicago and Ashburn",
+            "Optimized for multi-GPU training workloads"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GPU Virtual Machines",
+      "description": "Virtualized GPU plans for quick starts and cost-effective deployment.",
+      "instanceTypes": [
+        {
+          "name": "vm.h100.small",
+          "description": "16 vCPU, 128 GB RAM, 500 GiB local disk with H100-backed acceleration.",
+          "features": [
+            "Available in Dallas (US)",
+            "Premium H100 GPU for high-performance workloads"
+          ]
+        },
+        {
+          "name": "vm.l40s.small",
+          "description": "16 vCPU, 128 GB RAM, 500 GiB local disk with L40S GPU.",
+          "features": [
+            "Available in Dallas (US)",
+            "Cost-effective L40S for inference and graphics"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Metal Bare Metal",
+      "description": "General-purpose dedicated servers with high core counts and NVMe.",
+      "instanceTypes": [
+        {
+          "name": "f4.metal.large",
+          "description": "AMD 9275F (24 cores), 768 GB RAM, 4x NVMe (2x 480GB + 2x 3.8TB).",
+          "features": [
+            "2x 100 Gbps NIC for high-bandwidth applications",
+            "Available across US and Brazil regions",
+            "Regional pricing varies by location"
+          ]
+        },
+        {
+          "name": "f4.metal.small",
+          "description": "AMD 4484PX (12 cores), 96 GB RAM, 2x 960GB NVMe.",
+          "features": [
+            "2x 10 Gbps networking",
+            "Budget-friendly bare metal option",
+            "Available in UK, Netherlands, and US (stock dependent)"
+          ]
+        }
+      ]
+    }
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Lineup",
+      "description": "Dedicated and virtual GPU options for AI workloads.",
+      "types": [
+        {
+          "name": "RTX 6000 Ada (8x)",
+          "gpuModel": "NVIDIA RTX 6000 Ada",
+          "bestFor": "Multi-GPU training and large inference batches on bare metal"
+        },
+        {
+          "name": "H100 Small VM",
+          "gpuModel": "NVIDIA H100",
+          "bestFor": "Premium inference or fine-tuning with fast startup"
+        },
+        {
+          "name": "L40S Small VM",
+          "gpuModel": "NVIDIA L40S",
+          "bestFor": "Cost-efficient inference and media workloads"
+        }
+      ]
+    }
+  ],
+  "pricingOptions": [
+    {
+      "name": "GPU Bare Metal Hourly",
+      "description": "Hourly billing for dedicated GPU servers including RTX 6000 Ada configurations with transparent published pricing."
+    },
+    {
+      "name": "GPU Virtual Machines",
+      "description": "Cost-effective virtualized GPU options with H100 and L40S available in select regions."
+    },
+    {
+      "name": "CPU Bare Metal Plans",
+      "description": "Hourly and monthly billing options for CPU-focused bare metal servers with regional pricing variations."
+    },
+    {
+      "name": "Transparent Regional Pricing",
+      "description": "Published hourly rates for all GPU and CPU plans with pricing that varies by region (US, Brazil, Europe, APAC)."
+    }
+  ],
+  "regions": "20 locations across Dallas, Los Angeles, New York, Chicago, Ashburn, Miami, London (2), Frankfurt (2), Amsterdam, Sao Paulo (2), Mexico City, Buenos Aires, Bogota, Santiago, Singapore, Tokyo (2), and Sydney (2).",
+  "support": "API reference, contact sales, and a trust center; platform tooling exposes SSH, RAID, and user-data options on provision.",
+  "uniqueSellingPoints": [
+    "API-first bare metal with GPU and CPU plans exposed via REST",
+    "Strong Latin America footprint alongside North America, Europe, and APAC sites",
+    "Dedicated GPU boxes ship with dual 100 Gbps networking and large memory footprints",
+    "Transparent published pricing for GPU, metal, and VM plans"
+  ],
+  "hqCountry": "BR",
+  "tagline": "Global bare metal cloud infrastructure",
+  "tags": [],
+  "category": "Classical hyperscaler"
+}

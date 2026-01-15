@@ -1,0 +1,188 @@
+{
+  "id": "b046d087-96e5-4bd0-9c96-060164cf9a04",
+  "name": "Vultr",
+  "slug": "vultr",
+  "description": "Vultr offers global access to the latest AMD and NVIDIA GPUs for AI/ML, AR/VR, high-performance computing, VDI/CAD, and more, available on demand either as virtual machines or bare metal across 32 worldwide data center regions.",
+  "link": "https://www.vultr.com/products/cloud-gpu/",
+  "docsLink": "https://www.vultr.com/docs/",
+  "features": [
+    {
+      "title": "AMD and NVIDIA GPU Options",
+      "description": "Access to diverse GPU options including AMD Instinct and NVIDIA Tensor Core GPUs"
+    },
+    {
+      "title": "Global Availability",
+      "description": "Deploy GPU resources across 32 cloud data center regions worldwide"
+    },
+    {
+      "title": "Kubernetes Support",
+      "description": "Vultr Kubernetes Engine for GPU-accelerated containerized workloads"
+    },
+    {
+      "title": "Serverless Inference",
+      "description": "Deploy and scale GenAI models quickly with Vultr Serverless Inference"
+    },
+    {
+      "title": "Virtual Machines and Bare Metal",
+      "description": "Choose between GPU-accelerated VMs or dedicated bare metal servers"
+    },
+    {
+      "title": "Global Content Delivery",
+      "description": "Accelerate content delivery across six continents with Vultr CDN"
+    }
+  ],
+  "pros": [
+    "Wide range of AMD and NVIDIA GPU options",
+    "Extensive global network (32 data center regions)",
+    "Both VM and bare metal deployment options",
+    "Kubernetes and containerization support",
+    "NVIDIA Preferred Cloud Partner status",
+    "Simplified driver setup and licensing",
+    "API and Terraform integration"
+  ],
+  "cons": [
+    "Medium GPU availability compared to some specialized providers",
+    "Less established in the GPU market compared to major hyperscalers",
+    "Limited documentation specific to GPU workloads"
+  ],
+  "gettingStarted": [
+    {
+      "title": "Create an account",
+      "description": "Sign up for a free Vultr account"
+    },
+    {
+      "title": "Select GPU instance",
+      "description": "Choose from AMD or NVIDIA GPU options based on your workload"
+    },
+    {
+      "title": "Choose deployment type",
+      "description": "Select between virtual machine or bare metal deployment"
+    },
+    {
+      "title": "Configure and launch",
+      "description": "Set up networking, storage, and security options before launching"
+    }
+  ],
+  "computeServices": [
+    {
+      "name": "NVIDIA GPU Instances",
+      "description": "Virtual machines and bare metal servers with NVIDIA GPUs",
+      "instanceTypes": [
+        {
+          "name": "NVIDIA GH200 Grace Hopper",
+          "description": "Grace Hopper Superchip for memory‑bound inference workloads.",
+          "features": [
+            "Grace CPU + H100 GPU memory coherence",
+            "Strong for large‑context inference",
+            "Datasheets and resources available"
+          ]
+        },
+        {
+          "name": "NVIDIA H100 & H200",
+          "description": "Tensor Core GPUs for advanced AI, data analytics, and HPC workloads",
+          "features": [
+            "Unprecedented acceleration for AI workloads",
+            "Suitable for complex simulations",
+            "Latest Tensor Core technology"
+          ]
+        },
+        {
+          "name": "NVIDIA A100",
+          "description": "Tensor Core GPU enabling scientific simulation, data analytics, and AI",
+          "features": [
+            "High performance for research applications",
+            "Multi-instance GPU capability",
+            "Versatile for diverse workloads"
+          ]
+        },
+        {
+          "name": "NVIDIA L40S",
+          "description": "Combining AI compute with graphics and media acceleration",
+          "features": [
+            "Balanced performance for AI and graphics",
+            "Suitable for media workloads",
+            "Next-generation data center applications"
+          ]
+        },
+        {
+          "name": "NVIDIA A40",
+          "description": "Professional graphics with powerful compute and AI capabilities",
+          "features": [
+            "Designed for creative and scientific challenges",
+            "Balanced compute and graphics performance",
+            "Professional visualization support"
+          ]
+        },
+        {
+          "name": "NVIDIA A16",
+          "description": "GPU for virtual desktops and workstations",
+          "features": [
+            "Optimized for virtual desktop infrastructure",
+            "Support for remote work solutions",
+            "Efficient multi-user performance"
+          ]
+        },
+        {
+          "name": "NVIDIA H200",
+          "description": "Tensor Core GPU with HBM3e memory for advanced AI.",
+          "features": [
+            "High‑throughput LLM inference/training",
+            "Available across select regions",
+            "Part of Vultr Cloud GPU lineup"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AMD GPU Instances",
+      "description": "Computing infrastructure powered by AMD Instinct accelerators",
+      "instanceTypes": [
+        {
+          "name": "AMD Instinct MI325X & MI300X",
+          "description": "Setting new standards for powerful and efficient AI and HPC deployments",
+          "features": [
+            "Advanced accelerators for AI workloads",
+            "High-performance computing capabilities",
+            "Energy-efficient design"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vultr Kubernetes Engine",
+      "description": "Managed Kubernetes service for GPU-accelerated containerized applications",
+      "features": [
+        "GPU-accelerated Kubernetes clusters",
+        "Global deployment options",
+        "Simplified container orchestration",
+        "Support for resource-intensive workloads"
+      ]
+    },
+    {
+      "name": "Vultr Serverless Inference",
+      "description": "Deploy and scale GenAI models efficiently",
+      "features": [
+        "Quick deployment of AI models",
+        "Efficient scaling",
+        "Support for proprietary data or trained models",
+        "Global acceleration"
+      ]
+    }
+  ],
+  "regions": "32 global cloud data center regions across North America, South America, Europe, Asia, Africa, and Australia",
+  "support": "Documentation, community forums, support tickets, and dedicated customer support",
+  "uniqueSellingPoints": [
+    "Partnership with both AMD and NVIDIA",
+    "NVIDIA Preferred Partner status",
+    "Extensive global network of data centers",
+    "Simplified GPU infrastructure setup",
+    "Flexible deployment options (VM or bare metal)",
+    "Integration with Vultr's broader cloud ecosystem"
+  ],
+  "hqCountry": "US",
+  "tagline": "Simple cloud infrastructure worldwide",
+  "tags": [
+    "Budget"
+  ],
+  "category": "Classical hyperscaler"
+}

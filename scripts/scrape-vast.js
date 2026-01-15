@@ -1,8 +1,19 @@
 import puppeteer from 'puppeteer';
 import { supabaseAdmin } from '../lib/supabase-admin.js';
 import { findMatchingGPUModel } from '../lib/utils/gpu-scraping.js';
+import { runSafetyChecks } from '../lib/db-safety.js';
 
-async function scrapeVastGPUs(dryRun = false) {
+async function scrapeVastGPUs(dryRun = false, skipSafetyChecks = false) {
+  // Run safety checks unless explicitly skipped (e.g., when called from cron)
+  if (!skipSafetyChecks && !dryRun) {
+    await runSafetyChecks({
+      operation: 'Vast.ai GPU Price Scraping',
+      requiredEnvVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+      allowProduction: true,
+      args: process.argv
+    });
+  }
+
   console.log('🔍 Starting Vast.ai GPU scraper...');
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();

@@ -22,6 +22,7 @@ import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
 import csvParser from 'csv-parser';
 import chalk from 'chalk';
+import { runSafetyChecks, logDatabaseTarget, detectEnvironment } from '../lib/db-safety.js';
 
 // Get the directory name using ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -179,31 +180,58 @@ function parseDateField(value) {
 function inferPerformanceTier(record) {
   const name = record.name;
   const vram = record.vram;
-  
+
   // Ultra tier: High-end data center GPUs
-  if (name.includes('H100') || name.includes('H200') || 
-      name.includes('B200') || name.includes('A100') || 
-      name === 'GH200' || name === 'MI300X' ||
+  // - NVIDIA Blackwell: GB200, B200, B100
+  // - NVIDIA Hopper: H100, H200, GH200 (all variants)
+  // - NVIDIA Ampere: A100 (all variants)
+  // - AMD MI300 series: MI300X, MI300A, MI325X, MI355X
+  // - AMD MI200 series: MI250, MI250X
+  // - Intel: Gaudi 3, Max 1550
+  if (name.includes('GB200') || name.includes('B200') || name.includes('B100') ||
+      name.includes('H100') || name.includes('H200') || name === 'GH200' ||
+      name.includes('A100') ||
+      name.includes('MI300') || name.includes('MI325') || name.includes('MI355') ||
+      name.includes('MI250') ||
+      name.includes('Gaudi 3') || name.includes('Max 1550') ||
       (vram && vram >= 80)) {
     return 'ultra';
   }
-  
+
   // High tier: Professional and high-end desktop GPUs
-  if (name.includes('A40') || name.includes('A10') || 
-      name.includes('L40') || name.includes('4090') || 
-      name.includes('6000') || name.includes('A6000') ||
+  // - NVIDIA Data Center: A40, A10, A30, L40, L40S
+  // - NVIDIA GeForce: RTX 4090, RTX 3090 Ti, RTX 3080 Ti
+  // - NVIDIA Professional: RTX 6000 Ada, RTX A6000, RTX 5000 Ada
+  // - NVIDIA Consumer: RTX 4070 Ti (all variants)
+  // - AMD: MI210, MI100
+  // - Intel: Gaudi 2, Max 1100
+  if (name.includes('A40') || name.includes('A10') || name.includes('A30') ||
+      name.includes('L40') ||
+      name.includes('4090') || name.includes('3090 Ti') || name.includes('3080 Ti') ||
+      name.includes('6000') || name.includes('A6000') || name.includes('5000 Ada') ||
+      name.includes('4070 Ti') || name.includes('4080 SUPER') ||
+      name.includes('MI210') || name.includes('MI100') ||
+      name.includes('Gaudi 2') || name.includes('Max 1100') ||
       (vram && vram >= 40 && vram < 80)) {
     return 'high';
   }
-  
+
   // Mid tier: Mid-range GPUs
-  if (name.includes('4080') || name.includes('A5000') || 
-      name.includes('A4000') || name.includes('3090') ||
+  // - NVIDIA GeForce: RTX 4080, RTX 4070 (non-Ti), RTX 3090, RTX 3080, RTX 3070
+  // - NVIDIA Professional: RTX A5000, RTX A4000, RTX 4500 Ada, RTX 4000 Ada
+  // - NVIDIA Data Center: A16
+  if (name.includes('4080') ||
+      (name.includes('4070') && !name.includes('Ti')) ||
+      name.includes('3090') || name.includes('3080') || name.includes('3070') ||
+      name.includes('A5000') || name.includes('A4000') ||
+      name.includes('4500 Ada') || name.includes('4000 Ada') ||
+      name.includes('A16') ||
       (vram && vram >= 16 && vram < 40)) {
     return 'mid';
   }
-  
+
   // Entry tier: Everything else
+  // - NVIDIA: L4, A2, Tesla T4, Tesla V100, RTX 4060 series
   return 'entry';
 }
 
@@ -359,6 +387,24 @@ async function upsertData(data) {
 // Main execution function
 async function main() {
   try {
+    // Run database safety checks (skip for validate-only mode)
+    if (!validateOnly) {
+      const safetyResult = await runSafetyChecks({
+        operation: 'GPU Models Upsert',
+        requiredEnvVars: ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'],
+        allowProduction: true, // Allow with --production flag
+        args: process.argv
+      });
+
+      // If dry-run was set via safety flags, respect it
+      if (safetyResult.isDryRun && !dryRun) {
+        console.log(chalk.yellow('Note: --dry-run flag detected, switching to dry run mode'));
+      }
+    } else {
+      // Still log the target for validate-only mode
+      logDatabaseTarget('GPU Models Validation (Read-Only)');
+    }
+
     console.log(chalk.green('Starting GPU models data upsert...'));
     console.log(chalk.blue(`Using CSV file: ${csvFilePath}`));
     console.log(chalk.blue(`Mode: ${validateOnly ? 'Validate Only' : dryRun ? 'Dry Run' : 'Upsert'}`));

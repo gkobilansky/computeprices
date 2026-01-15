@@ -1,0 +1,135 @@
+{
+  "id": "8b1f3feb-2c2f-4983-a451-2564dccc8917",
+  "name": "Genesis Cloud",
+  "slug": "genesis",
+  "description": "Genesis Cloud offers HGX H100/H200 and B200 clusters with 3.2 Tbps InfiniBand, plus RTX options for cost‑sensitive workloads.",
+  "link": "https://www.genesiscloud.com/",
+  "docsLink": "https://docs.genesiscloud.com/",
+  "features": [
+    {
+      "title": "Enterprise AI Cloud",
+      "description": "End-to-end machine learning platforms with high reliability and scalability"
+    },
+    {
+      "title": "High Performance",
+      "description": "35x more performance for LLMs, GenAI, and large multi-node trainings"
+    },
+    {
+      "title": "EU Sovereign Cloud",
+      "description": "AI workloads under EU regulations with enhanced security"
+    },
+    {
+      "title": "Green Infrastructure",
+      "description": "100% green energy powered data centers with low PUE"
+    }
+  ],
+  "pros": [
+    "80% less expensive compared to legacy cloud providers",
+    "35x more performance for LLMs and GenAI workloads",
+    "EU sovereign cloud compliance",
+    "100% green energy infrastructure",
+    "ISO27001 certified data centers",
+    "Up to 100 Gbps internet connectivity",
+    "99.9% guaranteed uptime",
+    "Early access to latest NVIDIA GPUs (B200, GB200)"
+  ],
+  "cons": [
+    "Limited global presence (primarily EU-focused)",
+    "Newer player compared to major cloud providers",
+    "Specialized focus may not suit all computing needs"
+  ],
+  "computeServices": [
+    {
+      "name": "NVIDIA GPU Instances",
+      "description": "Various NVIDIA GPU options for AI and ML workloads",
+      "instanceTypes": [
+        {
+          "name": "NVIDIA HGX H100",
+          "description": "Superior AI training and inference workloads with SXM5 H100",
+          "features": [
+            "MLPerf benchmark-dominating GPU",
+            "30x AI inference over Ampere generation",
+            "3.2 Tbps InfiniBand connectivity for multi-node scaling",
+            "Competitive transparent pricing"
+          ]
+        },
+        {
+          "name": "NVIDIA Blackwell Architecture",
+          "description": "Next-generation AI superchip (Coming Soon)",
+          "features": [
+            "Up to 4x faster AI training than previous generation",
+            "Up to 30x speed up in real-time LLM inference",
+            "Secure AI protecting LLMs and sensitive data"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GPU Nodes",
+      "description": "HGX nodes for AI training, plus single‑GPU options.",
+      "instanceTypes": [
+        {
+          "name": "HGX H100",
+          "description": "8× H100 SXM5 per node.",
+          "features": [
+            "3.2 Tbps InfiniBand",
+            "2 TB DDR5 system RAM",
+            "Multi‑NVMe"
+          ]
+        },
+        {
+          "name": "HGX H200",
+          "description": "8× H200 SXM per node.",
+          "features": [
+            "HBM3e 141 GB",
+            "High bandwidth",
+            "Node‑level NVMe"
+          ]
+        },
+        {
+          "name": "HGX B200",
+          "description": "8× B200 per node.",
+          "features": [
+            "180 GB HBM3e",
+            "Request/limited availability"
+          ]
+        }
+      ]
+    }
+  ],
+  "support": "Knowledge base, developer documentation, and dedicated support team",
+  "regions": "Tier 3 data centers in the European Union",
+  "uniqueSellingPoints": [
+    "Built on NVIDIA's reference architecture",
+    "Optimized for AI and ML workloads",
+    "No ingress or egress fees",
+    "High-bandwidth network optimized for multi-node operations"
+  ],
+  "gpuServices": [
+    {
+      "name": "GPU Options",
+      "description": "Portfolio of NVIDIA GPUs.",
+      "types": [
+        {
+          "name": "HGX H100",
+          "gpuModel": "NVIDIA H100 SXM5",
+          "bestFor": "Training at scale"
+        },
+        {
+          "name": "HGX H200",
+          "gpuModel": "NVIDIA H200",
+          "bestFor": "Training/serving with larger memory"
+        },
+        {
+          "name": "HGX B200",
+          "gpuModel": "NVIDIA B200",
+          "bestFor": "Next‑gen performance"
+        }
+      ]
+    }
+  ],
+  "hqCountry": "DE",
+  "tagline": "European GPU cloud for AI workloads",
+  "tags": [],
+  "category": "Rapidly-catching neocloud"
+}
