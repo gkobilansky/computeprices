@@ -1,26 +1,14 @@
-import Link from 'next/link';
-import { Suspense } from 'react';
-import GPUComparisonTable from '@/components/GPUComparisonTable';
-import IntegratedFilters from '@/components/IntegratedFilters';
-import GPUInfoCard from '@/components/GPUInfoCard';
-import ProviderInfoCard from '@/components/ProviderInfoCard';
-import FeedbackLauncher from '@/components/FeedbackLauncher';
-import TopPicksSection from '@/components/TopPicksSection';
-import HeroSection from '@/components/HeroSection';
-import FAQ from '@/components/FAQ';
-import { getFAQSchema } from '@/lib/data/faqData';
-import { getAllProviderSlugs } from '@/lib/utils/provider';
-import { FilterProvider } from '@/lib/context/FilterContext';
+import LandingHero from '@/components/landing/LandingHero';
+import LandingCTAs from '@/components/landing/LandingCTAs';
+import LandingCharts from '@/components/landing/LandingCharts';
+import LandingPriceTrends from '@/components/landing/LandingPriceTrends';
 import { generateMetadata as generateBaseMetadata } from './metadata';
-import { getHomepageStats, getLatestPriceDrops } from '@/lib/utils/fetchGPUData';
-import { getSEOStats } from '@/lib/utils/seoData';
+import { getHomepageStats, fetchGPUPrices } from '@/lib/utils/fetchGPUData';
+import { getInferenceStats, fetchLLMPrices } from '@/lib/utils/fetchLLMData';
 
 export async function generateMetadata() {
-  const stats = await getSEOStats();
-  const gpuList = stats.popularGPUs.slice(0, 3).join(', ');
-
-  const title = `Cloud GPU Price Comparison: Compare ${stats.activeProviderCount}+ Providers | ComputePrices.com`;
-  const description = `Compare cloud GPU prices across ${stats.activeProviderCount}+ providers. Find the cheapest ${gpuList} rates from $${stats.lowestPrice}/hr. Save up to 80% on cloud GPU costs.`;
+  const title = 'Compare Cloud AI Pricing: GPUs & LLM APIs | ComputePrices.com';
+  const description = 'Compare cloud GPU prices and LLM inference API rates across all major providers. Find the best deals for H100, A100, GPT-5, Claude, and more.';
 
   return generateBaseMetadata({
     title,
@@ -29,159 +17,165 @@ export async function generateMetadata() {
   });
 }
 
-export default async function Home() {
-  const [providerSlugs, stats, priceAlert] = await Promise.all([
-    getAllProviderSlugs(),
+// Get combined stats for the landing page
+async function getLandingStats() {
+  const [gpuStats, llmStats] = await Promise.all([
     getHomepageStats(),
-    getLatestPriceDrops()
+    getInferenceStats()
+  ]);
+
+  return {
+    gpuProviderCount: gpuStats.providerCount || 0,
+    gpuModelCount: gpuStats.gpuCount || 0,
+    llmProviderCount: llmStats.providerCount || 0,
+    llmModelCount: llmStats.modelCount || 0
+  };
+}
+
+// Get price ranges for charts
+async function getPriceRanges() {
+  try {
+    const [gpuPrices, llmPrices] = await Promise.all([
+      fetchGPUPrices(),
+      fetchLLMPrices({})
+    ]);
+
+    // Calculate GPU price ranges by model
+    const gpuByModel = new Map();
+    for (const price of gpuPrices || []) {
+      const name = price.gpu_model_name;
+      if (!gpuByModel.has(name)) {
+        gpuByModel.set(name, { name, minPrice: price.price_per_hour, maxPrice: price.price_per_hour });
+      } else {
+        const existing = gpuByModel.get(name);
+        existing.minPrice = Math.min(existing.minPrice, price.price_per_hour);
+        existing.maxPrice = Math.max(existing.maxPrice, price.price_per_hour);
+      }
+    }
+
+    // Get top 5 GPUs by popularity (most price entries)
+    const gpuCounts = new Map();
+    for (const price of gpuPrices || []) {
+      gpuCounts.set(price.gpu_model_name, (gpuCounts.get(price.gpu_model_name) || 0) + 1);
+    }
+    const topGPUs = Array.from(gpuCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([name]) => gpuByModel.get(name))
+      .filter(Boolean);
+
+    // Calculate LLM price ranges by model
+    const llmByModel = new Map();
+    for (const price of llmPrices || []) {
+      const name = price.model_name;
+      if (!llmByModel.has(name)) {
+        llmByModel.set(name, {
+          name,
+          minInput: parseFloat(price.price_per_1m_input),
+          maxOutput: parseFloat(price.price_per_1m_output)
+        });
+      } else {
+        const existing = llmByModel.get(name);
+        existing.minInput = Math.min(existing.minInput, parseFloat(price.price_per_1m_input));
+        existing.maxOutput = Math.max(existing.maxOutput, parseFloat(price.price_per_1m_output));
+      }
+    }
+
+    // Get top 5 LLMs
+    const llmCounts = new Map();
+    for (const price of llmPrices || []) {
+      llmCounts.set(price.model_name, (llmCounts.get(price.model_name) || 0) + 1);
+    }
+    const topLLMs = Array.from(llmCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([name]) => llmByModel.get(name))
+      .filter(Boolean);
+
+    return {
+      gpuPriceRange: topGPUs,
+      llmPriceRange: topLLMs
+    };
+  } catch (error) {
+    console.error('Error fetching price ranges:', error);
+    return {
+      gpuPriceRange: [],
+      llmPriceRange: []
+    };
+  }
+}
+
+export default async function Home() {
+  const [stats, priceRanges] = await Promise.all([
+    getLandingStats(),
+    getPriceRanges()
   ]);
 
   return (
     <>
-      <FilterProvider>
-        <div className="space-y-8">
-          {/* Enhanced Hero Section */}
-          <HeroSection stats={stats} />
+      <div className="py-8 lg:py-12">
+        {/* Hero Section with Stats */}
+        <LandingHero stats={stats} />
 
-          {/* Enhanced Superlatives Section */}
-          <section className="bg-gradient-to-r from-blue-50 via-purple-50 to-blue-50 rounded-xl p-4 lg:p-5 mb-8" aria-label="Top GPU Picks">
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <div className="flex items-center gap-2 text-gray-900">
-                <span className="text-xl">💡</span>
-                <h2 className="text-xl font-semibold">Top Picks Right Now</h2>
-              </div>
-              <span className="text-xs font-medium px-3 py-1 rounded-full bg-white text-gray-800 shadow-sm border border-primary/10">
-                Click a tile to filter the table
-              </span>
-            </div>
-            <Suspense fallback={
-              <div className="flex justify-center items-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            }>
-              <TopPicksSection />
-            </Suspense>
-          </section>
+        {/* CTA Cards */}
+        <LandingCTAs />
 
-          {/* Integrated Filters (replaces both quick search and provider filters) */}
-          <Suspense fallback={
-            <div className="flex justify-center items-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-            </div>
-          }>
-            <IntegratedFilters />
-          </Suspense>
+        {/* Price Range Charts */}
+        <LandingCharts
+          gpuPriceRange={priceRanges.gpuPriceRange}
+          llmPriceRange={priceRanges.llmPriceRange}
+        />
 
-          {/* Main Content */}
-          <section id="gpu-table" aria-label="GPU Comparison Tools">
-            <div className="grid grid-cols-12 gap-6">
-              {/* Main Table Section */}
-              <div className="col-span-12 lg:col-span-9">
-                <GPUComparisonTable />
-              </div>
-
-              {/* Side Info Section */}
-              <div className="col-span-12 lg:col-span-3 space-y-6 lg:sticky lg:top-8 self-start pt-14">
-                <Suspense fallback={
-                  <div className="animate-pulse bg-gray-200 rounded-lg h-32"></div>
-                }>
-                  <ProviderInfoCard />
-                </Suspense>
-                <Suspense fallback={
-                  <div className="animate-pulse bg-gray-200 rounded-lg h-32"></div>
-                }>
-                  <GPUInfoCard />
-                </Suspense>
-                <div className="flex justify-end">
-                  <FeedbackLauncher />
-                </div>
-              </div>
-            </div>
-          </section>
-
-        </div>
-      </FilterProvider>
-
-      {/* FAQ Section */}
-      <FAQ />
-
-      {/* FAQ Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getFAQSchema())
-        }}
-      />
+        {/* GPU Price Trends */}
+        <LandingPriceTrends />
+      </div>
 
       {/* WebSite Schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Compute Prices",
-            "url": "https://computeprices.com",
-            "description": "Compare cloud GPU prices and specifications for machine learning and AI workloads",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://computeprices.com/gpus?search={search_term_string}"
-              },
-              "query-input": "required name=search_term_string"
-            }
-          })
-        }}
-      />
+        suppressHydrationWarning
+      >
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Compute Prices",
+          "url": "https://computeprices.com",
+          "description": "Compare cloud GPU prices and LLM inference API rates for machine learning and AI workloads",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://computeprices.com/gpus?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        })}
+      </script>
 
       {/* Organization Schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Compute Prices",
-            "url": "https://computeprices.com",
-            "logo": "https://computeprices.com/cp-logo.svg",
-            "sameAs": [
-              "https://twitter.com/flowathletics"
-            ],
-            "knowsAbout": [
-              "Cloud Computing",
-              "GPU Computing",
-              "Machine Learning",
-              "Artificial Intelligence",
-              "Cloud GPU Pricing"
-            ]
-          })
-        }}
-      />
-
-      {/* SoftwareApplication Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "GPU Price Comparison Tool",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Any",
-            "offers": {
-              "@type": "AggregateOffer",
-              "offerCount": stats.providerCount,
-              "availableDeliveryMethod": "http://schema.org/OnlineDelivery",
-              "category": "Cloud GPU Services",
-              "seller": {
-                "@type": "Organization",
-                "name": "Compute Prices"
-              }
-            }
-          })
-        }}
-      />
+        suppressHydrationWarning
+      >
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Compute Prices",
+          "url": "https://computeprices.com",
+          "logo": "https://computeprices.com/cp-logo.svg",
+          "sameAs": [
+            "https://twitter.com/flowathletics"
+          ],
+          "knowsAbout": [
+            "Cloud Computing",
+            "GPU Computing",
+            "Machine Learning",
+            "Artificial Intelligence",
+            "Cloud GPU Pricing",
+            "LLM Inference APIs"
+          ]
+        })}
+      </script>
     </>
   );
 }

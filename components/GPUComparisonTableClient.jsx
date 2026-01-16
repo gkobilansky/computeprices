@@ -247,7 +247,7 @@ export default function GPUComparisonTableClient({ initialData }) {
                 </table>
 
                 {/* Mobile View */}
-                <div className="block md:hidden">
+                <div className="block md:hidden space-y-2 p-2">
                     {loading ? (
                         <div className="px-6 py-8 text-center">
                             <div className="flex items-center justify-center space-x-2">
@@ -260,42 +260,45 @@ export default function GPUComparisonTableClient({ initialData }) {
                             {visibleData.map((item) => (
                                 <div key={item.id}
                                     onClick={() => handleRowClick(item)}
-                                    className="hover-card-shadow cursor-pointer border-t p-4 mb-4 rounded-lg shadow-md">
-                                    <div className="mb-2">
-                                        <strong>Provider:</strong> <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={20} height={20} className='inline-block' /> {item.provider_name}
-                                    </div>
-                                    <div className="mb-2">
-                                        <strong>GPU Model:</strong> {item.gpu_model_name}
-                                    </div>
-                                    <div className="mb-2">
-                                        <strong>VRAM:</strong> {item.gpu_model_vram}GB
-                                    </div>
-                                    <div>
-                                        <strong>Price/Hour:</strong>
-                                        <div className="tooltip" data-tip={`Last updated: ${new Date(item.created_at).toLocaleDateString()}`}>
-                                            <span className="font-medium">
+                                    className="cursor-pointer rounded-lg border border-slate-200 bg-white p-3 hover:border-slate-300 transition-colors">
+                                    {/* Header: GPU Model + Price */}
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-semibold text-slate-900 truncate">{item.gpu_model_name}</div>
+                                            <div className="text-xs text-slate-500 flex items-center gap-1">
+                                                <Image src={`/logos/${item.provider_slug}.png`} alt={item.provider_name} width={14} height={14} className='inline-block' />
+                                                <span>{item.provider_name}</span>
+                                            </div>
+                                        </div>
+                                        <div className="text-right pl-3">
+                                            <div className="font-semibold text-slate-900">
                                                 ${item.gpu_count ? (item.price_per_hour / item.gpu_count).toFixed(2) : item.price_per_hour?.toFixed(2)}
-                                            </span>
-                                            <span className="text-gray-500 text-sm">/hour</span>
+                                            </div>
+                                            <div className="text-xs text-slate-500">per hour</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Footer: Meta info */}
+                                    <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
+                                        <div className="flex items-center gap-3">
+                                            <span>{item.gpu_model_vram}GB VRAM</span>
                                             {budget && (
-                                                <span className="ml-2 text-xs text-green-600">
-                                                    ✓ Within budget
-                                                </span>
+                                                <span className="text-green-600">✓ In budget</span>
                                             )}
                                         </div>
+                                        {item.source_url && (
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-slate-400">Source:</span>
+                                                <a href={item.source_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="text-blue-600 hover:text-blue-700">
+                                                    {item.source_name || 'Link'}
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
-                                    {item.source_url && (
-                                        <div className="mt-2">
-                                            <strong>Source:</strong>
-                                            <a href={item.source_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="ml-2 text-primary hover:text-primary-focus">
-                                                {item.source_name}
-                                            </a>
-                                        </div>
-                                    )}
                                 </div>
                             ))}
                             {filteredData.length > FILTER_LIMIT && (

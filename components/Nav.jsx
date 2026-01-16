@@ -2,13 +2,16 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const navLinks = [
     { href: '/', label: 'Home' },
+    { href: '/gpu', label: 'GPU Pricing' },
     { href: '/inference', label: 'LLM Pricing' },
     { href: '/providers', label: 'Providers' },
     { href: '/gpus', label: 'GPUs' },
@@ -16,35 +19,45 @@ export default function Nav() {
     { href: '/blog', label: 'Blog' }
   ];
 
+  const isActive = (href) => {
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
+  };
+
   return (
-    <nav className="py-6">
+    <nav className="py-5">
       <div className="flex items-center justify-between">
-        <Link href="/" className="flex items-center space-x-3">
+        <Link href="/" className="flex items-center space-x-2.5">
           <Image
             src="/android-chrome-192x192.png"
             alt="Compute Prices Logo"
-            width={48}
-            height={48}
+            width={40}
+            height={40}
+            className="rounded-lg"
           />
-          <span className="text-xl font-semibold">Compute Prices</span>
+          <span className="text-lg font-semibold text-slate-900">Compute Prices</span>
         </Link>
 
-        <div className="flex items-center space-x-8">
+        <div className="flex items-center space-x-6">
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm hover:text-primary transition-colors"
+                className={`text-sm px-3 py-2 rounded-lg transition-colors ${
+                  isActive(link.href)
+                    ? 'text-emerald-700 bg-emerald-50 font-medium'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
               >
                 {link.label}
               </Link>
             ))}
-          </div>          
+          </div>
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-slate-600 hover:text-slate-900"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -69,13 +82,17 @@ export default function Nav() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden mt-4 bg-base-200 rounded-lg p-4">
-          <div className="flex flex-col space-y-4">
+        <div className="md:hidden mt-4 bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm hover:text-primary transition-colors"
+                className={`text-sm px-3 py-2 rounded-lg transition-colors ${
+                  isActive(link.href)
+                    ? 'text-emerald-700 bg-emerald-50 font-medium'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
